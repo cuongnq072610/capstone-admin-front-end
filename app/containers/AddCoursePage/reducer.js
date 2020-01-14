@@ -1,6 +1,6 @@
 /*
  *
- * HomePage reducer
+ * AddCoursePage reducer
  *
  */
 
@@ -9,7 +9,7 @@ import { DEFAULT_ACTION } from './constants';
 
 export const initialState = fromJS({});
 
-function homePageReducer(state = initialState, action) {
+function addCoursePageReducer(state = initialState, action) {
   switch (action.type) {
     case DEFAULT_ACTION:
       return state;
@@ -18,4 +18,4 @@ function homePageReducer(state = initialState, action) {
   }
 }
 
-export default homePageReducer;
+export default addCoursePageReducer;

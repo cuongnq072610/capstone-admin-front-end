@@ -1,6 +1,6 @@
 /**
  *
- * HomePage
+ * AddCoursePage
  *
  */
 
@@ -14,19 +14,19 @@ import { compose } from 'redux';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import makeSelectHomePage from './selectors';
+import makeSelectAddCoursePage from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
 
 /* eslint-disable react/prefer-stateless-function */
-export class HomePage extends React.PureComponent {
+export class AddCoursePage extends React.PureComponent {
   render() {
     return (
       <div>
         <Helmet>
-          <title>HomePage</title>
-          <meta name="description" content="Description of HomePage" />
+          <title>AddCoursePage</title>
+          <meta name="description" content="Description of AddCoursePage" />
         </Helmet>
         <FormattedMessage {...messages.header} />
       </div>
@@ -34,12 +34,12 @@ export class HomePage extends React.PureComponent {
   }
 }
 
-HomePage.propTypes = {
+AddCoursePage.propTypes = {
   dispatch: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
-  homePage: makeSelectHomePage(),
+  addCoursePage: makeSelectAddCoursePage(),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -53,11 +53,11 @@ const withConnect = connect(
   mapDispatchToProps,
 );
 
-const withReducer = injectReducer({ key: 'homePage', reducer });
-const withSaga = injectSaga({ key: 'homePage', saga });
+const withReducer = injectReducer({ key: 'addCoursePage', reducer });
+const withSaga = injectSaga({ key: 'addCoursePage', saga });
 
 export default compose(
   withReducer,
   withSaga,
   withConnect,
-)(HomePage);
+)(AddCoursePage);

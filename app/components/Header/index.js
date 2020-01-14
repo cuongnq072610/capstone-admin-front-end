@@ -20,7 +20,7 @@ class Header extends React.Component {
           <HeaderLink to="/">
             <FormattedMessage {...messages.home} />
           </HeaderLink>
-          <HeaderLink to="/features">
+          <HeaderLink to="/addcourse">
             <FormattedMessage {...messages.features} />
           </HeaderLink>
         </NavBar>

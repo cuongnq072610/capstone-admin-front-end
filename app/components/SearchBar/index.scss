@@ -1,0 +1,24 @@
+@import '../../utils/variables.scss';
+
+.search {
+    width: 600px;
+    margin: 20px 0px;
+
+    input {
+        height: 50px;
+        border: 1px solid $primary_purple;
+        border-radius: 5px;
+        color: $primary_purple;
+        padding-left: 20px;
+        font-size: 15px;
+        box-shadow: 1px 1px 1px 1px $primary_grey;
+    }
+
+    input::placeholder {
+        color: $primary_purple;
+    }
+
+    .ant-input-affix-wrapper .ant-input:not(:first-child) {
+        padding-left: 40px;
+    }
+}

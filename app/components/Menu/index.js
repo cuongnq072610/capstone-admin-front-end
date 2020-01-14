@@ -24,13 +24,13 @@ class SideMenu extends React.Component {
         onCollapse={this.onCollapse}
         theme="light"
       >
-        <Menu theme="light" defaultSelectedKeys={['1']} mode="inline">
-          <div className="logo">
-            <img
-              src={this.state.collapsed ? ShortLogo : LongLogo}
-              alt="FPT Logo"
-            />
-          </div>
+        <div className="logo">
+          <img
+            src={this.state.collapsed ? ShortLogo : LongLogo}
+            alt="FPT Logo"
+          />
+        </div>
+        <Menu theme="light" defaultSelectedKeys={['1']} mode="vertical" style={{ border: 'none'}}>
           <Menu.Item key="1">
             <Link to="/">
               <Icon type="pie-chart" />

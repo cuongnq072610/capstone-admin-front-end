@@ -1,0 +1,10 @@
+@import '../../utils/variables.scss';
+
+.category {
+    text-align: center;
+    padding: 5px 15px ;
+    border-radius: 20px;
+    width: fit-content;
+    color: $tertiary_purple;
+    margin: 10px 0px;
+}

@@ -30,23 +30,28 @@ class SideMenu extends React.Component {
             alt="FPT Logo"
           />
         </div>
-        <Menu theme="light" defaultSelectedKeys={['1']} mode="vertical" style={{ border: 'none'}}>
+        <Menu
+          theme="light"
+          defaultSelectedKeys={['1']}
+          mode="vertical"
+          style={{ border: 'none' }}
+        >
           <Menu.Item key="1">
             <Link to="/">
               <Icon type="pie-chart" />
-              <span>Option 1</span>
+              <span>Course</span>
             </Link>
           </Menu.Item>
           <Menu.Item key="2">
             <Link to="/addcourse">
-              <Icon type="desktop" />
-              <span>Option 2</span>
+              <Icon type="team" />
+              <span>Teacher</span>
             </Link>
           </Menu.Item>
           <Menu.Item key="3">
             <Link to="/Info">
-              <Icon type="file" />
-              <span>Option 3</span>
+              <Icon type="user" />
+              <span>Info</span>
             </Link>
           </Menu.Item>
         </Menu>

@@ -22,12 +22,12 @@ class SearchBar extends React.Component {
   };
 
   handleBlur = () => {
-    console.log(this.props.form.validateFields)
-  }
+    console.log(this.props.form.validateFields);
+  };
 
   render() {
     const { getFieldDecorator } = this.props.form;
-    const {message, placeholder} = this.props;
+    const { message, placeholder } = this.props;
     return (
       <Form onSubmit={this.handleSubmit} className="search">
         <Form.Item>
@@ -35,9 +35,14 @@ class SearchBar extends React.Component {
             rules: [{ required: false, message: `${message}` }],
           })(
             <Input
-              prefix={<Icon type="search" style={{ color: '#9C4AEE', fontSize: '20px' }} />}
+              prefix={
+                <Icon
+                  type="search"
+                  style={{ color: '#9C4AEE', fontSize: '20px' }}
+                />
+              }
               placeholder={placeholder}
-              className='input'
+              className="input"
               onBlur={this.handleBlur}
             />,
           )}

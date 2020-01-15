@@ -26,6 +26,9 @@ const GlobalStyle = createGlobalStyle`
     font-family: Georgia, Times, 'Times New Roman', serif;
     line-height: 1.5em;
   }
+  .ant-layout {
+    background-color: #fff;
+  }
 `;
 
 export default GlobalStyle;

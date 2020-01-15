@@ -2,7 +2,7 @@
 
 .logo {
     height: 40px;
-    margin: 10px;
+    margin: 10px 10px 55px;
 
     img {
         height: 40px;
@@ -13,6 +13,8 @@
 .ant-menu-item {
     display: flex;
     justify-content: flex-start;
+    flex-direction: row;
+    align-items: center;
 }
 
 
@@ -21,6 +23,7 @@
 }
 
 .ant-menu-item-selected {
+
     a,
     a:hover {
         color: $primary_purple;
@@ -42,16 +45,19 @@
     .ant-menu-item {
         display: flex;
         justify-content: center;
+        flex-direction: row;
+        align-items: center;
     }
 }
 
-.ant-menu-inline > .ant-menu-item, .ant-menu-vertical > .ant-menu-item {
+.ant-menu-inline>.ant-menu-item,
+.ant-menu-vertical>.ant-menu-item {
     height: 70px;
 }
 
-.ant-menu-vertical, .ant-menu-inline-collapsed {
-    height: 85vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-}
+// .ant-menu-vertical, .ant-menu-inline-collapsed {
+//     height: 85vh;
+//     display: flex;
+//     flex-direction: column;
+//     justify-content: flex-end;
+// }

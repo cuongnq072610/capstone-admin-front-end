@@ -5,7 +5,7 @@
  */
 import { Link } from 'react-router-dom';
 import "./index.css";
-import { Select, Layout, Row, Col, Input, Icon, Form, Button } from 'antd';
+import { Select, Layout, Row, Col, Input, Icon, Form, Button, Tag } from 'antd';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -29,7 +29,7 @@ function handleChange(value) {
 export class AddCoursePage extends React.PureComponent {
 
   constructor(props) {
-    super(props); 
+    super(props);
     this.state = {
       skill: '',
       skills: [],
@@ -38,7 +38,12 @@ export class AddCoursePage extends React.PureComponent {
 
   handleClick = (e) => {
     e.preventDefault();
-    console.log(this.state.skill)
+    let newArr = [];
+    newArr = [...this.state.skills, this.state.skill];
+    this.setState({
+      skill: "",
+      skills: newArr,
+    })
   }
 
   onChangeValue = (e) => {
@@ -54,8 +59,15 @@ export class AddCoursePage extends React.PureComponent {
       </Button>
     )
   }
+  handleClose = removedSkill => {
+    const newArr = this.state.skills.filter(item => item !== removedSkill);
+    console.log(newArr);
+    this.setState({ skills: newArr });
+  };
 
   render() {
+    // console.log(this.state.skills)
+    var { skill, skills } = this.state;
     return (
       <Row>
         <Helmet>
@@ -125,12 +137,25 @@ export class AddCoursePage extends React.PureComponent {
                       onChange={this.onChangeValue}
                     ></Input>
                   </Form>
+                  <div className="tag">
+                    {
+                      skills.map((item, index) => {
+                        return <Tag color="purple" key={index}
+                          closable
+                          onClose={e => {
+                            e.preventDefault();
+                            this.handleClose(item);
+                          }}>{item}</Tag>
+                      })
+                    }
+                  </div>
                 </Row>
               </Form>
             </Content>
           </Layout>
         </Col>
         <Col span={4}>
+          <p style={{ fontSize: "25px", color: "#9C4AEE", paddingTop: "15px", fontWeight: "bold" }}>Teachers</p>
           <Search
             placeholder="Search for or add teachers"
             onSearch={value => console.log(value)}

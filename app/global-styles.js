@@ -26,7 +26,8 @@ const GlobalStyle = createGlobalStyle`
     font-family: 'Roboto', sans-serif;
     line-height: 1.5em;
   }
-  .ant-layout{
+
+  .ant-layout {
     background-color: #fff;
   }
 `;

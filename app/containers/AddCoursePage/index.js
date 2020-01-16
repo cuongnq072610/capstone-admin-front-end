@@ -4,7 +4,7 @@
  *
  */
 import { Link } from 'react-router-dom';
-import "./index.css";
+import '../../assets/css/addCourse.css';
 import { Select, Layout, Row, Col, Input, Icon, Form, Button, Tag } from 'antd';
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -21,44 +21,44 @@ import saga from './saga';
 import messages from './messages';
 /* eslint-disable react/prefer-stateless-function */
 
-const { Search } = Input;
+const { Search, TextArea,Option } = Input;
 
 const { Header, Content, Sider } = Layout;
-function handleChange(value) {
-}
+function handleChange(value) {}
 export class AddCoursePage extends React.PureComponent {
-
   constructor(props) {
     super(props);
     this.state = {
       skill: '',
       skills: [],
-    }
+    };
   }
 
-  handleClick = (e) => {
+  handleClick = e => {
     e.preventDefault();
     let newArr = [];
     newArr = [...this.state.skills, this.state.skill];
     this.setState({
-      skill: "",
+      skill: '',
       skills: newArr,
-    })
-  }
+    });
+  };
 
-  onChangeValue = (e) => {
+  onChangeValue = e => {
     this.setState({
       skill: e.target.value,
-    })
-  }
+    });
+  };
 
-  btnAddSkill = () => {
-    return (
-      <Button style={{ border: 'none', height: '30px', paddingBottom: '10px' }} htmlType="submit">
-        < Icon type="plus" style={{ color: 'rgba(0,0,0,.25)' }} />
-      </Button>
-    )
-  }
+  btnAddSkill = () => (
+    <Button
+      style={{ border: 'none', height: '30px', paddingBottom: '10px' }}
+      htmlType="submit"
+    >
+      <Icon type="plus" style={{ color: 'rgba(0,0,0,.25)' }} />
+    </Button>
+  );
+
   handleClose = removedSkill => {
     const newArr = this.state.skills.filter(item => item !== removedSkill);
     console.log(newArr);
@@ -66,101 +66,110 @@ export class AddCoursePage extends React.PureComponent {
   };
 
   render() {
-    // console.log(this.state.skills)
-    var { skill, skills } = this.state;
+    const { skill, skills } = this.state;
     return (
-      <Row>
+      <Row className="addCourse">
         <Helmet>
           <title>AddCoursePage</title>
           <meta name="description" content="Description of AddCoursePage" />
         </Helmet>
-        <Col span={20}>
+        <Col span={19}>
           <Layout>
-            <Header style={{ backgroundColor: "white" }}>
-              <Row>
-                <Col span={12}>
-                  <Link to="/">
-                    <Icon type="arrow-left" style={{ color: "#9C4AEE", fontSize: "20px" }} />
-                  </Link>
-                </Col>
-                <Col span={12}
-                  style={{
-                    display: "flex",
-                    justifyContent: "flex-end",
-                  }}
-                >
-                  <Link to="/" style={{
-                    color: "#9C4AEE", textAlign: "center", display: "flex", alignItems: "center"
-                  }}><span style={{ fontSize: "15px" }}>Add course</span>
-                    <Icon style={{ color: "#9C4AEE", marginLeft: "10px", fontSize: "20px" }} type="plus" />
-                  </Link>
-                </Col>
-              </Row>
+            <Header className="header">
+              <Link to="/">
+                <Icon type="arrow-left" />
+              </Link>
             </Header>
-            <Content style={{ paddingLeft: "50px" }}>
+            <Content className="content">
               <Form>
-                <Row style={{ margin: "10px 0px" }}>
-                  <input type="text" placeholder="Give your course a name*"
-                    style={{ backgroundColor: "white", width: "364px", height: "43px" }}></input>
-                </Row>
-                <Row >
-                  <Col span={12}>
-                    <p>Course Code*</p>
+                <input
+                  className="courseName"
+                  type="text"
+                  placeholder="Give your course a name"
+                />
+                <Row className="row">
+                  <Col className="courseCode " span={12}>
+                    <label>
+                      Course Code
+                      <span>*</span>
+                    </label>
                     <Input
-                      style={{ width: "442px", height: "30px" }}
+                      className="belowLabel "
                       prefix={<Icon type="user" />}
                     />
                   </Col>
                   <Col span={12}>
-                    <p>Category*</p>
+                    <label>
+                      Category
+                      <span>*</span>
+                    </label>
                     <Select
-                      style={{ width: "442px", height: "35px" }}
-                      prefix={<Icon type="user" />}
-                    />
+                      className="belowLabel"
+                      defaultValue="computer"
+                      prefix={<Icon type="unordered-list" />}
+                    >
+                      <Option value="computer">Computer Science</Option>
+                      <Option value="business">Business</Option>
+                      <Option value="finance">Finance</Option>
+                      <Option value="graphic">Graphic Design</Option>
+                    </Select>
                   </Col>
                 </Row>
-                <Row>
-                  <p>Short Description</p>
-                  <textarea style={{ width: "952px", height: "90px", border: "1px solid #C6C6C6" }}></textarea>
+                <Row className="row">
+                  <label>
+                    Short Description
+                    <span>*</span>
+                  </label>
+                  <TextArea className="belowLabel" rows={2} />
                 </Row>
                 <Row>
-                  <p>Full Description</p>
-                  <textarea style={{ width: "952px", height: "90px", border: "1px solid #C6C6C6" }}></textarea>
+                  <label>Full Description</label>
+                  <TextArea className="belowLabel" rows={4} />
                 </Row>
-                <Row>
-                  <p>Skills learnt in this course</p>
-                  <Form onSubmit={this.handleClick}>
-                    <Input
-                      style={{ width: "442px", height: "35px", border: "1px solid #C6C6C6", alignItems: 'center' }}
-                      suffix={this.btnAddSkill(this.handleClick)}
-                      prefix={<Icon type="tool" />}
-                      onChange={this.onChangeValue}
-                    ></Input>
-                  </Form>
-                  <div className="tag">
-                    {
-                      skills.map((item, index) => {
-                        return <Tag color="purple" key={index}
+                <Row className="row">
+                  <Col span={12}>
+                    <label>Skills learnt in this course</label>
+                    <Form className="belowLabel" onSubmit={this.handleClick}>
+                      <Input
+                        suffix={this.btnAddSkill(this.handleClick)}
+                        prefix={<Icon type="tool" />}
+                        onChange={this.onChangeValue}
+                      />
+                    </Form>
+                    <div className="tag">
+                      {skills.map((item, index) => (
+                        <Tag
+                          color="purple"
+                          key={index}
                           closable
                           onClose={e => {
                             e.preventDefault();
                             this.handleClose(item);
-                          }}>{item}</Tag>
-                      })
-                    }
-                  </div>
+                          }}
+                        >
+                          {item}
+                        </Tag>
+                      ))}
+                      )}
+                    </div>
+                  </Col>
                 </Row>
               </Form>
+
+              <Button className="addBtn" type="primary">
+                Add course
+                <Icon type="plus" />
+              </Button>
             </Content>
           </Layout>
         </Col>
-        <Col span={4}>
-          <p style={{ fontSize: "25px", color: "#9C4AEE", paddingTop: "15px", fontWeight: "bold" }}>Teachers</p>
+        <Col className="addTeacher" span={5}>
+          <h1>Teachers</h1>
           <Search
             placeholder="Search for or add teachers"
             onSearch={value => console.log(value)}
-            style={{ width: 200 }}
           />
+          <p>0 teacher</p>
         </Col>
         {/* <FormattedMessage {...messages.header} /> */}
       </Row>
@@ -177,7 +186,7 @@ function getBase64(file) {
   });
 }
 function onSelect(value) {
-  console.log("onSelect", value);
+  console.log('onSelect', value);
 }
 AddCoursePage.propTypes = {
   dispatch: PropTypes.func.isRequired,

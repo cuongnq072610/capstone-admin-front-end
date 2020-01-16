@@ -1,5 +1,17 @@
 @import '../../utils/variables.scss';
 
+#sideMenu {
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    width: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
 .logo {
     height: 40px;
     margin: 10px 10px 55px;
@@ -55,9 +67,9 @@
     height: 70px;
 }
 
-// .ant-menu-vertical, .ant-menu-inline-collapsed {
-//     height: 85vh;
-//     display: flex;
-//     flex-direction: column;
-//     justify-content: flex-end;
-// }
+.ant-menu-vertical, .ant-menu-inline-collapsed {
+    height: 85vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}

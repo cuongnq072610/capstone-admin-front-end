@@ -12,7 +12,7 @@ import './index.scss';
 function Category(props) {
   const { category, color } = props;
   return (
-    <div className="category" style={{ backgroundColor: `${color}` }}>
+    <div className="tag" style={{ backgroundColor: `${color}` }}>
       <span>{category}</span>
     </div>
   );

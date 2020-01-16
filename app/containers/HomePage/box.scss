@@ -1,8 +1,14 @@
+@import "../../utils/variables.scss";
+
 .wrapper {
-    background-color: #F3E6FF;
+    background-color: $tertiary_purple;
     padding: 16px;
     margin: 20px 0px;
+    a {
+        color: $primary_black;
+    }
 }
+
 .name {
     font-weight: bold;
     /* font-size: 2vw; */

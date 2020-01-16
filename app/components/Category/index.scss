@@ -1,10 +1,9 @@
 @import '../../utils/variables.scss';
 
-.category {
-    text-align: center;
-    padding: 5px 15px ;
+.tag {
     border-radius: 20px;
-    width: fit-content;
-    color: $tertiary_purple;
+    color: $primary_purple;
     margin: 10px 0px;
+    width: max-content;
+    padding: 5px 10px;
 }

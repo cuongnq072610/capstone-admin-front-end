@@ -162,6 +162,7 @@ export class HomePage extends React.Component {
 
   render() {
     const { courses, categories } = this.state;
+    // console.log(this.props.homePage)
     return (
       <Row>
         <Helmet>
@@ -189,7 +190,7 @@ export class HomePage extends React.Component {
                   <Box course={course} key={index} />
                 ))}
               </Row>
-              <Link to="/" class="float">
+              <Link to="/" className="float">
                 <Icon type="plus" className="my-float" />
               </Link>
             </Content>

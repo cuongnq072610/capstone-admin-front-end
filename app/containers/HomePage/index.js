@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
+import AddCoursePage from 'containers/AddCoursePage/Loadable';
 import { compose } from 'redux';
 import { Row, Layout, Col, Button, Icon } from 'antd';
 
@@ -190,7 +191,7 @@ export class HomePage extends React.Component {
                   <Box course={course} key={index} />
                 ))}
               </Row>
-              <Link to="/" className="float">
+              <Link to="/addcourse" className="float">
                 <Icon type="plus" className="my-float" />
               </Link>
             </Content>

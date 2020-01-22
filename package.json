@@ -33,6 +33,7 @@
     "generate": "plop --plopfile internals/generators/index.js",
     "lint": "npm run lint:js",
     "lint:css": "stylelint './app/**/*.js'",
+    "lint:eslint:fix": "eslint --ignore-path .gitignore --ignore-pattern internals/scripts --fix",
     "pretest": "npm run test:clean && npm run lint",
     "test:clean": "rimraf ./coverage",
     "test": "cross-env NODE_ENV=test jest --coverage",

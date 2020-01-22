@@ -1,8 +1,75 @@
+@import '../../utils/variables.scss';
+
+#sideMenu {
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    width: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
 .logo {
     height: 40px;
-    margin: 10px;
+    margin: 10px 10px 55px;
+
     img {
         height: 40px;
         width: 100%;
     }
+}
+
+.ant-menu-item {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: row;
+    align-items: center;
+}
+
+
+.ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
+    background-color: $primary_white;
+}
+
+.ant-menu-item-selected {
+
+    a,
+    a:hover {
+        color: $primary_purple;
+    }
+}
+
+.ant-menu-item-active {
+    a:hover {
+        color: $primary_purple;
+    }
+}
+
+.ant-menu-inline-collapsed>.ant-menu-item .anticon,
+.ant-menu-item .anticon {
+    font-size: 30px;
+}
+
+.ant-menu-inline-collapsed {
+    .ant-menu-item {
+        display: flex;
+        justify-content: center;
+        flex-direction: row;
+        align-items: center;
+    }
+}
+
+.ant-menu-inline>.ant-menu-item,
+.ant-menu-vertical>.ant-menu-item {
+    height: 70px;
+}
+
+.ant-menu-vertical, .ant-menu-inline-collapsed {
+    height: 85vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
 }

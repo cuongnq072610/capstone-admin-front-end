@@ -9,7 +9,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { Switch, Route } from 'react-router-dom';
-import { Layout } from 'antd';
+import { Layout, Col, Row } from 'antd';
 import 'antd/dist/antd.css';
 
 import HomePage from 'containers/HomePage/Loadable';
@@ -28,13 +28,19 @@ export default function App() {
       >
         <meta name="description" content="Smart Course Management Admin" />
       </Helmet>
-      <SideMenu />
       <Layout>
-        <Switch>
-          <Route exact path="/" component={HomePage} />
-          <Route exact path="/addcourse" component={AddCoursePage} />
-          <Route path="" component={NotFoundPage} />
-        </Switch>
+        <Row>
+          <Col span={1}>
+            <SideMenu />
+          </Col>
+          <Col span={23}>
+            <Switch>
+              <Route exact path="/" component={HomePage} />
+              <Route exact path="/addcourse" component={AddCoursePage} />
+              <Route path="" component={NotFoundPage} />
+            </Switch>
+          </Col>
+        </Row>
       </Layout>
       <GlobalStyle />
     </Layout>

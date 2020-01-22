@@ -1,0 +1,40 @@
+@import "../../utils/variables.scss";
+
+.category {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: row;
+    align-items: center;
+    margin: 30px 0px 30px 5px;
+    color: $primary_black;
+
+    span {
+        margin-left: 10px;
+    }
+}
+
+.wrap {
+    margin-top: 10px;
+    background-color: "#fff";
+
+    .ant-layout-header {
+        font-size: 30px;
+        display: flex;
+        justify-content: flex-start;
+        padding-left: 0px;
+        font-weight: bold;
+    }
+
+    .btn {
+        background-color: "#fff";
+        color: "#111";
+        width: "100%";
+        display: flex;
+        justify-content: flex-start;
+        flex-direction: row;
+        align-items: center;
+        border: none;
+        margin: 20px 0px;
+
+    }
+}

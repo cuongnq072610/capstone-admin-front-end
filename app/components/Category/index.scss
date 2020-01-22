@@ -1,0 +1,9 @@
+@import '../../utils/variables.scss';
+
+.tag {
+    border-radius: 20px;
+    color: $primary_purple;
+    margin: 10px 0px;
+    width: max-content;
+    padding: 5px 10px;
+}

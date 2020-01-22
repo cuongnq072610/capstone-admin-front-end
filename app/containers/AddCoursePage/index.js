@@ -21,10 +21,10 @@ import saga from './saga';
 import messages from './messages';
 /* eslint-disable react/prefer-stateless-function */
 
-const { Search, TextArea,Option } = Input;
+const { Search, TextArea, Option } = Input;
 
 const { Header, Content, Sider } = Layout;
-function handleChange(value) {}
+function handleChange(value) { }
 export class AddCoursePage extends React.PureComponent {
   constructor(props) {
     super(props);
@@ -155,7 +155,6 @@ export class AddCoursePage extends React.PureComponent {
                   </Col>
                 </Row>
               </Form>
-
               <Button className="addBtn" type="primary">
                 Add course
                 <Icon type="plus" />

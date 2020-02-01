@@ -10,9 +10,8 @@ import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
-import AddCoursePage from 'containers/AddCoursePage/Loadable';
 import { compose } from 'redux';
-import { Row, Layout, Col, Button, Icon } from 'antd';
+import { Row, Layout, Col, Table, Icon } from 'antd';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
@@ -20,11 +19,10 @@ import makeSelectHomePage from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
-import Box from './box';
 import WrappedSearchBar from '../../components/SearchBar';
 import Filter from '../../components/Filter';
 import './index.scss';
-import { Link } from 'react-router-dom';
+import columns from './tableCol';
 
 const { Content, Header } = Layout;
 const mockData = [
@@ -144,11 +142,13 @@ export class HomePage extends React.Component {
   }
 
   componentDidMount() {
+    const newCourses = mockData.map((course, index) => {
+      return { ...course, key: `${index}` }
+    })
     this.setState({
-      courses: mockData,
+      courses: newCourses,
       categories: mockData2,
     })
-    console.log(this.props.history)
   }
 
   onFilter = () => {
@@ -187,10 +187,20 @@ export class HomePage extends React.Component {
               />
             </Header>
             <Content>
-              <Row type="flex" justify="space-around">
-                {courses.map((course, index) => (
-                  <Box course={course} key={index} />
-                ))}
+              <Row type="flex" justify="center">
+                <Table
+                  columns={columns}
+                  dataSource={courses}
+                  className="courseTable"
+                  onRow={(record, rowIndex) => {
+                    return {
+                      onClick: e => this.props.history.push({
+                        pathname: './addcourse',
+                        state: {course: record}
+                      })
+                    }
+                  }}
+                />
               </Row>
               <div className="float" onClick={() => this.props.history.push("/addcourse")}>
                 <Icon type="plus" className="my-float" />

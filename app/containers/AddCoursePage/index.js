@@ -4,7 +4,7 @@
  *
  */
 import { Link } from 'react-router-dom';
-import '../../assets/css/addCourse.css';
+import './addCourse.scss';
 import { Select, Layout, Row, Col, Input, Icon, Form, Button, Tag } from 'antd';
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -23,9 +23,9 @@ import messages from './messages';
 
 const { Search, TextArea,Option } = Input;
 
-const { Header, Content, Sider } = Layout;
-function handleChange(value) {}
-export class AddCoursePage extends React.PureComponent {
+const { Header, Content } = Layout;
+
+export class AddCoursePage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -176,17 +176,6 @@ export class AddCoursePage extends React.PureComponent {
   }
 }
 
-function getBase64(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = error => reject(error);
-  });
-}
-function onSelect(value) {
-  console.log('onSelect', value);
-}
 AddCoursePage.propTypes = {
   dispatch: PropTypes.func.isRequired,
 };

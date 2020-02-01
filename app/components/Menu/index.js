@@ -1,9 +1,13 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { Layout, Menu, Icon, Tooltip } from 'antd';
+import { Link, NavLink } from 'react-router-dom';
+import { Layout, Menu, Tooltip } from 'antd';
 
 import './index.scss';
-import Logo from './noteIt.png';
+import Logo from './assets/noteIt.png';
+import CourseIcon from './assets/Path_56.png';
+import TeacherIcon from './assets/Path_57.png';
+import UserIcon from './assets/man1.png'
+
 
 class SideMenu extends React.Component {
   state = {
@@ -32,24 +36,33 @@ class SideMenu extends React.Component {
           >
             <Menu.Item key="1">
               <Tooltip title="Course" placement="right">
-                <Link to="/">
-                  <Icon type="pie-chart" />
-                </Link>
+                <NavLink exact to="/" activeClassName="selected">
+                  <img
+                    src={CourseIcon}
+                    alt="Course Logo"
+                  />
+                </NavLink>
               </Tooltip>
             </Menu.Item>
             <Menu.Item key="2">
               <Tooltip title="Teacher" placement="right">
-                <Link to="/addcourse">
-                  <Icon type="team" />
-                </Link>
+                <NavLink to="/teacher" activeClassName="selected">
+                  <img
+                    src={TeacherIcon}
+                    alt="Teacher Logo"
+                  />
+                </NavLink>
               </Tooltip>
 
             </Menu.Item>
             <Menu.Item key="3">
               <Tooltip title="Info" placement="right">
-                <Link to="/Info">
-                  <Icon type="user" />
-                </Link>
+                <NavLink to="/info">
+                <img
+                    src={UserIcon}
+                    alt="User Logo"
+                  />
+                </NavLink>
               </Tooltip>
             </Menu.Item>
           </Menu>

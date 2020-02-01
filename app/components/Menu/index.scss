@@ -67,9 +67,14 @@
     height: 70px;
 }
 
-.ant-menu-vertical, .ant-menu-inline-collapsed {
+.ant-menu-vertical,
+.ant-menu-inline-collapsed {
     height: 85vh;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
+}
+
+.selected {
+    background-color: blueviolet;
 }

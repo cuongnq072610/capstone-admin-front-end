@@ -1,3 +1,4 @@
+@import '../../utils/variables.scss';
 
 body {
   background-color: white;
@@ -11,7 +12,7 @@ body {
 
         i {
             font-size: 20px;
-            color: $purple;
+            color: $primary_purple;
         }
     }
 
@@ -24,7 +25,7 @@ body {
       .courseName {
           font-size: 32px;
           font-weight: 300;
-          color: $black;
+          color: $primary_black;
           width: 100%;
           
           margin-bottom: 18px;
@@ -54,7 +55,7 @@ body {
         height: 38px;
         margin-top: 24px;
         float: right;
-        background-color: $purple;
+        background-color: $primary_purple;
         border: none;
         i {
           position: relative;
@@ -70,27 +71,27 @@ body {
       h1 {
         font-weight: 500;;
         font-size: 28px;
-        color: $purple;
+        color: $primary_purple;
       }
 
       input {
         height: 38px;
         font-size: 14px;
         border: none;
-        background-color: $lightPurple;
+        background-color: $secondary_purple;
         &::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
-          color: $purple; 
+          color: $primary_purple; 
           opacity: 1; /* Firefox */
         }
       }
 
       i {
-        color: $purple;
+        color: $primary_purple;
       }
 
       p {
         margin-top: 18px;
-        color: $purple;
+        color: $primary_purple;
         margin-left: 12px;
       }
     }

@@ -148,6 +148,7 @@ export class HomePage extends React.Component {
       courses: mockData,
       categories: mockData2,
     })
+    console.log(this.props.history)
   }
 
   onFilter = () => {
@@ -191,9 +192,9 @@ export class HomePage extends React.Component {
                   <Box course={course} key={index} />
                 ))}
               </Row>
-              <Link to="/addcourse" className="float">
+              <div className="float" onClick={() => this.props.history.push("/ad")}>
                 <Icon type="plus" className="my-float" />
-              </Link>
+              </div>
             </Content>
           </Layout>
         </Col>

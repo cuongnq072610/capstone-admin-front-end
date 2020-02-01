@@ -36,7 +36,7 @@ export default function App() {
           <Col span={23}>
             <Switch>
               <Route exact path="/" component={HomePage} />
-              <Route exact path="/addcourse" component={AddCoursePage} />
+              <Route path="/addcourse" component={AddCoursePage} />
               <Route path="" component={NotFoundPage} />
             </Switch>
           </Col>

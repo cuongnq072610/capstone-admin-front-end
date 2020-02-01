@@ -137,7 +137,7 @@ export class HomePage extends React.Component {
     this.state = {
       search: "",
       courses: [],
-      categories: [],
+      departments: [],
     }
   }
 
@@ -147,7 +147,7 @@ export class HomePage extends React.Component {
     })
     this.setState({
       courses: newCourses,
-      categories: mockData2,
+      departments: mockData2,
     })
   }
 
@@ -162,9 +162,15 @@ export class HomePage extends React.Component {
     })
   }
 
+  onHandleAddDepartment = (department) => {
+    const newDepartments = [...this.state.departments, department]
+    this.setState({
+      departments: newDepartments
+    })
+  }
+
   render() {
-    const { courses, categories } = this.state;
-    // console.log(this.props.homePage)
+    const { courses, departments } = this.state;
     return (
       <Row>
         <Helmet>
@@ -209,7 +215,7 @@ export class HomePage extends React.Component {
           </Layout>
         </Col>
         <Col span={4}>
-          <Filter onFilter={this.onFilter} categories={categories} />
+          <Filter onFilter={this.onFilter} departments={departments} handleAdd={this.onHandleAddDepartment}/>
         </Col>
       </Row>
     );

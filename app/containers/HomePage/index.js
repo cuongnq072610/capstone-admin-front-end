@@ -192,7 +192,7 @@ export class HomePage extends React.Component {
                   <Box course={course} key={index} />
                 ))}
               </Row>
-              <div className="float" onClick={() => this.props.history.push("/ad")}>
+              <div className="float" onClick={() => this.props.history.push("/addcourse")}>
                 <Icon type="plus" className="my-float" />
               </div>
             </Content>

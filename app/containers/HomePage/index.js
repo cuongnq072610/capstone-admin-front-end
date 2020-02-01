@@ -151,23 +151,22 @@ export class HomePage extends React.Component {
     })
   }
 
-  onFilter = () => {
-    let newArr = this.state.courses.sort((a, b) => {
-      if (a.courseName < b.courseName) return -1;
-      if (a.courseName > b.courseName) return 1;
-      return 0;
-    });
-    this.setState({
-      courses: newArr,
-    })
-  }
-
   onHandleAddDepartment = (department) => {
     const newDepartments = [...this.state.departments, department]
     this.setState({
       departments: newDepartments
     })
   }
+
+  filterByDepartment = (department) => {
+    const newCourses = mockData.filter((item, index) => {
+      return item.category === department
+    })
+    this.setState({
+      courses: newCourses,
+    })
+  }
+
 
   render() {
     const { courses, departments } = this.state;
@@ -215,7 +214,7 @@ export class HomePage extends React.Component {
           </Layout>
         </Col>
         <Col span={4}>
-          <Filter onFilter={this.onFilter} departments={departments} handleAdd={this.onHandleAddDepartment}/>
+          <Filter onFilter={this.filterByDepartment} departments={departments} handleAdd={this.onHandleAddDepartment}/>
         </Col>
       </Row>
     );

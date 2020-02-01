@@ -8,7 +8,7 @@ import React from 'react';
 import { Layout, Form, Icon, Input, Button } from 'antd';
 import "./index.scss";
 const { Header, Content } = Layout;
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 // import styled from 'styled-components';
 
 /* eslint-disable react/prefer-stateless-function */
@@ -16,13 +16,14 @@ class Filter extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      department:""
+      department: ""
     }
   }
 
   renderDepartments = (category, index) => {
+    const { onFilter } = this.props;
     return (
-      <Button className="category" key={index} onClick={() => console.log(`check`)}>
+      <Button className="category" key={index} onClick={() => onFilter(category)}>
         <Icon type="unordered-list" />
         <span className="name">{category}</span>
       </Button>
@@ -45,7 +46,7 @@ class Filter extends React.Component {
     return <Layout className="wrap">
       <Header style={{ backgroundColor: '#fff', color: '#9C4AEE' }}>Departments</Header>
       <Content>
-        <Form onSubmit={this.handleAdd}> 
+        <Form onSubmit={this.handleAdd}>
           <Input
             placeholder="Add new department"
             prefix={<Icon type="plus" style={{ color: '#9c4aee' }} />}
@@ -63,6 +64,16 @@ class Filter extends React.Component {
   }
 }
 
-Filter.propTypes = {};
+Filter.propTypes = {
+  handleAdd: PropTypes.func,
+  onFilter: PropTypes.func,
+  departments: PropTypes.arrayOf(PropTypes.string)
+};
+
+Filter.defaultProps = {
+  handleAdd: () => { },
+  onFilter: () => { },
+  departments: [],
+}
 
 export default Filter;

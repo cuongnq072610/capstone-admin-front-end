@@ -20,17 +20,36 @@ import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
 /* eslint-disable react/prefer-stateless-function */
+import Teacher from './teacher';
 
 const { Search, TextArea,Option } = Input;
 
 const { Header, Content, Sider } = Layout;
 function handleChange(value) {}
 export class AddCoursePage extends React.PureComponent {
+
   constructor(props) {
     super(props);
     this.state = {
       skill: '',
       skills: [],
+      teacher : [
+        {
+          avaUrl: '../../assets/image/avatar (1).png',
+          name: 'LamPT',
+          email: 'lampt@fe.edu.vn'
+        },
+        {
+          avaUrl: '../../assets/image/avatar (2).png',
+          name: 'PhuongLH7',
+          email: 'lampt@fe.edu.vn'
+        },
+        {
+          avaUrl: '../../assets/image/avatar (3).png',
+          name: 'MaiVTT',
+          email: 'lampt@fe.edu.vn'
+        }
+      ]
     };
   }
 
@@ -105,13 +124,9 @@ export class AddCoursePage extends React.PureComponent {
                     </label>
                     <Select
                       className="belowLabel"
-                      defaultValue="computer"
                       prefix={<Icon type="unordered-list" />}
                     >
-                      <Option value="computer">Computer Science</Option>
-                      <Option value="business">Business</Option>
-                      <Option value="finance">Finance</Option>
-                      <Option value="graphic">Graphic Design</Option>
+                      
                     </Select>
                   </Col>
                 </Row>
@@ -129,13 +144,11 @@ export class AddCoursePage extends React.PureComponent {
                 <Row className="row">
                   <Col span={12}>
                     <label>Skills learnt in this course</label>
-                    <Form className="belowLabel" onSubmit={this.handleClick}>
-                      <Input
-                        suffix={this.btnAddSkill(this.handleClick)}
-                        prefix={<Icon type="tool" />}
-                        onChange={this.onChangeValue}
-                      />
-                    </Form>
+                    <Input
+                      suffix={this.btnAddSkill(this.handleClick)}
+                      prefix={<Icon type="tool" />}
+                      onChange={this.onChangeValue}
+                    />
                     <div className="tag">
                       {skills.map((item, index) => (
                         <Tag
@@ -150,7 +163,6 @@ export class AddCoursePage extends React.PureComponent {
                           {item}
                         </Tag>
                       ))}
-                      )}
                     </div>
                   </Col>
                 </Row>
@@ -169,7 +181,8 @@ export class AddCoursePage extends React.PureComponent {
             placeholder="Search for or add teachers"
             onSearch={value => console.log(value)}
           />
-          <p>0 teacher</p>
+          <p>3 teacher</p>
+          <Teacher teacher={this.state.teacher}/>
         </Col>
         {/* <FormattedMessage {...messages.header} /> */}
       </Row>

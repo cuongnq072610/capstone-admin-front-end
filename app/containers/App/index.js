@@ -11,7 +11,7 @@ import { Helmet } from 'react-helmet';
 import { Switch, Route } from 'react-router-dom';
 import { Layout, Col, Row } from 'antd';
 import 'antd/dist/antd.css';
-
+import '../../assets/css/app.css'
 import HomePage from 'containers/HomePage/Loadable';
 import AddCoursePage from 'containers/AddCoursePage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
@@ -33,7 +33,7 @@ export default function App() {
           <Col span={1}>
             <SideMenu />
           </Col>
-          <Col span={23}>
+          <Col className="app" span={23}>
             <Switch>
               <Route exact path="/" component={HomePage} />
               <Route exact path="/addcourse" component={AddCoursePage} />

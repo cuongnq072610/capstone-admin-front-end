@@ -1,6 +1,3 @@
-body {
-  background-color: white; }
-
 .addCourse {
   padding: 28px 20px; }
   .addCourse .header {
@@ -63,6 +60,25 @@ body {
       margin-top: 18px;
       color: #9C4AEE;
       margin-left: 12px; }
+  .addCourse .teacherWrapper {
+    margin-left: 12px; }
+    .addCourse .teacherWrapper .teacher {
+      align-items: center;
+      margin-bottom: 24px; }
+      .addCourse .teacherWrapper .teacher img {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        margin-right: 15px; }
+      .addCourse .teacherWrapper .teacher h3 {
+        font-size: 14px;
+        color: #616161;
+        margin: 0;
+        margin-bottom: 3px; }
+      .addCourse .teacherWrapper .teacher p {
+        font-size: 10px;
+        color: #616161;
+        margin: 0; }
 
 .sider {
   display: flex;

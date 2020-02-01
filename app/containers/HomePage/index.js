@@ -23,7 +23,7 @@ import messages from './messages';
 import Box from './box';
 import WrappedSearchBar from '../../components/SearchBar';
 import Filter from '../../components/Filter';
-import './index.scss';
+import '../../assets/css/coursePage.css';
 import { Link } from 'react-router-dom';
 
 const { Content, Header } = Layout;
@@ -165,12 +165,12 @@ export class HomePage extends React.Component {
     const { courses, categories } = this.state;
     // console.log(this.props.homePage)
     return (
-      <Row>
+      <Row className="coursePage">
         <Helmet>
           <title>HomePage</title>
           <meta name="description" content="Description of HomePage" />
         </Helmet>
-        <Col span={20}>
+        <Col className="boxContent" span={19}>
           <Layout>
             <Header
               style={{
@@ -186,7 +186,7 @@ export class HomePage extends React.Component {
               />
             </Header>
             <Content>
-              <Row type="flex" justify="space-around">
+              <Row type="flex" justify="space-between">
                 {courses.map((course, index) => (
                   <Box course={course} key={index} />
                 ))}
@@ -197,7 +197,7 @@ export class HomePage extends React.Component {
             </Content>
           </Layout>
         </Col>
-        <Col span={4}>
+        <Col className="filter" span={5}>
           <Filter onFilter={this.onFilter} categories={categories} />
         </Col>
       </Row>

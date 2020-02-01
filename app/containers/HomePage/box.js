@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 const Box = props => {
   const { course } = props;
   return (
-    <Col span={10} className="wrapper">
+    <Col span={12} className="wrapper">
       <Link to="/">
         <div>
           <span>{course.courseId}</span>

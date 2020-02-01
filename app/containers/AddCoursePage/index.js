@@ -67,6 +67,36 @@ export class AddCoursePage extends React.Component {
 
   render() {
     const { skill, skills } = this.state;
+    const { Option } = Select;
+
+    const departments = [{
+      value: 'computer',
+      name: 'Computer Science'
+    },
+    {
+      value: 'business',
+      name: 'Business'
+    },
+    {
+      value: 'finance',
+      name: 'Finance'
+    },
+    {
+      value: 'design',
+      name: 'Graphic Design'
+    }]
+
+    const children = [];
+    
+    //pushing Option component into children
+    departments.map(department => {
+      children.push(<Option key={departments.indexOf(department)} value={department.value}>{department.name}</Option>)
+    })
+
+    //handle change for Select Department
+    function handleChange(value) {
+      console.log(`selected ${value}`);
+    }
     return (
       <Row className="addCourse">
         <Helmet>
@@ -105,13 +135,12 @@ export class AddCoursePage extends React.Component {
                     </label>
                     <Select
                       className="belowLabel"
-                      defaultValue="computer"
-                      prefix={<Icon type="unordered-list" />}
+                      mode="multiple"
+                      style={{ width: '100%' }}
+                      placeholder="Please select"
+                      onChange={handleChange}
                     >
-                      <Option value="computer">Computer Science</Option>
-                      <Option value="business">Business</Option>
-                      <Option value="finance">Finance</Option>
-                      <Option value="graphic">Graphic Design</Option>
+                      {children}
                     </Select>
                   </Col>
                 </Row>
@@ -128,14 +157,11 @@ export class AddCoursePage extends React.Component {
                 </Row>
                 <Row className="row">
                   <Col span={12}>
-                    <label>Skills learnt in this course</label>
-                    <Form className="belowLabel" onSubmit={this.handleClick}>
-                      <Input
-                        suffix={this.btnAddSkill(this.handleClick)}
-                        prefix={<Icon type="tool" />}
-                        onChange={this.onChangeValue}
-                      />
-                    </Form>
+                  <label>Course URL<span>*</span></label>
+                <Input
+                  className="belowLabel"
+                  prefix={<Icon type="user" />}
+                />
                     <div className="tag">
                       {skills.map((item, index) => (
                         <Tag
@@ -150,7 +176,6 @@ export class AddCoursePage extends React.Component {
                           {item}
                         </Tag>
                       ))}
-                      )}
                     </div>
                   </Col>
                 </Row>

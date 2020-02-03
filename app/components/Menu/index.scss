@@ -75,6 +75,27 @@
     justify-content: flex-end;
 }
 
-.selected {
-    background-color: blueviolet;
+.icon {
+    display: inline-block;
+    width: 29px;
+    height: 25px;
+    background-size: cover;
+}
+
+.course {
+    background-image: url("assets/course.svg");
+}
+
+.course-active {
+    background-image: url("assets/course_active.svg");
+
+}
+
+.teacher {
+    background-image: url("assets/teacher.svg");
+}
+
+.teacher-active {
+    background-image: url("assets/teacher_active.svg");
+
 }

@@ -21,5 +21,19 @@
 }
 
 .ant-table-wrapper {
-    width: 1000px;
+    width: max-width;
+    margin: 8px 50px 8px 8px;
+    .ant-table-thead > tr > th {
+        background-color: $primary_white;
+        color: #616161;
+    }
+    .ant-table-row {
+        cursor: pointer;
+        color: #212121;
+    }
+    .ant-table-pagination.ant-pagination {
+        float: none;
+        display: flex;
+        justify-content: center;
+    }
 }

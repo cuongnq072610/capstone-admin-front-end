@@ -31,7 +31,7 @@ const mockData = [
     courseName: 'Algorithms and Data Theories',
     description:
       'The course goes through simple algorithms and thier applications in data manipulation',
-    category: 'Computer Science',
+    category: ['Communication Business', 'New Category', 'Category New'],
     numberOfTeacher: 12,
   },
   {
@@ -39,15 +39,15 @@ const mockData = [
     courseName: 'Animation Designing',
     description:
       'The course goes through simple algorithms and thier applications in data manipulation',
-    category: 'Graphic Design',
-    numberOfTeacher: 12,
+      category: ['Communication Business', 'New Category', 'Category New', "New new new new", 'Communication Business', 'New Category', 'Category New'],
+      numberOfTeacher: 12,
   },
   {
     courseId: 'EVP501',
     courseName: 'Building Event Plans',
     description:
       'The course goes through simple algorithms and thier applications in data manipulation',
-    category: 'Communication',
+    category: ['Communication'],
     numberOfTeacher: 12,
   },
   {
@@ -55,7 +55,7 @@ const mockData = [
     courseName: 'Communication Principles',
     description:
       'The course goes through simple algorithms and thier applications in data manipulation',
-    category: 'Communication Business',
+    category: ['Communication Business'],
     numberOfTeacher: 12,
   },
   {
@@ -63,7 +63,7 @@ const mockData = [
     courseName: 'Algorithms and Data Theories',
     description:
       'The course goes through simple algorithms and thier applications in data manipulation',
-    category: 'Computer Science',
+    category: ['Computer Science'],
     numberOfTeacher: 12,
   },
   {
@@ -71,7 +71,7 @@ const mockData = [
     courseName: 'Animation Designing',
     description:
       'The course goes through simple algorithms and thier applications in data manipulation',
-    category: 'Graphic Design',
+    category: ['Graphic Design'],
     numberOfTeacher: 12,
   },
   {
@@ -79,7 +79,7 @@ const mockData = [
     courseName: 'Building Event Plans',
     description:
       'The course goes through simple algorithms and thier applications in data manipulation',
-    category: 'Communication',
+    category: ['Communication'],
     numberOfTeacher: 12,
   },
   {
@@ -87,7 +87,7 @@ const mockData = [
     courseName: 'Communication Principles',
     description:
       'The course goes through simple algorithms and thier applications in data manipulation',
-    category: 'Communication Business',
+    category: ['Communication Business'],
     numberOfTeacher: 12,
   },
   {
@@ -95,7 +95,7 @@ const mockData = [
     courseName: 'Algorithms and Data Theories',
     description:
       'The course goes through simple algorithms and thier applications in data manipulation',
-    category: 'Computer Science',
+    category: ['Computer Science'],
     numberOfTeacher: 12,
   },
   {
@@ -103,7 +103,7 @@ const mockData = [
     courseName: 'Animation Designing',
     description:
       'The course goes through simple algorithms and thier applications in data manipulation',
-    category: 'Graphic Design',
+    category: ['Graphic Design'],
     numberOfTeacher: 12,
   },
   {
@@ -111,7 +111,7 @@ const mockData = [
     courseName: 'Building Event Plans',
     description:
       'The course goes through simple algorithms and thier applications in data manipulation',
-    category: 'Communication',
+    category: ['Communication'],
     numberOfTeacher: 12,
   },
   {
@@ -119,7 +119,7 @@ const mockData = [
     courseName: 'Communication Principles',
     description:
       'The course goes through simple algorithms and thier applications in data manipulation',
-    category: 'Communication Business',
+    category: ['Graphic Design'],
     numberOfTeacher: 12,
   },
 ];
@@ -151,12 +151,12 @@ export class HomePage extends React.Component {
     })
   }
 
-  onHandleAddDepartment = (department) => {
-    const newDepartments = [...this.state.departments, department]
-    this.setState({
-      departments: newDepartments
-    })
-  }
+  // onHandleAddDepartment = (department) => {
+  //   const newDepartments = [...this.state.departments, department]
+  //   this.setState({
+  //     departments: newDepartments
+  //   })
+  // }
 
   filterByDepartment = (department) => {
     const newCourses = mockData.filter((item, index) => {
@@ -192,7 +192,7 @@ export class HomePage extends React.Component {
               />
             </Header>
             <Content>
-              <Row type="flex" justify="center">
+              <Row>
                 <Table
                   columns={columns}
                   dataSource={courses}
@@ -201,7 +201,7 @@ export class HomePage extends React.Component {
                     return {
                       onClick: e => this.props.history.push({
                         pathname: './addcourse',
-                        state: {course: record}
+                        state: { course: record }
                       })
                     }
                   }}
@@ -214,7 +214,7 @@ export class HomePage extends React.Component {
           </Layout>
         </Col>
         <Col span={4}>
-          <Filter onFilter={this.filterByDepartment} departments={departments} handleAdd={this.onHandleAddDepartment}/>
+          <Filter onFilter={this.filterByDepartment} departments={departments} />
         </Col>
       </Row>
     );

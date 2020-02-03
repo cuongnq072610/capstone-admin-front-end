@@ -1,19 +1,5 @@
 @import "../../utils/variables.scss";
 
-.category {
-    display: flex;
-    justify-content: flex-start;
-    flex-direction: row;
-    align-items: center;
-    margin: 30px 0px 30px 5px;
-    color: $primary_black;
-    border: none;
-
-    span {
-        margin-left: 10px;
-    }
-}
-
 .wrap {
     margin-top: 10px;
     background-color: "#fff";
@@ -26,25 +12,46 @@
         font-weight: bold;
     }
 
-    .addDepartment {
+    .clearFilter {
         margin-top: 20px;
         width: 224px;
         height: 38px;
         border-radius: 5px;
+        color: $primary_white;
+        background-color: $primary_purple;
+        border: none;
 
-        ::placeholder {
-            width: 130px;
-            height: 18px;
+        &:hover {
+            border: 1px solid $primary_purple;
             color: $primary_purple;
-            font-family: Roboto;
-            font-size: 14px;
-            font-weight: 400;
+            background-color: $primary_white;
+        }
+    }
+
+    .category {
+        display: flex;
+        justify-content: flex-start;
+        flex-direction: row;
+        align-items: center;
+        margin: 30px 0px 30px 5px;
+        color: $primary_black;
+        border: none;
+
+        span {
             margin-left: 10px;
         }
 
-        .ant-input {
-            background-color: $tertiary_purple;
-            border: none;
+        &:hover {
+            color: $primary_purple;
         }
+
+        .category-icon {
+            display: inline-block;
+            width: 12px;
+            height: 15px;
+            background-size: cover;
+            background-image: url(assets/category.svg);
+        }
+
     }
 }

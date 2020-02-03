@@ -24,7 +24,7 @@ class Filter extends React.Component {
     const { onFilter } = this.props;
     return (
       <Button className="category" key={index} onClick={() => onFilter(category)}>
-        <Icon type="unordered-list" />
+        <span className="category-icon"></span>
         <span className="name">{category}</span>
       </Button>
     )
@@ -36,24 +36,27 @@ class Filter extends React.Component {
     })
   }
 
-  handleAdd = (e) => {
-    e.preventDefault();
-    this.props.handleAdd(this.state.department);
-  }
+  // handleAdd = (e) => {
+  //   e.preventDefault();
+  //   this.props.handleAdd(this.state.department);
+  // }
 
   render() {
     const { departments } = this.props;
     return <Layout className="wrap">
       <Header style={{ backgroundColor: '#fff', color: '#9C4AEE' }}>Departments</Header>
       <Content>
-        <Form onSubmit={this.handleAdd}>
+        {/* <Form onSubmit={this.handleAdd}>
           <Input
             placeholder="Add new department"
             prefix={<Icon type="plus" style={{ color: '#9c4aee' }} />}
             className="addDepartment"
             onChange={this.onChangeText}
           />
-        </Form>
+        </Form> */}
+        <Button className="clearFilter">
+          <span>Clear filter</span>
+        </Button>
         {
           departments.map((department, index) => {
             return this.renderDepartments(department, index)

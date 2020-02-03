@@ -1,13 +1,11 @@
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { Layout, Menu, Tooltip } from 'antd';
-
 import './index.scss';
 import Logo from './assets/noteIt.png';
-import CourseIcon from './assets/Path_56.png';
-import TeacherIcon from './assets/Path_57.png';
 import UserIcon from './assets/man1.png'
 
+import history from '../../utils/history';
 
 class SideMenu extends React.Component {
   state = {
@@ -36,21 +34,13 @@ class SideMenu extends React.Component {
           >
             <Menu.Item key="1">
               <Tooltip title="Course" placement="right">
-                <NavLink exact to="/" activeClassName="selected">
-                  <img
-                    src={CourseIcon}
-                    alt="Course Logo"
-                  />
+                <NavLink exact to="/" activeClassName="course-active" className="icon course">
                 </NavLink>
               </Tooltip>
             </Menu.Item>
             <Menu.Item key="2">
               <Tooltip title="Teacher" placement="right">
-                <NavLink to="/teacher" activeClassName="selected">
-                  <img
-                    src={TeacherIcon}
-                    alt="Teacher Logo"
-                  />
+                <NavLink to="/teacher" activeClassName="teacher-active" className="icon teacher">
                 </NavLink>
               </Tooltip>
 
@@ -58,7 +48,7 @@ class SideMenu extends React.Component {
             <Menu.Item key="3">
               <Tooltip title="Info" placement="right">
                 <NavLink to="/info">
-                <img
+                  <img
                     src={UserIcon}
                     alt="User Logo"
                   />

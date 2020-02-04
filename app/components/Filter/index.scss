@@ -45,13 +45,19 @@
             color: $primary_purple;
         }
 
-        .category-icon {
+        .icon {
             display: inline-block;
             width: 12px;
             height: 15px;
             background-size: cover;
+        }
+
+        .category-icon {
             background-image: url(assets/category.svg);
         }
 
+        .check-icon {
+            background-image: url(assets/done.svg);
+        }
     }
 }

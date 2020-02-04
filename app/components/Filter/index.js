@@ -16,45 +16,52 @@ class Filter extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      department: ""
+      chosenDepartments: [],
     }
   }
 
-  renderDepartments = (category, index) => {
+  handleFilter = (department) => {
     const { onFilter } = this.props;
+    const { chosenDepartments } = this.state;
+    let newChosenDepartments = [];
+    if (chosenDepartments.includes(department)) {
+      newChosenDepartments = chosenDepartments.filter(item => item !== department)
+    } else {
+      newChosenDepartments = [...chosenDepartments, department]
+    }
+    this.setState({
+      chosenDepartments: newChosenDepartments
+    }, () => {
+      onFilter(this.state.chosenDepartments)
+    })
+  }
+
+  isCheck = (department) => {
+    return this.state.chosenDepartments.includes(department);
+  }
+
+  renderDepartments = (department, index) => {
     return (
-      <Button className="category" key={index} onClick={() => onFilter(category)}>
-        <span className="category-icon"></span>
-        <span className="name">{category}</span>
+      <Button className="category" key={index} onClick={() => this.handleFilter(department)}>
+        <span className={`icon ${this.isCheck(department) ? "check-icon" : "category-icon"}`}></span>
+        <span className="name">{department}</span>
       </Button>
     )
   }
 
-  onChangeText = (e) => {
+  handleReset = () => {
+    this.props.onReset();
     this.setState({
-      department: e.target.value,
+      chosenDepartments: []
     })
   }
-
-  // handleAdd = (e) => {
-  //   e.preventDefault();
-  //   this.props.handleAdd(this.state.department);
-  // }
 
   render() {
     const { departments } = this.props;
     return <Layout className="wrap">
       <Header style={{ backgroundColor: '#fff', color: '#9C4AEE' }}>Departments</Header>
       <Content>
-        {/* <Form onSubmit={this.handleAdd}>
-          <Input
-            placeholder="Add new department"
-            prefix={<Icon type="plus" style={{ color: '#9c4aee' }} />}
-            className="addDepartment"
-            onChange={this.onChangeText}
-          />
-        </Form> */}
-        <Button className="clearFilter">
+        <Button className="clearFilter" onClick={this.handleReset}>
           <span>Clear filter</span>
         </Button>
         {
@@ -68,13 +75,13 @@ class Filter extends React.Component {
 }
 
 Filter.propTypes = {
-  handleAdd: PropTypes.func,
+  onReset: PropTypes.func,
   onFilter: PropTypes.func,
   departments: PropTypes.arrayOf(PropTypes.string)
 };
 
 Filter.defaultProps = {
-  handleAdd: () => { },
+  onReset: () => { },
   onFilter: () => { },
   departments: [],
 }

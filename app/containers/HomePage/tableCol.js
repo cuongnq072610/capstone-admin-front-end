@@ -21,18 +21,18 @@ const colunms = [
     },
     {
         title: "DEPARTMENT",
-        dataIndex: "category",
+        dataIndex: "departments",
         width: 500,
         render: (text, record) => {
-            if (record.category.length <= 3) {
+            if (record.departments.length <= 3) {
                 return (
-                    <Tooltip title={fomatDepartment(record.category)} placement="bottomRight">
+                    <Tooltip title={fomatDepartment(record.departments)} placement="bottomRight">
                         {
-                            record.category.map((item, index) => {
+                            record.departments.map((item, index) => {
                                 return (
                                     <span>
                                         <span>{item}</span>
-                                        {index === record.category.length - 1 ? "" : <span className="ant-divider" />}
+                                        {index === record.departments.length - 1 ? "" : <span className="ant-divider" />}
                                     </span>
                                 )
                             })
@@ -42,9 +42,9 @@ const colunms = [
 
             } else {
                 return (
-                    <Tooltip title={fomatDepartment(record.category)} placement="bottomRight">
+                    <Tooltip title={fomatDepartment(record.departments)} placement="bottomRight">
                         {
-                            record.category.map((item, index) => {
+                            record.departments.map((item, index) => {
                                 return (
                                     index < 3 &&
                                     <span>

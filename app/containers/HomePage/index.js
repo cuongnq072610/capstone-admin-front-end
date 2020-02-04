@@ -182,7 +182,7 @@ export class HomePage extends React.Component {
   render() {
     const { courses, departments } = this.state;
     return (
-      <Row>
+      <Row className="homepage">
         <Helmet>
           <title>HomePage</title>
           <meta name="description" content="Description of HomePage" />

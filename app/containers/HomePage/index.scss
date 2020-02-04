@@ -27,6 +27,9 @@
         background-color: $primary_white;
         color: #616161;
     }
+    .ant-table-thead > tr > th .ant-table-column-sorter .ant-table-column-sorter-inner {
+        margin-top: 0px;
+    }
     .ant-table-row {
         cursor: pointer;
         color: #212121;

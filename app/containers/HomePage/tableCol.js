@@ -16,7 +16,7 @@ const colunms = [
         render: text => <span style={{ color: '#9c4aee' }}>{text}</span>,
     },
     {
-        title: "COURSE title",
+        title: "COURSE TITLE",
         dataIndex: "courseName",
     },
     {

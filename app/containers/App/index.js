@@ -31,10 +31,10 @@ export default function App() {
       </Helmet>
       <Layout>
         <Row>
-          <Col span={1}>
+          <Col span={2}>
             <SideMenu />
           </Col>
-          <Col span={23}>
+          <Col span={22}>
             <Switch>
               <Route exact path="/" component={HomePage} />
               <Route path="/addcourse" component={AddCoursePage} />

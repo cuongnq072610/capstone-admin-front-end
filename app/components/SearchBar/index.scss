@@ -8,7 +8,7 @@
     input {
         height: 50px;
         border: 1px solid $primary_purple;
-        background-color: #f9f2ff;
+        background-color: $tertiary_purple;
         border-radius: 5px;
         color: $primary_purple;
         padding-left: 20px;
@@ -20,12 +20,12 @@
         color: $primary_purple;
         width: 185px;
         height: 21px;
-        color: #9c4aee;
         font-family: Roboto;
         font-size: 17px;
         font-weight: 400;
         letter-spacing: 0.17px;
         line-height: 17px;
+        color: $primary_purple;
     }
 
     .ant-input-affix-wrapper .ant-input:not(:first-child) {

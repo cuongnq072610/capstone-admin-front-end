@@ -1,22 +1,7 @@
 @import "../../utils/variables.scss";
 
-.category {
-    display: flex;
-    justify-content: flex-start;
-    flex-direction: row;
-    align-items: center;
-    margin: 30px 0px 30px 5px;
-    color: $primary_black;
-
-    span {
-        margin-left: 10px;
-    }
-}
-
 .wrap {
     margin-top: 10px;
-    background-color: "#fff";
-
     .ant-layout-header {
         font-size: 30px;
         display: flex;
@@ -25,16 +10,53 @@
         font-weight: bold;
     }
 
-    .btn {
-        background-color: "#fff";
-        color: "#111";
-        width: "100%";
+    .clearFilter {
+        margin-top: 20px;
+        width: 224px;
+        height: 38px;
+        border-radius: 5px;
+        color: $primary_white;
+        background-color: $primary_purple;
+        border: none;
+
+        &:hover {
+            border: 1px solid $primary_purple;
+            color: $primary_purple;
+            background-color: $primary_white;
+        }
+    }
+
+    .category {
         display: flex;
         justify-content: flex-start;
         flex-direction: row;
         align-items: center;
+        margin: 30px 0px 30px 5px;
+        color: $primary_black;
         border: none;
-        margin: 20px 0px;
+        box-shadow: none;
 
+        span {
+            margin-left: 10px;
+        }
+
+        &:hover {
+            color: $primary_purple;
+        }
+
+        .icon {
+            display: inline-block;
+            width: 12px;
+            height: 15px;
+            background-size: cover;
+        }
+
+        .category-icon {
+            background-image: url(assets/category.svg);
+        }
+
+        .check-icon {
+            background-image: url(assets/done.svg);
+        }
     }
 }

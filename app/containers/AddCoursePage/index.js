@@ -123,7 +123,7 @@ export class AddCoursePage extends React.Component {
           <title>AddCoursePage</title>
           <meta name="description" content="Description of AddCoursePage" />
         </Helmet>
-        <Col span={19}>
+        <Col span={20}>
           <Layout>
             <Header className="header">
               <Link to="/">
@@ -213,7 +213,7 @@ export class AddCoursePage extends React.Component {
             </Content>
           </Layout>
         </Col>
-        <Col className="addTeacher" span={5}>
+        <Col className="addTeacher" span={4}>
           <h1>Teachers</h1>
           <Search
             placeholder="Search for or add teachers"

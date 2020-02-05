@@ -2,6 +2,7 @@
 
 .wrap {
     margin-top: 10px;
+
     .ant-layout-header {
         font-size: 30px;
         display: flex;
@@ -10,18 +11,32 @@
         font-weight: bold;
     }
 
-    .clearFilter {
+    .clearBtn {
         margin-top: 20px;
         width: 224px;
         height: 38px;
         border-radius: 5px;
+        border: none;
+    }
+
+    .clearBtnHomeTheme {
         color: $primary_white;
         background-color: $primary_purple;
-        border: none;
 
         &:hover {
             border: 1px solid $primary_purple;
             color: $primary_purple;
+            background-color: $primary_white;
+        }
+    }
+
+    .clearBtnTeacherTheme {
+        color: $primary_white;
+        background-color: $primary_brown;
+
+        &:hover {
+            border: 1px solid $primary_brown;
+            color: $primary_brown;
             background-color: $primary_white;
         }
     }
@@ -40,10 +55,6 @@
             margin-left: 10px;
         }
 
-        &:hover {
-            color: $primary_purple;
-        }
-
         .icon {
             display: inline-block;
             width: 12px;
@@ -54,9 +65,25 @@
         .category-icon {
             background-image: url(assets/category.svg);
         }
+    }
+
+    .categoryHomeTheme {
+        &:hover {
+            color: $primary_purple;
+        }
 
         .check-icon {
             background-image: url(assets/done.svg);
+        }
+    }
+
+    .categoryTeacherTheme {
+        &:hover {
+            color: $primary_brown;
+        }
+
+        .check-icon {
+            background-image: url(assets/done2.svg);
         }
     }
 }

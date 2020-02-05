@@ -169,7 +169,6 @@ export class HomePage extends React.Component {
     if (!departments || departments.length === 0) {
       this.onResetFilter();
     } else {
-      console.log(departments)
       const filterCourses = baseCourses.filter((course, index) => {
         return this.checkDepartment(course.departments, departments) === true;
       })
@@ -200,6 +199,7 @@ export class HomePage extends React.Component {
               <WrappedSearchBar
                 message="Please enter your course name"
                 placeholder="I want to find my course"
+                type="home"
               />
             </Header>
             <Content>
@@ -230,6 +230,7 @@ export class HomePage extends React.Component {
             departments={departments}
             onFilter={this.filterByDepartment}
             onReset={this.onResetFilter}
+            type={'home'}
           />
         </Col>
       </Row>

@@ -22,7 +22,7 @@ class SideMenu extends React.Component {
       <Layout id="sideMenu">
         <div className="logo">
           <img
-            src={history.location.pathname === "/" ? Logo : Logo2}
+            src={history.location.pathname === "/" || history.location.pathname === "/addcourse" ? Logo : Logo2}
             alt="NoteIt Logo"
           />
         </div>

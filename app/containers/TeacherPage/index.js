@@ -25,6 +25,7 @@ import WrappedSearchBar from '../../components/SearchBar';
 import columns from './tableCol';
 
 import "./index.scss";
+import TeacherInfo from './TeacherInfo';
 
 const { Content, Header } = Layout;
 
@@ -77,6 +78,8 @@ export class TeacherPage extends React.Component {
             teachers: [],
             baseTeachers: [],
             toggleInfo: false,
+            selectedTeacher: {},
+            selectedRow: "",
         }
     }
 
@@ -116,14 +119,24 @@ export class TeacherPage extends React.Component {
         }
     }
 
-    onToggleInfo = () => {
+    onToggleInfo = (teacher, index) => {
         this.setState({
-            toggleInfo: !this.state.toggleInfo
+            toggleInfo: true,
+            selectedTeacher: teacher,
+            selectedRow: index
+        })
+    }
+
+    onToggleBack = () => {
+        this.setState({
+            toggleInfo: false,
+            selectedTeacher: {},
+            selectedRow: {}
         })
     }
 
     render() {
-        const { departments, teachers, toggleInfo } = this.state;
+        const { departments, teachers, toggleInfo, selectedTeacher, selectedRow } = this.state;
 
         return (
             <Row>
@@ -155,8 +168,11 @@ export class TeacherPage extends React.Component {
                                     className="teacherTable"
                                     onRow={(record, rowIndex) => {
                                         return {
-                                            onClick: e => this.onToggleInfo()
+                                            onClick: e => this.onToggleInfo(record, rowIndex)
                                         }
+                                    }}
+                                    rowClassName={(record, index) => {
+                                        return index === selectedRow ? "active-row" : ""
                                     }}
                                 // loading={true}
                                 />
@@ -172,7 +188,10 @@ export class TeacherPage extends React.Component {
                                 onReset={this.onResetFilter}
                                 onFilter={this.filterByDepartment}
                                 type="teacher" I
-                            /> : ""
+                            /> : <TeacherInfo
+                                teacherInfo={selectedTeacher}
+                                onBack={this.onToggleBack}
+                            />
                     }
                 </Col>
             </Row>

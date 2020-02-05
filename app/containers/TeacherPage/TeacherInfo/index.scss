@@ -1,0 +1,122 @@
+@import "../../../utils/variables.scss";
+
+.teacher-info {
+    width: max-width;
+    height: max-height;
+    box-shadow: 2px 0px 12px $primary_brown;
+    padding-left: 24px;
+    padding-right: 16px;
+
+    .teacher-info-header {
+        background-color: $primary_white;
+        display: flex;
+        justify-content: start;
+        padding-top: 30px;
+        padding-left: 0px;
+
+        button {
+            border: none;
+            padding-left: 0px;
+        }
+    }
+
+    .title {
+        display: inline;
+        text-align: center;
+
+        .avatar {
+            margin-bottom: 25px;
+            width: 80px;
+            height: 80px;
+        }
+
+        .teacher-name {
+            font-size: 22px;
+            font-weight: 500;
+            color: $primary_brown;
+        }
+
+        .teacher-mail {
+            font-size: 14px;
+            color: $primary_black;
+            font-weight: 400;
+        }
+    }
+
+    .active-teacher {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 28px;
+
+        .active-icon {
+            display: inline-block;
+            width: 14px;
+            height: 13px;
+            background-size: cover;
+        }
+
+        .active {
+            background-image: url(../assets/visibility-on.svg);
+        }
+
+        .inactive {
+            background-image: url(../assets/visibility-off-white.svg);
+        }
+
+        .switch-active {
+            background-color: $primary_brown;
+            width: 40px;
+            padding-top: 2px;
+        }
+
+        .active-title {
+            font-size: 18px;
+            font-weight: 400;
+            color: #616161;
+        }
+    }
+
+    .rating {
+        display: inline;
+        text-align: center;
+
+        .number-rate {
+            font-size: 48px;
+            font-weight: 700;
+            color: $primary_brown;
+            margin-bottom: 0px;
+        }
+
+        .progress {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+
+            span {
+                margin-right: 10px;
+            }
+
+            .ant-progress-outer {
+                width: 90%;
+            }
+        }
+
+        .star-icon {
+            display: inline-block;
+            width: 14px;
+            height: 13px;
+            background-size: cover;
+            background-image: url(../assets/star-grey.svg);
+        }
+
+        .title-rate {
+            display: flex;
+            margin-bottom: 0px;
+            align-items: center;
+            font-size: 18px;
+            letter-spacing: 0.18px;
+            font-weight: 700;
+            color: #616161;
+        }
+    }
+}

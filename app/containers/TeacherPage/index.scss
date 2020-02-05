@@ -21,6 +21,9 @@
         display: flex;
         justify-content: center;
     }
+    .active-row {
+        background-color: $secondary_brown;
+    }
 }
 
 .icon {

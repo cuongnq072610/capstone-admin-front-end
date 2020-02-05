@@ -21,9 +21,17 @@ import saga from './saga';
 import messages from './messages';
 /* eslint-disable react/prefer-stateless-function */
 
-const { Search, TextArea,Option } = Input;
+const { Search, TextArea, Option } = Input;
 
 const { Header, Content } = Layout;
+
+const mockData = {
+  courseCode: 'ASD203',
+  category: 'Computer Science',
+  description:
+    'The course goes through simple algorithms and thier applications in data manipulation',
+};
+// const mockData = []
 
 export class AddCoursePage extends React.Component {
   constructor(props) {
@@ -31,6 +39,7 @@ export class AddCoursePage extends React.Component {
     this.state = {
       skill: '',
       skills: [],
+      course: {},
     };
   }
 
@@ -42,6 +51,16 @@ export class AddCoursePage extends React.Component {
       skill: '',
       skills: newArr,
     });
+  };
+
+  componentDidMount() {
+    if (mockData) {
+      console.log(mockData)
+      this.setState({
+        course: mockData
+      })
+    }
+    console.log(this.props.history)
   };
 
   onChangeValue = e => {
@@ -68,7 +87,7 @@ export class AddCoursePage extends React.Component {
   render() {
     const { skill, skills } = this.state;
     const { Option } = Select;
-
+    const { courses, category } = this.state;
     const departments = [{
       value: 'computer',
       name: 'Computer Science'
@@ -87,10 +106,11 @@ export class AddCoursePage extends React.Component {
     }]
 
     const children = [];
-    
+
     //pushing Option component into children
     departments.map(department => {
-      children.push(<Option key={departments.indexOf(department)} value={department.value}>{department.name}</Option>)
+      children.push(<Option key={departments.indexOf(department)}
+        svalue={department.value}>{department.name}</Option>)
     })
 
     //handle change for Select Department
@@ -126,6 +146,7 @@ export class AddCoursePage extends React.Component {
                     <Input
                       className="belowLabel "
                       prefix={<Icon type="user" />}
+                      value={this.state.course.courseCode ? this.state.course.courseCode : ""}
                     />
                   </Col>
                   <Col span={12}>
@@ -139,6 +160,7 @@ export class AddCoursePage extends React.Component {
                       style={{ width: '100%' }}
                       placeholder="Please select"
                       onChange={handleChange}
+                      value={this.state.course.category ? this.state.course.category : ""}
                     >
                       {children}
                     </Select>
@@ -149,19 +171,23 @@ export class AddCoursePage extends React.Component {
                     Short Description
                     <span>*</span>
                   </label>
-                  <TextArea className="belowLabel" rows={2} />
+                  <TextArea className="belowLabel" rows={2}
+                    value={this.state.course.description ? this.state.course.description : ""}
+                  />
                 </Row>
                 <Row>
                   <label>Full Description</label>
-                  <TextArea className="belowLabel" rows={4} />
+                  <TextArea className="belowLabel" rows={4}
+
+                  />
                 </Row>
                 <Row className="row">
                   <Col span={12}>
-                  <label>Course URL<span>*</span></label>
-                <Input
-                  className="belowLabel"
-                  prefix={<Icon type="user" />}
-                />
+                    <label>Course URL<span>*</span></label>
+                    <Input
+                      className="belowLabel"
+                      prefix={<Icon type="user" />}
+                    />
                     <div className="tag">
                       {skills.map((item, index) => (
                         <Tag

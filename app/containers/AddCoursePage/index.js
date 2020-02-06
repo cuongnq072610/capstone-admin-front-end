@@ -19,6 +19,7 @@ import makeSelectAddCoursePage from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
+import AddTeacher from '../../components/AddTeacher';
 /* eslint-disable react/prefer-stateless-function */
 
 const { Search, TextArea, Option } = Input;
@@ -85,6 +86,7 @@ export class AddCoursePage extends React.Component {
   };
 
   render() {
+    const { onFilter, categories } = this.props;
     const { skill, skills } = this.state;
     const { Option } = Select;
     const { courses, category } = this.state;
@@ -110,7 +112,7 @@ export class AddCoursePage extends React.Component {
     //pushing Option component into children
     departments.map(department => {
       children.push(<Option key={departments.indexOf(department)}
-        svalue={department.value}>{department.name}</Option>)
+        value={department.value}>{department.name}</Option>)
     })
 
     //handle change for Select Department
@@ -214,12 +216,16 @@ export class AddCoursePage extends React.Component {
           </Layout>
         </Col>
         <Col className="addTeacher" span={4}>
-          <h1>Teachers</h1>
+          <AddTeacher/>
+          {/* <h1 style={{ backgroundColor: '#fff', color: '#9C4AEE' }}><b>Teachers</b></h1>
           <Search
-            placeholder="Search for or add teachers"
+            placeholder="Search for teachers"
             onSearch={value => console.log(value)}
           />
-          <p>0 teacher</p>
+          <Row>
+            <h3 style={{ backgroundColor: '#fff', color: '#707070', marginTop: '40px' }}>CHOSEN TUTORS</h3>
+            <Button style={{ backgroundColor: '#fff', color: '#9C4AEE', marginTop: '25px', border:'none' }} className="btn" icon="plus" size="large" >Add teacher</Button>
+          </Row> */}
         </Col>
         {/* <FormattedMessage {...messages.header} /> */}
       </Row>

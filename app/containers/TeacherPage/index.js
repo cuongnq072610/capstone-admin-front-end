@@ -35,6 +35,7 @@ const mockData = [
         mail: "lampd@fe.edu.vn",
         numberOfCourses: 4,
         departments: ['Communication Business', 'New Category', 'Communication'],
+        courses: ["ECO101", "ASD203", "DBW231"],
         rating: 2.4,
         isActive: true,
     },
@@ -43,6 +44,7 @@ const mockData = [
         mail: "maitt6@fe.edu.vn",
         numberOfCourses: 4,
         departments: ['Communication'],
+        courses: ["ECO101", "ASD203", "DBW231"],
         rating: 1,
         isActive: true,
     },
@@ -51,6 +53,7 @@ const mockData = [
         mail: "maitt@fe.edu.vn",
         numberOfCourses: 4,
         departments: ['Computer Science'],
+        courses: ["ECO101", "ASD203", "DBW231"],
         rating: 1,
         isActive: true,
     },
@@ -59,6 +62,7 @@ const mockData = [
         mail: "phuonglh7@fe.edu.vn",
         numberOfCourses: 4,
         departments: ['Communication'],
+        courses: ["ECO101", "ASD203", "DBW231"],
         rating: 1,
         isActive: true,
     },
@@ -84,6 +88,7 @@ export class TeacherPage extends React.Component {
     }
 
     componentDidMount() {
+        console.log(this.props.teacherPage)
         const fomatTeachers = mockData.map((teacher, index) => {
             return { ...teacher, key: `${index}` }
         })

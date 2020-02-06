@@ -64,9 +64,12 @@
         }
 
         .switch-active {
-            background-color: $primary_brown;
             width: 40px;
             padding-top: 2px;
+        }
+
+        .ant-switch-checked {
+            background-color: $primary_brown;
         }
 
         .active-title {
@@ -117,6 +120,38 @@
             letter-spacing: 0.18px;
             font-weight: 700;
             color: #616161;
+        }
+    }
+
+    .courses {
+        margin-top: 30px;
+        .course-head {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            .course-icon {
+                display: inline-block;
+                width: 18px;
+                height: 18px;
+                background-size: cover;
+                background-image: url(../assets/course.svg);
+            }
+            .course-title {
+                font-size: 18px;
+                color: $primary_brown;
+                font-weight: 500;
+                margin-left: 8px;
+                margin-bottom: 0px;
+            }
+        }
+        .course-name {
+            background-color: $secondary_brown;
+            margin: 10px 0px;
+            padding: 10px 0px 10px 10px;
+            p {
+                margin: 0;
+                color: $primary_black;
+            }
         }
     }
 }

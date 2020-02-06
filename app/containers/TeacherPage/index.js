@@ -148,8 +148,8 @@ export class TeacherPage extends React.Component {
                     <title>Teacher Page</title>
                     <meta name="description" content="Description of TeacherPage" />
                 </Helmet>
-                <Col span={20}>
-                    <Layout>
+                <Col span={19} >
+                    <Layout className="teacher-page">
                         <Header
                             style={{
                                 backgroundColor: '#fff',
@@ -184,7 +184,7 @@ export class TeacherPage extends React.Component {
                         </Content>
                     </Layout>
                 </Col>
-                <Col span={4}>
+                <Col span={5}>
                     {
                         toggleInfo === false ?
                             <Filter

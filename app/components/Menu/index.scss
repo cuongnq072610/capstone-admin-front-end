@@ -6,8 +6,9 @@
     top: 0;
     left: 0;
     width: 100px;
+    height: 100%;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     flex-direction: column;
 }
@@ -65,14 +66,6 @@
 .ant-menu-inline>.ant-menu-item,
 .ant-menu-vertical>.ant-menu-item {
     height: 70px;
-}
-
-.ant-menu-vertical,
-.ant-menu-inline-collapsed {
-    height: 80vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
 }
 
 .menu-icon {

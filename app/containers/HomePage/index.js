@@ -186,7 +186,7 @@ export class HomePage extends React.Component {
           <title>HomePage</title>
           <meta name="description" content="Description of HomePage" />
         </Helmet>
-        <Col span={20}>
+        <Col span={19}>
           <Layout>
             <Header
               style={{
@@ -225,7 +225,7 @@ export class HomePage extends React.Component {
             </Content>
           </Layout>
         </Col>
-        <Col span={4}>
+        <Col span={5}>
           <Filter
             departments={departments}
             onFilter={this.filterByDepartment}

@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { Layout, Switch, Icon, Button, Progress } from 'antd';
 import "./index.scss";
-const { Header, Content } = Layout;
+const { Header } = Layout;
 
 import avatar from '../assets/man6.png';
 
@@ -108,10 +108,10 @@ class TeacherInfo extends React.Component {
                                 {
                                     teacherInfo.courses.map((course, index) => {
                                         return (
-                                            <div className="course-name" key={index}>
+                                            <Button className="course-name" key={index} onClick={() => {}}>
                                                 <p>{course}</p>
-                                                <Button className="delete"><span className="delete-icon"></span></Button>
-                                            </div>
+                                                <span className="delete-icon"></span>
+                                            </Button>
                                         )
                                     })
                                 }

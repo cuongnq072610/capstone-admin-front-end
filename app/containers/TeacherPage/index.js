@@ -88,7 +88,6 @@ export class TeacherPage extends React.Component {
     }
 
     componentDidMount() {
-        console.log(this.props.teacherPage)
         const fomatTeachers = mockData.map((teacher, index) => {
             return { ...teacher, key: `${index}` }
         })

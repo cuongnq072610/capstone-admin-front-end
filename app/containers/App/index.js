@@ -15,6 +15,7 @@ import 'antd/dist/antd.css';
 import HomePage from 'containers/HomePage/Loadable';
 import AddCoursePage from 'containers/AddCoursePage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
+import TeacherPage from 'containers/TeacherPage/Loadable';
 import SideMenu from 'components/Menu';
 
 import GlobalStyle from '../../global-styles';
@@ -37,6 +38,7 @@ export default function App() {
             <Switch>
               <Route exact path="/" component={HomePage} />
               <Route path="/addcourse" component={AddCoursePage} />
+              <Route path="/teacher" component={TeacherPage}/>
               <Route path="" component={NotFoundPage} />
             </Switch>
           </Col>

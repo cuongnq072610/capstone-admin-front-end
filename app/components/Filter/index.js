@@ -5,7 +5,7 @@
  */
 
 import React from 'react';
-import { Layout, Form, Icon, Input, Button } from 'antd';
+import { Layout, Button } from 'antd';
 import "./index.scss";
 const { Header, Content } = Layout;
 import PropTypes from 'prop-types';
@@ -41,8 +41,9 @@ class Filter extends React.Component {
   }
 
   renderDepartments = (department, index) => {
+    const { type } = this.props;
     return (
-      <Button className="category" key={index} onClick={() => this.handleFilter(department)}>
+      <Button className={`category ${type === "home" ? "categoryHomeTheme" : "categoryTeacherTheme"}`} key={index} onClick={() => this.handleFilter(department)}>
         <span className={`icon ${this.isCheck(department) ? "check-icon" : "category-icon"}`}></span>
         <span className="name">{department}</span>
       </Button>
@@ -57,11 +58,11 @@ class Filter extends React.Component {
   }
 
   render() {
-    const { departments } = this.props;
+    const { departments, type } = this.props;
     return <Layout className="wrap">
-      <Header style={{ backgroundColor: '#fff', color: '#9C4AEE' }}>Departments</Header>
+      <Header style={{ backgroundColor: '#fff', color: `${type === "home" ? "#9C4AEE" : "#b9754e"}` }}>Departments</Header>
       <Content>
-        <Button className="clearFilter" onClick={this.handleReset}>
+        <Button className={`clearBtn ${type === "home" ? "clearBtnHomeTheme" : "clearBtnTeacherTheme"}`} onClick={this.handleReset}>
           <span>Clear filter</span>
         </Button>
         {
@@ -77,13 +78,15 @@ class Filter extends React.Component {
 Filter.propTypes = {
   onReset: PropTypes.func,
   onFilter: PropTypes.func,
-  departments: PropTypes.arrayOf(PropTypes.string)
+  departments: PropTypes.arrayOf(PropTypes.string),
+  type: PropTypes.string,
 };
 
 Filter.defaultProps = {
   onReset: () => { },
   onFilter: () => { },
   departments: [],
+  type: "home",
 }
 
 export default Filter;

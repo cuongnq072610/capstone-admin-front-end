@@ -13,7 +13,7 @@ const colunms = [
         dataIndex: "courseId",
         sorter: (a, b) => a.courseId < b.courseId,
         sortDirections: ['descend'],
-        render: text => <span style={{ color: '#9c4aee' }}>{text}</span>,
+        render: text => <span style={{ color: '#9c4aee', fontWeight: 600 }}>{text}</span>,
     },
     {
         title: "COURSE TITLE",

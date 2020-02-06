@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Layout, Switch, Icon, Button, Progress } from 'antd';
 import "./index.scss";
 const { Header, Content } = Layout;
@@ -9,30 +9,44 @@ class TeacherInfo extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            isActive: true,
+            isShowModal: false,
         }
     }
 
-    handleOnChange = (value) => {
+    handleOnChange = () => {
         this.setState({
-            isActive: value
+            isShowModal: !this.state.isShowModal
         })
     }
 
+    handleCancel = () => {
+        this.setState({
+            isShowModal: !this.state.isShowModal
+        })
+    }
+
+    handleDeactivate = () => {
+        this.setState({
+            isShowModal: !this.state.isShowModal
+        })
+    }
+
+    renderModal = () => {
+        const { isShowModal } = this.state;
+        return (
+            <div className="modal" style={!isShowModal ? {display: "none"} : {}}>
+                <p className="title">Deactivate this tutor ? </p>
+                <p className="content">This action will remove all courses this tutor is in charge</p>
+                <div className="modal-bottom">
+                    <Button className="cancel" onClick={this.handleCancel}>Cancel</Button>
+                    <Button className="deactivate" onClick={this.handleDeactivate}>Deactivate</Button>
+                </div>
+            </div>
+        )
+    }
+
     render() {
-        const { teacherInfo } = this.props;
-        // const teacherInfo = {
-        //     teacher: "LamPD",
-        //     mail: "lampd@fe.edu.vn",
-        //     numberOfCourses: 4,
-        //     departments: ['Communication Business', 'New Category', 'Communication'],
-        //     courses: ["ECO101", "ASD203", "DBW231"],
-        //     rating: 2.4,
-        //     isActive: true,
-        // }
-
-        const { onBack } = this.props;
-
+        const { teacherInfo, onBack } = this.props;
         return (
             <Layout className="teacher-info">
                 <Header className="teacher-info-header">
@@ -50,11 +64,13 @@ class TeacherInfo extends React.Component {
                     <Switch
                         checkedChildren={<span className="active-icon active" />}
                         unCheckedChildren={<span className="active-icon inactive" />}
+                        // checked={teacherInfo.isActive}
                         defaultChecked
                         className="switch-active"
                         onChange={this.handleOnChange}
                     />
                 </div>
+                {this.renderModal()}
                 <div className="rating">
                     <p className="number-rate">{teacherInfo.rating}</p>
                     <div className="detail-rating">
@@ -85,15 +101,21 @@ class TeacherInfo extends React.Component {
                         <span className="course-icon"></span>
                         <p className="course-title">Courses</p>
                     </div>
-                    <p>{`Currently tutoring ${teacherInfo.courses.length} courses`}</p>
                     {
-                        teacherInfo.courses.map((course, index) => {
-                            return (
-                                <div className="course-name" key={index}>
-                                    <p>{course}</p>
-                                </div>
-                            )
-                        })
+                        teacherInfo.isActive ?
+                            <Fragment>
+                                <p>{`Currently tutoring ${teacherInfo.courses.length} courses`}</p>
+                                {
+                                    teacherInfo.courses.map((course, index) => {
+                                        return (
+                                            <div className="course-name" key={index}>
+                                                <p>{course}</p>
+                                                <Button className="delete"><span className="delete-icon"></span></Button>
+                                            </div>
+                                        )
+                                    })
+                                }
+                            </Fragment> : <p>Currently inactive</p>
                     }
                 </div>
             </Layout>

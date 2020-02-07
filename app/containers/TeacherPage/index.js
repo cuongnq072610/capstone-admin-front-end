@@ -61,7 +61,7 @@ const mockData = [
         courses: ["ECO101", "ASD203", "DBW231"],
         rating: 1,
         isActive: true,
-    },
+    }
 ]
 
 const mockData2 = [

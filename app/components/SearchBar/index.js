@@ -27,7 +27,7 @@ class SearchBar extends React.Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { message, placeholder } = this.props;
+    const { message, placeholder, type } = this.props;
     return (
       <Form onSubmit={this.handleSubmit} className="search">
         <Form.Item>
@@ -38,12 +38,12 @@ class SearchBar extends React.Component {
               prefix={
                 <Icon
                   type="search"
-                  style={{ color: '#9C4AEE', fontSize: '20px' }}
+                  style={{ color: `${type === "home" ? "#9C4AEE" : "#b9754e"}`, fontSize: '20px' }}
                 />
               }
               placeholder={placeholder}
-              className="input"
               onBlur={this.handleBlur}
+              className={`${type === "home" ? "homeTheme" : "teacherTheme"}`}
             />,
           )}
         </Form.Item>

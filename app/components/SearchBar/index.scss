@@ -7,20 +7,33 @@
 
     input {
         height: 50px;
-        border: 1px solid $primary_purple;
-        background-color: #f9f2ff;
         border-radius: 5px;
-        color: $primary_purple;
         padding-left: 20px;
         font-size: 15px;
         box-shadow: 1px 1px 1px 1px $primary_grey;
     }
 
-    input::placeholder {
+    .homeTheme > input {
+        border: 1px solid $primary_purple;
+        background-color: $tertiary_purple;
         color: $primary_purple;
+        &::placeholder {
+            color: $primary_purple;
+        }
+    }
+
+    .teacherTheme > input {
+        border: 1px solid $primary_brown;
+        background-color: $secondary_brown;
+        color: $primary_brown;
+        &::placeholder {
+            color: $primary_brown;
+        }
+    }
+
+    input::placeholder {
         width: 185px;
         height: 21px;
-        color: #9c4aee;
         font-family: Roboto;
         font-size: 17px;
         font-weight: 400;

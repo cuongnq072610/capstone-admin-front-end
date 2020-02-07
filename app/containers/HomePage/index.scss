@@ -19,3 +19,26 @@
         color: $primary_white;
     }
 }
+
+.ant-table-wrapper {
+    margin: 8px 50px 8px 8px;
+    td {
+        font-size: 15px;
+    }
+    .ant-table-thead > tr > th {
+        background-color: $primary_white;
+        color: #616161;
+    }
+    .ant-table-thead > tr > th .ant-table-column-sorter .ant-table-column-sorter-inner {
+        margin-top: 0px;
+    }
+    .ant-table-row {
+        cursor: pointer;
+        color: #212121;
+    }
+    .ant-table-pagination.ant-pagination {
+        float: none;
+        display: flex;
+        justify-content: center;
+    }
+}

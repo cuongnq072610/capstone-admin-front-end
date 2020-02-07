@@ -1,22 +1,8 @@
 @import "../../utils/variables.scss";
 
-.category {
-    display: flex;
-    justify-content: flex-start;
-    flex-direction: row;
-    align-items: center;
-    margin: 30px 0px 30px 5px;
-    color: $primary_black;
-
-    span {
-        margin-left: 10px;
-    }
-}
-
 .wrap {
     margin-top: 10px;
-    background-color: "#fff";
-
+    padding: 0px 20px;
     .ant-layout-header {
         font-size: 30px;
         display: flex;
@@ -25,15 +11,79 @@
         font-weight: bold;
     }
 
-    .btn {
-        background-color: "#fff";
-        color: "#111";
-        width: "100%";
+    .clearBtn {
+        margin-top: 20px;
+        width: 100%;
+        height: 38px;
+        border-radius: 5px;
+        border: none;
+    }
+
+    .clearBtnHomeTheme {
+        color: $primary_white;
+        background-color: $primary_purple;
+
+        &:hover {
+            border: 1px solid $primary_purple;
+            color: $primary_purple;
+            background-color: $primary_white;
+        }
+    }
+
+    .clearBtnTeacherTheme {
+        color: $primary_white;
+        background-color: $primary_brown;
+
+        &:hover {
+            border: 1px solid $primary_brown;
+            color: $primary_brown;
+            background-color: $primary_white;
+        }
+    }
+
+    .category {
         display: flex;
         justify-content: flex-start;
         flex-direction: row;
         align-items: center;
+        margin: 30px 0px 30px 0px;
+        color: $primary_black;
         border: none;
-        margin: 20px 0px;
+        box-shadow: none;
+        padding-left: 0px;
+        span {
+            margin-left: 10px;
+        }
+
+        .icon {
+            display: inline-block;
+            width: 12px;
+            height: 15px;
+            background-size: cover;
+        }
+
+        .category-icon {
+            background-image: url(assets/category.svg);
+        }
+    }
+
+    .categoryHomeTheme {
+        &:hover {
+            color: $primary_purple;
+        }
+
+        .check-icon {
+            background-image: url(assets/done.svg);
+        }
+    }
+
+    .categoryTeacherTheme {
+        &:hover {
+            color: $primary_brown;
+        }
+
+        .check-icon {
+            background-image: url(assets/done2.svg);
+        }
     }
 }

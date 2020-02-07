@@ -125,7 +125,7 @@ export class AddCoursePage extends React.Component {
           <title>AddCoursePage</title>
           <meta name="description" content="Description of AddCoursePage" />
         </Helmet>
-        <Col span={20}>
+        <Col span={19}>
           <Layout>
             <Header className="header">
               <Link to="/">
@@ -215,17 +215,8 @@ export class AddCoursePage extends React.Component {
             </Content>
           </Layout>
         </Col>
-        <Col className="addTeacher" span={4}>
-          <AddTeacher/>
-          {/* <h1 style={{ backgroundColor: '#fff', color: '#9C4AEE' }}><b>Teachers</b></h1>
-          <Search
-            placeholder="Search for teachers"
-            onSearch={value => console.log(value)}
-          />
-          <Row>
-            <h3 style={{ backgroundColor: '#fff', color: '#707070', marginTop: '40px' }}>CHOSEN TUTORS</h3>
-            <Button style={{ backgroundColor: '#fff', color: '#9C4AEE', marginTop: '25px', border:'none' }} className="btn" icon="plus" size="large" >Add teacher</Button>
-          </Row> */}
+        <Col className="addTeacher" span={5}>
+          <AddTeacher />
         </Col>
         {/* <FormattedMessage {...messages.header} /> */}
       </Row>

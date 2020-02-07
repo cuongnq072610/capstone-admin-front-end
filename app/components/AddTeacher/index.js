@@ -35,7 +35,7 @@ class AddTeacher extends React.Component {
       <Layout className="wrap">
         <Header>Teachers</Header>
         <form className="wrap-content" onSubmit={this.handleSubmit}>
-          <Search className="search"
+          <Search
             onSearch={value => this.handleInputEvent(value)}
             name='chosenTeacher'
             placeholder="Search for teachers"

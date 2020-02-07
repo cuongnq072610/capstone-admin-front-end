@@ -33,7 +33,6 @@ const mockData = [
     {
         teacher: "LamPD",
         mail: "lampd@fe.edu.vn",
-        numberOfCourses: 4,
         departments: ['Communication Business', 'New Category', 'Communication'],
         courses: ["ECO101", "ASD203", "DBW231"],
         rating: 2.4,
@@ -42,7 +41,6 @@ const mockData = [
     {
         teacher: "MaiTT",
         mail: "maitt6@fe.edu.vn",
-        numberOfCourses: 4,
         departments: ['Communication'],
         courses: ["ECO101", "ASD203", "DBW231"],
         rating: 1,
@@ -51,7 +49,6 @@ const mockData = [
     {
         teacher: "MaiVTT",
         mail: "maitt@fe.edu.vn",
-        numberOfCourses: 4,
         departments: ['Computer Science'],
         courses: ["ECO101", "ASD203", "DBW231"],
         rating: 1,
@@ -60,7 +57,6 @@ const mockData = [
     {
         teacher: "PhuongLh7",
         mail: "phuonglh7@fe.edu.vn",
-        numberOfCourses: 4,
         departments: ['Communication'],
         courses: ["ECO101", "ASD203", "DBW231"],
         rating: 1,

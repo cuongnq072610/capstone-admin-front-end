@@ -10,31 +10,46 @@ class TeacherInfo extends React.Component {
         super(props);
         this.state = {
             isShowModal: false,
+            isActive: true,
         }
     }
 
     handleOnChange = () => {
-        this.setState({
-            isShowModal: !this.state.isShowModal
+        this.setState((prevState) => {
+            if (prevState.isActive === false) {
+                return {
+                    isShowModal: false,
+                    isActive: !this.state.isActive,
+                }
+            } else {
+                return {
+                    isShowModal: !this.state.isShowModal,
+                    isActive: !this.state.isActive,
+                }
+            }
         })
     }
 
     handleCancel = () => {
-        this.setState({
-            isShowModal: !this.state.isShowModal
+        this.setState((prevState) => {
+            return {
+                isShowModal: !this.state.isShowModal,
+                isActive: !prevState.isActive,
+            }
         })
     }
 
     handleDeactivate = () => {
         this.setState({
-            isShowModal: !this.state.isShowModal
+            isShowModal: !this.state.isShowModal,
+            isActive: false,
         })
     }
 
     renderModal = () => {
         const { isShowModal } = this.state;
         return (
-            <div className="modal" style={!isShowModal ? {display: "none"} : {}}>
+            <div className="modal" style={!isShowModal ? { display: "none" } : {}}>
                 <p className="title">Deactivate this tutor ? </p>
                 <p className="content">This action will remove all courses this tutor is in charge</p>
                 <div className="modal-bottom">
@@ -65,7 +80,8 @@ class TeacherInfo extends React.Component {
                         checkedChildren={<span className="active-icon active" />}
                         unCheckedChildren={<span className="active-icon inactive" />}
                         // checked={teacherInfo.isActive}
-                        defaultChecked
+                        // defaultChecked
+                        checked={this.state.isActive}
                         className="switch-active"
                         onChange={this.handleOnChange}
                     />
@@ -108,7 +124,7 @@ class TeacherInfo extends React.Component {
                                 {
                                     teacherInfo.courses.map((course, index) => {
                                         return (
-                                            <Button className="course-name" key={index} onClick={() => {}}>
+                                            <Button className="course-name" key={index} onClick={() => { }}>
                                                 <p>{course}</p>
                                                 <span className="delete-icon"></span>
                                             </Button>

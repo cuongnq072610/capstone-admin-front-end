@@ -18,8 +18,8 @@ const colunms = [
     },
     {
         title: "COURSES IN CHARGE",
-        dataIndex: "numberOfCourses",
-        render: text => <span>{text} courses</span>,
+        dataIndex: "courses",
+        render: (record) => <span>{record.length} courses</span>,
     },
     {
         title: "RATING",

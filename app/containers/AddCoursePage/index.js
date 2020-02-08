@@ -55,12 +55,11 @@ export class AddCoursePage extends React.Component {
   };
 
   componentDidMount() {
-    if (this.props.history.location.state.course) {
+    if (this.props.history.location.state) {
       this.setState({
         course: this.props.history.location.state.course
       })
     }
-    console.log(this.props.history.location.state.course)
   };
 
   onChangeValue = e => {
@@ -85,6 +84,7 @@ export class AddCoursePage extends React.Component {
   };
 
   render() {
+    console.log(this.state.course)
     const { onFilter, categories } = this.props;
     const { skill, skills } = this.state;
     const { Option } = Select;
@@ -149,8 +149,7 @@ export class AddCoursePage extends React.Component {
                     <Input
                       className="belowLabel "
                       prefix={<Icon type="user" />}
-                      value={this.state.course.courseCode ? this.state.course.courseCode : ""}
-                    />
+                      value = {this.state.course.courseId ? this.state.course.courseId : ""}/>
                   </Col>
                   <Col span={12}>
                     <label>
@@ -163,8 +162,7 @@ export class AddCoursePage extends React.Component {
                       style={{ width: '100%' }}
                       placeholder="Please select"
                       onChange={handleChange}
-                      value={this.state.course.category ? this.state.course.category : ""}
-                    >
+                      value = {this.state.course.courseName ? this.state.course.courseName : ""}>
                       {children}
                     </Select>
                   </Col>
@@ -175,8 +173,7 @@ export class AddCoursePage extends React.Component {
                     <span>*</span>
                   </label>
                   <TextArea className="belowLabel" rows={2}
-                    value={this.state.course.description ? this.state.course.description : ""}
-                  />
+                    value={this.state.course.description ? this.state.course.description : ""}/>
                 </Row>
                 <Row>
                   <label>Full Description</label>

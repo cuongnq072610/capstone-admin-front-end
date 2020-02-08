@@ -16,6 +16,7 @@ import HomePage from 'containers/HomePage/Loadable';
 import AddCoursePage from 'containers/AddCoursePage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import TeacherPage from 'containers/TeacherPage/Loadable';
+import AddTeacherPage from 'containers/AddTeacherPage/Loadable';
 import SideMenu from 'components/Menu';
 
 import GlobalStyle from '../../global-styles';
@@ -39,6 +40,7 @@ export default function App() {
               <Route exact path="/" component={HomePage} />
               <Route path="/addcourse" component={AddCoursePage} />
               <Route path="/teacher" component={TeacherPage}/>
+              <Route path="/addteacher" component={AddTeacherPage}/>
               <Route path="" component={NotFoundPage} />
             </Switch>
           </Col>

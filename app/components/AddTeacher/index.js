@@ -1,6 +1,7 @@
 import React from 'react';
 import { Layout, Button, Icon, Input } from 'antd';
 import "./index.scss";
+import history from '../../utils/history';
 const { Header, Content } = Layout;
 const { Search } = Input;
 
@@ -76,8 +77,7 @@ class AddTeacher extends React.Component {
             placeholder="Search for teachers"
           />
           <h3 className="chosen-teacher">{this.state.chosenTeacher.length} CHOSEN TUTORS</h3>
-          <Button className="add-btn" icon="plus" size="medium" htmlType="submit"
-          >Add teacher</Button>
+          <Button className="add-btn" icon="plus" size="medium" onClick={()=>history.push("/addteacher")}>Add teacher</Button>
         </form>
         {chosenTeacher.map((teacher, index) =>
             <div className="teacher-added" key={index}>

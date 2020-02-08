@@ -55,13 +55,12 @@ export class AddCoursePage extends React.Component {
   };
 
   componentDidMount() {
-    if (mockData) {
-      console.log(mockData)
+    if (this.props.history.location.state.course) {
       this.setState({
-        course: mockData
+        course: this.props.history.location.state.course
       })
     }
-    console.log(this.props.history)
+    console.log(this.props.history.location.state.course)
   };
 
   onChangeValue = e => {
@@ -119,7 +118,9 @@ export class AddCoursePage extends React.Component {
     function handleChange(value) {
       console.log(`selected ${value}`);
     }
+    console.log(this.state.course)
     return (
+      
       <Row className="addCourse">
         <Helmet>
           <title>AddCoursePage</title>

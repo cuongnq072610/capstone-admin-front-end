@@ -1,0 +1,71 @@
+@import "../../utils/variables.scss";
+
+body {
+  background-color: white;
+}
+
+.addTeacher {
+  padding: 28px 0px 28px 50px;
+
+  .header {
+    padding: 0;
+    background-color: white;
+
+    .header1 {
+      display: flex;
+
+      i {
+        font-size: 20px;
+        color: $primary_purple;
+      }
+
+      .p {
+        font-size: 28px;
+        text-align: center;
+        margin: 10px 30px;
+        color: $primary_purple;
+      }
+    }
+
+    .search-teacher {
+      background-color: $secondary_purple;
+      width: 908px;
+      height: 38px;
+      border: none;
+
+      &::placeholder {
+        color: $primary_purple;
+        opacity: 1;
+      }
+    }
+  }
+}
+
+.content-table {
+  .chosen {
+    .chosen-teacher {
+      padding: 80px 0px;
+      display: flex;
+
+      i {
+        padding: 5px 10px;
+      }
+    }
+
+    .table-content {
+      margin: -60px -20px;
+      width: 948px;
+      height: 284px;
+    }
+  }
+
+  .chosen-other {
+    .chosen-teacher {
+      padding: 70px 0px;
+      display: flex;
+      i {
+        padding: 5px 10px;
+      }
+    }
+  }
+}

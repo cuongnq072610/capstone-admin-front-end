@@ -84,7 +84,6 @@ export class AddCoursePage extends React.Component {
   };
 
   render() {
-    console.log(this.state.course)
     const { onFilter, categories } = this.props;
     const { skill, skills } = this.state;
     const { Option } = Select;
@@ -216,7 +215,6 @@ export class AddCoursePage extends React.Component {
         <Col className="addTeacher" span={5}>
           <AddTeacher />
         </Col>
-        {/* <FormattedMessage {...messages.header} /> */}
       </Row>
     );
   }

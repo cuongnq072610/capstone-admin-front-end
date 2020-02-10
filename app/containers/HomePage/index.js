@@ -216,7 +216,6 @@ export class HomePage extends React.Component {
                       })
                     }
                   }}
-                  // loading={true}
                 />
               </Row>
               <div className="float" onClick={() => this.props.history.push("/addcourse")}>

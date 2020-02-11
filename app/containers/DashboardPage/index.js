@@ -18,6 +18,8 @@ import makeSelectDashboardPage from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
+import "./index.scss";
+import Box from './box/box';
 
 /* eslint-disable react/prefer-stateless-function */
 export class DashboardPage extends React.Component {
@@ -28,7 +30,26 @@ export class DashboardPage extends React.Component {
           <title>DashboardPage</title>
           <meta name="description" content="Description of DashboardPage" />
         </Helmet>
-        <FormattedMessage {...messages.header} />
+        <div className="dashboard-wrapper">
+          <div className="dashboard-header">
+            <p className="dashboard-title"><FormattedMessage {...messages.header} /></p>
+          </div>
+          <div className="dashboard-box">
+            <Box name="Course" />
+            <Box name="Teacher" />
+          </div>
+          <div className="dashboard-content">
+            <div className="dashboard-des">
+              <h1>
+                <FormattedMessage {...messages.title} />
+              </h1>
+              <p>
+                <FormattedMessage {...messages.content} />
+              </p>
+            </div>
+            <div className="content-background"></div>
+          </div>
+        </div>
       </div>
     );
   }

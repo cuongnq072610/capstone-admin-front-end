@@ -40,7 +40,7 @@ const mockData = [{
     mail: "maitt6@fe.edu.vn",
     departments: ['Communication'],
     courses: ["ECO101", "ASD203", "DBW231"],
-    rating: 1,
+    rating: 3,
     isActive: true,
   },
   {
@@ -56,7 +56,7 @@ const mockData = [{
     mail: "phuonglh7@fe.edu.vn",
     departments: ['Communication'],
     courses: ["ECO101", "ASD203", "DBW231"],
-    rating: 1,
+    rating: 2,
     isActive: true,
   },
 ];
@@ -94,7 +94,10 @@ export class AddTeacherPage extends React.Component {
     }
 
     addedTeacher= ()=>{
-      
+      const newArr = mockData.filter(teacher => teacher.teacher)
+      this.setState({
+        chosenTeacher: newArr
+      })
     }
 
   render() {

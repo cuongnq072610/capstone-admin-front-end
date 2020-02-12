@@ -5,7 +5,7 @@ body {
 }
 
 .course-info {
-    padding: 0px 20px;
+  padding: 0px 20px;
 
   .course-info-header {
     padding: 0px 0px;
@@ -16,31 +16,40 @@ body {
       font-size: 30px;
     }
   }
+
+  .course-info-body {
+    input {
+      border: none;
+    }
+
+    .course-des-info {
+      max-width: 100%;
+      width: 172px;
+      height: 58px;
+      font-size: 16px;
+
+    }
+
+    .course-code {
+      padding: 20px 0px;
+    }
+
+    .department {
+      padding: 20px 0px;
+    }
+
+    .short-des {
+      padding: 30px 0px;
+    }
+
+    .full-des {
+      padding: 70px 0px;
+    }
+  }
 }
 
-.course-info-body {
-
-  .course-des-info {
-    max-width: 100%;
-    width: 172px;
-    height: 58px;
-    font-size: 16px;
-
-  }
-
-  .course-code {
-    padding: 20px 0px;
-  }
-
-  .department {
-    padding: 45px 0px;
-  }
-
-  .short-des {
-    padding: 30px 0px;
-  }
-
-  .full-des {
-    padding: 70px 0px;
-  }
+.ant-table-pagination.ant-pagination {
+  float: none;
+  display: flex;
+  justify-content: center;
 }

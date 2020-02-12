@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { Layout } from 'antd';
+import { Layout, Input ,Icon } from 'antd';
 import "./index.scss";
 const { Header, Content } = Layout;
 
@@ -18,19 +18,24 @@ class CourseInfo extends React.Component {
                 </Header>
                 <Content className="course-info-body">
                     <div>
-                        
+                        <Input
+                        className="course-name "/>
                     </div>
                 <div className="course-code">
                     <span>COURSE CODE</span>
+                    <Input prefix={<Icon type="key" />}/>
                 </div>
                 <div className="department">
                     <span>DEPARTMENT</span>
+                    <Input prefix={<Icon type="unordered-list" />}/>
                 </div>
                 <div className="short-des">
                     <span>SHORT DESCRIPTION</span>
+                    <Input/>
                 </div>
                 <div className="full-des">
                     <span>FULL DESCRIPTION</span>
+                    <Input/>
                 </div>
                 </Content>
             </Layout>

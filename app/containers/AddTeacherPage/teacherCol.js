@@ -1,15 +1,15 @@
 import React from 'react';
-import {Icon} from 'antd';
+import {Icon, Button} from 'antd';
 const colunms = [
     {
         dataIndex: "key",
         width: 50,
     },
     {
-        title: "TEACHER",
+        title: "TEACHER" ,
         dataIndex: "teacher",
-        sorter: (a, b) => a.teacher < b.teacher,
-        sortDirections: ['descend'],
+        sorter: (a, b) => a.teacher > b.teacher,
+        sortDirections: ['ascend'],
         render: text => <span style={{ color: '#b9754e', fontWeight: 600 }}>{text}</span>,
     },
     {
@@ -25,11 +25,17 @@ const colunms = [
         title: "RATING",
         dataIndex: "rating",
         render: text => <div><span>{text}</span><span className="icon star-icon"></span>
-        <span><Icon type="minus"/></span>
+        
         </div>,
         width: 100
-
     },
+    {
+        render: text => <button onClick={()=>this.props.test}>
+            <Icon type="plus" className="icon-plus" 
+            style={{padding: '3px 5px', color:'#F44336', float:'right'}}/>  
+        </button>,
+        width: 10
+    }
 ];
 
 export default colunms;

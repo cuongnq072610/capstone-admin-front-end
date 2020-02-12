@@ -21,7 +21,6 @@ import makeSelectAddTeacherPage from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
-import columns from './teacherCol';
 import CourseInfo from './CourseInfo';
 const { Search} = Input;
 
@@ -71,6 +70,7 @@ export class AddTeacherPage extends React.Component {
       super(props);
       this.state = {
         search: "",
+        teacheradded:[],
         teachers: [],
         baseTeachers: [],
         selectedTeacher: {},
@@ -92,9 +92,89 @@ export class AddTeacherPage extends React.Component {
         baseTeachers: formatTeachers,
       })
     }
+
+    addedTeacher= ()=>{
+      
+    }
+
   render() {
-    const {teachers, selectedTeacher, selectedRow } = this.state;
-    const { chosenTeacher } = this.state;
+    const colunms = [
+    {
+        dataIndex: "key",
+        width: 50,
+    },
+    {
+        title: "TEACHER" ,
+        dataIndex: "teacher",
+        sorter: (a, b) => a.teacher > b.teacher,
+        sortDirections: ['ascend'],
+        render: text => <span style={{ color: '#b9754e', fontWeight: 600 }}>{text}</span>,
+    },
+    {
+        title: "E-MAIL",
+        dataIndex: "mail",
+    },
+    {
+        title: "COURSES IN CHARGE",
+        dataIndex: "courses",
+        render: (record) => <span>{record.length} courses</span>,
+    },
+    {
+        title: "RATING",
+        dataIndex: "rating",
+        render: text => <div><span>{text}</span><span className="icon star-icon"></span>
+        
+        </div>,
+        width: 100
+    },
+    {
+        render: (record) => <button onClick={()=>{}}>
+            <Icon type="plus" className="icon-plus" 
+            style={{padding: '3px 5px', color:'#F44336', float:'right'}}/>  
+        </button>,
+        width: 10
+    }
+];
+
+  const colunms2 = [
+    {
+        dataIndex: "key",
+        width: 50,
+    },
+    {
+        title: "TEACHER" ,
+        dataIndex: "teacher",
+        sorter: (a, b) => a.teacher > b.teacher,
+        sortDirections: ['ascend'],
+        render: text => <span style={{ color: '#b9754e', fontWeight: 600 }}>{text}</span>,
+    },
+    {
+        title: "E-MAIL",
+        dataIndex: "mail",
+    },
+    {
+        title: "COURSES IN CHARGE",
+        dataIndex: "courses",
+        render: (record) => <span>{record.length} courses</span>,
+    },
+    {
+        title: "RATING",
+        dataIndex: "rating",
+        render: text => <div><span>{text}</span><span className="icon star-icon"></span>
+        
+        </div>,
+        width: 100
+    },
+    {
+        render: (record) => <button onClick={()=>{}}>
+            <Icon type="minus" className="icon-minus" 
+            style={{padding: '3px 5px', color:'#F44336', float:'right'}}/>  
+        </button>,
+        width: 10
+    }
+];
+
+    const {teachers, teacheradded} = this.state;
     return (
       <div>
         <Row className="addTeacher">
@@ -104,29 +184,34 @@ export class AddTeacherPage extends React.Component {
         </Helmet>
         <Col span={19}>
           <Layout>
-            <Header className="header">
+            <div className="header">
               <div className="header1">
                 <Link to="/addcourse">
                   <Icon type="arrow-left"/>
                 </Link>
                 <p className="p"><b>Add Teachers</b></p>
               </div>
-              <Search className="search-teacher"
+              <Input className="search-teacher"
                 name='search-teacher'
                 placeholder="Search for teachers"
+                prefix={<Icon type="search" style={{color: '#9C4AEE'}}/>}
                 />
-            </Header>
+            </div>
             <Content>
               <Row className="content-table">
                 <div className="chosen">
                   <h3 className="chosen-teacher" >{this.state.chosenTeacher.length} CHOSEN TUTORS<Icon type="up" /></h3>
                   <Table className="table-content"
-                      columns={columns}
+                      columns={colunms2}
                       dataSource={teachers}            
                 />
                 </div>
                 <div className="chosen-other">
                   <h3 className="chosen-teacher" >OTHERS<Icon type="up" /></h3>
+                  <Table className="table-content-non"
+                      columns={colunms}
+                      dataSource={teachers}
+                />
                 </div>
                 </Row>
             </Content>

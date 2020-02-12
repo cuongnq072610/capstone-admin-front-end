@@ -13,6 +13,7 @@ body {
 
     .header1 {
       display: flex;
+      align-items: center;
 
       i {
         font-size: 20px;
@@ -29,13 +30,18 @@ body {
 
     .search-teacher {
       background-color: $secondary_purple;
+      margin-top: 10px;
       width: 908px;
       height: 38px;
-      border: none;
+      border-radius: 5px;
+      input {
+        border: none;
+        background-color: $tertiary_purple;
 
-      &::placeholder {
-        color: $primary_purple;
-        opacity: 1;
+        &::placeholder {
+          color: $primary_purple;
+          opacity: 1;
+        }
       }
     }
   }
@@ -44,8 +50,8 @@ body {
 .content-table {
   .chosen {
     .chosen-teacher {
-      padding: 80px 0px;
       display: flex;
+      padding: 30px 0px;
 
       i {
         padding: 5px 10px;
@@ -53,19 +59,33 @@ body {
     }
 
     .table-content {
-      margin: -60px -20px;
-      width: 948px;
-      height: 284px;
+      background-color: $tertiary_purple;
     }
   }
 
   .chosen-other {
     .chosen-teacher {
-      padding: 70px 0px;
       display: flex;
+
       i {
         padding: 5px 10px;
       }
     }
+
+    .table-content-non {
+      background-color: $tertiary_purple;
+    }
   }
+}
+
+.icon {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  background-size: cover;
+}
+
+.star-icon {
+  background-image: url(assets/star.svg);
+  margin-left: 8px;
 }

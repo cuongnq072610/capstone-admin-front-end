@@ -22,6 +22,8 @@ import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
 import CourseInfo from './CourseInfo';
+
+import columns from './tableCol';
 const { Search} = Input;
 
 const { Header, Content } = Layout;
@@ -40,7 +42,7 @@ const mockData = [{
     mail: "maitt6@fe.edu.vn",
     departments: ['Communication'],
     courses: ["ECO101", "ASD203", "DBW231"],
-    rating: 3,
+    rating: 1,
     isActive: true,
   },
   {
@@ -56,7 +58,7 @@ const mockData = [{
     mail: "phuonglh7@fe.edu.vn",
     departments: ['Communication'],
     courses: ["ECO101", "ASD203", "DBW231"],
-    rating: 2,
+    rating: 1,
     isActive: true,
   },
 ];
@@ -75,7 +77,7 @@ export class AddTeacherPage extends React.Component {
         baseTeachers: [],
         selectedTeacher: {},
         selectedRow: "",
-        chosenTeacher:[],
+        chosenTeachers:[],
       }
     }
 
@@ -93,91 +95,54 @@ export class AddTeacherPage extends React.Component {
       })
     }
 
-    addedTeacher= ()=>{
-      const newArr = mockData.filter(teacher => teacher.teacher)
+    addTeacher= (teacherOfRow, rowIndex)=>{
+      const {chosenTeachers, teachers} = this.state;
+
+      //remove teacher about to be added from "Others Teacher" list 
+      const teacherLeft = teachers.filter((teacherCurrent) => {
+        return teacherCurrent.key != teacherOfRow.key
+      })
+
+      //push teacher into chosen teacher list
+      chosenTeachers.push(teacherOfRow);
+      
       this.setState({
-        chosenTeacher: newArr
+        chosenTeachers : chosenTeachers,
+        teachers : teacherLeft
       })
     }
 
+    removeTeacher = (teacherOfRow, rowIndex)=>{
+      const {chosenTeachers, teachers} = this.state;
+
+      //remove teacher about to be removed from "Added Teacher" list 
+      const teacherLeft = chosenTeachers.filter((teacherCurrent) => {
+        return teacherCurrent.key != teacherOfRow.key
+      })
+
+      //push teacher into Other Teachers list
+      teachers.push(teacherOfRow);
+      
+      this.setState({
+        chosenTeachers : teacherLeft,
+        teachers : teachers
+      })
+    }
+
+    handleSearchInput = (event) => {
+      const { baseTeachers } = this.state;
+      const value = event.target.value;
+      const searchTeacher = baseTeachers.filter((teacher, index) => {
+        return teacher.teacher.includes(value) || teacher.mail.includes(value) 
+      });
+
+      this.setState({
+        teachers: searchTeacher
+    })
+    }
+
   render() {
-    const colunms = [
-    {
-        dataIndex: "key",
-        width: 50,
-    },
-    {
-        title: "TEACHER" ,
-        dataIndex: "teacher",
-        sorter: (a, b) => a.teacher > b.teacher,
-        sortDirections: ['ascend'],
-        render: text => <span style={{ color: '#b9754e', fontWeight: 600 }}>{text}</span>,
-    },
-    {
-        title: "E-MAIL",
-        dataIndex: "mail",
-    },
-    {
-        title: "COURSES IN CHARGE",
-        dataIndex: "courses",
-        render: (record) => <span>{record.length} courses</span>,
-    },
-    {
-        title: "RATING",
-        dataIndex: "rating",
-        render: text => <div><span>{text}</span><span className="icon star-icon"></span>
-        
-        </div>,
-        width: 100
-    },
-    {
-        render: (record) => <button onClick={()=>{}}>
-            <Icon type="plus" className="icon-plus" 
-            style={{padding: '3px 5px', color:'#F44336', float:'right'}}/>  
-        </button>,
-        width: 10
-    }
-];
-
-  const colunms2 = [
-    {
-        dataIndex: "key",
-        width: 50,
-    },
-    {
-        title: "TEACHER" ,
-        dataIndex: "teacher",
-        sorter: (a, b) => a.teacher > b.teacher,
-        sortDirections: ['ascend'],
-        render: text => <span style={{ color: '#b9754e', fontWeight: 600 }}>{text}</span>,
-    },
-    {
-        title: "E-MAIL",
-        dataIndex: "mail",
-    },
-    {
-        title: "COURSES IN CHARGE",
-        dataIndex: "courses",
-        render: (record) => <span>{record.length} courses</span>,
-    },
-    {
-        title: "RATING",
-        dataIndex: "rating",
-        render: text => <div><span>{text}</span><span className="icon star-icon"></span>
-        
-        </div>,
-        width: 100
-    },
-    {
-        render: (record) => <button onClick={()=>{}}>
-            <Icon type="minus" className="icon-minus" 
-            style={{padding: '3px 5px', color:'#F44336', float:'right'}}/>  
-        </button>,
-        width: 10
-    }
-];
-
-    const {teachers, teacheradded} = this.state;
+    const {teachers, teacheradded, chosenTeachers} = this.state;
     return (
       <div>
         <Row className="addTeacher">
@@ -197,23 +162,38 @@ export class AddTeacherPage extends React.Component {
               <Input className="search-teacher"
                 name='search-teacher'
                 placeholder="Search for teachers"
+                onKeyUp = {this.handleSearchInput}
                 prefix={<Icon type="search" style={{color: '#9C4AEE'}}/>}
                 />
             </div>
             <Content>
               <Row className="content-table">
                 <div className="chosen">
-                  <h3 className="chosen-teacher" >{this.state.chosenTeacher.length} CHOSEN TUTORS<Icon type="up" /></h3>
-                  <Table className="table-content"
-                      columns={colunms2}
-                      dataSource={teachers}            
-                />
+                  <h3 className="chosen-teacher" >{this.state.chosenTeachers.length} CHOSEN TUTORS<Icon type="up" /></h3>
+                  {chosenTeachers && chosenTeachers.length > 0 ?
+                    <Table className="table-content"
+                    columns={columns.columnToRemove}
+                    dataSource={chosenTeachers}
+                    onRow={(record, rowIndex) => {
+                      return {
+                          onClick: e => this.removeTeacher(record, rowIndex)
+                      }
+                    }}            
+                    />
+                    :
+                    <p>No data</p>
+                  }
                 </div>
                 <div className="chosen-other">
                   <h3 className="chosen-teacher" >OTHERS<Icon type="up" /></h3>
                   <Table className="table-content-non"
-                      columns={colunms}
+                      columns={columns.columnToAdd}
                       dataSource={teachers}
+                      onRow={(record, rowIndex) => {
+                        return {
+                            onClick: e => this.addTeacher(record, rowIndex)
+                        }
+                      }}
                 />
                 </div>
                 </Row>

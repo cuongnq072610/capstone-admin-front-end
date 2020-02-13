@@ -32,7 +32,7 @@ const colunms = [
     {
         render: text => <button onClick={()=>this.props.test}>
             <Icon type="plus" className="icon-plus" 
-            style={{padding: '3px 5px', color:'#F44336', float:'right'}}/>  
+            style={{padding: '3px 5px', color:'#9C4AEE', float:'right', width:'16px', height:'16px'}}/>  
         </button>,
         width: 10
     }

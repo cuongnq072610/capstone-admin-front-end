@@ -12,7 +12,7 @@ const colunms = {
             dataIndex: "teacher",
             sorter: (a, b) => a.teacher < b.teacher,
             sortDirections: ['descend'],
-            render: text => <span style={{ color: '#b9754e', fontWeight: 600 }}>{text}</span>,
+            render: text => <span style={{ color: '#9C4AEE', fontWeight: 600 }}>{text}</span>,
         },
         {
             title: "E-MAIL",
@@ -33,7 +33,7 @@ const colunms = {
         {
             render: (record) => <button onClick={()=>{}}>
                 <Icon type="plus" className="icon-plus" 
-                style={{padding: '3px 5px', color:'#F44336', float:'right'}}/>  
+                style={{padding: '3px 5px', color:'#9C4AEE', float:'right', width:'16px', height:'16px'}}/>  
             </button>,
             width: 10
         }
@@ -48,7 +48,7 @@ const colunms = {
             dataIndex: "teacher",
             sorter: (a, b) => a.teacher < b.teacher,
             sortDirections: ['descend'],
-            render: text => <span style={{ color: '#b9754e', fontWeight: 600 }}>{text}</span>,
+            render: text => <span style={{ color: '#9C4AEE', fontWeight: 600 }}>{text}</span>,
         },
         {
             title: "E-MAIL",
@@ -69,7 +69,7 @@ const colunms = {
         {
             render: (record) => <button onClick={()=>{}}>
                 <Icon type="minus" className="icon-minus" 
-                style={{padding: '3px 5px', color:'#F44336', float:'right'}}/>  
+                style={{padding: '3px 5px', color:'#F44336', float:'right', width:'16px', height:'16px'}}/>  
             </button>,
             width: 10
         }

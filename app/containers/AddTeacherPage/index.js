@@ -142,7 +142,7 @@ export class AddTeacherPage extends React.Component {
     }
 
   render() {
-    const {teachers, teacheradded, chosenTeachers} = this.state;
+    const {teachers, chosenTeachers} = this.state;
     return (
       <div>
         <Row className="addTeacher">
@@ -150,7 +150,7 @@ export class AddTeacherPage extends React.Component {
           <title>AddTeacherPage</title>
           <meta name="description" content="Description of AddTeacherPage" />
         </Helmet>
-        <Col span={19}>
+        <Col span={19} style={{padding: '28px 0px 28px 50px'}}>
           <Layout>
             <div className="header">
               <div className="header1">
@@ -185,7 +185,7 @@ export class AddTeacherPage extends React.Component {
                   }
                 </div>
                 <div className="chosen-other">
-                  <h3 className="chosen-teacher" >OTHERS<Icon type="up" /></h3>
+                  <h3 className="chosen-other-teacher">OTHERS<Icon type="up" /></h3>
                   <Table className="table-content-non"
                       columns={columns.columnToAdd}
                       dataSource={teachers}

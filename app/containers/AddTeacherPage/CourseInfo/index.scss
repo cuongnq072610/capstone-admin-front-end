@@ -4,16 +4,21 @@ body {
   background-color: white;
 }
 
-.course-info {
-  padding: 0px 20px;
+.course-information {
+  padding: 0px 15px;
+  border-left-width: thin;
+  box-shadow: -5px 0 5px -5px $primary_purple;
+  border: none;
+  Height:100vh;
 
   .course-info-header {
     padding: 0px 0px;
     background-color: white;
 
     .p {
+      padding: 30px 10px;
       color: $primary_purple;
-      font-size: 30px;
+      font-size: 28px;
     }
   }
 
@@ -22,34 +27,37 @@ body {
       border: none;
     }
 
-    .course-des-info {
-      max-width: 100%;
-      width: 172px;
-      height: 58px;
-      font-size: 16px;
-
+    .course-name {
+      .course-name-input {
+        margin-top: 20px;
+        max-width: 100%;
+        width: 240px;
+        height: 58px;
+        font-size: 16px;
+      }
     }
 
     .course-code {
-      padding: 20px 0px;
-    }
-
-    .department {
-      padding: 20px 0px;
-    }
-
-    .short-des {
       padding: 30px 0px;
     }
 
+    .department {
+      margin-top: 0px;
+    }
+
+    .short-des {
+      padding: 35px 0px;
+      .short-des-input{
+        width: 240px;
+        height: 58px;
+      }
+    }
+
     .full-des {
-      padding: 70px 0px;
+      .full-des-input{
+        width: 240px;
+        height: 58px;
+      }
     }
   }
-}
-
-.ant-table-pagination.ant-pagination {
-  float: none;
-  display: flex;
-  justify-content: center;
 }

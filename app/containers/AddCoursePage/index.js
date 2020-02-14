@@ -19,7 +19,7 @@ import makeSelectAddCoursePage from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
-import AddTeacher from '../../components/AddTeacher';
+import SearchTeacher from '../../components/SearchTeacher';
 /* eslint-disable react/prefer-stateless-function */
 
 const { Search, TextArea, Option } = Input;
@@ -213,7 +213,7 @@ export class AddCoursePage extends React.Component {
           </Layout>
         </Col>
         <Col className="addTeacher" span={5}>
-          <AddTeacher />
+          <SearchTeacher />
         </Col>
       </Row>
     );

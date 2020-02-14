@@ -40,7 +40,7 @@ const mockData = [{
 ]
 
 /* eslint-disable react/prefer-stateless-function */
-class AddTeacher extends React.Component {
+class SearchTeacher extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -53,17 +53,18 @@ class AddTeacher extends React.Component {
   }
   handleInputEvent = (value) => {
     var newArr2 = mockData.filter(teacher => teacher.teacher)
-    // this.setState({
-    //   chosenTeacher: [...this.state.chosenTeacher, value]
-    // })
   }
-
-  deleteTeacher=(e) =>{
-    const newArr = this.state.chosenTeacher.filter(teacher => teacher!==e)
+  filterList= (event) =>{
+    var updatedList = this.state.initialItems;
+    updatedList = updatedList.filter(function (item) {
+      return item.toLowerCase().search(
+        event.target.value.toLowerCase()) !== -1;
+    });
     this.setState({
-      chosenTeacher:newArr
-    })
-  }
+      items: updatedList
+    });
+  };
+
   render() {
     const { chosenTeacher } = this.state;
     console.log(chosenTeacher)
@@ -71,27 +72,28 @@ class AddTeacher extends React.Component {
       <Layout className="wrap">
         <Header>Teachers</Header>
         <form className="wrap-content" onSubmit={this.handleSubmit}>
-          <Search
-            onSearch={value => this.handleInputEvent(value)}
+          <Input
+            prefix={<Icon type="search"/>}            onSearch={value => this.handleInputEvent(value)}
             name='chosenTeacher'
             placeholder="Search for teachers"
+            onChange={this.filterList}
           />
           <h3 className="chosen-teacher">{this.state.chosenTeacher.length} CHOSEN TUTORS</h3>
           <Button className="add-btn" icon="plus" size="medium" onClick={()=>history.push("/addteacher")}>Add teacher</Button>
         </form>
-        {chosenTeacher.map((teacher, index) =>
+        {/* {chosenTeacher.map((teacher, index) =>
             <div className="teacher-added" key={index}>
               <div className="teacher-information">
                 <p className="teacher-name">{teacher}</p>
                 <p className="teacher-email">anhyeuem@fpt.edu.vn</p>
               </div>
               <span className="icon-delete" onClick={()=>this.deleteTeacher(teacher)}></span>
-            </div>)}
+            </div>)} */}
       </Layout>
     )
   }
 }
 
-AddTeacher.propTypes = {};
+SearchTeacher.propTypes = {};
 
-export default AddTeacher;
+export default SearchTeacher;

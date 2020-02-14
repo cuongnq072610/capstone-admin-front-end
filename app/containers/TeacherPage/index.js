@@ -61,7 +61,7 @@ const mockData = [
         courses: ["ECO101", "ASD203", "DBW231"],
         rating: 1,
         isActive: true,
-    },
+    }
 ]
 
 const mockData2 = [
@@ -147,6 +147,7 @@ export class TeacherPage extends React.Component {
                 <Col span={19} >
                     <Layout className="teacher-page">
                         <Header
+                        //why inline style?
                             style={{
                                 backgroundColor: '#fff',
                                 display: 'flex',

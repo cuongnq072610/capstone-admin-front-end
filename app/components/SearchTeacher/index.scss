@@ -1,0 +1,102 @@
+@import "../../utils/variables.scss";
+
+.wrap {
+  margin-top: 10px;
+  background-color: "#fff";
+
+  .search {
+    margin-top: 20px;
+  }
+
+  .ant-layout-header {
+    font-size: 30px;
+    display: flex;
+    justify-content: flex-start;
+    padding-left: 0px;
+    font-weight: bold;
+    background-color: #fff;
+    color: $primary_purple;
+  }
+
+  .wrap-content {
+    .chosen-teacher {
+      background-color: '#fff';
+      color: '#707070';
+      margin-top: 30px;
+    }
+
+    .add-teacher {
+      background-color: '#fff';
+      color: '#9C4AEE';
+      margin-top: 50px
+    }
+
+    .add-btn {
+      border: none;
+      font-size: 14px;
+      color: $primary_purple;
+      align-items: center;
+      display: flex;
+      margin-top: 30px;
+    }
+  }
+
+}
+
+.btn {
+  background-color: "#fff";
+  color: "#111";
+  width: "100%";
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: row;
+  align-items: center;
+  border: none;
+  margin: 20px 0px;
+}
+
+.teacher-added {
+  width: 100%;
+  height: 54px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: none;
+  padding: 0px 20px;
+  margin-top: 20px;
+
+  .icon-delete {
+    display: none;
+  }
+
+  &:hover {
+    background-color: $tertiary_purple;
+
+    .icon-delete {
+      display: inline-block;
+      width: 14px;
+      height: 16px;
+      background-size: cover;
+      background-image: url(assets/delete.svg);
+    }
+  }
+
+  .teacher-information {
+    color: $primary_black;
+    display: flex;
+    flex-direction: column;
+    text-align: start;
+
+    .teacher-name {
+      font-size: 14px;
+      margin: 0px;
+      color: $primary_black;
+    }
+
+    .teacher-email {
+      font-size: 10px;
+      margin: 0px;
+      color: $primary_black;
+    }
+  }
+}

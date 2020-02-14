@@ -14,12 +14,12 @@ import 'antd/dist/antd.css';
 
 import HomePage from 'containers/HomePage/Loadable';
 import AddCoursePage from 'containers/AddCoursePage/Loadable';
+import AddTeacherPage from 'containers/AddTeacherPage/Loadable';
 import TeacherPage from 'containers/TeacherPage/Loadable';
 import DashboardPage from 'containers/DashboardPage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import SideMenu from 'components/Menu';
 import GlobalStyle from '../../global-styles';
-
 export default function App() {
   return (
     <Layout>
@@ -40,6 +40,7 @@ export default function App() {
               <Route exact path="/course" component={HomePage} />
               <Route path="/addcourse" component={AddCoursePage} />
               <Route path="/teacher" component={TeacherPage}/>
+              <Route path="/addteacher" component={AddTeacherPage}/>
               <Route path="" component={NotFoundPage} />
             </Switch>
           </Col>

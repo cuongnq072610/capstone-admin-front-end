@@ -1,9 +1,13 @@
 import React from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { Layout, Menu, Tooltip } from 'antd';
 import './index.scss';
-import Logo from './assets/noteIt.png';
-import Logo2 from './assets/noteIt2.png';
+import LogoPurple from './assets/Logo/noteIt-purple.png';
+import LogoRed from './assets/Logo/noteIt-red.png';
+import LogoBlue from './assets/Logo/noteIt-blue.png';
+import LogoCyan from './assets/Logo/noteIt-cyan.png';
+import LogoGreen from './assets/Logo/noteIt-green.png';
+import LogoOrange from './assets/Logo/noteIt-orange.png';
 import UserIcon from './assets/man1.png'
 
 import history from '../../utils/history';
@@ -17,12 +21,27 @@ class SideMenu extends React.Component {
     this.setState({ collapsed });
   };
 
+  renderLogo = (pathname) => {
+    switch (pathname) {
+      case "/":
+        return LogoBlue;
+      case "/course":
+        return LogoPurple;
+      case "/addcourse":
+        return LogoPurple;
+      case "/teacher":
+        return LogoRed;
+      default:
+        break;
+    }
+  }
+
   render() {
     return (
       <Layout id="sideMenu">
         <div className="logo">
           <img
-            src={history.location.pathname === "/" || history.location.pathname === "/addcourse" ? Logo : Logo2}
+            src={this.renderLogo(history.location.pathname)}
             alt="NoteIt Logo"
           />
         </div>
@@ -33,19 +52,24 @@ class SideMenu extends React.Component {
           style={{ border: 'none' }}
         >
           <Menu.Item key="1">
-            <Tooltip title="Course" placement="right">
-              <NavLink exact to="/" activeClassName="course-active" className="menu-icon course">
+            <Tooltip title="Dashboard" placement="right">
+              <NavLink exact to="/" activeClassName="dashboard-active" className="menu-icon dashboard">
               </NavLink>
             </Tooltip>
           </Menu.Item>
           <Menu.Item key="2">
+            <Tooltip title="Course" placement="right">
+              <NavLink exact to="/course" activeClassName="course-active" className="menu-icon course">
+              </NavLink>
+            </Tooltip>
+          </Menu.Item>
+          <Menu.Item key="3">
             <Tooltip title="Teacher" placement="right">
               <NavLink to="/teacher" activeClassName="teacher-active" className="menu-icon teacher">
               </NavLink>
             </Tooltip>
-
           </Menu.Item>
-          <Menu.Item key="3">
+          <Menu.Item key="4">
             <Tooltip title="Info" placement="right">
               <NavLink to="/info">
                 <img

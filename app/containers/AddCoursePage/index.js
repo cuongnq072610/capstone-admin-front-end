@@ -32,7 +32,6 @@ const mockData = {
   description:
     'The course goes through simple algorithms and thier applications in data manipulation',
 };
-// const mockData = []
 
 export class AddCoursePage extends React.Component {
   constructor(props) {
@@ -84,10 +83,8 @@ export class AddCoursePage extends React.Component {
   };
 
   render() {
-    const { onFilter, categories } = this.props;
-    const { skill, skills } = this.state;
+    const {skills } = this.state;
     const { Option } = Select;
-    const { courses, category } = this.state;
     const departments = [{
       value: 'computer',
       name: 'Computer Science'

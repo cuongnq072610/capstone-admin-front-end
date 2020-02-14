@@ -72,7 +72,6 @@ export class AddTeacherPage extends React.Component {
       super(props);
       this.state = {
         search: "",
-        teacheradded:[],
         teachers: [],
         baseTeachers: [],
         selectedTeacher: {},

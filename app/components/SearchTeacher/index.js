@@ -2,8 +2,7 @@ import React from 'react';
 import { Layout, Button, Icon, Input } from 'antd';
 import "./index.scss";
 import history from '../../utils/history';
-const { Header, Content } = Layout;
-const { Search } = Input;
+const { Header } = Layout;
 
 const mockData = [{
     teacher: "LamPD",
@@ -81,14 +80,6 @@ class SearchTeacher extends React.Component {
           <h3 className="chosen-teacher">{this.state.chosenTeacher.length} CHOSEN TUTORS</h3>
           <Button className="add-btn" icon="plus" size="medium" onClick={()=>history.push("/addteacher")}>Add teacher</Button>
         </form>
-        {/* {chosenTeacher.map((teacher, index) =>
-            <div className="teacher-added" key={index}>
-              <div className="teacher-information">
-                <p className="teacher-name">{teacher}</p>
-                <p className="teacher-email">anhyeuem@fpt.edu.vn</p>
-              </div>
-              <span className="icon-delete" onClick={()=>this.deleteTeacher(teacher)}></span>
-            </div>)} */}
       </Layout>
     )
   }

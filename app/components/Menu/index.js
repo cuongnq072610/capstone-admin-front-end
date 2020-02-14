@@ -31,6 +31,8 @@ class SideMenu extends React.Component {
         return LogoPurple;
       case "/teacher":
         return LogoRed;
+      case "/addteacher":
+        return LogoPurple;
       default:
         break;
     }

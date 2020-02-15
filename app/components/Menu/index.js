@@ -11,6 +11,7 @@ import LogoOrange from './assets/Logo/noteIt-orange.png';
 import UserIcon from './assets/man1.png'
 
 import history from '../../utils/history';
+import { AdminMenu, StudentMenu } from './constant';
 
 class SideMenu extends React.Component {
   state = {
@@ -33,9 +34,41 @@ class SideMenu extends React.Component {
         return LogoRed;
       case "/addteacher":
         return LogoPurple;
+      case "/note":
+        return LogoOrange;
+      case "/ask":
+        return LogoCyan;
+      case "/highlight":
+        return LogoGreen;
       default:
         break;
     }
+  }
+
+  renderMenu = () => {
+    const { role } = this.props;
+    return (
+      role === 'admin' ?
+        AdminMenu.map((menu, index) => {
+          return (
+            <Menu.Item key={index}>
+              <Tooltip title={menu.title} placement="right">
+                <NavLink exact to={menu.path} activeClassName={`${menu.name}-active`} className={`menu-icon ${menu.name}`}>
+                </NavLink>
+              </Tooltip>
+            </Menu.Item>
+          )
+        }) : StudentMenu.map((menu, index) => {
+          return (
+            <Menu.Item key={index+1}>
+              <Tooltip title={menu.title} placement="right">
+                <NavLink exact to={menu.path} activeClassName={`${menu.name}-active`} className={`menu-icon ${menu.name}`}>
+                </NavLink>
+              </Tooltip>
+            </Menu.Item>
+          )
+        })
+    )
   }
 
   render() {
@@ -53,24 +86,9 @@ class SideMenu extends React.Component {
           mode="vertical"
           style={{ border: 'none' }}
         >
-          <Menu.Item key="1">
-            <Tooltip title="Dashboard" placement="right">
-              <NavLink exact to="/" activeClassName="dashboard-active" className="menu-icon dashboard">
-              </NavLink>
-            </Tooltip>
-          </Menu.Item>
-          <Menu.Item key="2">
-            <Tooltip title="Course" placement="right">
-              <NavLink exact to="/course" activeClassName="course-active" className="menu-icon course">
-              </NavLink>
-            </Tooltip>
-          </Menu.Item>
-          <Menu.Item key="3">
-            <Tooltip title="Teacher" placement="right">
-              <NavLink to="/teacher" activeClassName="teacher-active" className="menu-icon teacher">
-              </NavLink>
-            </Tooltip>
-          </Menu.Item>
+          {
+            this.renderMenu()
+          }
           <Menu.Item key="4">
             <Tooltip title="Info" placement="right">
               <NavLink to="/info">

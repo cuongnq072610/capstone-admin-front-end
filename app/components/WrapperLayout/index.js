@@ -12,13 +12,13 @@ import PropTypes from 'prop-types';
 
 /* eslint-disable react/prefer-stateless-function */
 const WrapperLayout = (props) => {
-  const { component, getProps } = props;
+  const { component, getProps, role } = props;
     const Content = component;
     return (
       <Layout>
         <Row>
           <Col span={2}>
-            <SideMenu />
+            <SideMenu role={role}/>
           </Col>
           <Col span={22}>
             <Content {...getProps} />

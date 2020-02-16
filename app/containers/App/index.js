@@ -17,6 +17,7 @@ import AddCoursePage from 'containers/AddCoursePage/Loadable';
 import AddTeacherPage from 'containers/AddTeacherPage/Loadable';
 import TeacherPage from 'containers/TeacherPage/Loadable';
 import DashboardPage from 'containers/DashboardPage/Loadable';
+import NotePage from 'containers/NotePage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import GlobalStyle from '../../global-styles';
 
@@ -37,6 +38,7 @@ export default function App() {
         <Route path='/teacher' render={() => <WrapperLayout component={TeacherPage} role="admin"/>}/>
         <Route path='/addcourse' render={() => <WrapperLayout component={AddCoursePage} role="admin"/>}/>
         <Route path='/addteacher' render={() => <WrapperLayout component={AddTeacherPage} role="admin"/>}/>
+        <Route path='/note' render={() => <WrapperLayout component={NotePage} role="student"/>}/>
         <Route path='' render={() => <WrapperLayout component={NotFoundPage}/>}/>
       </Switch>
       <GlobalStyle />

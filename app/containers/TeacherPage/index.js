@@ -147,7 +147,6 @@ export class TeacherPage extends React.Component {
                 <Col span={19} >
                     <Layout className="teacher-page">
                         <Header
-                        //why inline style?
                             style={{
                                 backgroundColor: '#fff',
                                 display: 'flex',
@@ -156,8 +155,8 @@ export class TeacherPage extends React.Component {
                             }}
                         >
                             <WrappedSearchBar
-                                message="Please enter your course name"
-                                placeholder="I want to find my course"
+                                message="Please enter your teacher's name"
+                                placeholder="I want to find teachers"
                                 type="teacher"
                             />
                         </Header>

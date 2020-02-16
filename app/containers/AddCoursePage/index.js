@@ -20,6 +20,8 @@ import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
 import SearchTeacher from '../../components/SearchTeacher';
+import history from '../../utils/history';
+
 /* eslint-disable react/prefer-stateless-function */
 
 const { Search, TextArea, Option } = Input;
@@ -54,9 +56,9 @@ export class AddCoursePage extends React.Component {
   };
 
   componentDidMount() {
-    if (this.props.history.location.state) {
+    if (history.location.state) {
       this.setState({
-        course: this.props.history.location.state.course
+        course: history.location.state.course
       })
     }
   };
@@ -78,7 +80,6 @@ export class AddCoursePage extends React.Component {
 
   handleClose = removedSkill => {
     const newArr = this.state.skills.filter(item => item !== removedSkill);
-    console.log(newArr);
     this.setState({ skills: newArr });
   };
 
@@ -114,7 +115,6 @@ export class AddCoursePage extends React.Component {
     function handleChange(value) {
       console.log(`selected ${value}`);
     }
-    console.log(this.state.course)
     return (
       
       <Row className="addCourse">
@@ -125,7 +125,7 @@ export class AddCoursePage extends React.Component {
         <Col span={19}>
           <Layout>
             <Header className="header">
-              <Link to="/">
+              <Link to="/course">
                 <Icon type="arrow-left" />
               </Link>
             </Header>
@@ -135,6 +135,7 @@ export class AddCoursePage extends React.Component {
                   className="courseName"
                   type="text"
                   placeholder="Give your course a name"
+                  value = {this.state.course.courseName ? this.state.course.courseName : ""}
                 />
                 <Row className="row">
                   <Col className="courseCode " span={12}>
@@ -158,7 +159,7 @@ export class AddCoursePage extends React.Component {
                       style={{ width: '100%' }}
                       placeholder="Please select"
                       onChange={handleChange}
-                      value = {this.state.course.courseName ? this.state.course.courseName : ""}>
+                      value = {this.state.course.departments ? this.state.course.departments : []}>
                       {children}
                     </Select>
                   </Col>

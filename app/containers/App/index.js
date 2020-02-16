@@ -18,7 +18,6 @@ import AddTeacherPage from 'containers/AddTeacherPage/Loadable';
 import TeacherPage from 'containers/TeacherPage/Loadable';
 import DashboardPage from 'containers/DashboardPage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
-import SideMenu from 'components/Menu';
 import GlobalStyle from '../../global-styles';
 
 import WrapperLayout from '../../components/WrapperLayout';
@@ -33,8 +32,8 @@ export default function App() {
         <meta name="description" content="Smart Course Management Admin" />
       </Helmet>
       <Switch>
-        <Route exact path='/' render={() => <WrapperLayout component={DashboardPage} role="admin"/>}/>
-        <Route path='/course' render={() => <WrapperLayout component={HomePage} role="admin"/>}/>
+        <Route exact path='/' render={() => <WrapperLayout component={DashboardPage} role="admin" />}/>
+        <Route path='/course' render={() => <WrapperLayout component={HomePage} role="admin" />}/>
         <Route path='/teacher' render={() => <WrapperLayout component={TeacherPage} role="admin"/>}/>
         <Route path='/addcourse' render={() => <WrapperLayout component={AddCoursePage} role="admin"/>}/>
         <Route path='/addteacher' render={() => <WrapperLayout component={AddTeacherPage} role="admin"/>}/>

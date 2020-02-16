@@ -3,7 +3,6 @@
 .note-page {
     .note-wrap {
         margin-bottom: 24px;
-
         .note-type {
             color: #616161;
             font-family: Roboto;
@@ -21,13 +20,28 @@
         @media (max-width: 1600px) {
             .note-container {
                 columns: 3;
-            }
+                column-gap: 20px;            }
         }
 
         @media (max-width: 1300px) {
             .note-container {
-                columns: 3;
-            }
+                columns: 2;
+                column-gap: 20px;            }
+        }
+    }
+
+    .note-wrap-less-three {
+        display: flex;
+        .note-type {
+            color: #616161;
+            font-family: Roboto;
+            font-size: 16px;
+            font-weight: 400;
+            letter-spacing: 1.6px;
+            line-height: 17px;
+        }
+        .note-wrapper {
+            margin-right: 20px;
         }
     }
 }
@@ -94,59 +108,91 @@
             padding: 10px;
             margin: 5px 0px;
             display: flex;
-            justify-content: flex-start;
+            justify-content: space-between;
             align-items: center;
             height: 50px;
             width: 100%;
             border: none;
             box-shadow: none;
 
-            .name-folder {
-                margin-left: 15px;
-                color: #616161;
-                font-family: Roboto;
-                font-size: 14px;
-                font-weight: 400;
-                letter-spacing: 0.14px;
-                line-height: 17px;
+            .folder-content {
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+
+                .name-folder {
+                    margin-left: 15px;
+                    color: #616161;
+                    font-family: Roboto;
+                    font-size: 14px;
+                    font-weight: 400;
+                    letter-spacing: 0.14px;
+                    line-height: 17px;
+                }
+
+                .icon-folder {
+                    display: inline-block;
+                    width: 16px;
+                    height: 16px;
+                    background-size: cover;
+                    background-image: url(assets/note.svg);
+                }
             }
 
-            .icon-folder {
-                display: inline-block;
-                width: 16px;
-                height: 16px;
-                background-size: cover;
-                background-image: url(assets/note.svg);
-            }
         }
 
         .folder-wrap-active {
             padding: 10px;
             margin: 5px 0px;
             display: flex;
-            justify-content: flex-start;
+            justify-content: space-between;
             align-items: center;
             height: 50px;
             width: 100%;
             border: none;
             box-shadow: none;
             background-color: $tertiary_yellow;
-            .name-folder {
-                margin-left: 15px;
-                color: $primary_yellow;
-                font-family: Roboto;
-                font-size: 14px;
-                font-weight: 400;
-                letter-spacing: 0.14px;
-                line-height: 17px;
-            }
 
-            .icon-folder {
-                display: inline-block;
-                width: 16px;
-                height: 16px;
-                background-size: cover;
-                background-image: url(assets/note_active.svg);
+            .folder-content {
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+
+                .name-folder {
+                    margin-left: 15px;
+                    color: $primary_yellow;
+                    font-family: Roboto;
+                    font-size: 14px;
+                    font-weight: 400;
+                    letter-spacing: 0.14px;
+                    line-height: 17px;
+                }
+
+                .icon-folder {
+                    display: inline-block;
+                    width: 16px;
+                    height: 16px;
+                    background-size: cover;
+                    background-image: url(assets/note_active.svg);
+                }
+            }
+        }
+
+        .folder-add {
+            height: 38px;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            margin-bottom: 20px;
+
+            input {
+                color: $primary_yellow;
+                background-color: $tertiary_yellow;
+                border: none;
+
+                &::placeholder {
+                    color: $primary_yellow
+                }
             }
         }
     }

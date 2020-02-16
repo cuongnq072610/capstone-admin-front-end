@@ -4,10 +4,15 @@ import './index.scss';
 const Note = (props) => {
     const { navigateDetail, note } = props;
     return (
-        <button className="note-wrapper" onClick={navigateDetail}>
-            <p className="note-title">{note.title}</p>
-            <p className="note-content">{note.content}</p>
-        </button>
+        <div className="note-wrapper">
+            <button className="note-delete" onClick={() => { }}>
+                <span className="note-delete-icon"></span>
+            </button>
+            <button className="note-btn" onClick={navigateDetail}>
+                <p className="note-title">{note.title}</p>
+                <p className="note-content">{note.content}</p>
+            </button>
+        </div>
     )
 }
 

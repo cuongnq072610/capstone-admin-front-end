@@ -148,60 +148,60 @@ export class AddTeacherPage extends React.Component {
           <Helmet>
           <title>AddTeacherPage</title>
           <meta name="description" content="Description of AddTeacherPage" />
-        </Helmet>
-        <Col span={19} style={{padding: '28px 0px 28px 50px'}}>
-          <Layout>
-            <div className="header">
-              <div className="header1">
-                <Link to="/addcourse">
-                  <Icon type="arrow-left"/>
-                </Link>
-                <p className="p"><b>Add Teachers</b></p>
-              </div>
-              <Input className="search-teacher"
-                name='search-teacher'
-                placeholder="Search for teachers"
-                onKeyUp = {this.handleSearchInput}
-                prefix={<Icon type="search" style={{color: '#9C4AEE'}}/>}
-                />
-            </div>
-            <Content>
-              <Row className="content-table">
-                <div className="chosen">
-                  <h3 className="chosen-teacher" >{this.state.chosenTeachers.length} CHOSEN TUTORS<Icon type="up" /></h3>
-                  {chosenTeachers && chosenTeachers.length > 0 ?
-                    <Table className="table-content"
-                    columns={columns.columnToRemove}
-                    dataSource={chosenTeachers}
-                    onRow={(record, rowIndex) => {
-                      return {
-                          onClick: e => this.removeTeacher(record, rowIndex)
-                      }
-                    }}            
-                    />
-                    :
-                    <p>No data</p>
-                  }
+          </Helmet>
+          <Col span={19} style={{padding: '28px 0px 28px 50px'}}>
+            <Layout>
+              <div className="header">
+                <div className="header1">
+                  <Link to="/addcourse">
+                    <Icon type="arrow-left"/>
+                  </Link>
+                  <p className="p"><b>Add Teachers</b></p>
                 </div>
-                <div className="chosen-other">
-                  <h3 className="chosen-other-teacher">OTHERS<Icon type="up" /></h3>
-                  <Table className="table-content-non"
-                      columns={columns.columnToAdd}
-                      dataSource={teachers}
+                <Input className="search-teacher"
+                  name='search-teacher'
+                  placeholder="Search for teachers"
+                  onKeyUp = {this.handleSearchInput}
+                  prefix={<Icon type="search" style={{color: '#9C4AEE'}}/>}
+                  />
+              </div>
+              <Content>
+                <Row className="content-table">
+                  <div className="chosen">
+                    <h3 className="chosen-teacher" >{this.state.chosenTeachers.length} CHOSEN TUTORS<Icon type="up" /></h3>
+                    {chosenTeachers && chosenTeachers.length > 0 ?
+                      <Table className="table-content"
+                      columns={columns.columnToRemove}
+                      dataSource={chosenTeachers}
                       onRow={(record, rowIndex) => {
                         return {
-                            onClick: e => this.addTeacher(record, rowIndex)
+                            onClick: e => this.removeTeacher(record, rowIndex)
                         }
-                      }}
-                />
-                </div>
-                </Row>
-            </Content>
-          </Layout>
-        </Col>
-                <Col span={5} className='course'>
-                  <CourseInfo/>
-                </Col>
+                      }}            
+                      />
+                      :
+                      <p>No data</p>
+                    }
+                  </div>
+                  <div className="chosen-other">
+                    <h3 className="chosen-other-teacher">OTHERS<Icon type="up" /></h3>
+                    <Table className="table-content-non"
+                        columns={columns.columnToAdd}
+                        dataSource={teachers}
+                        onRow={(record, rowIndex) => {
+                          return {
+                              onClick: e => this.addTeacher(record, rowIndex)
+                          }
+                        }}
+                  />
+                  </div>
+                  </Row>
+              </Content>
+            </Layout>
+          </Col>
+          <Col span={5} className='course'>
+            <CourseInfo/>
+          </Col>
         </Row>
       </div>
     );

@@ -84,7 +84,7 @@ export class NoteDetailPage extends React.Component {
         </Helmet>
         <Col span={19}>
           <div className="note-detail">
-            <Button className="back-icon">
+            <Button className="back-icon" onClick={() => this.props.history.push("/note")}>
               <Icon type="arrow-left" />
             </Button>
             <div className="note-detail-info">

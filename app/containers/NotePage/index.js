@@ -37,7 +37,7 @@ const mockData = [
   {
     id: 2,
     title: "What is Lorem Ipsum CHECK",
-    content: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+    content: "<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>",
     isPinned: true,
     date: "2019/5/15",
     folder: "Marketting",
@@ -175,9 +175,12 @@ export class NotePage extends React.Component {
     })
   }
 
-  navigateDetail = (id) => {
+  navigateDetail = (note) => {
     history.push({
-      pathname: '/teacher',
+      pathname: `/note/${note.id}`,
+      state: {
+        note: note
+      }
     })
   }
 
@@ -274,7 +277,7 @@ export class NotePage extends React.Component {
                     notes.map((note, index) => {
                       if (note.isPinned) {
                         return (
-                          <Note key={index} note={note} navigateDetail={() => this.navigateDetail(note.id)} />
+                          <Note key={index} note={note} navigateDetail={() => this.navigateDetail(note)} />
                         )
                       }
                     })

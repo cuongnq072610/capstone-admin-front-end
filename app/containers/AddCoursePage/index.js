@@ -116,7 +116,6 @@ export class AddCoursePage extends React.Component {
     }
     console.log(this.state.course)
     return (
-      
       <Row className="addCourse">
         <Helmet>
           <title>AddCoursePage</title>
@@ -135,6 +134,7 @@ export class AddCoursePage extends React.Component {
                   className="courseName"
                   type="text"
                   placeholder="Give your course a name"
+                  value = {this.state.course.courseName ? this.state.course.courseName : ""}
                 />
                 <Row className="row">
                   <Col className="courseCode " span={12}>
@@ -158,7 +158,7 @@ export class AddCoursePage extends React.Component {
                       style={{ width: '100%' }}
                       placeholder="Please select"
                       onChange={handleChange}
-                      value = {this.state.course.courseName ? this.state.course.courseName : ""}>
+                      value = {this.state.course.departments ? this.state.course.departments : ""}>
                       {children}
                     </Select>
                   </Col>

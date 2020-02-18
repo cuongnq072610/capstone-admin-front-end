@@ -11,6 +11,7 @@ import { Helmet } from 'react-helmet';
 import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
+import { Row, Layout, Col, Table, Icon } from 'antd';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
@@ -18,6 +19,9 @@ import makeSelectStudentComposePage from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
+import Questions from './Questions';
+
+const { Content, Header } = Layout;
 
 /* eslint-disable react/prefer-stateless-function */
 export class StudentComposePage extends React.Component {
@@ -31,7 +35,21 @@ export class StudentComposePage extends React.Component {
             content="Description of StudentComposePage"
           />
         </Helmet>
-        <FormattedMessage {...messages.header} />
+        <Row>
+          <Col span={19} className="compose-information">
+            <Layout>
+              <Header>
+
+              </Header>
+              <Content>
+                
+              </Content>
+            </Layout>
+          </Col>
+          <Col span={5} className="compose-question">
+            <Questions/>
+          </Col>
+        </Row>
       </div>
     );
   }

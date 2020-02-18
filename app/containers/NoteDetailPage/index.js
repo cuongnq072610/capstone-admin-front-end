@@ -103,10 +103,18 @@ export class NoteDetailPage extends React.Component {
             <Content>
               <div className="note-detail-side-setting">
                 <p>Settings</p>
-                <Button className="btn-pin-active">
-                  <span className="btn-pin-icon"></span>
-                  <span>Pin this note</span>
-                </Button>
+                {
+                  note.isPinned ?
+                    <Button className="btn-pin-active">
+                      <span className="btn-pin-icon"></span>
+                      <span>This note is pinned</span>
+                    </Button> :
+                    <Button className="btn-pin">
+                      <span className="btn-pin-icon"></span>
+                      <span>Pin this note</span>
+                    </Button>
+                }
+
                 <Button className="btn-delete">
                   <span className="btn-delete-icon"></span>
                   <span>Delete this note</span>

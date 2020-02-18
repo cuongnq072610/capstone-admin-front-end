@@ -20,7 +20,8 @@ import saga from './saga';
 import messages from './messages';
 import { Row, Col, Button, Icon, Input, Layout } from 'antd';
 import "./index.scss";
-
+import ReactQuill from 'react-quill';
+import htmlToDraft from 'html-to-draftjs';
 const { Header, Content } = Layout;
 
 const mockDataFolder = [
@@ -50,16 +51,18 @@ export class NoteDetailPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      note: {}
+      note: {},
+      editorHtml: '',
     }
   }
 
   componentDidMount() {
     const { note } = this.props.history.location.state
+    const htmlText = `${this.convertToH1tag(note.title)}<br>${this.convertToPtag(note.content)}`;
     this.setState({
-      note
+      note,
+      editorHtml: htmlText
     })
-
   }
 
   renderFolder = (folder, index) => {
@@ -74,8 +77,49 @@ export class NoteDetailPage extends React.Component {
       </Button>
     )
   }
+
+  handleChange = (html) => {
+    this.setState({
+      editorHtml: html
+    })
+  }
+
+  convertToPtag = (str) => {
+    var p = "<p>";
+    var newStr = str.concat("</p>");
+    return p.concat(newStr);
+  }
+
+  convertToH1tag = (str) => {
+    var h1 = "<h1>";
+    var newStr = str.concat("</h1>");
+    return h1.concat(newStr);
+  }
+
+
   render() {
-    const { note } = this.state
+    const { note, editorHtml } = this.state;
+    const editorModule = {
+      toolbar: [
+        [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
+        [{ size: [] }],
+        ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+        [{ 'list': 'ordered' }, { 'list': 'bullet' },
+        { 'indent': '-1' }, { 'indent': '+1' }],
+        [ 'image', 'video'],
+        ['clean']
+      ],
+      clipboard: {
+        // toggle to add extra line breaks when pasting HTML:
+        matchVisual: false,
+      }
+    };
+    const editorFomat = [
+      'header', 'font', 'size',
+      'bold', 'italic', 'underline', 'strike', 'blockquote',
+      'list', 'bullet', 'indent',
+      'image', 'video'
+    ]
     return (
       <Row>
         <Helmet>
@@ -88,9 +132,17 @@ export class NoteDetailPage extends React.Component {
               <Icon type="arrow-left" />
             </Button>
             <div className="note-detail-info">
-              <div className="note-detail-title">{note.title}</div>
+              {/* <div className="note-detail-title">{note.title}</div> */}
               <div className="note-detail-content">
-                {note.content}
+                <ReactQuill
+                  theme="bubble"
+                  bounds=".note-detail-content"
+                  placeholder="Let's take a note"
+                  modules={editorModule}
+                  formats={editorFomat}
+                  onChange={this.handleChange}
+                  value={editorHtml}
+                />
               </div>
             </div>
           </div>

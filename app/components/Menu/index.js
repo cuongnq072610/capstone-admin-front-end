@@ -24,21 +24,17 @@ class SideMenu extends React.Component {
 
   renderLogo = (pathname) => {
     switch (pathname) {
-      case "/":
+      case "dashboard":
         return LogoBlue;
-      case "/course":
+      case "course":
         return LogoPurple;
-      case "/addcourse":
-        return LogoPurple;
-      case "/teacher":
+      case "teacher":
         return LogoRed;
-      case "/addteacher":
-        return LogoPurple;
-      case "/note":
+      case "note":
         return LogoOrange;
-      case "/ask":
+      case "ask":
         return LogoCyan;
-      case "/highlight":
+      case "highlight":
         return LogoGreen;
       default:
         break;
@@ -60,7 +56,7 @@ class SideMenu extends React.Component {
           )
         }) : StudentMenu.map((menu, index) => {
           return (
-            <Menu.Item key={index+1}>
+            <Menu.Item key={index + 1}>
               <Tooltip title={menu.title} placement="right">
                 <NavLink exact to={menu.path} activeClassName={`${menu.name}-active`} className={`menu-icon ${menu.name}`}>
                 </NavLink>
@@ -72,11 +68,12 @@ class SideMenu extends React.Component {
   }
 
   render() {
+    const { page } = this.props;
     return (
       <Layout id="sideMenu">
         <div className="logo">
           <img
-            src={this.renderLogo(history.location.pathname)}
+            src={this.renderLogo(page)}
             alt="NoteIt Logo"
           />
         </div>

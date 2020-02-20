@@ -24,6 +24,7 @@ import WrappedSearchBar from '../../components/SearchBar';
 import Filter from '../../components/Filter';
 import './index.scss';
 import columns from './tableCol';
+import { loadCourse } from './actions';
 
 const { Content, Header } = Layout;
 const mockData = [
@@ -144,6 +145,7 @@ export class HomePage extends React.Component {
   }
 
   componentDidMount() {
+    this.props.fetchCourse();
     const newCourses = mockData.map((course, index) => {
       return { ...course, key: `${index}` }
     })
@@ -181,6 +183,7 @@ export class HomePage extends React.Component {
 
   render() {
     const { courses, departments } = this.state;
+    console.log(this.props.homePage)
     return (
       <Row className="homepage">
         <Helmet>
@@ -239,7 +242,6 @@ export class HomePage extends React.Component {
 }
 
 HomePage.propTypes = {
-  dispatch: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -248,7 +250,7 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
-    dispatch,
+    fetchCourse: () => { dispatch(loadCourse()) }
   };
 }
 

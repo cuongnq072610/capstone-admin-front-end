@@ -1,9 +1,11 @@
 import { takeLatest, call, put, select } from 'redux-saga/effects';
 import { LOAD_FAILURE_COURSE, LOAD_SUCCESS_COURSE, LOAD_COURSE } from './constants';
+import { API_ENDPOINT, ALL_COURSE } from '../../constants/apis';
+import axiosService from '../../utils/axiosService';
 
 function* LoadCourse() {
   try {
-    let response = yield call("")
+    let response = yield call(axiosService.get(`${API_ENDPOINT}${ALL_COURSE}`))
     if (response.data.entries) {
       let courseData = response.data.entries.map((item, index) => {
         return item
@@ -13,7 +15,7 @@ function* LoadCourse() {
       yield put({ type: LOAD_FAILURE_COURSE, payload: "NO DATA" })
     }
   } catch (err) {
-      yield put({ type: LOAD_FAILURE_COURSE, payload: err })
+    yield put({ type: LOAD_FAILURE_COURSE, payload: err })
   }
 }
 

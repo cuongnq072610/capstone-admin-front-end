@@ -9,14 +9,14 @@ const colunms = {
         },
         {
             title: "TEACHER",
-            dataIndex: "teacher",
+            dataIndex: "teacherName",
             sorter: (a, b) => a.teacher < b.teacher,
             sortDirections: ['descend'],
             render: text => <span style={{ color: '#9C4AEE', fontWeight: 600 }}>{text}</span>,
         },
         {
             title: "E-MAIL",
-            dataIndex: "mail",
+            dataIndex: "email",
         },
         {
             title: "COURSES IN CHARGE",
@@ -45,14 +45,14 @@ const colunms = {
         },
         {
             title: "TEACHER",
-            dataIndex: "teacher",
+            dataIndex: "teacherName",
             sorter: (a, b) => a.teacher < b.teacher,
             sortDirections: ['descend'],
             render: text => <span style={{ color: '#9C4AEE', fontWeight: 600 }}>{text}</span>,
         },
         {
             title: "E-MAIL",
-            dataIndex: "mail",
+            dataIndex: "email",
         },
         {
             title: "COURSES IN CHARGE",

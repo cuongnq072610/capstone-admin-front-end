@@ -146,14 +146,26 @@ export class HomePage extends React.Component {
 
   componentDidMount() {
     this.props.fetchCourse();
-    const newCourses = mockData.map((course, index) => {
-      return { ...course, key: `${index}` }
-    })
-    this.setState({
-      courses: newCourses,
-      departments: mockData2,
-      baseCourses: newCourses,
-    })
+  }
+
+  componentDidUpdate(prevProps) {
+    console.log(prevProps)
+    if (prevProps.homePage !== this.props.homePage) {
+      console.log(`done`)
+      const { courses } = this.props.homePage;
+      const newCourses = courses.map((course, index) => {
+        return {
+          ...course,
+          key: `${index}`,
+          numberOfTeacher: course.teacher.length,
+        }
+      })
+      this.setState({
+        courses: newCourses,
+        departments: mockData2,
+        baseCourses: newCourses,
+      })
+    }
   }
 
   onResetFilter = () => {
@@ -183,7 +195,7 @@ export class HomePage extends React.Component {
 
   render() {
     const { courses, departments } = this.state;
-    console.log(this.props.homePage)
+    const { isLoading } = this.props.homePage;
     return (
       <Row className="homepage">
         <Helmet>
@@ -220,6 +232,7 @@ export class HomePage extends React.Component {
                       })
                     }
                   }}
+                  loading={isLoading}
                 />
               </Row>
               <div className="float" onClick={() => history.push("/addcourse")}>

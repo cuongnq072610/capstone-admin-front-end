@@ -39,21 +39,14 @@ export class AddCoursePage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      skill: '',
-      skills: [],
       course: {},
+      courseName: '',
+      courseCode: '',
+      departmentsField: [],
+      shortDes: '',
+      fullDes: '',
     };
   }
-
-  handleClick = e => {
-    e.preventDefault();
-    let newArr = [];
-    newArr = [...this.state.skills, this.state.skill];
-    this.setState({
-      skill: '',
-      skills: newArr,
-    });
-  };
 
   componentDidMount() {
     if (history.location.state) {
@@ -69,54 +62,55 @@ export class AddCoursePage extends React.Component {
     });
   };
 
-  btnAddSkill = () => (
-    <Button
-      style={{ border: 'none', height: '30px', paddingBottom: '10px' }}
-      htmlType="submit"
-    >
-      <Icon type="plus" style={{ color: 'rgba(0,0,0,.25)' }} />
-    </Button>
-  );
+  //handle change for Select Department
+  handleChangeSelect = (value) => {
+    // console.log(value);
+    this.setState({
+      departmentsField: value,
+    })
+  }
 
-  handleClose = removedSkill => {
-    const newArr = this.state.skills.filter(item => item !== removedSkill);
-    this.setState({ skills: newArr });
-  };
+  handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(this.state)
+  }
+
+  handleChange = (e) => {
+    this.setState({
+      [e.target.id]: e.target.value
+    })
+  }
 
   render() {
-    const {skills } = this.state;
+    const { courseName, courseCode, departmentsField, shortDes, fullDes } = this.state;
     const { Option } = Select;
     const departments = [{
-      value: 'computer',
-      name: 'Computer Science'
+      name: 'computer',
+      displayName: 'Computer Science'
     },
     {
-      value: 'business',
-      name: 'Business'
+      name: 'business',
+      displayName: 'Business'
     },
     {
-      value: 'finance',
-      name: 'Finance'
+      name: 'finance',
+      displayName: 'Finance'
     },
     {
-      value: 'design',
-      name: 'Graphic Design'
+      name: 'design',
+      displayName: 'Graphic Design'
     }]
 
     const children = [];
-
     //pushing Option component into children
     departments.map(department => {
       children.push(<Option key={departments.indexOf(department)}
-        value={department.value}>{department.name}</Option>)
+        value={department.name}>{department.displayName}</Option>)
     })
 
-    //handle change for Select Department
-    function handleChange(value) {
-      console.log(`selected ${value}`);
-    }
+
     return (
-      
+
       <Row className="addCourse">
         <Helmet>
           <title>AddCoursePage</title>
@@ -133,9 +127,11 @@ export class AddCoursePage extends React.Component {
               <Form>
                 <input
                   className="courseName"
+                  id="courseName"
                   type="text"
                   placeholder="Give your course a name"
-                  value = {this.state.course.courseName ? this.state.course.courseName : ""}
+                  value={this.state.course.courseName ? this.state.course.courseName : courseName}
+                  onChange={this.handleChange}
                 />
                 <Row className="row">
                   <Col className="courseCode " span={12}>
@@ -145,8 +141,11 @@ export class AddCoursePage extends React.Component {
                     </label>
                     <Input
                       className="belowLabel "
+                      id="courseCode"
                       prefix={<Icon type="user" />}
-                      value = {this.state.course.courseId ? this.state.course.courseId : ""}/>
+                      value={this.state.course.courseCode ? this.state.course.courseCode : courseCode}
+                      onChange={this.handleChange}
+                    />
                   </Col>
                   <Col span={12}>
                     <label>
@@ -158,8 +157,9 @@ export class AddCoursePage extends React.Component {
                       mode="multiple"
                       style={{ width: '100%' }}
                       placeholder="Please select"
-                      onChange={handleChange}
-                      value = {this.state.course.departments ? this.state.course.departments : []}>
+                      onChange={this.handleChangeSelect}
+                      value={this.state.course.departments ? this.state.course.departments : departmentsField}
+                    >
                       {children}
                     </Select>
                   </Col>
@@ -169,13 +169,16 @@ export class AddCoursePage extends React.Component {
                     Short Description
                     <span>*</span>
                   </label>
-                  <TextArea className="belowLabel" rows={2}
-                    value={this.state.course.description ? this.state.course.description : ""}/>
+                  <TextArea className="belowLabel" rows={2} id="shortDes"
+                    value={this.state.course.shortDes ? this.state.course.shortDes : shortDes}
+                    onChange={this.handleChange}
+                  />
                 </Row>
                 <Row>
                   <label>Full Description</label>
-                  <TextArea className="belowLabel" rows={4}
-
+                  <TextArea className="belowLabel" rows={4} id="fullDes"
+                    value={this.state.course.fullDes ? this.state.course.fullDes : fullDes}
+                    onChange={this.handleChange}
                   />
                 </Row>
                 <Row className="row">
@@ -184,29 +187,14 @@ export class AddCoursePage extends React.Component {
                     <Input
                       className="belowLabel"
                       prefix={<Icon type="user" />}
-                    />
-                    <div className="tag">
-                      {skills.map((item, index) => (
-                        <Tag
-                          color="purple"
-                          key={index}
-                          closable
-                          onClose={e => {
-                            e.preventDefault();
-                            this.handleClose(item);
-                          }}
-                        >
-                          {item}
-                        </Tag>
-                      ))}
-                    </div>
+                      value={this.state.course.courseURL ? this.state.course.courseURL : ""} />
                   </Col>
                 </Row>
-              </Form>
-              <Button className="addBtn" type="primary">
-                Add course
+                <Button className="addBtn" type="primary" onClick={this.handleSubmit}>
+                  Add course
                 <Icon type="plus" />
-              </Button>
+                </Button>
+              </Form>
             </Content>
           </Layout>
         </Col>

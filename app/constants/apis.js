@@ -5,6 +5,7 @@ const GET_COURSE = '/getcourse';
 const CREATE_COURSE = '/createcourse';
 const DELETE_COURSE = '/deletecourse';
 const UPDATE_COURSE = '/updatecourse';
+const ALL_TEACHER = '/allteachers';
 
 export {
     API_ENDPOINT,
@@ -13,4 +14,5 @@ export {
     CREATE_COURSE,
     DELETE_COURSE,
     UPDATE_COURSE,
+    ALL_TEACHER,
 }

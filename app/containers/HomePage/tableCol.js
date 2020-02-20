@@ -3,14 +3,14 @@ import { Tooltip } from 'antd';
 
 const fomatDepartment = (departments) => {
     return departments.map((item, index) => {
-        return index !== departments.length - 1 ? item + " - " : item
+        return index !== departments.length - 1 ? item.displayName + " - " : item.displayName
     })
 }
 
 const colunms = [
     {
         title: "CODE",
-        dataIndex: "courseId",
+        dataIndex: "courseCode",
         sorter: (a, b) => a.courseId < b.courseId,
         sortDirections: ['descend'],
         render: text => <span style={{ color: '#9c4aee', fontWeight: 600 }}>{text}</span>,
@@ -21,18 +21,18 @@ const colunms = [
     },
     {
         title: "DEPARTMENT",
-        dataIndex: "departments",
+        dataIndex: "category",
         width: 500,
         render: (text, record) => {
-            if (record.departments.length <= 3) {
+            if (record.category.length <= 3) {
                 return (
-                    <Tooltip title={fomatDepartment(record.departments)} placement="bottomRight">
+                    <Tooltip title={fomatDepartment(record.category)} placement="bottomRight">
                         {
-                            record.departments.map((item, index) => {
+                            record.category.map((item, index) => {
                                 return (
                                     <span key={index}>
-                                        <span>{item}</span>
-                                        {index === record.departments.length - 1 ? "" : <span className="ant-divider" />}
+                                        <span>{item.displayName}</span>
+                                        {index === record.category.length - 1 ? "" : <span className="ant-divider" />}
                                     </span>
                                 )
                             })
@@ -42,13 +42,13 @@ const colunms = [
 
             } else {
                 return (
-                    <Tooltip title={fomatDepartment(record.departments)} placement="bottomRight">
+                    <Tooltip title={fomatDepartment(record.category)} placement="bottomRight">
                         {
-                            record.departments.map((item, index) => {
+                            record.category.map((item, index) => {
                                 return (
                                     index < 3 &&
                                     <span key={index}>
-                                        <span>{item}</span>
+                                        <span>{item.displayName}</span>
                                         <span className="ant-divider" />
                                     </span>
                                 )

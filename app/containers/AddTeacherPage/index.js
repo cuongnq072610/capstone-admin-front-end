@@ -6,7 +6,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import {Layout, Row, Col, Input, Icon, Table} from 'antd';
+import { Layout, Row, Col, Input, Icon, Table } from 'antd';
 import './addTeacher.scss';
 
 import PropTypes from 'prop-types';
@@ -22,45 +22,45 @@ import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
 import CourseInfo from './CourseInfo';
-
+import { loadTeacher } from './actions';
 import columns from './tableCol';
-const { Search} = Input;
+const { Search } = Input;
 
 const { Header, Content } = Layout;
 /* eslint-disable react/prefer-stateless-function */
 
 const mockData = [{
-    teacher: "LamPD",
-    mail: "lampd@fe.edu.vn",
-    departments: ['Communication Business', 'New Category', 'Communication'],
-    courses: ["ECO101", "ASD203", "DBW231"],
-    rating: 2.4,
-    isActive: true,
-  },
-  {
-    teacher: "MaiTT",
-    mail: "maitt6@fe.edu.vn",
-    departments: ['Communication'],
-    courses: ["ECO101", "ASD203", "DBW231"],
-    rating: 1,
-    isActive: true,
-  },
-  {
-    teacher: "MaiVTT",
-    mail: "maitt@fe.edu.vn",
-    departments: ['Computer Science'],
-    courses: ["ECO101", "ASD203", "DBW231"],
-    rating: 1,
-    isActive: true,
-  },
-  {
-    teacher: "PhuongLh7",
-    mail: "phuonglh7@fe.edu.vn",
-    departments: ['Communication'],
-    courses: ["ECO101", "ASD203", "DBW231"],
-    rating: 1,
-    isActive: true,
-  },
+  teacher: "LamPD",
+  mail: "lampd@fe.edu.vn",
+  departments: ['Communication Business', 'New Category', 'Communication'],
+  courses: ["ECO101", "ASD203", "DBW231"],
+  rating: 2.4,
+  isActive: true,
+},
+{
+  teacher: "MaiTT",
+  mail: "maitt6@fe.edu.vn",
+  departments: ['Communication'],
+  courses: ["ECO101", "ASD203", "DBW231"],
+  rating: 1,
+  isActive: true,
+},
+{
+  teacher: "MaiVTT",
+  mail: "maitt@fe.edu.vn",
+  departments: ['Computer Science'],
+  courses: ["ECO101", "ASD203", "DBW231"],
+  rating: 1,
+  isActive: true,
+},
+{
+  teacher: "PhuongLh7",
+  mail: "phuonglh7@fe.edu.vn",
+  departments: ['Communication'],
+  courses: ["ECO101", "ASD203", "DBW231"],
+  rating: 1,
+  isActive: true,
+},
 ];
 
 const mockData2 = [
@@ -69,19 +69,36 @@ const mockData2 = [
 
 export class AddTeacherPage extends React.Component {
   constructor(props) {
-      super(props);
-      this.state = {
-        search: "",
-        teachers: [],
-        baseTeachers: [],
-        selectedTeacher: {},
-        selectedRow: "",
-        chosenTeachers:[],
-      }
+    super(props);
+    this.state = {
+      search: "",
+      teachers: [],
+      baseTeachers: [],
+      selectedTeacher: {},
+      selectedRow: "",
+      chosenTeachers: [],
     }
+  }
 
-    componentDidMount() {
-      const formatTeachers = mockData.map((teacher, index) => {
+  componentDidMount() {
+    this.props.fetchTeacher();
+    // const formatTeachers = mockData.map((teacher, index) => {
+    //   return {
+    //     ...teacher,
+    //     key: `${index}`
+    //   }
+    // })
+    // this.setState({
+    //   departments: mockData2,
+    //   teachers: formatTeachers,
+    //   baseTeachers: formatTeachers,
+    // })
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.addTeacherPage !== this.props.addTeacherPage) {
+      const { teachers } = this.props.addTeacherPage;
+      const formatTeachers = teachers.map((teacher, index) => {
         return {
           ...teacher,
           key: `${index}`
@@ -93,115 +110,118 @@ export class AddTeacherPage extends React.Component {
         baseTeachers: formatTeachers,
       })
     }
+  }
 
-    addTeacher= (teacherOfRow, rowIndex)=>{
-      const {chosenTeachers, teachers} = this.state;
+  addTeacher = (teacherOfRow, rowIndex) => {
+    const { chosenTeachers, teachers } = this.state;
 
-      //remove teacher about to be added from "Others Teacher" list 
-      const teacherLeft = teachers.filter((teacherCurrent) => {
-        return teacherCurrent.key != teacherOfRow.key
-      })
-
-      //push teacher into chosen teacher list
-      chosenTeachers.push(teacherOfRow);
-      
-      this.setState({
-        chosenTeachers : chosenTeachers,
-        teachers : teacherLeft
-      })
-    }
-
-    removeTeacher = (teacherOfRow, rowIndex)=>{
-      const {chosenTeachers, teachers} = this.state;
-
-      //remove teacher about to be removed from "Added Teacher" list 
-      const teacherLeft = chosenTeachers.filter((teacherCurrent) => {
-        return teacherCurrent.key != teacherOfRow.key
-      })
-
-      //push teacher into Other Teachers list
-      teachers.push(teacherOfRow);
-      
-      this.setState({
-        chosenTeachers : teacherLeft,
-        teachers : teachers
-      })
-    }
-
-    handleSearchInput = (event) => {
-      const { baseTeachers } = this.state;
-      const value = event.target.value;
-      const searchTeacher = baseTeachers.filter((teacher, index) => {
-        return teacher.teacher.includes(value) || teacher.mail.includes(value) 
-      });
-
-      this.setState({
-        teachers: searchTeacher
+    //remove teacher about to be added from "Others Teacher" list 
+    const teacherLeft = teachers.filter((teacherCurrent) => {
+      return teacherCurrent.key != teacherOfRow.key
     })
-    }
+
+    //push teacher into chosen teacher list
+    chosenTeachers.push(teacherOfRow);
+
+    this.setState({
+      chosenTeachers: chosenTeachers,
+      teachers: teacherLeft
+    })
+  }
+
+  removeTeacher = (teacherOfRow, rowIndex) => {
+    const { chosenTeachers, teachers } = this.state;
+
+    //remove teacher about to be removed from "Added Teacher" list 
+    const teacherLeft = chosenTeachers.filter((teacherCurrent) => {
+      return teacherCurrent.key != teacherOfRow.key
+    })
+
+    //push teacher into Other Teachers list
+    teachers.push(teacherOfRow);
+
+    this.setState({
+      chosenTeachers: teacherLeft,
+      teachers: teachers
+    })
+  }
+
+  handleSearchInput = (event) => {
+    const { baseTeachers } = this.state;
+    const value = event.target.value;
+    const searchTeacher = baseTeachers.filter((teacher, index) => {
+      return teacher.teacher.includes(value) || teacher.mail.includes(value)
+    });
+
+    this.setState({
+      teachers: searchTeacher
+    })
+  }
 
   render() {
-    const {teachers, chosenTeachers} = this.state;
+    const { teachers, chosenTeachers } = this.state;
+    const { isLoading } = this.props.addTeacherPage;
     return (
       <div>
         <Row className="addTeacher">
           <Helmet>
-          <title>AddTeacherPage</title>
-          <meta name="description" content="Description of AddTeacherPage" />
-        </Helmet>
-        <Col span={19} style={{padding: '28px 0px 28px 50px'}}>
-          <Layout>
-            <div className="header">
-              <div className="header1">
-                <Link to="/addcourse">
-                  <Icon type="arrow-left"/>
-                </Link>
-                <p className="p"><b>Add Teachers</b></p>
-              </div>
-              <Input className="search-teacher"
-                name='search-teacher'
-                placeholder="Search for teachers"
-                onKeyUp = {this.handleSearchInput}
-                prefix={<Icon type="search" style={{color: '#9C4AEE'}}/>}
-                />
-            </div>
-            <Content>
-              <Row className="content-table">
-                <div className="chosen">
-                  <h3 className="chosen-teacher" >{this.state.chosenTeachers.length} CHOSEN TUTORS<Icon type="up" /></h3>
-                  {chosenTeachers && chosenTeachers.length > 0 ?
-                    <Table className="table-content"
-                    columns={columns.columnToRemove}
-                    dataSource={chosenTeachers}
-                    onRow={(record, rowIndex) => {
-                      return {
-                          onClick: e => this.removeTeacher(record, rowIndex)
-                      }
-                    }}            
-                    />
-                    :
-                    <p>No data</p>
-                  }
+            <title>AddTeacherPage</title>
+            <meta name="description" content="Description of AddTeacherPage" />
+          </Helmet>
+          <Col span={19} style={{ padding: '28px 0px 28px 50px' }}>
+            <Layout>
+              <div className="header">
+                <div className="header1">
+                  <Link to="/addcourse">
+                    <Icon type="arrow-left" />
+                  </Link>
+                  <p className="p"><b>Add Teachers</b></p>
                 </div>
-                <div className="chosen-other">
-                  <h3 className="chosen-other-teacher">OTHERS<Icon type="up" /></h3>
-                  <Table className="table-content-non"
+                <Input className="search-teacher"
+                  name='search-teacher'
+                  placeholder="Search for teachers"
+                  onKeyUp={this.handleSearchInput}
+                  prefix={<Icon type="search" style={{ color: '#9C4AEE' }} />}
+                />
+              </div>
+              <Content>
+                <Row className="content-table">
+                  <div className="chosen">
+                    <h3 className="chosen-teacher" >{this.state.chosenTeachers.length} CHOSEN TUTORS<Icon type="up" /></h3>
+                    {chosenTeachers && chosenTeachers.length > 0 ?
+                      <Table className="table-content"
+                        columns={columns.columnToRemove}
+                        dataSource={chosenTeachers}
+                        onRow={(record, rowIndex) => {
+                          return {
+                            onClick: e => this.removeTeacher(record, rowIndex)
+                          }
+                        }}
+                      />
+                      :
+                      <p>No data</p>
+                    }
+                  </div>
+                  <div className="chosen-other">
+                    <h3 className="chosen-other-teacher">OTHERS<Icon type="up" /></h3>
+                    <Table className="table-content-non"
                       columns={columns.columnToAdd}
                       dataSource={teachers}
                       onRow={(record, rowIndex) => {
                         return {
-                            onClick: e => this.addTeacher(record, rowIndex)
+                          onClick: e => this.addTeacher(record, rowIndex)
                         }
                       }}
-                />
-                </div>
+                      loading={isLoading}
+                    />
+                  </div>
                 </Row>
-            </Content>
-          </Layout>
-        </Col>
-                <Col span={5} className='course'>
-                  <CourseInfo/>
-                </Col>
+              </Content>
+            </Layout>
+          </Col>
+          <Col span={5} className='course'>
+            <CourseInfo />
+          </Col>
         </Row>
       </div>
     );
@@ -209,7 +229,7 @@ export class AddTeacherPage extends React.Component {
 }
 
 AddTeacherPage.propTypes = {
-  dispatch: PropTypes.func.isRequired,
+  // dispatch: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -218,7 +238,7 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
-    dispatch,
+    fetchTeacher: () => { dispatch(loadTeacher()) }
   };
 }
 

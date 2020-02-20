@@ -10,7 +10,7 @@ import { DEFAULT_ACTION, LOAD_COURSE, LOAD_FAILURE_COURSE, LOAD_SUCCESS_COURSE }
 export const initialState = fromJS({
   courses: [],
   isLoading: false,
-  errors: ''
+  errors: {},
 });
 
 function homePageReducer(state = initialState, action) {
@@ -20,9 +20,9 @@ function homePageReducer(state = initialState, action) {
     case LOAD_COURSE: 
       return state.set('isLoading', true);
     case LOAD_SUCCESS_COURSE:
-      return state.set('courses', fromJS(action.payload));
+      return state.set('courses', fromJS(action.payload)).set('isLoading', false);
     case LOAD_FAILURE_COURSE: 
-      return state.set('errors', action.payload);
+      return state.set('errors', action.payload).set('isLoading', false);
     default:
       return state;
   }

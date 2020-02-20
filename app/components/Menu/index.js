@@ -1,12 +1,17 @@
 import React from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { Layout, Menu, Tooltip } from 'antd';
 import './index.scss';
-import Logo from './assets/noteIt.png';
-import Logo2 from './assets/noteIt2.png';
+import LogoPurple from './assets/Logo/noteIt-purple.png';
+import LogoRed from './assets/Logo/noteIt-red.png';
+import LogoBlue from './assets/Logo/noteIt-blue.png';
+import LogoCyan from './assets/Logo/noteIt-cyan.png';
+import LogoGreen from './assets/Logo/noteIt-green.png';
+import LogoOrange from './assets/Logo/noteIt-orange.png';
 import UserIcon from './assets/man1.png'
 
 import history from '../../utils/history';
+import { AdminMenu, StudentMenu } from './constant';
 
 class SideMenu extends React.Component {
   state = {
@@ -17,12 +22,58 @@ class SideMenu extends React.Component {
     this.setState({ collapsed });
   };
 
+  renderLogo = (pathname) => {
+    switch (pathname) {
+      case "dashboard":
+        return LogoBlue;
+      case "course":
+        return LogoPurple;
+      case "teacher":
+        return LogoRed;
+      case "note":
+        return LogoOrange;
+      case "ask":
+        return LogoCyan;
+      case "highlight":
+        return LogoGreen;
+      default:
+        break;
+    }
+  }
+
+  renderMenu = () => {
+    const { role } = this.props;
+    return (
+      role === 'admin' ?
+        AdminMenu.map((menu, index) => {
+          return (
+            <Menu.Item key={index}>
+              <Tooltip title={menu.title} placement="right">
+                <NavLink exact to={menu.path} activeClassName={`${menu.name}-active`} className={`menu-icon ${menu.name}`}>
+                </NavLink>
+              </Tooltip>
+            </Menu.Item>
+          )
+        }) : StudentMenu.map((menu, index) => {
+          return (
+            <Menu.Item key={index + 1}>
+              <Tooltip title={menu.title} placement="right">
+                <NavLink exact to={menu.path} activeClassName={`${menu.name}-active`} className={`menu-icon ${menu.name}`}>
+                </NavLink>
+              </Tooltip>
+            </Menu.Item>
+          )
+        })
+    )
+  }
+
   render() {
+    const { page } = this.props;
     return (
       <Layout id="sideMenu">
         <div className="logo">
           <img
-            src={history.location.pathname === "/" || history.location.pathname === "/addcourse" ? Logo : Logo2}
+            src={this.renderLogo(page)}
             alt="NoteIt Logo"
           />
         </div>
@@ -32,20 +83,10 @@ class SideMenu extends React.Component {
           mode="vertical"
           style={{ border: 'none' }}
         >
-          <Menu.Item key="1">
-            <Tooltip title="Course" placement="right">
-              <NavLink exact to="/" activeClassName="course-active" className="menu-icon course">
-              </NavLink>
-            </Tooltip>
-          </Menu.Item>
-          <Menu.Item key="2">
-            <Tooltip title="Teacher" placement="right">
-              <NavLink to="/teacher" activeClassName="teacher-active" className="menu-icon teacher">
-              </NavLink>
-            </Tooltip>
-
-          </Menu.Item>
-          <Menu.Item key="3">
+          {
+            this.renderMenu()
+          }
+          <Menu.Item key="4">
             <Tooltip title="Info" placement="right">
               <NavLink to="/info">
                 <img

@@ -14,11 +14,15 @@ import 'antd/dist/antd.css';
 
 import HomePage from 'containers/HomePage/Loadable';
 import AddCoursePage from 'containers/AddCoursePage/Loadable';
-import NotFoundPage from 'containers/NotFoundPage/Loadable';
+import AddTeacherPage from 'containers/AddTeacherPage/Loadable';
 import TeacherPage from 'containers/TeacherPage/Loadable';
-import SideMenu from 'components/Menu';
-
+import DashboardPage from 'containers/DashboardPage/Loadable';
+import NotePage from 'containers/NotePage/Loadable';
+import NoteDetailPage from 'containers/NoteDetailPage/Loadable';
+import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import GlobalStyle from '../../global-styles';
+
+import WrapperLayout from '../../components/WrapperLayout';
 
 export default function App() {
   return (
@@ -29,21 +33,16 @@ export default function App() {
       >
         <meta name="description" content="Smart Course Management Admin" />
       </Helmet>
-      <Layout>
-        <Row>
-          <Col span={2}>
-            <SideMenu />
-          </Col>
-          <Col span={22}>
-            <Switch>
-              <Route exact path="/" component={HomePage} />
-              <Route path="/addcourse" component={AddCoursePage} />
-              <Route path="/teacher" component={TeacherPage}/>
-              <Route path="" component={NotFoundPage} />
-            </Switch>
-          </Col>
-        </Row>
-      </Layout>
+      <Switch>
+        <Route exact path='/' render={() => <WrapperLayout component={DashboardPage} role="admin" page="dashboard"/>}/>
+        <Route path='/course' render={() => <WrapperLayout component={HomePage} role="admin" page="course"/>}/>
+        <Route path='/teacher' render={() => <WrapperLayout component={TeacherPage} role="admin" page="teacher"/>}/>
+        <Route path='/addcourse' render={() => <WrapperLayout component={AddCoursePage} role="admin" page="course"/>}/>
+        <Route path='/addteacher' render={() => <WrapperLayout component={AddTeacherPage} role="admin" page="course"/>}/>
+        <Route exact path='/note' render={() => <WrapperLayout component={NotePage} role="student" page="note"/>}/>
+        <Route path='/note/:noteId' render={() => <WrapperLayout component={NoteDetailPage} role="student" page="note"/>}/>
+        <Route path='' render={() => <WrapperLayout component={NotFoundPage}/>}/>
+      </Switch>
       <GlobalStyle />
     </Layout>
   );

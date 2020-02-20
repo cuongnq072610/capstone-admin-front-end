@@ -19,6 +19,7 @@ import makeSelectHomePage from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
+import history from '../../utils/history';
 import WrappedSearchBar from '../../components/SearchBar';
 import Filter from '../../components/Filter';
 import './index.scss';
@@ -210,16 +211,15 @@ export class HomePage extends React.Component {
                   className="courseTable"
                   onRow={(record, rowIndex) => {
                     return {
-                      onClick: e => this.props.history.push({
+                      onClick: e => history.push({
                         pathname: './addcourse',
                         state: { course: record }
                       })
                     }
                   }}
-                  // loading={true}
                 />
               </Row>
-              <div className="float" onClick={() => this.props.history.push("/addcourse")}>
+              <div className="float" onClick={() => history.push("/addcourse")}>
                 <Icon type="plus" className="my-float" />
               </div>
             </Content>

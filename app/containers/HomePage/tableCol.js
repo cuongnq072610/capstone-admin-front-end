@@ -30,7 +30,7 @@ const colunms = [
                         {
                             record.departments.map((item, index) => {
                                 return (
-                                    <span>
+                                    <span key={index}>
                                         <span>{item}</span>
                                         {index === record.departments.length - 1 ? "" : <span className="ant-divider" />}
                                     </span>
@@ -47,7 +47,7 @@ const colunms = [
                             record.departments.map((item, index) => {
                                 return (
                                     index < 3 &&
-                                    <span>
+                                    <span key={index}>
                                         <span>{item}</span>
                                         <span className="ant-divider" />
                                     </span>

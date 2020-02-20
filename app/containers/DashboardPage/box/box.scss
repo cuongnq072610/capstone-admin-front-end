@@ -1,0 +1,75 @@
+@import "../../../utils/variables.scss";
+
+.box-container {
+    width: 597px;
+    height: 151px;
+    border-radius: 5px;
+    box-shadow: 0 3px 11px rgba(185, 117, 78, 0.3);
+
+    .box-icon {
+        display: inline-block;
+        background-size: cover;
+        margin-right: 10px;
+    }
+
+    .box-header {
+        display: flex;
+        align-items: center;
+        padding-top: 20px;
+        padding-left: 32px;
+
+        .box-course {
+            width: 32px;
+            height: 32px;
+            background-image: url(../assets/course.svg);
+        }
+
+        .box-teacher {
+            width: 32px;
+            height: 32px;
+            background-image: url(../assets/teacher.svg);
+        }
+
+        p {
+            color: $primary_white;
+            font-family: Roboto;
+            font-size: 28px;
+            font-weight: 700;
+            margin: 0px;
+        }
+    }
+
+    .box-content {
+        display: flex;
+        justify-content: space-between;
+        padding-right: 30px;
+        padding-left: 32px;
+
+        p {
+            color: $primary_white;
+            font-family: Roboto;
+            font-size: 65px;
+            font-weight: 300;
+            margin: 0px;
+        }
+
+        .box-active {
+            width: 24px;
+            height: 20px;
+            background-image: url(../assets/visibility-on.svg);
+        }
+
+        .teacher-active-wrapper {
+            display: flex;
+            align-items: center;
+            padding-top: 10px;
+            p {
+                margin: 6px 0px 0px;
+                color: $primary_white;
+                font-family: Roboto;
+                font-size: 16px;
+                font-weight: 500;
+            }
+        }
+    }
+}

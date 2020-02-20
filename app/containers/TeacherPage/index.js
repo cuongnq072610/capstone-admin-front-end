@@ -155,8 +155,8 @@ export class TeacherPage extends React.Component {
                             }}
                         >
                             <WrappedSearchBar
-                                message="Please enter your course name"
-                                placeholder="I want to find my course"
+                                message="Please enter your teacher's name"
+                                placeholder="I want to find teachers"
                                 type="teacher"
                             />
                         </Header>

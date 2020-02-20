@@ -25,6 +25,40 @@ class SearchBar extends React.Component {
     console.log(this.props.form.validateFields);
   };
 
+  renderColor = (type) => {
+    switch (type) {
+      case "home":
+        return "#9c4aee";
+      case "teacher":
+        return "#b9754e";
+      case "note":
+        return "#ffc143";
+      case "ask":
+        return "#1593e6";
+      case "highlight":
+        return "#40a887";
+      default:
+        break;
+    }
+  }
+
+  renderClassName = (type) => {
+    switch (type) {
+      case "home":
+        return "homeTheme";
+      case "teacher":
+        return "teacherTheme";
+      case "note":
+        return "noteTheme";
+      case "ask":
+        return "askTheme";
+      case "highlight":
+        return "highlightTheme";
+      default:
+        break;
+    }
+  }
+
   render() {
     const { getFieldDecorator } = this.props.form;
     const { message, placeholder, type } = this.props;
@@ -38,12 +72,12 @@ class SearchBar extends React.Component {
               prefix={
                 <Icon
                   type="search"
-                  style={{ color: `${type === "home" ? "#9C4AEE" : "#b9754e"}`, fontSize: '20px' }}
+                  style={{ color: `${this.renderColor(type)}`, fontSize: '20px' }}
                 />
               }
               placeholder={placeholder}
               onBlur={this.handleBlur}
-              className={`${type === "home" ? "homeTheme" : "teacherTheme"}`}
+              className={`${this.renderClassName(type)}`}
             />,
           )}
         </Form.Item>

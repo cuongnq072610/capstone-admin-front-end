@@ -19,11 +19,21 @@ import makeSelectAddCoursePage from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
+import SearchTeacher from '../../components/SearchTeacher';
+import history from '../../utils/history';
+
 /* eslint-disable react/prefer-stateless-function */
 
-const { Search, TextArea,Option } = Input;
+const { Search, TextArea, Option } = Input;
 
 const { Header, Content } = Layout;
+
+const mockData = {
+  courseCode: 'ASD203',
+  category: 'Computer Science',
+  description:
+    'The course goes through simple algorithms and thier applications in data manipulation',
+};
 
 export class AddCoursePage extends React.Component {
   constructor(props) {
@@ -31,6 +41,7 @@ export class AddCoursePage extends React.Component {
     this.state = {
       skill: '',
       skills: [],
+      course: {},
     };
   }
 
@@ -42,6 +53,14 @@ export class AddCoursePage extends React.Component {
       skill: '',
       skills: newArr,
     });
+  };
+
+  componentDidMount() {
+    if (history.location.state) {
+      this.setState({
+        course: history.location.state.course
+      })
+    }
   };
 
   onChangeValue = e => {
@@ -61,14 +80,12 @@ export class AddCoursePage extends React.Component {
 
   handleClose = removedSkill => {
     const newArr = this.state.skills.filter(item => item !== removedSkill);
-    console.log(newArr);
     this.setState({ skills: newArr });
   };
 
   render() {
-    const { skill, skills } = this.state;
+    const {skills } = this.state;
     const { Option } = Select;
-
     const departments = [{
       value: 'computer',
       name: 'Computer Science'
@@ -87,10 +104,11 @@ export class AddCoursePage extends React.Component {
     }]
 
     const children = [];
-    
+
     //pushing Option component into children
     departments.map(department => {
-      children.push(<Option key={departments.indexOf(department)} value={department.value}>{department.name}</Option>)
+      children.push(<Option key={departments.indexOf(department)}
+        value={department.value}>{department.name}</Option>)
     })
 
     //handle change for Select Department
@@ -98,6 +116,7 @@ export class AddCoursePage extends React.Component {
       console.log(`selected ${value}`);
     }
     return (
+      
       <Row className="addCourse">
         <Helmet>
           <title>AddCoursePage</title>
@@ -106,7 +125,7 @@ export class AddCoursePage extends React.Component {
         <Col span={19}>
           <Layout>
             <Header className="header">
-              <Link to="/">
+              <Link to="/course">
                 <Icon type="arrow-left" />
               </Link>
             </Header>
@@ -116,6 +135,7 @@ export class AddCoursePage extends React.Component {
                   className="courseName"
                   type="text"
                   placeholder="Give your course a name"
+                  value = {this.state.course.courseName ? this.state.course.courseName : ""}
                 />
                 <Row className="row">
                   <Col className="courseCode " span={12}>
@@ -126,7 +146,7 @@ export class AddCoursePage extends React.Component {
                     <Input
                       className="belowLabel "
                       prefix={<Icon type="user" />}
-                    />
+                      value = {this.state.course.courseId ? this.state.course.courseId : ""}/>
                   </Col>
                   <Col span={12}>
                     <label>
@@ -139,7 +159,7 @@ export class AddCoursePage extends React.Component {
                       style={{ width: '100%' }}
                       placeholder="Please select"
                       onChange={handleChange}
-                    >
+                      value = {this.state.course.departments ? this.state.course.departments : []}>
                       {children}
                     </Select>
                   </Col>
@@ -149,19 +169,22 @@ export class AddCoursePage extends React.Component {
                     Short Description
                     <span>*</span>
                   </label>
-                  <TextArea className="belowLabel" rows={2} />
+                  <TextArea className="belowLabel" rows={2}
+                    value={this.state.course.description ? this.state.course.description : ""}/>
                 </Row>
                 <Row>
                   <label>Full Description</label>
-                  <TextArea className="belowLabel" rows={4} />
+                  <TextArea className="belowLabel" rows={4}
+
+                  />
                 </Row>
                 <Row className="row">
                   <Col span={12}>
-                  <label>Course URL<span>*</span></label>
-                <Input
-                  className="belowLabel"
-                  prefix={<Icon type="user" />}
-                />
+                    <label>Course URL<span>*</span></label>
+                    <Input
+                      className="belowLabel"
+                      prefix={<Icon type="user" />}
+                    />
                     <div className="tag">
                       {skills.map((item, index) => (
                         <Tag
@@ -188,14 +211,8 @@ export class AddCoursePage extends React.Component {
           </Layout>
         </Col>
         <Col className="addTeacher" span={5}>
-          <h1>Teachers</h1>
-          <Search
-            placeholder="Search for or add teachers"
-            onSearch={value => console.log(value)}
-          />
-          <p>0 teacher</p>
+          <SearchTeacher />
         </Col>
-        {/* <FormattedMessage {...messages.header} /> */}
       </Row>
     );
   }

@@ -1,6 +1,6 @@
 /**
  *
- * Asynchronously loads the component for Highlight
+ * Asynchronously loads the component for HighLightPage
  *
  */
 

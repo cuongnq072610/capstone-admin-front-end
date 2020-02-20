@@ -1,6 +1,6 @@
 /*
  *
- * Highlight actions
+ * HighLightPage actions
  *
  */
 

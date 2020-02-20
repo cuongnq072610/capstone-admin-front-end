@@ -2,9 +2,9 @@
 // import { mount } from 'enzyme';
 // import { enzymeFind } from 'styled-components/test-utils';
 
-// import { Highlight } from '../index';
+// import { HighLightPage } from '../index';
 
-describe('<Highlight />', () => {
+describe('<HighLightPage />', () => {
   it('Expect to have unit tests specified', () => {
     expect(true).toEqual(false);
   });

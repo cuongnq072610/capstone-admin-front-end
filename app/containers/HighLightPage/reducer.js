@@ -1,6 +1,6 @@
 /*
  *
- * Highlight reducer
+ * HighLightPage reducer
  *
  */
 
@@ -9,7 +9,7 @@ import { DEFAULT_ACTION } from './constants';
 
 export const initialState = fromJS({});
 
-function highlightReducer(state = initialState, action) {
+function highLightPageReducer(state = initialState, action) {
   switch (action.type) {
     case DEFAULT_ACTION:
       return state;
@@ -18,4 +18,4 @@ function highlightReducer(state = initialState, action) {
   }
 }
 
-export default highlightReducer;
+export default highLightPageReducer;

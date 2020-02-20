@@ -1,6 +1,6 @@
 /**
  *
- * Highlight
+ * HighLightPage
  *
  */
 
@@ -11,18 +11,17 @@ import { Helmet } from 'react-helmet';
 import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-import "./index.scss";
+
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import makeSelectNotePage from './selectors';
+import makeSelectHighLightPage from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
-import HighlightElement from './Highlight';
-import history from '../../utils/history';
 import WrappedSearchBar from '../../components/SearchBar';
-import { Row, Layout, Col, Icon, Button, Input } from 'antd';
-import { loadNote, loadFolder } from './actions';
+import HighLightElement from './HighlightElement';
+import { Row, Col, Layout } from 'antd';
+const { Header, Content } = Layout;
 
 const mockData = [
   {
@@ -89,11 +88,8 @@ const mockData = [
     tags: ['advertising']
   }
 ];
-
-
 /* eslint-disable react/prefer-stateless-function */
-export class Highlight extends React.Component {
-
+export class HighLightPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -111,58 +107,58 @@ export class Highlight extends React.Component {
       baseHighlight: mockData
     })
   }
-
   render() {
+    const { highlights } = this.state;
     return (
       <Row>
-      <Helmet>
-        <title>Highlight Page</title>
-        <meta name="description" content="Description of Highlight Page" />
-      </Helmet>
-      <Col span={19}>
-        <Layout className="note-page">
-          <Header
-            style={{
-              backgroundColor: '#fff',
-              display: 'flex',
-              justifyContent: 'center',
-              height: '100px',
-            }}
-          >
-            <WrappedSearchBar
-              message="Please enter your note's name"
-              placeholder="I want to find my notes"
-              type="note"
-            />
-          </Header>
-          <Content>
-            <div className="highLights">
-              {
-                highlights.map(highlight => {
-                  return <HighlightElement key={highlight.id} highlight = {highlights}/>
-                })
-              }
-            </div>
-          </Content>
-        </Layout>
-      </Col>
+        <Helmet>
+          <title>Highlight Page</title>
+          <meta name="description" content="Description of Highlight Page" />
+        </Helmet>
+        <Col span={19}>
+          <Layout className="note-page">
+            <Header
+              style={{
+                backgroundColor: '#fff',
+                display: 'flex',
+                justifyContent: 'center',
+                height: '100px',
+              }}
+            >
+              <WrappedSearchBar
+                message="Please enter your note's name"
+                placeholder="I want to find my notes"
+                type="note"
+              />
+            </Header>
+            <Content>
+              <div className="highLights">
+                {
+                  highlights.map(highlight => {
+                    return <HighLightElement key={highlight.id} highlight={highlight} />
+                  })
+                }
+              </div>
+            </Content>
+          </Layout>
+        </Col>
 
-    </Row>
+      </Row>
     );
   }
 }
 
-Highlight.propTypes = {
+HighLightPage.propTypes = {
   dispatch: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
-  highlight: makeSelectHighlight(),
+  highLightPage: makeSelectHighLightPage(),
 });
 
 function mapDispatchToProps(dispatch) {
   return {
-    dispatch
+    dispatch,
   };
 }
 
@@ -171,11 +167,11 @@ const withConnect = connect(
   mapDispatchToProps,
 );
 
-const withReducer = injectReducer({ key: 'highlight', reducer });
-const withSaga = injectSaga({ key: 'highlight', saga });
+const withReducer = injectReducer({ key: 'highLightPage', reducer });
+const withSaga = injectSaga({ key: 'highLightPage', saga });
 
 export default compose(
   withReducer,
   withSaga,
   withConnect,
-)(Highlight);
+)(HighLightPage);

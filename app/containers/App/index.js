@@ -19,7 +19,7 @@ import TeacherPage from 'containers/TeacherPage/Loadable';
 import DashboardPage from 'containers/DashboardPage/Loadable';
 import NotePage from 'containers/NotePage/Loadable';
 import NoteDetailPage from 'containers/NoteDetailPage/Loadable';
-import HighlightPage from 'containers/Highlight/Loadable';
+import HighlightPage from 'containers/HighLightPage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import GlobalStyle from '../../global-styles';
 

@@ -1,7 +1,7 @@
 // import { fromJS } from 'immutable';
-// import { selectHighlightDomain } from '../selectors';
+// import { selectHighLightPageDomain } from '../selectors';
 
-describe('selectHighlightDomain', () => {
+describe('selectHighLightPageDomain', () => {
   it('Expect to have unit tests specified', () => {
     expect(true).toEqual(false);
   });

@@ -1,0 +1,28 @@
+@import "../../utils/variables.scss";
+
+.compose-header {
+  background-color: #fff;
+}
+
+.compose-body {
+  .btn-rep {
+    width: 100%;
+    height: 60px;
+    font-size: 18px;
+    float: right;
+    background-image: url(././Questions/assets/arrow.svg);
+    background-position: right;
+    background-repeat: no-repeat;
+    background-size: 10px 60px;
+    padding: 0px -10px;
+    color: $secondary_blue;    
+    border-radius: 10px;
+    border: none;
+
+    .btn-text {
+      float: right;
+      font-size: 14px;
+      padding-right: 50px;
+    }
+  }
+}

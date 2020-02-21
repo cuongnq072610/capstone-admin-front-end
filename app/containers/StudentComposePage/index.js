@@ -11,7 +11,7 @@ import { Helmet } from 'react-helmet';
 import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-import { Row, Layout, Col, Table, Icon } from 'antd';
+import { Row, Layout, Col, Table, Icon, Button } from 'antd';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
@@ -20,11 +20,25 @@ import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
 import Questions from './Questions';
+import './compose.scss';
 
 const { Content, Header } = Layout;
 
 /* eslint-disable react/prefer-stateless-function */
 export class StudentComposePage extends React.Component {
+  
+  constructor(){
+    super()
+    this.state={
+        showMe: false
+    }
+  }
+
+  operation(){
+    this.setState({
+      showMe:!this.state.showMe
+    })
+  }
   render() {
     return (
       <div>
@@ -38,11 +52,21 @@ export class StudentComposePage extends React.Component {
         <Row>
           <Col span={19} className="compose-information">
             <Layout>
-              <Header>
-
+              <Header className="compose-header">
               </Header>
-              <Content>
-                
+              <Content className="compose-body">
+                <div>
+                  {
+                    this.state.showMe?
+                    <div>
+                      <textarea/>
+                    </div>
+                    :null
+                  }
+                </div>
+                <Button className="btn-rep" onClick={()=>this.operation()}>
+                  <span className="btn-text">REPLY</span>
+                </Button>
               </Content>
             </Layout>
           </Col>

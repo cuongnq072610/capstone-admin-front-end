@@ -28,33 +28,33 @@ const { Content, Header } = Layout;
 const mockData = [
     {
         teacher: "LamPD",
-        mail: "lampd@fe.edu.vn",
-        date: ['18:20'],
+        mail: "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+        date: '18:20',
     },
     {
         teacher: "MaiTT",
-        mail: "maitt6@fe.edu.vn",
-        date: ['14:57'],
+        mail: "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
+        date: '14:57',
     },
     {
         teacher: "MaiVTT",
-        mail: "maitt@fe.edu.vn",
-        date: ['Dec 19'],
+        mail: "It is a long established fact that a reader will be distracted by the readable",
+        date: 'Dec 19',
     },
     {
         teacher: "PhuongLh7",
-        mail: "phuonglh7@fe.edu.vn",
-        date: ['Dec 17'],
+        mail: "Contrary to popular belief, Lorem Ipsum is not simply random text",
+        date: 'Dec 17',
     },
     {
       teacher: "TungNN13",
-      mail: "phuonglh7@fe.edu.vn",
-      date: ['Dec 16'],
+      mail: "It has roots in a piece of classical Latin literature from 45 BC",
+      date: 'Dec 16',
     },
     {
       teacher: "NguyetTM22",
-      mail: "phuonglh7@fe.edu.vn",
-      date: ['Dec 15'],
+      mail: "There are many variations of passages of Lorem Ipsum available",
+      date: 'Dec 15',
     },
 ]
 /* eslint-disable react/prefer-stateless-function */
@@ -79,8 +79,9 @@ export class StudentAskPage extends React.Component {
     }
     
   render() {
+    
     const {teachers} =this.state;
-
+console.log(this.props.history)
     return (
       <div>
         <Helmet>
@@ -103,13 +104,13 @@ export class StudentAskPage extends React.Component {
                                         dataSource={teachers}
                                         className="ask-table"
                                         onRow={(record, rowIndex) => {
-                        return {
-                          onClick: e => this.props.history.push({
-                            pathname: '/',
-                            //state: { course: record }
-                          })
-                        }
-                      }}
+                    return {
+                      onClick: e => this.props.history.push({
+                        pathname: './compose',
+                        state: { teacher: record }
+                      })
+                    }
+                  }}
                     />
                   </Row>
                   <div className="float" onClick={() => this.props.history.push("/compose")}>

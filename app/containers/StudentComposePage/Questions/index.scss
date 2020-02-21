@@ -1,0 +1,68 @@
+@import "../../../utils/variables.scss";
+
+.questions-information {
+
+  .questions-info-header {
+    background-color: #fff;
+
+    .p {
+      font-size: 28px;
+      color: $secondary_blue;
+    }
+  }
+
+  .questions-info-body {
+    .tutor {
+      margin: 20px 15px;
+
+      .p {
+        font-size: 16px;
+      }
+    }
+
+    .session {
+      padding: 40px 15px;
+
+      .p {
+        font-size: 16px;
+      }
+
+      .session-close {
+        background-image: url(./assets/done-mark.svg);
+        margin: 20px 10px;
+        background-size: 15px 30px;
+        background-repeat: no-repeat;
+        font-size: 14px;
+        align-items: center;
+        border: none;
+
+        p {
+          margin: 0px 15px;
+        }
+      }
+    }
+
+    .settings {
+      margin-left: 15px;
+
+      .p {
+        font-size: 16px;
+      }
+
+      .settings-delete {
+        background-image: url(./assets/delete.svg);
+        color: red;
+        margin: 20px 10px;
+        background-size: 15px 30px;
+        background-repeat: no-repeat;
+        font-size: 14px;
+        align-items: center;
+        border: none;
+
+        p {
+          margin: 0px 15px;
+        }
+      }
+    }
+  }
+}

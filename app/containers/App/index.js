@@ -18,6 +18,7 @@ import AddTeacherPage from 'containers/AddTeacherPage/Loadable';
 import TeacherPage from 'containers/TeacherPage/Loadable';
 import DashboardPage from 'containers/DashboardPage/Loadable';
 import StudentAskPage from 'containers/StudentAskPage/Loadable';
+import StudentComposePage from 'containers/StudentComposePage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import SideMenu from 'components/Menu';
 import GlobalStyle from '../../global-styles';
@@ -43,6 +44,7 @@ export default function App() {
               <Route path="/teacher" component={TeacherPage}/>
               <Route path="/addteacher" component={AddTeacherPage}/>
               <Route path="/ask" component={StudentAskPage}/>
+              <Route path="/compose" component={StudentComposePage}/>
               <Route path="" component={NotFoundPage} />
             </Switch>
           </Col>

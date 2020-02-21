@@ -1,7 +1,43 @@
 import React, { Fragment } from 'react';
 import { Layout, Icon, Button, Input } from 'antd';
 import "./index.scss";
+import colunms from '../tableCol';
 const { Header, Content } = Layout;
+
+const mockData = [
+    {
+        teacher: "LamPD",
+        mail: "lampd@fe.edu.vn",
+        date: '18:20',
+    },
+    {
+        teacher: "MaiTT",
+        mail: "maitt6@fe.edu.vn",
+        date: '14:57',
+    },
+    {
+        teacher: "MaiVTT",
+        mail: "maitt@fe.edu.vn",
+        date: 'Dec 19',
+    },
+    {
+        teacher: "PhuongLh7",
+        mail: "phuonglh7@fe.edu.vn",
+        date: 'Dec 17',
+    },
+    {
+      teacher: "TungNN13",
+      mail: "phuonglh7@fe.edu.vn",
+      date: 'Dec 16',
+    },
+    {
+      teacher: "NguyetTM22",
+      mail: "phuonglh7@fe.edu.vn",
+      date: 'Dec 15',
+    },
+]
+
+//const sortedTime = colunms.sort((a, b) => b.date - a.date)
 
 class FilterSearch extends React.Component {
     constructor(props) {
@@ -10,6 +46,14 @@ class FilterSearch extends React.Component {
             
         }
     }
+    
+    sortedTime() {
+       this.setState(prevState => {
+         this.state.colunms.sort((a, b) => (b.date - a.date))
+       });
+     }
+
+    
     render() {
         return (
             <Layout className="filter-information">
@@ -19,7 +63,7 @@ class FilterSearch extends React.Component {
                 <Content className="filter-info-body">
                     <div className="ask-sort">
                         <p>SORT BY</p>
-                        <Button className="time-added">
+                        <Button className="time-added" onClick={this.sortedTime}>
                             <span className="time-added-icon" size="medium">Time added</span>
                         </Button>
                     </div>

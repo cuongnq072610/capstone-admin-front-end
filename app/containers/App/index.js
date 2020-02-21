@@ -20,8 +20,10 @@ import DashboardPage from 'containers/DashboardPage/Loadable';
 import StudentAskPage from 'containers/StudentAskPage/Loadable';
 import StudentComposePage from 'containers/StudentComposePage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
-import SideMenu from 'components/Menu';
 import GlobalStyle from '../../global-styles';
+
+import WrapperLayout from '../../components/WrapperLayout';
+
 export default function App() {
   return (
     <Layout>
@@ -31,25 +33,14 @@ export default function App() {
       >
         <meta name="description" content="Smart Course Management Admin" />
       </Helmet>
-      <Layout>
-        <Row>
-          <Col span={2}>
-            <SideMenu />
-          </Col>
-          <Col span={22}>
-            <Switch>
-              <Route exact path="/" component={DashboardPage} />
-              <Route exact path="/course" component={HomePage} />
-              <Route path="/addcourse" component={AddCoursePage} />
-              <Route path="/teacher" component={TeacherPage}/>
-              <Route path="/addteacher" component={AddTeacherPage}/>
-              <Route path="/ask" component={StudentAskPage}/>
-              <Route path="/compose" component={StudentComposePage}/>
-              <Route path="" component={NotFoundPage} />
-            </Switch>
-          </Col>
-        </Row>
-      </Layout>
+      <Switch>
+        <Route exact path='/' render={() => <WrapperLayout component={DashboardPage} role="admin" />}/>
+        <Route path='/course' render={() => <WrapperLayout component={HomePage} role="admin" />}/>
+        <Route path='/teacher' render={() => <WrapperLayout component={TeacherPage} role="admin"/>}/>
+        <Route path='/addcourse' render={() => <WrapperLayout component={AddCoursePage} role="admin"/>}/>
+        <Route path='/addteacher' render={() => <WrapperLayout component={AddTeacherPage} role="admin"/>}/>
+        <Route path='' render={() => <WrapperLayout component={NotFoundPage}/>}/>
+      </Switch>
       <GlobalStyle />
     </Layout>
   );

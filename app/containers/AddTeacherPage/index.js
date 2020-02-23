@@ -28,40 +28,6 @@ import columns from './tableCol';
 const { Content } = Layout;
 /* eslint-disable react/prefer-stateless-function */
 
-const mockData = [{
-  teacher: "LamPD",
-  mail: "lampd@fe.edu.vn",
-  departments: ['Communication Business', 'New Category', 'Communication'],
-  courses: ["ECO101", "ASD203", "DBW231"],
-  rating: 2.4,
-  isActive: true,
-},
-{
-  teacher: "MaiTT",
-  mail: "maitt6@fe.edu.vn",
-  departments: ['Communication'],
-  courses: ["ECO101", "ASD203", "DBW231"],
-  rating: 1,
-  isActive: true,
-},
-{
-  teacher: "MaiVTT",
-  mail: "maitt@fe.edu.vn",
-  departments: ['Computer Science'],
-  courses: ["ECO101", "ASD203", "DBW231"],
-  rating: 1,
-  isActive: true,
-},
-{
-  teacher: "PhuongLh7",
-  mail: "phuonglh7@fe.edu.vn",
-  departments: ['Communication'],
-  courses: ["ECO101", "ASD203", "DBW231"],
-  rating: 1,
-  isActive: true,
-},
-];
-
 const mockData2 = [
   "Business", "Communication Business", "Communication", "Finance", "Graphic Design"
 ];
@@ -81,9 +47,15 @@ export class AddTeacherPage extends React.Component {
 
   componentDidMount() {
     this.props.fetchTeacher();
+    const { course } = this.props.history.location.state;
+    console.log(course)
+    this.setState({
+      chosenTeachers: course.teachers
+    })
   }
 
   componentDidUpdate(prevProps) {
+    const { course } = this.props.history.location.state;
     if (prevProps.addTeacherPage !== this.props.addTeacherPage) {
       const { teachers } = this.props.addTeacherPage;
       const formatTeachers = teachers.map((teacher, index) => {
@@ -92,11 +64,20 @@ export class AddTeacherPage extends React.Component {
           key: `${index}`
         }
       })
-      this.setState({
-        departments: mockData2,
-        teachers: formatTeachers,
-        baseTeachers: formatTeachers,
-      })
+      if (course.teachers && course.teachers.length > 0) {
+        var checkFormatTeachers = formatTeachers.filter(teacher => course.teachers.map(teacher => teacher._id).indexOf(teacher._id) === -1)
+        this.setState({
+          teachers: checkFormatTeachers,
+          departments: mockData2,
+          baseTeachers: formatTeachers,
+        })
+      } else {
+        this.setState({
+          departments: mockData2,
+          teachers: formatTeachers,
+          baseTeachers: formatTeachers,
+        })
+      }
     }
   }
 

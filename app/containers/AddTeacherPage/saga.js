@@ -6,7 +6,6 @@ import { API_ENDPOINT, ALL_TEACHER } from '../../constants/apis';
 function* loadTeacher() {
   try {
     const response = yield call(fetchTeacher, `${API_ENDPOINT}${ALL_TEACHER}`);
-    console.log(response)
     if (response.data) {
       const teachers = response.data.map(item => item)
       yield put({ type: LOAD_TEACHER_SUCCESS, payload: teachers })

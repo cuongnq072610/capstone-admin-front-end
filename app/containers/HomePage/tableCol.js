@@ -3,7 +3,7 @@ import { Tooltip } from 'antd';
 
 const fomatDepartment = (departments) => {
     return departments.map((item, index) => {
-        return index !== departments.length - 1 ? item.displayName + " - " : item.displayName
+        return index !== departments.length - 1 ? item.name + " - " : item.name
     })
 }
 

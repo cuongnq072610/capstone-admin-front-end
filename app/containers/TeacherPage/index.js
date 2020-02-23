@@ -26,6 +26,7 @@ import columns from './tableCol';
 
 import "./index.scss";
 import TeacherInfo from './TeacherInfo';
+import { loadTeacher } from './actions';
 
 const { Content, Header } = Layout;
 
@@ -84,14 +85,21 @@ export class TeacherPage extends React.Component {
     }
 
     componentDidMount() {
-        const fomatTeachers = mockData.map((teacher, index) => {
-            return { ...teacher, key: `${index}` }
-        })
-        this.setState({
-            departments: mockData2,
-            teachers: fomatTeachers,
-            baseTeachers: fomatTeachers,
-        })
+        this.props.fetchTeacher();
+    }
+
+    componentDidUpdate(prevProps) {
+        const { teachers } = this.props.teacherPage;
+        if (prevProps.teacherPage !== this.props.teacherPage) {
+            const fomatTeachers = teachers.map((teacher, index) => {
+                return { ...teacher, key: `${index}` }
+            })
+            this.setState({
+                departments: mockData2,
+                teachers: fomatTeachers,
+                baseTeachers: fomatTeachers,
+            })
+        }
     }
 
     onResetFilter = () => {
@@ -137,7 +145,7 @@ export class TeacherPage extends React.Component {
 
     render() {
         const { departments, teachers, toggleInfo, selectedTeacher, selectedRow } = this.state;
-
+        const { isLoading } = this.props.teacherPage;
         return (
             <Row>
                 <Helmet>
@@ -174,7 +182,7 @@ export class TeacherPage extends React.Component {
                                     rowClassName={(record, index) => {
                                         return index === selectedRow ? "active-row" : ""
                                     }}
-                                // loading={true}
+                                    loading={isLoading}
                                 />
                             </Row>
                         </Content>
@@ -200,7 +208,6 @@ export class TeacherPage extends React.Component {
 }
 
 TeacherPage.propTypes = {
-    dispatch: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -209,7 +216,7 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
     return {
-        dispatch,
+        fetchTeacher: () => { dispatch(loadTeacher()) }
     };
 }
 

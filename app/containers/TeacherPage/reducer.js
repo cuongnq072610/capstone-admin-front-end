@@ -20,9 +20,9 @@ function teacherPageReducer(state = initialState, action) {
     case LOAD_TEACHER:
       return state.set('isLoading', true);
     case LOAD_SUCCESS_TEACHER:
-      return state.set('teachers', fromJS(action.payload));
+      return state.set('teachers', fromJS(action.payload)).set('isLoading', false);
     case LOAD_FAILURE_TEACHER:
-      return state.set('errors', action.payload);
+      return state.set('errors', action.payload).set('isLoading', false);
     default:
       return state;
   }

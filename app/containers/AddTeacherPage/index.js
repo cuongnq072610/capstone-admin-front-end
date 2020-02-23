@@ -154,7 +154,7 @@ export class AddTeacherPage extends React.Component {
       state: {
         course: {
           ...history.location.state.course,
-          chosenTeachers
+          teachers: chosenTeachers
         }
       }
     })
@@ -174,10 +174,7 @@ export class AddTeacherPage extends React.Component {
             <Layout>
               <div className="header">
                 <div className="header1">
-                  {/* <Link to="/addcourse">
-                    <Icon type="arrow-left" />
-                  </Link> */}
-                  <Button style={{border: 'none'}} onClick={this.navigateAddCourse}>
+                  <Button style={{ border: 'none' }} onClick={this.navigateAddCourse}>
                     <Icon type="arrow-left" />
                   </Button>
                   <p className="p"><b>Add Teachers</b></p>

@@ -155,7 +155,7 @@ export class HomePage extends React.Component {
         return {
           ...course,
           key: `${index}`,
-          numberOfTeacher: course.teacher.length,
+          numberOfTeacher: course.teachers.length,
         }
       })
       this.setState({

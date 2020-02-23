@@ -35,19 +35,12 @@ export class AddCoursePage extends React.Component {
       course: {
         courseName: '',
         courseCode: '',
-        departmentsField: [],
+        departments: [],
         shortDes: '',
         fullDes: '',
         courseUrl: '',
-        chosenTeachers: []
+        teachers: [],
       },
-      // courseName: '',
-      // courseCode: '',
-      // departmentsField: [],
-      // shortDes: '',
-      // fullDes: '',
-      // courseUrl: '',
-      // chosenTeachers: []
     };
   }
 
@@ -58,49 +51,30 @@ export class AddCoursePage extends React.Component {
         this.setState({
           course: history.location.state.course
         })
-      } 
-      // else if (history.location.state.chosenTeachers) {
-      //   this.setState({
-      //     // chosenTeachers: history.location.state.chosenTeachers
-      //     course: {
-      //       chosenTeachers: history.location.state.chosenTeachers
-      //     }
-      //   })
-      // }
+      }
     }
-  };
-
-  onChangeValue = e => {
-    this.setState({
-      skill: e.target.value,
-    });
   };
 
   //handle change for Select Department
   handleChangeSelect = (value) => {
-    // console.log(value);
+    // var newDepartments = this.state.departments;
+    // console.log(newDepartments)
+    // value.forEach(item => {
+    //   newDepartments.push(item)
+    // });
+    // console.log(newDepartments)
     this.setState({
-      // departmentsField: value,
       course: {
         ...this.state.course,
-        departmentsField: value,
+        departments: value
+        // departments: newDepartments,
       }
     })
+    console.log(value)
   }
 
   handleSubmit = (e) => {
     e.preventDefault();
-    // const { courseName, courseCode, departmentsField, shortDes, fullDes, chosenTeachers, courseURL } = this.state;
-    // const newCourse = {
-    //   'courseName': courseName,
-    //   'courseCode': courseCode,
-    //   'departments': departmentsField,
-    //   'shortDes': shortDes,
-    //   'fullDes': fullDes,
-    //   'courseURL': courseURL,
-    //   'teachers': chosenTeachers
-    // };
-
     console.log(this.state)
   }
 
@@ -114,33 +88,36 @@ export class AddCoursePage extends React.Component {
   }
 
   render() {
-    // const { courseName, courseCode, departmentsField, shortDes, fullDes, chosenTeachers, course, courseUrl } = this.state;
     const { course } = this.state;
-    const { courseName, courseCode, departmentsField, shortDes, fullDes, chosenTeachers, courseUrl } = course;
+    const { courseName, courseCode, departments, shortDes, fullDes, courseUrl } = course;
     const { Option } = Select;
-    const departments = [{
-      name: 'computer',
-      displayName: 'Computer Science'
+    const departmentOption = [{
+      id: 1,
+      value: 'computer',
+      name: 'Computer Science'
     },
     {
-      name: 'business',
-      displayName: 'Business'
+      id: 2,
+      value: 'business',
+      name: 'Business'
     },
     {
-      name: 'finance',
-      displayName: 'Finance'
+      id: 3,
+      value: 'finance',
+      name: 'Finance'
     },
     {
-      name: 'design',
-      displayName: 'Graphic Design'
+      id: 4,
+      value: 'design',
+      name: 'Graphic Design'
     }]
 
     const children = [];
     //pushing Option component into children
-    departments.map(department => {
-      children.push(<Option key={departments.indexOf(department)}
-        value={department.name}>{department.displayName}</Option>)
+    departmentOption.map(item => {
+      children.push(<Option key={item.id} value={item.value}>{item.name}</Option>)
     })
+    const fomatDepartments = departments.map(item => item.value)
     return (
       <Row className="addCourse">
         <Helmet>
@@ -161,7 +138,7 @@ export class AddCoursePage extends React.Component {
                   id="courseName"
                   type="text"
                   placeholder="Give your course a name"
-                  value={course.courseName ? course.courseName : courseName}
+                  value={courseName}
                   onChange={this.handleChange}
                 />
                 <Row className="row">
@@ -174,7 +151,7 @@ export class AddCoursePage extends React.Component {
                       className="belowLabel "
                       id="courseCode"
                       prefix={<Icon type="user" />}
-                      value={course.courseCode ? course.courseCode : courseCode}
+                      value={courseCode}
                       onChange={this.handleChange}
                     />
                   </Col>
@@ -189,7 +166,8 @@ export class AddCoursePage extends React.Component {
                       style={{ width: '100%' }}
                       placeholder="Please select"
                       onChange={this.handleChangeSelect}
-                      value={course.departments ? course.departments : departmentsField}
+                      // value={departments}
+                      value={fomatDepartments}
                     >
                       {children}
                     </Select>
@@ -201,14 +179,14 @@ export class AddCoursePage extends React.Component {
                     <span>*</span>
                   </label>
                   <TextArea className="belowLabel" rows={2} id="shortDes"
-                    value={course.shortDes ? course.shortDes : shortDes}
+                    value={shortDes}
                     onChange={this.handleChange}
                   />
                 </Row>
                 <Row>
                   <label>Full Description</label>
                   <TextArea className="belowLabel" rows={4} id="fullDes"
-                    value={course.fullDes ? course.fullDes : fullDes}
+                    value={fullDes}
                     onChange={this.handleChange}
                   />
                 </Row>
@@ -219,7 +197,7 @@ export class AddCoursePage extends React.Component {
                       className="belowLabel"
                       id="courseUrl"
                       prefix={<Icon type="user" />}
-                      value={course.courseURL ? course.courseURL : courseUrl}
+                      value={courseUrl}
                       onChange={this.handleChange}
                     />
                   </Col>
@@ -233,7 +211,7 @@ export class AddCoursePage extends React.Component {
           </Layout>
         </Col>
         <Col className="addTeacher" span={5}>
-          <SearchTeacher course={course}/>
+          <SearchTeacher course={course} />
         </Col>
       </Row>
     );

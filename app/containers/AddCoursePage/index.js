@@ -32,13 +32,22 @@ export class AddCoursePage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      course: {},
-      courseName: '',
-      courseCode: '',
-      departmentsField: [],
-      shortDes: '',
-      fullDes: '',
-      chosenTeachers: []
+      course: {
+        courseName: '',
+        courseCode: '',
+        departmentsField: [],
+        shortDes: '',
+        fullDes: '',
+        courseUrl: '',
+        chosenTeachers: []
+      },
+      // courseName: '',
+      // courseCode: '',
+      // departmentsField: [],
+      // shortDes: '',
+      // fullDes: '',
+      // courseUrl: '',
+      // chosenTeachers: []
     };
   }
 
@@ -49,11 +58,15 @@ export class AddCoursePage extends React.Component {
         this.setState({
           course: history.location.state.course
         })
-      } else if (history.location.state.chosenTeachers) {
-        this.setState({
-          chosenTeachers: history.location.state.chosenTeachers
-        })
-      }
+      } 
+      // else if (history.location.state.chosenTeachers) {
+      //   this.setState({
+      //     // chosenTeachers: history.location.state.chosenTeachers
+      //     course: {
+      //       chosenTeachers: history.location.state.chosenTeachers
+      //     }
+      //   })
+      // }
     }
   };
 
@@ -67,23 +80,43 @@ export class AddCoursePage extends React.Component {
   handleChangeSelect = (value) => {
     // console.log(value);
     this.setState({
-      departmentsField: value,
+      // departmentsField: value,
+      course: {
+        ...this.state.course,
+        departmentsField: value,
+      }
     })
   }
 
   handleSubmit = (e) => {
     e.preventDefault();
+    // const { courseName, courseCode, departmentsField, shortDes, fullDes, chosenTeachers, courseURL } = this.state;
+    // const newCourse = {
+    //   'courseName': courseName,
+    //   'courseCode': courseCode,
+    //   'departments': departmentsField,
+    //   'shortDes': shortDes,
+    //   'fullDes': fullDes,
+    //   'courseURL': courseURL,
+    //   'teachers': chosenTeachers
+    // };
+
     console.log(this.state)
   }
 
   handleChange = (e) => {
     this.setState({
-      [e.target.id]: e.target.value
+      course: {
+        ...this.state.course,
+        [e.target.id]: e.target.value
+      }
     })
   }
 
   render() {
-    const { courseName, courseCode, departmentsField, shortDes, fullDes, chosenTeachers, course } = this.state;
+    // const { courseName, courseCode, departmentsField, shortDes, fullDes, chosenTeachers, course, courseUrl } = this.state;
+    const { course } = this.state;
+    const { courseName, courseCode, departmentsField, shortDes, fullDes, chosenTeachers, courseUrl } = course;
     const { Option } = Select;
     const departments = [{
       name: 'computer',
@@ -184,8 +217,11 @@ export class AddCoursePage extends React.Component {
                     <label>Course URL<span>*</span></label>
                     <Input
                       className="belowLabel"
+                      id="courseUrl"
                       prefix={<Icon type="user" />}
-                      value={course.courseURL ? course.courseURL : ""} />
+                      value={course.courseURL ? course.courseURL : courseUrl}
+                      onChange={this.handleChange}
+                    />
                   </Col>
                 </Row>
                 <Button className="addBtn" type="primary" onClick={this.handleSubmit}>
@@ -197,7 +233,7 @@ export class AddCoursePage extends React.Component {
           </Layout>
         </Col>
         <Col className="addTeacher" span={5}>
-          <SearchTeacher chosenTeachers={course.teachers ? course.teachers : chosenTeachers}/>
+          <SearchTeacher chosenTeachers={course.teachers ? course.teachers : chosenTeachers} course={course}/>
         </Col>
       </Row>
     );

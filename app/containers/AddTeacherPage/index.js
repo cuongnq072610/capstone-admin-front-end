@@ -152,7 +152,10 @@ export class AddTeacherPage extends React.Component {
     history.push({
       pathname: "/addcourse",
       state: {
-        chosenTeachers: chosenTeachers
+        course: {
+          ...history.location.state.course,
+          chosenTeachers
+        }
       }
     })
   }

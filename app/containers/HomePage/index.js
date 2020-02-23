@@ -149,9 +149,7 @@ export class HomePage extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    console.log(prevProps)
     if (prevProps.homePage !== this.props.homePage) {
-      console.log(`done`)
       const { courses } = this.props.homePage;
       const newCourses = courses.map((course, index) => {
         return {

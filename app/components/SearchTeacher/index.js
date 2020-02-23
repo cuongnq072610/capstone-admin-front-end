@@ -65,8 +65,8 @@ class SearchTeacher extends React.Component {
   };
 
   render() {
-    const { chosenTeacher } = this.state;
-    console.log(chosenTeacher)
+    const { chosenTeachers } = this.props;
+    console.log(chosenTeachers)
     return (
       <Layout className="wrap">
         <Header>Teachers</Header>
@@ -78,7 +78,7 @@ class SearchTeacher extends React.Component {
             onChange={this.filterList}
           />
           <h3 className="chosen-teacher">{this.state.chosenTeacher.length} CHOSEN TUTORS</h3>
-          <Button className="add-btn" icon="plus" size="medium" onClick={()=>history.push("/addteacher")}>Add teacher</Button>
+          <Button className="add-btn" icon="plus" onClick={()=>history.push("/addteacher")}>Add teacher</Button>
         </form>
       </Layout>
     )

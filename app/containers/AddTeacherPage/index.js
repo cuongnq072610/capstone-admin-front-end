@@ -6,7 +6,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Layout, Row, Col, Input, Icon, Table } from 'antd';
+import { Layout, Row, Col, Input, Icon, Table, Button } from 'antd';
 import './addTeacher.scss';
 
 import PropTypes from 'prop-types';
@@ -24,9 +24,8 @@ import messages from './messages';
 import CourseInfo from './CourseInfo';
 import { loadTeacher } from './actions';
 import columns from './tableCol';
-const { Search } = Input;
 
-const { Header, Content } = Layout;
+const { Content } = Layout;
 /* eslint-disable react/prefer-stateless-function */
 
 const mockData = [{
@@ -82,17 +81,6 @@ export class AddTeacherPage extends React.Component {
 
   componentDidMount() {
     this.props.fetchTeacher();
-    // const formatTeachers = mockData.map((teacher, index) => {
-    //   return {
-    //     ...teacher,
-    //     key: `${index}`
-    //   }
-    // })
-    // this.setState({
-    //   departments: mockData2,
-    //   teachers: formatTeachers,
-    //   baseTeachers: formatTeachers,
-    // })
   }
 
   componentDidUpdate(prevProps) {
@@ -158,6 +146,17 @@ export class AddTeacherPage extends React.Component {
     })
   }
 
+  navigateAddCourse = () => {
+    const { chosenTeachers } = this.state;
+    const { history } = this.props;
+    history.push({
+      pathname: "/addcourse",
+      state: {
+        chosenTeachers: chosenTeachers
+      }
+    })
+  }
+
   render() {
     const { teachers, chosenTeachers } = this.state;
     const { isLoading } = this.props.addTeacherPage;
@@ -172,9 +171,12 @@ export class AddTeacherPage extends React.Component {
             <Layout>
               <div className="header">
                 <div className="header1">
-                  <Link to="/addcourse">
+                  {/* <Link to="/addcourse">
                     <Icon type="arrow-left" />
-                  </Link>
+                  </Link> */}
+                  <Button style={{border: 'none'}} onClick={this.navigateAddCourse}>
+                    <Icon type="arrow-left" />
+                  </Button>
                   <p className="p"><b>Add Teachers</b></p>
                 </div>
                 <Input className="search-teacher"

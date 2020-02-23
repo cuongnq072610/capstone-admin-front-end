@@ -5,7 +5,7 @@
  */
 import { Link } from 'react-router-dom';
 import './addCourse.scss';
-import { Select, Layout, Row, Col, Input, Icon, Form, Button, Tag } from 'antd';
+import { Select, Layout, Row, Col, Input, Icon, Form, Button } from 'antd';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -24,16 +24,9 @@ import history from '../../utils/history';
 
 /* eslint-disable react/prefer-stateless-function */
 
-const { Search, TextArea, Option } = Input;
+const { TextArea } = Input;
 
 const { Header, Content } = Layout;
-
-const mockData = {
-  courseCode: 'ASD203',
-  category: 'Computer Science',
-  description:
-    'The course goes through simple algorithms and thier applications in data manipulation',
-};
 
 export class AddCoursePage extends React.Component {
   constructor(props) {
@@ -45,14 +38,22 @@ export class AddCoursePage extends React.Component {
       departmentsField: [],
       shortDes: '',
       fullDes: '',
+      chosenTeachers: []
     };
   }
 
   componentDidMount() {
-    if (history.location.state) {
-      this.setState({
-        course: history.location.state.course
-      })
+    const { state } = history.location;
+    if (state) {
+      if (history.location.state.course) {
+        this.setState({
+          course: history.location.state.course
+        })
+      } else if (history.location.state.chosenTeachers) {
+        this.setState({
+          chosenTeachers: history.location.state.chosenTeachers
+        })
+      }
     }
   };
 
@@ -82,7 +83,7 @@ export class AddCoursePage extends React.Component {
   }
 
   render() {
-    const { courseName, courseCode, departmentsField, shortDes, fullDes } = this.state;
+    const { courseName, courseCode, departmentsField, shortDes, fullDes, chosenTeachers, course } = this.state;
     const { Option } = Select;
     const departments = [{
       name: 'computer',
@@ -107,10 +108,7 @@ export class AddCoursePage extends React.Component {
       children.push(<Option key={departments.indexOf(department)}
         value={department.name}>{department.displayName}</Option>)
     })
-
-
     return (
-
       <Row className="addCourse">
         <Helmet>
           <title>AddCoursePage</title>
@@ -130,7 +128,7 @@ export class AddCoursePage extends React.Component {
                   id="courseName"
                   type="text"
                   placeholder="Give your course a name"
-                  value={this.state.course.courseName ? this.state.course.courseName : courseName}
+                  value={course.courseName ? course.courseName : courseName}
                   onChange={this.handleChange}
                 />
                 <Row className="row">
@@ -143,7 +141,7 @@ export class AddCoursePage extends React.Component {
                       className="belowLabel "
                       id="courseCode"
                       prefix={<Icon type="user" />}
-                      value={this.state.course.courseCode ? this.state.course.courseCode : courseCode}
+                      value={course.courseCode ? course.courseCode : courseCode}
                       onChange={this.handleChange}
                     />
                   </Col>
@@ -158,7 +156,7 @@ export class AddCoursePage extends React.Component {
                       style={{ width: '100%' }}
                       placeholder="Please select"
                       onChange={this.handleChangeSelect}
-                      value={this.state.course.departments ? this.state.course.departments : departmentsField}
+                      value={course.departments ? course.departments : departmentsField}
                     >
                       {children}
                     </Select>
@@ -170,14 +168,14 @@ export class AddCoursePage extends React.Component {
                     <span>*</span>
                   </label>
                   <TextArea className="belowLabel" rows={2} id="shortDes"
-                    value={this.state.course.shortDes ? this.state.course.shortDes : shortDes}
+                    value={course.shortDes ? course.shortDes : shortDes}
                     onChange={this.handleChange}
                   />
                 </Row>
                 <Row>
                   <label>Full Description</label>
                   <TextArea className="belowLabel" rows={4} id="fullDes"
-                    value={this.state.course.fullDes ? this.state.course.fullDes : fullDes}
+                    value={course.fullDes ? course.fullDes : fullDes}
                     onChange={this.handleChange}
                   />
                 </Row>
@@ -187,7 +185,7 @@ export class AddCoursePage extends React.Component {
                     <Input
                       className="belowLabel"
                       prefix={<Icon type="user" />}
-                      value={this.state.course.courseURL ? this.state.course.courseURL : ""} />
+                      value={course.courseURL ? course.courseURL : ""} />
                   </Col>
                 </Row>
                 <Button className="addBtn" type="primary" onClick={this.handleSubmit}>
@@ -199,7 +197,7 @@ export class AddCoursePage extends React.Component {
           </Layout>
         </Col>
         <Col className="addTeacher" span={5}>
-          <SearchTeacher />
+          <SearchTeacher chosenTeachers={course.teachers ? course.teachers : chosenTeachers}/>
         </Col>
       </Row>
     );

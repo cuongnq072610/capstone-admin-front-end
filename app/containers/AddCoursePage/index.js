@@ -233,7 +233,7 @@ export class AddCoursePage extends React.Component {
           </Layout>
         </Col>
         <Col className="addTeacher" span={5}>
-          <SearchTeacher chosenTeachers={course.teachers ? course.teachers : chosenTeachers} course={course}/>
+          <SearchTeacher course={course}/>
         </Col>
       </Row>
     );

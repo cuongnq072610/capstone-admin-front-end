@@ -3,7 +3,7 @@ import { Tooltip } from 'antd';
 
 const fomatDepartment = (departments) => {
     return departments.map((item, index) => {
-        return index !== departments.length - 1 ? item.name + " - " : item.name
+        return index !== departments.length - 1 ? item + " - " : item.name
     })
 }
 
@@ -31,7 +31,7 @@ const colunms = [
                             record.departments.map((item, index) => {
                                 return (
                                     <span key={index}>
-                                        <span>{item.name}</span>
+                                        <span>{item}</span>
                                         {index === record.departments.length - 1 ? "" : <span className="ant-divider" />}
                                     </span>
                                 )
@@ -48,7 +48,7 @@ const colunms = [
                                 return (
                                     index < 3 &&
                                     <span key={index}>
-                                        <span>{item.name}</span>
+                                        <span>{item}</span>
                                         <span className="ant-divider" />
                                     </span>
                                 )

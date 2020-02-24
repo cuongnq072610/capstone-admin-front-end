@@ -38,7 +38,7 @@ export class AddCoursePage extends React.Component {
         departments: [],
         shortDes: '',
         fullDes: '',
-        courseUrl: '',
+        courseURL: '',
         teachers: [],
       },
     };
@@ -89,7 +89,7 @@ export class AddCoursePage extends React.Component {
 
   render() {
     const { course } = this.state;
-    const { courseName, courseCode, departments, shortDes, fullDes, courseUrl } = course;
+    const { courseName, courseCode, departments, shortDes, fullDes, courseURL } = course;
     const { Option } = Select;
     const departmentOption = [{
       id: 1,
@@ -117,7 +117,6 @@ export class AddCoursePage extends React.Component {
     departmentOption.map(item => {
       children.push(<Option key={item.id} value={item.value}>{item.name}</Option>)
     })
-    const fomatDepartments = departments.map(item => item.value)
     return (
       <Row className="addCourse">
         <Helmet>
@@ -166,8 +165,7 @@ export class AddCoursePage extends React.Component {
                       style={{ width: '100%' }}
                       placeholder="Please select"
                       onChange={this.handleChangeSelect}
-                      // value={departments}
-                      value={fomatDepartments}
+                      value={departments}
                     >
                       {children}
                     </Select>
@@ -195,9 +193,9 @@ export class AddCoursePage extends React.Component {
                     <label>Course URL<span>*</span></label>
                     <Input
                       className="belowLabel"
-                      id="courseUrl"
+                      id="courseURL"
                       prefix={<Icon type="user" />}
-                      value={courseUrl}
+                      value={courseURL}
                       onChange={this.handleChange}
                     />
                   </Col>

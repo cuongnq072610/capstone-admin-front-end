@@ -48,7 +48,6 @@ export class AddTeacherPage extends React.Component {
   componentDidMount() {
     this.props.fetchTeacher();
     const { course } = this.props.history.location.state;
-    console.log(course)
     this.setState({
       chosenTeachers: course.teachers
     })

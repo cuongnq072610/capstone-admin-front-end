@@ -12,7 +12,7 @@ const colunms = [
     },
     {
         title: "E-MAIL",
-        dataIndex: "mail",
+        dataIndex: "question",
         width: 600,
     },
     {

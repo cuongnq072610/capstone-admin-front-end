@@ -10,12 +10,13 @@
     justify-content: center;
     height: 100px;
 
-     
+
   }
 
   .ask-page-content {
     .ask-table {
-      padding: 38px 0px;
+      padding: 40px 0px;
+      cursor: pointer;
     }
 
     .float {
@@ -24,8 +25,8 @@
       height: 60px;
       bottom: 50px;
       right: 280px;
-      background-color: $secondary_blue;
-      color: $secondary_blue;
+      background-color: $primary_blue;
+      color: #FFF;
       border-radius: 50px;
       text-align: center;
       box-shadow: 2px 2px 3px #999;

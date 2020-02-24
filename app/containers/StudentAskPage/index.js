@@ -28,32 +28,38 @@ const { Content, Header } = Layout;
 const mockData = [
     {
         teacher: "LamPD",
-        mail: "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+        mail:"lampd@fe.edu.vn",
+        question: "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
         date: '18:20',
     },
     {
         teacher: "MaiTT",
-        mail: "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
+        mail: "maitt@fe.edu.vn",
+        question: "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
         date: '14:57',
     },
     {
         teacher: "MaiVTT",
-        mail: "It is a long established fact that a reader will be distracted by the readable",
+        mail: "maivtt@fe.edu.vn",
+        question: "It is a long established fact that a reader will be distracted by the readable",
         date: 'Dec 19',
     },
     {
         teacher: "PhuongLh7",
-        mail: "Contrary to popular belief, Lorem Ipsum is not simply random text",
+        mail: "phuonglh17@fe.edu.vn",
+        question: "Contrary to popular, belief, Lorem Ipsum is not simply random text",
         date: 'Dec 17',
     },
     {
       teacher: "TungNN13",
-      mail: "It has roots in a piece of classical Latin literature from 45 BC",
+      mail: "tungnn13@fe.edu.vn",
+      question: "It has roots in a piece of classical Latin literature from 45 BC",
       date: 'Dec 16',
     },
     {
       teacher: "NguyetTM22",
-      mail: "There are many variations of passages of Lorem Ipsum available",
+      mail: "nguyettm22@fe.edu.vn",
+      question: "There are many variations of passages of Lorem Ipsum available",
       date: 'Dec 15',
     },
 ]
@@ -78,10 +84,9 @@ export class StudentAskPage extends React.Component {
       })
     }
     
-  render() {
-    
+  render() { 
     const {teachers} =this.state;
-console.log(this.props.history)
+    console.log(this.props.history)
     return (
       <div>
         <Helmet>
@@ -100,10 +105,10 @@ console.log(this.props.history)
               <Content className="ask-page-content">
                   <Row>
                     <Table
-                                        columns={columns}
-                                        dataSource={teachers}
-                                        className="ask-table"
-                                        onRow={(record, rowIndex) => {
+                      columns={columns}
+                      dataSource={teachers}
+                      className="ask-table"
+                      onRow={(record, rowIndex) => {
                     return {
                       onClick: e => this.props.history.push({
                         pathname: './compose',
@@ -114,8 +119,8 @@ console.log(this.props.history)
                     />
                   </Row>
                   <div className="float" onClick={() => this.props.history.push("/compose")}>
-                    <Icon type="plus" className="my-float" />
-                  </div>
+                <Icon type="plus" className="my-float" />
+              </div>
               </Content>
             </Layout>
         </Col>

@@ -8,7 +8,7 @@ class Questions extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            
+            teacher:{},
         }
     }
 
@@ -25,13 +25,13 @@ class Questions extends React.Component {
                         </div>
                         <div className="session">
                             <span className="p">SESSION</span>
-                            <Button className="session-close" size="medium">
+                            <Button className="session-close" size="small">
                                 <p>Close this question</p>
                             </Button>
                         </div>
                         <div className="settings">
                             <span className="p">SETTINGS</span>
-                            <Button className="settings-delete" size="medium">
+                            <Button className="settings-delete" size="small">
                                 <p>Delete this question</p>
                             </Button>
                         </div>

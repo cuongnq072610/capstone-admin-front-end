@@ -1,13 +1,15 @@
 @import "../../../utils/variables.scss";
 
 .questions-information {
+  margin: 20px 15px;
 
   .questions-info-header {
     background-color: #fff;
 
     .p {
+      margin: 5px -20px;
       font-size: 28px;
-      color: $secondary_blue;
+      color: $primary_blue;
     }
   }
 
@@ -21,7 +23,8 @@
     }
 
     .session {
-      padding: 40px 15px;
+      padding-top: 35px;
+      margin: 10px 15px;
 
       .p {
         font-size: 16px;
@@ -30,10 +33,9 @@
       .session-close {
         background-image: url(./assets/done-mark.svg);
         margin: 20px 10px;
-        background-size: 15px 30px;
+        background-size: 15px 25px;
         background-repeat: no-repeat;
         font-size: 14px;
-        align-items: center;
         border: none;
 
         p {
@@ -43,7 +45,7 @@
     }
 
     .settings {
-      margin-left: 15px;
+      margin: 0px 15px;
 
       .p {
         font-size: 16px;
@@ -53,10 +55,9 @@
         background-image: url(./assets/delete.svg);
         color: red;
         margin: 20px 10px;
-        background-size: 15px 30px;
+        background-size: 15px 25px;
         background-repeat: no-repeat;
         font-size: 14px;
-        align-items: center;
         border: none;
 
         p {

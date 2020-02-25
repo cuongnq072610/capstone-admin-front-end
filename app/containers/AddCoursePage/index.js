@@ -5,7 +5,7 @@
  */
 import { Link } from 'react-router-dom';
 import './addCourse.scss';
-import { Select, Layout, Row, Col, Input, Icon, Form, Button } from 'antd';
+import { Select, Layout, Row, Col, Input, Icon, Form, Button, Spin } from 'antd';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -21,6 +21,7 @@ import saga from './saga';
 import messages from './messages';
 import SearchTeacher from '../../components/SearchTeacher';
 import history from '../../utils/history';
+import { addCourse, updateCourse } from './actions';
 
 /* eslint-disable react/prefer-stateless-function */
 
@@ -41,15 +42,21 @@ export class AddCoursePage extends React.Component {
         courseURL: '',
         teachers: [],
       },
+      type: '',
     };
   }
 
   componentDidMount() {
     const { state } = history.location;
     if (state) {
-      if (history.location.state.course) {
+      if (state.course) {
         this.setState({
-          course: history.location.state.course
+          course: state.course,
+          type: state.type
+        })
+      } else {
+        this.setState({
+          type: state.type
         })
       }
     }
@@ -57,25 +64,21 @@ export class AddCoursePage extends React.Component {
 
   //handle change for Select Department
   handleChangeSelect = (value) => {
-    // var newDepartments = this.state.departments;
-    // console.log(newDepartments)
-    // value.forEach(item => {
-    //   newDepartments.push(item)
-    // });
-    // console.log(newDepartments)
     this.setState({
       course: {
         ...this.state.course,
         departments: value
-        // departments: newDepartments,
       }
     })
-    console.log(value)
   }
 
   handleSubmit = (e) => {
     e.preventDefault();
-    console.log(this.state)
+    const { course, type } = this.state;
+    console.log(course)
+    if(type === 'add') {
+      this.props.handleAddCourse(course)
+    }
   }
 
   handleChange = (e) => {
@@ -88,8 +91,9 @@ export class AddCoursePage extends React.Component {
   }
 
   render() {
-    const { course } = this.state;
+    const { course, type } = this.state;
     const { courseName, courseCode, departments, shortDes, fullDes, courseURL } = course;
+    const { isLoading } = this.props.addCoursePage;
     const { Option } = Select;
     const departmentOption = [{
       id: 1,
@@ -117,6 +121,8 @@ export class AddCoursePage extends React.Component {
     departmentOption.map(item => {
       children.push(<Option key={item.id} value={item.value}>{item.name}</Option>)
     })
+
+    const antIcon = <Icon type="loading" style={{ fontSize: 24, color: '#fff', marginRight: '10px' }} spin />;
     return (
       <Row className="addCourse">
         <Helmet>
@@ -201,8 +207,14 @@ export class AddCoursePage extends React.Component {
                   </Col>
                 </Row>
                 <Button className="addBtn" type="primary" onClick={this.handleSubmit}>
-                  Add course
-                <Icon type="plus" />
+                  {
+                    isLoading ?
+                      <Spin indicator={antIcon} /> :
+                      type === 'update' ?
+                        <span style={{ marginTop: '2px' }}>Update Course</span> :
+                        <span style={{ marginTop: ' 2px' }}>Add Course</span>
+                  }
+                  <Icon type="plus" />
                 </Button>
               </Form>
             </Content>
@@ -217,7 +229,8 @@ export class AddCoursePage extends React.Component {
 }
 
 AddCoursePage.propTypes = {
-  dispatch: PropTypes.func.isRequired,
+  handleAddCourse: PropTypes.func.isRequired,
+  handleUpdateCourse: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -226,7 +239,8 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
-    dispatch,
+    handleAddCourse: (course) => { dispatch(addCourse(course)) },
+    handleUpdateCourse: (course) => {dispatch(updateCourse(course))},
   };
 }
 

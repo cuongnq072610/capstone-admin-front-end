@@ -4,7 +4,7 @@
  *
  */
 
-import { DEFAULT_ACTION, ADD_COURSE } from './constants';
+import { DEFAULT_ACTION, ADD_COURSE, UPDATE_COURSE } from './constants';
 
 export function defaultAction() {
   return {
@@ -12,8 +12,16 @@ export function defaultAction() {
   };
 }
 
-export function addCourse() {
+export function addCourse(course) {
   return {
     type: ADD_COURSE,
+    course
+  };
+}
+
+export function updateCourse(course) {
+  return {
+    type: UPDATE_COURSE,
+    course
   };
 }

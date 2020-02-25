@@ -4,7 +4,7 @@ const ALL_COURSE = "/allcourses";
 const GET_COURSE = '/getcourse';
 const CREATE_COURSE = '/createcourse';
 const DELETE_COURSE = '/deletecourse';
-const UPDATE_COURSE = '/updatecourse';
+const UPDATE_COURSES = '/updatecourse';
 const ALL_TEACHER = '/allteachers';
 
 export {
@@ -13,6 +13,6 @@ export {
     GET_COURSE,
     CREATE_COURSE,
     DELETE_COURSE,
-    UPDATE_COURSE,
+    UPDATE_COURSES,
     ALL_TEACHER,
 }

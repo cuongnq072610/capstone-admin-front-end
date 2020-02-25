@@ -127,14 +127,19 @@ export class HomePage extends React.Component {
                     return {
                       onClick: e => history.push({
                         pathname: './addcourse',
-                        state: { course: record }
+                        state: { course: record, type: 'update' }
                       })
                     }
                   }}
                   loading={isLoading}
                 />
               </Row>
-              <div className="float" onClick={() => history.push("/addcourse")}>
+              <div className="float" onClick={() => history.push({
+                pathname: "/addcourse",
+                state: {
+                  type: 'add'
+                }
+              })}>
                 <Icon type="plus" className="my-float" />
               </div>
             </Content>

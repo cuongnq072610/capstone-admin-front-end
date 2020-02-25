@@ -48,8 +48,14 @@ export class AddTeacherPage extends React.Component {
   componentDidMount() {
     this.props.fetchTeacher();
     const { course } = this.props.history.location.state;
+    var chosenTeachers = course.teachers.map((teacher, index) => {
+      return {
+        ...teacher,
+        key: `${index}`
+      }
+    })
     this.setState({
-      chosenTeachers: course.teachers
+      chosenTeachers
     })
   }
 
@@ -65,6 +71,7 @@ export class AddTeacherPage extends React.Component {
       })
       if (course.teachers && course.teachers.length > 0) {
         var checkFormatTeachers = formatTeachers.filter(teacher => course.teachers.map(teacher => teacher._id).indexOf(teacher._id) === -1)
+        console.log(checkFormatTeachers)
         this.setState({
           teachers: checkFormatTeachers,
           departments: mockData2,

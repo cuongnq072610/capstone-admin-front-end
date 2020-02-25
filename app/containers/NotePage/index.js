@@ -187,7 +187,7 @@ export class NotePage extends React.Component {
   onHandleChosenFolder = (folder) => {
     const { folderChosen, baseNotes } = this.state;
     if (folder !== folderChosen) {
-      var newArrNotes = baseNotes.filter(note => note.folder === folder.name)
+      var newArrNotes = baseNoes.filter(note => note.folder === folder.name)
       this.setState({
         folderChosen: folder,
         notes: newArrNotes,

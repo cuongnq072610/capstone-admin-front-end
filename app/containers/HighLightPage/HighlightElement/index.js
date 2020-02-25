@@ -3,9 +3,9 @@ import './index.scss';
 
 const Note = ({highlight}) => {
     return (
-        <div className="highlight-wrapper">
-            <button className="note-delete" onClick={() => { }}>
-                <span className="note-delete-icon"></span>
+        <div className={'grid-item highlight-wrapper background-'+highlight.color}>
+            <button className="highlight-delete" onClick={() => { }}>
+                <span className="highlight-delete-icon"></span>
             </button>
             <div className="highlight">
                 <p>{highlight.content}</p>

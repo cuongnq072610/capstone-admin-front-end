@@ -132,6 +132,10 @@ export class HomePage extends React.Component {
                     }
                   }}
                   loading={isLoading}
+                  // for pagination
+                  pagination={{
+                    onChange: (page) => {console.log(page)}
+                  }}
                 />
               </Row>
               <div className="float" onClick={() => history.push({

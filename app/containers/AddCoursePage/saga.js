@@ -2,7 +2,6 @@ import { take, call, put, select, takeLatest, all } from 'redux-saga/effects';
 import { ADD_COURSE, ADD_COURSE_FAILURE, ADD_COURSE_SUCCESS, UPDATE_COURSE, UPDATE_COURSE_SUCCESS, UPDATE_COURSE_FAILURE } from './constants';
 import { addCourseApi, updateCourseApi } from './api';
 import { API_ENDPOINT, CREATE_COURSE, UPDATE_COURSES } from '../../constants/apis';
-import { response } from 'express';
 
 function* addCourse(action) {
   try {
@@ -20,7 +19,7 @@ function* addCourse(action) {
 
 function* updateCourse(action) {
   try {
-    const reponse = yield call(updateCourseApi, `${API_ENDPOINT}${UPDATE_COURSES}`, action.course)
+    const response = yield call(updateCourseApi, `${API_ENDPOINT}${UPDATE_COURSES}`, action.course)
     if (response.data) {
       yield put({ type: UPDATE_COURSE_SUCCESS, payload: response.data.message })
     } else {

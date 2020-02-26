@@ -17,24 +17,33 @@ class CourseInfo extends React.Component {
                     <h1 className="p"><b>Course</b></h1>
                 </Header>
                 <Content className="course-info-body">
-                    <div className="course-name ">
-                        <input className='course-name-input' value='no course name'/>
+                    <div className="course-name">
+                        <textarea className="p" value='Datawarehousing for IT engineers'/>
                     </div>
                     <div className="course-code">
-                        <span>COURSE CODE</span>
-                        <Input prefix={<Icon type="key" />} value='DBW101'></Input>
+                        <span className="p1">COURSE CODE</span>
+                        <Input className="course-code-input" value='DBW101'></Input>
                     </div>
                     <div className="department">
-                        <span>DEPARTMENT</span>
-                        <Input  className="department-input" value='Data Warehouse' prefix={<Icon type="unordered-list" />}/>
+                        <span className="p2">DEPARTMENT</span>
+                        <Input  className="department-input" value='Data Warehouse'/>
                     </div>
                     <div className="short-des">
-                        <span>SHORT DESCRIPTION</span>
-                        <input className="short-des-input" value='no short description'/>
+                        <span className="p3">SHORT DESCRIPTION</span>
+                        <div className="short-des-input">This is a fundamental course 
+                                for software engineers to get
+                                to know what involves in the
+                                running process of a
+                                database organizing in 
+                                entrepreneurs.</div>
                     </div>
                     <div className="full-des">
-                        <span>FULL DESCRIPTION</span>
-                        <input className="full-des-input" value='no full description'/>
+                        <span className="p4">FULL DESCRIPTION</span>
+                        <div className="full-des-input">Database is the bone of
+                                every product and company.
+                                Understanding the principles
+                                of it is crucial for every dev
+                                today.</div>
                     </div>
                 </Content>
             </Layout>

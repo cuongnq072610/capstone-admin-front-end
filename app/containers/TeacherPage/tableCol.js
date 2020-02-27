@@ -7,14 +7,14 @@ const colunms = [
     },
     {
         title: "TEACHER",
-        dataIndex: "teacher",
+        dataIndex: "teacherName",
         sorter: (a, b) => a.teacher < b.teacher,
         sortDirections: ['descend'],
         render: text => <span style={{ color: '#b9754e', fontWeight: 600 }}>{text}</span>,
     },
     {
         title: "E-MAIL",
-        dataIndex: "mail",
+        dataIndex: "email",
     },
     {
         title: "COURSES IN CHARGE",
@@ -24,7 +24,10 @@ const colunms = [
     {
         title: "RATING",
         dataIndex: "rating",
-        render: text => <div><span>{text}</span><span className="icon star-icon"></span></div>,
+        render: record => {
+            var rating = (record.star_1 + record.star_2 + record.star_3 + record.star_4 + record.star_5) / 5;
+            return <div><span>{rating}</span><span className="icon star-icon"></span></div>
+        },
         width: 100
 
     },

@@ -1,9 +1,8 @@
-import { takeLatest, call, put, select } from 'redux-saga/effects';
-import { LOAD_FAILURE_COURSE, LOAD_SUCCESS_COURSE, LOAD_COURSE } from './constants';
+import { takeLatest, call, put, all } from 'redux-saga/effects';
+import { LOAD_FAILURE_COURSE, LOAD_SUCCESS_COURSE, LOAD_COURSE, SEARCH_COURSE } from './constants';
 import { API_ENDPOINT, ALL_COURSE } from '../../constants/apis';
 import { fetchCourse } from './api';
-function* LoadCourse(action) {
-  console.log(action)
+function* LoadCourse() {
   try {
     let response = yield call(fetchCourse, `${API_ENDPOINT}${ALL_COURSE}`)
     if (response.data) {
@@ -19,9 +18,19 @@ function* LoadCourse(action) {
   }
 }
 
-
+function* fetchSearchCourse(action) {
+  console.log(action.key)
+  try {
+    
+  } catch (error) {
+    
+  }
+}
 
 // Individual exports for testing
 export default function* homePageSaga() {
-  yield takeLatest(LOAD_COURSE, LoadCourse);
+  yield all([
+    takeLatest(LOAD_COURSE, LoadCourse),
+    takeLatest(SEARCH_COURSE, fetchSearchCourse)
+  ]);
 }

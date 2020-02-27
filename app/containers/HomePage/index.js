@@ -24,7 +24,7 @@ import WrappedSearchBar from '../../components/SearchBar';
 import Filter from '../../components/Filter';
 import './index.scss';
 import columns from './tableCol';
-import { loadCourse } from './actions';
+import { loadCourse, searchCourse } from './actions';
 
 const { Content, Header } = Layout;
 
@@ -92,6 +92,10 @@ export class HomePage extends React.Component {
     }
   }
 
+  handleSearch = (key) => {
+    this.props.fetchSearchCourse(key)
+  }
+
   render() {
     const { courses, departments } = this.state;
     const { isLoading } = this.props.homePage;
@@ -115,6 +119,7 @@ export class HomePage extends React.Component {
                 message="Please enter your course name"
                 placeholder="I want to find my course"
                 type="home"
+                handleSearch={this.handleSearch}
               />
             </Header>
             <Content>
@@ -163,6 +168,7 @@ export class HomePage extends React.Component {
 }
 
 HomePage.propTypes = {
+  fetchCourse: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -171,7 +177,8 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
-    fetchCourse: () => { dispatch(loadCourse()) }
+    fetchCourse: () => { dispatch(loadCourse()) },
+    fetchSearchCourse: (key) => {dispatch(searchCourse(key))}
   };
 }
 

@@ -64,6 +64,15 @@ class SearchTeacher extends React.Component {
     });
   };
 
+  renderTeacher = (teacher, index) => {
+    return (
+      <div className='teacher-field' key={index}>
+        <span>{index}</span>
+        <p className='teacher-name'>{teacher.teacherName}</p>
+      </div>
+    )
+  }
+
   render() {
     const { course } = this.props;
     return (
@@ -76,7 +85,12 @@ class SearchTeacher extends React.Component {
             placeholder="Search for teachers"
             onChange={this.filterList}
           />
-          <h3 className="chosen-teacher">{this.state.chosenTeacher.length} CHOSEN TUTORS</h3>
+          <h3 className="chosen-teacher">{course.teachers.length} CHOSEN TUTORS</h3>
+          <div>
+            {
+              course.teachers.map((teacher, index) => this.renderTeacher(teacher, index))
+            }
+          </div>
           <Button
             className="add-btn"
             icon="plus"

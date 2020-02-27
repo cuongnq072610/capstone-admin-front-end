@@ -39,6 +39,19 @@
       display: flex;
       margin-top: 30px;
     }
+
+    .teacher-field {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      margin-top: 20px;
+      margin-left: 20px;
+      .teacher-name {
+        font-size: 14px;
+        margin: 0px 10px;
+        color: $primary_black;
+      }
+    }
   }
 
 }

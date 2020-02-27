@@ -1,5 +1,5 @@
-import { take, call, put, select, takeLatest } from 'redux-saga/effects';
-import { LOAD_SUCCESS_TEACHER, LOAD_FAILURE_TEACHER, LOAD_TEACHER } from './constants';
+import { take, call, put, select, takeLatest, all } from 'redux-saga/effects';
+import { LOAD_SUCCESS_TEACHER, LOAD_FAILURE_TEACHER, LOAD_TEACHER, SEARCH_TEACHER } from './constants';
 import { API_ENDPOINT, ALL_TEACHER } from '../../constants/apis';
 import { fetchTeacher } from './api';
 
@@ -17,8 +17,15 @@ function* LoadTeacher() {
   }
 }
 
+function* fetchSearchTeacher(action) {
+  console.log(action.key)
+}
+
 // Individual exports for testing
 export default function* teacherPageSaga() {
   // See example in containers/HomePage/saga.js
-  yield takeLatest(LOAD_TEACHER, LoadTeacher);
+  yield all([
+    takeLatest(LOAD_TEACHER, LoadTeacher),
+    takeLatest(SEARCH_TEACHER, fetchSearchTeacher),
+  ])
 }

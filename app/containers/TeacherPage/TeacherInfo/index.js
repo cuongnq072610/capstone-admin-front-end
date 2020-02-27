@@ -14,6 +14,21 @@ class TeacherInfo extends React.Component {
         }
     }
 
+    componentDidMount() {
+        const { teacherInfo } = this.props;
+        this.setState({
+            isActive: teacherInfo.isActive
+        })
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.teacherInfo !== this.props.teacherInfo) {
+            this.setState({
+                isActive: this.props.teacherInfo.isActive
+            })
+        }
+    }
+
     handleOnChange = () => {
         this.setState((prevState) => {
             if (prevState.isActive === false) {
@@ -60,6 +75,15 @@ class TeacherInfo extends React.Component {
         )
     }
 
+    calcRating = (rating) => {
+        return (rating.star_1 + rating.star_2 + rating.star_3 + rating.star_4 + rating.star_5) / 5;
+    }
+
+    calcRatingStar = (rating, star) => {
+        const numb = (star / (rating.star_1 + rating.star_2 + rating.star_3 + rating.star_4 + rating.star_5)) * 100
+        return parseFloat(numb.toFixed(1))
+    }
+
     render() {
         const { teacherInfo, onBack } = this.props;
         return (
@@ -71,8 +95,8 @@ class TeacherInfo extends React.Component {
                 </Header>
                 <div className="title">
                     <img src={avatar} className="avatar" alt="avatar" />
-                    <p className="teacher-name">{teacherInfo.teacher}</p>
-                    <p className="teacher-mail">{teacherInfo.mail}</p>
+                    <p className="teacher-name">{teacherInfo.teacherName}</p>
+                    <p className="teacher-mail">{teacherInfo.email}</p>
                 </div>
                 <div className="active-teacher">
                     <p className="active-title">Active</p>
@@ -88,27 +112,27 @@ class TeacherInfo extends React.Component {
                 </div>
                 {this.renderModal()}
                 <div className="rating">
-                    <p className="number-rate">{teacherInfo.rating}</p>
+                    <p className="number-rate">{this.calcRating(teacherInfo.rating)}</p>
                     <div className="detail-rating">
                         <div className="progress">
                             <p className="title-rate">5.0 <span className="star-icon"></span></p>
-                            <Progress percent={30} size="small" strokeColor="#b9754e" strokeWidth={8} />
+                            <Progress percent={this.calcRatingStar(teacherInfo.rating, teacherInfo.rating.star_5)} size="small" strokeColor="#b9754e" strokeWidth={8} />
                         </div>
                         <div className="progress">
                             <p className="title-rate">4.0 <span className="star-icon"></span></p>
-                            <Progress percent={30} size="small" strokeColor="#b9754e" strokeWidth={8} />
+                            <Progress percent={this.calcRatingStar(teacherInfo.rating, teacherInfo.rating.star_4)} size="small" strokeColor="#b9754e" strokeWidth={8} />
                         </div>
                         <div className="progress">
                             <p className="title-rate">3.0 <span className="star-icon"></span></p>
-                            <Progress percent={30} size="small" strokeColor="#b9754e" strokeWidth={8} />
+                            <Progress percent={this.calcRatingStar(teacherInfo.rating, teacherInfo.rating.star_3)} size="small" strokeColor="#b9754e" strokeWidth={8} />
                         </div>
                         <div className="progress">
                             <p className="title-rate">2.0 <span className="star-icon"></span></p>
-                            <Progress percent={30} size="small" strokeColor="#b9754e" strokeWidth={8} />
+                            <Progress percent={this.calcRatingStar(teacherInfo.rating, teacherInfo.rating.star_2)} size="small" strokeColor="#b9754e" strokeWidth={8} />
                         </div>
                         <div className="progress">
                             <p className="title-rate">1.0 <span className="star-icon"></span></p>
-                            <Progress percent={30} size="small" strokeColor="#b9754e" strokeWidth={8} />
+                            <Progress percent={this.calcRatingStar(teacherInfo.rating, teacherInfo.rating.star_1)} size="small" strokeColor="#b9754e" strokeWidth={8} />
                         </div>
                     </div>
                 </div>
@@ -125,7 +149,7 @@ class TeacherInfo extends React.Component {
                                     teacherInfo.courses.map((course, index) => {
                                         return (
                                             <Button className="course-name" key={index} onClick={() => { }}>
-                                                <p>{course}</p>
+                                                <p>{course.courseName}</p>
                                                 <span className="delete-icon"></span>
                                             </Button>
                                         )

@@ -19,13 +19,14 @@ function* addCourse(action) {
 
 function* updateCourse(action) {
   try {
-    const response = yield call(updateCourseApi, `${API_ENDPOINT}${UPDATE_COURSES}`, action.course)
+    const response = yield call(updateCourseApi, `${API_ENDPOINT}${UPDATE_COURSES}/${action.course._id}`, action.course)
     if (response.data) {
       yield put({ type: UPDATE_COURSE_SUCCESS, payload: response.data.message })
     } else {
       yield put({ type: UPDATE_COURSE_FAILURE, payload: response.data.message })
     }
   } catch (error) {
+    console.log(error)
     yield put({ type: UPDATE_COURSE_FAILURE, payload: error })
   }
 }

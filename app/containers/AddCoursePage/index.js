@@ -78,6 +78,8 @@ export class AddCoursePage extends React.Component {
     console.log(course)
     if(type === 'add') {
       this.props.handleAddCourse(course)
+    } else if(type === 'update') {
+      this.props.handleUpdateCourse(course)
     }
   }
 

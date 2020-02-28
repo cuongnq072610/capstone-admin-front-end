@@ -87,4 +87,14 @@
             padding-top: 15px;
         }
     }
+
+    .icon-deny {
+        display: inline-block;
+        width: 19px;
+        height: 19px;
+        background-size: cover;
+        background-image: url(assets/deny.svg);
+        padding: 0px;
+        margin-top: 5px;
+    }
 }

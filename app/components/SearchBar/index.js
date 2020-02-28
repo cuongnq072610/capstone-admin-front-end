@@ -5,15 +5,24 @@
  */
 
 import React from 'react';
-import { Form, Icon, Input } from 'antd';
+import { Form, Icon, Input, Button } from 'antd';
 import './index.scss';
 // import PropTypes from 'prop-types';
 // import styled from 'styled-components';
 
 /* eslint-disable react/prefer-stateless-function */
 class SearchBar extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state= {
+      showBtn: false
+    }
+  }
   handleSubmit = e => {
     e.preventDefault();
+    this.setState({
+      showBtn: true
+    })
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
@@ -25,6 +34,13 @@ class SearchBar extends React.Component {
   handleBlur = () => {
     console.log(this.props.form.validateFields);
   };
+
+  handleOnclickBtn = () => {
+    console.log(`check`)
+    this.setState({
+      showBtn: false
+    })
+  }
 
   renderColor = (type) => {
     switch (type) {
@@ -79,6 +95,7 @@ class SearchBar extends React.Component {
               placeholder={placeholder}
               onBlur={this.handleBlur}
               className={`${this.renderClassName(type)}`}
+              suffix={<button onClick={this.handleOnclickBtn}><span className='icon-deny'></span></button>}
             />,
           )}
         </Form.Item>

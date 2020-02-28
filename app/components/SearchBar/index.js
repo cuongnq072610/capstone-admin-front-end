@@ -5,7 +5,7 @@
  */
 
 import React from 'react';
-import { Form, Icon, Input, Button } from 'antd';
+import { Form, Icon, Input } from 'antd';
 import './index.scss';
 // import PropTypes from 'prop-types';
 // import styled from 'styled-components';
@@ -14,7 +14,7 @@ import './index.scss';
 class SearchBar extends React.Component {
   constructor(props) {
     super(props);
-    this.state= {
+    this.state = {
       showBtn: false
     }
   }
@@ -25,21 +25,18 @@ class SearchBar extends React.Component {
     })
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
         this.props.handleSearch(values.searchField)
+      } else {
+        console.log(err)
       }
     });
   };
 
-  handleBlur = () => {
-    console.log(this.props.form.validateFields);
-  };
-
   handleOnclickBtn = () => {
-    console.log(`check`)
     this.setState({
       showBtn: false
     })
+    this.props.handleClear();
   }
 
   renderColor = (type) => {
@@ -78,6 +75,7 @@ class SearchBar extends React.Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
+    const { showBtn } = this.state;
     const { message, placeholder, type } = this.props;
     return (
       <Form onSubmit={this.handleSubmit} className="search">
@@ -93,9 +91,8 @@ class SearchBar extends React.Component {
                 />
               }
               placeholder={placeholder}
-              onBlur={this.handleBlur}
               className={`${this.renderClassName(type)}`}
-              suffix={<button onClick={this.handleOnclickBtn}><span className='icon-deny'></span></button>}
+              suffix={showBtn && <span onClick={this.handleOnclickBtn} className='icon-deny'></span>}
             />,
           )}
         </Form.Item>

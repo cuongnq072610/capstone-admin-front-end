@@ -96,6 +96,10 @@ export class HomePage extends React.Component {
     this.props.fetchSearchCourse(key)
   }
 
+  handleClear = () => {
+    this.props.fetchCourse();
+  }
+
   render() {
     const { courses, departments } = this.state;
     const { isLoading } = this.props.homePage;
@@ -120,6 +124,7 @@ export class HomePage extends React.Component {
                 placeholder="I want to find my course"
                 type="home"
                 handleSearch={this.handleSearch}
+                handleClear={this.handleClear}
               />
             </Header>
             <Content>

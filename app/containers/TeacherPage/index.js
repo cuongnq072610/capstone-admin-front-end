@@ -143,6 +143,10 @@ export class TeacherPage extends React.Component {
         })
     }
 
+    onToggleActive = () => {
+
+    }
+
     render() {
         const { departments, teachers, toggleInfo, selectedTeacher, selectedRow } = this.state;
         const { isLoading } = this.props.teacherPage;
@@ -199,6 +203,7 @@ export class TeacherPage extends React.Component {
                             /> : <TeacherInfo
                                 teacherInfo={selectedTeacher}
                                 onBack={this.onToggleBack}
+                                onActive={this.onToggleActive}
                             />
                     }
                 </Col>

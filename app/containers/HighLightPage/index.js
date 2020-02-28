@@ -132,8 +132,18 @@ export class HighLightPage extends React.Component {
       highlights: mockData,
       baseHighlight: mockData,
       folders: mockDataFolder
-    })
+    });
+  }
 
+  componentDidUpdate() {
+    var elem = document.querySelector('.grid');
+    var msnry = new Masonry( elem, {
+      // options
+      itemSelector: '.grid-item',
+      columnWidth: 10,
+      gutter: 10,
+      horizontalOrder: true
+    });
   }
   
   renderFolder = (folder, index) => {
@@ -195,7 +205,7 @@ export class HighLightPage extends React.Component {
               />
             </Header>
             <Content>
-              <div className="highLights grid" data-masonry='{ "itemSelector": ".grid-item", "columnWidth": 10, "gutter": 10, "horizontalOrder": true}'>
+              <div className="highLights grid" >
                 {
                   highlights.map(highlight => {
                     return <HighLightElement key={highlight.id} highlight={highlight} />

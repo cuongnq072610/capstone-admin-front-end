@@ -174,6 +174,23 @@ export class NotePage extends React.Component {
       notes: mockData,
       folders: mockDataFolder,
       baseNotes: mockData,
+    });
+    
+  }
+
+  componentDidUpdate() {
+    var elems = document.querySelectorAll('.grid');
+    var msnryInstance = [];
+    elems.forEach((elem,index) => {
+      msnryInstance.push(
+        new Masonry(elem, {
+          // options
+          itemSelector: '.grid-item',
+          columnWidth: 98,
+          gutter: 10,
+          horizontalOrder: true
+        })
+      ) 
     })
   }
 
@@ -274,7 +291,7 @@ export class NotePage extends React.Component {
             <Content>
               <div className="note-wrap">
                 <p className="note-type"><FormattedMessage {...messages.titlePinned} /></p>
-                <div className="note-container" data-masonry='{ "itemSelector": ".grid-item", "columnWidth": 98, "gutter": 10, "horizontalOrder": true}'>
+                <div className="grid note-container" >
                   {
                     notes.map((note, index) => {
                       if (note.isPinned) {
@@ -288,7 +305,7 @@ export class NotePage extends React.Component {
               </div>
               <div className="note-wrap">
                 <p className="note-type"><FormattedMessage {...messages.titleOther} /></p>
-                <div className="note-container" data-masonry='{ "itemSelector": ".grid-item", "columnWidth": 98, "gutter": 10, "horizontalOrder": true}'>
+                <div className="grid note-container" >
                   {
                     notes.map((note, index) => {
                       if (!note.isPinned) {

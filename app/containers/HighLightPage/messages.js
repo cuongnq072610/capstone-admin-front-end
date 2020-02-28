@@ -29,8 +29,8 @@ export default defineMessages({
     id: `${scope}.sort`,
     defaultMessage: 'Sort By',
   },
-  folder: {
-    id: `${scope}.folder`,
-    defaultMessage: 'Folders',
+  tags: {
+    id: `${scope}.tags`,
+    defaultMessage: 'TAGS',
   }
 });

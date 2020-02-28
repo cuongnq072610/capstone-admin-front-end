@@ -23,6 +23,7 @@ import history from '../../utils/history';
 import WrappedSearchBar from '../../components/SearchBar';
 import { Row, Layout, Col, Icon, Button, Input } from 'antd';
 import { loadNote, loadFolder } from './actions';
+import Masonry from 'masonry-layout'
 const { Content, Header } = Layout;
 
 const mockData = [
@@ -164,6 +165,7 @@ export class NotePage extends React.Component {
       folderChosen: {},
       textValue: "",
       folders: [],
+      windowHeight: window.innerHeight
     }
   }
 
@@ -226,24 +228,24 @@ export class NotePage extends React.Component {
     })
   }
 
-  countNote = (type) => {
-    const { notes } = this.state;
-    var count = 0;
-    if (type === "pinned") {
-      for (let i = 0; i < notes.length; i++) {
-        if (notes[i].isPinned === true) {
-          count++
-        }
-      }
-    } else {
-      for (let i = 0; i < notes.length; i++) {
-        if (notes[i].isPinned === false) {
-          count++
-        }
-      }
-    }
-    return count
-  }
+  // countNote = (type) => {
+  //   const { notes } = this.state;
+  //   var count = 0;
+  //   if (type === "pinned") {
+  //     for (let i = 0; i < notes.length; i++) {
+  //       if (notes[i].isPinned === true) {
+  //         count++
+  //       }
+  //     }
+  //   } else {
+  //     for (let i = 0; i < notes.length; i++) {
+  //       if (notes[i].isPinned === false) {
+  //         count++
+  //       }
+  //     }
+  //   }
+  //   return count
+  // }
 
   render() {
     const { notes, folders } = this.state;
@@ -272,7 +274,7 @@ export class NotePage extends React.Component {
             <Content>
               <div className="note-wrap">
                 <p className="note-type"><FormattedMessage {...messages.titlePinned} /></p>
-                <div className={this.countNote("pinned") < 3 ? "note-wrap-less-three" : "note-container"}>
+                <div className="note-container" data-masonry='{ "itemSelector": ".grid-item", "columnWidth": 98, "gutter": 10, "horizontalOrder": true}'>
                   {
                     notes.map((note, index) => {
                       if (note.isPinned) {
@@ -286,7 +288,7 @@ export class NotePage extends React.Component {
               </div>
               <div className="note-wrap">
                 <p className="note-type"><FormattedMessage {...messages.titleOther} /></p>
-                <div className={this.countNote("note-pinned") < 3 ? "note-wrap-less-three" : "note-container"}>
+                <div className="note-container" data-masonry='{ "itemSelector": ".grid-item", "columnWidth": 98, "gutter": 10, "horizontalOrder": true}'>
                   {
                     notes.map((note, index) => {
                       if (!note.isPinned) {
@@ -301,7 +303,7 @@ export class NotePage extends React.Component {
             </Content>
           </Layout>
         </Col>
-        <Col span={5}>
+        <Col span={5} style={{'height': this.state.windowHeight - 10} }>
           <Layout className="note-side">
             <Header className="filter-head">
               <FormattedMessage {...messages.filter} />

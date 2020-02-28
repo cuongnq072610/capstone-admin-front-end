@@ -19,7 +19,7 @@
         justify-content: center;
         align-items: center;
         position: absolute;
-        top: 0px;
+        top: -10px;
         right: -15px;
 
         .highlight-delete-icon {
@@ -38,6 +38,7 @@
     }
 
     .highlight {
+        background-image: none; //duplicate hightclass in menu bar but i'm just too lazy to think of another name
         p {
             margin: 0;
         }

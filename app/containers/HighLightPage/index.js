@@ -123,6 +123,7 @@ export class HighLightPage extends React.Component {
       folderChosen: {},
       textValue: "",
       folders: [],
+      windowHeight: window.innerHeight
     }
   }
 
@@ -190,7 +191,7 @@ export class HighLightPage extends React.Component {
               <WrappedSearchBar
                 message="Please enter your note's name"
                 placeholder="I want to find my notes"
-                type="note"
+                type="highlight"
               />
             </Header>
             <Content>
@@ -204,7 +205,7 @@ export class HighLightPage extends React.Component {
             </Content>
           </Layout>
         </Col>
-        <Col span={5}>
+        <Col span={5} className="note-side-wrapper" style={{'height': this.state.windowHeight - 10} }>
           <Layout className="note-side">
             <Header className="filter-head">
               <FormattedMessage {...messages.filter} />
@@ -225,13 +226,13 @@ export class HighLightPage extends React.Component {
                 </Button>
               </div>
               <div className="folder">
-                <p><FormattedMessage {...messages.folder} /></p>
+                <p><FormattedMessage {...messages.tags} /></p>
                 <Input
-                  placeholder="Add new folder"
-                  prefix={<Icon type="plus" style={{ color: "#ffc143" }} onClick={this.onHandleSubmit} />}
+                  placeholder="Add new tag"
+                  prefix={<Icon type="plus" style={{ color: "#53DBB1" }} onClick={this.onHandleSubmit} />}
                   onChange={this.onChangeText}
                   onPressEnter={this.onHandleSubmit}
-                  className="folder-add"
+                  className="note-add"
                 />
                 {
                   folders.map((folder, index) => this.renderFolder(folder, index))

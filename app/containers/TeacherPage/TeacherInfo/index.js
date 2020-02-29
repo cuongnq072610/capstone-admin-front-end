@@ -32,15 +32,23 @@ class TeacherInfo extends React.Component {
     handleOnChange = () => {
         this.setState((prevState) => {
             if (prevState.isActive === false) {
+                // turn on active, don't open modal
                 return {
                     isShowModal: false,
                     isActive: !this.state.isActive,
                 }
             } else {
+                // turn off active, open modal
                 return {
                     isShowModal: !this.state.isShowModal,
                     isActive: !this.state.isActive,
                 }
+            }
+        }, () => {
+            const { onActive, teacherInfo } = this.props;
+            const { isActive } = this.state;
+            if (isActive) {
+                onActive(teacherInfo._id, { isActive })
             }
         })
     }
@@ -58,6 +66,10 @@ class TeacherInfo extends React.Component {
         this.setState({
             isShowModal: !this.state.isShowModal,
             isActive: false,
+        }, () => {
+            const { onActive, teacherInfo } = this.props;
+            const { isActive } = this.state;
+            onActive(teacherInfo._id, { isActive })
         })
     }
 
@@ -103,8 +115,6 @@ class TeacherInfo extends React.Component {
                     <Switch
                         checkedChildren={<span className="active-icon active" />}
                         unCheckedChildren={<span className="active-icon inactive" />}
-                        // checked={teacherInfo.isActive}
-                        // defaultChecked
                         checked={this.state.isActive}
                         className="switch-active"
                         onChange={this.handleOnChange}

@@ -71,7 +71,6 @@ export class AddTeacherPage extends React.Component {
       })
       if (course.teachers && course.teachers.length > 0) {
         var checkFormatTeachers = formatTeachers.filter(teacher => course.teachers.map(teacher => teacher._id).indexOf(teacher._id) === -1)
-        console.log(checkFormatTeachers)
         this.setState({
           teachers: checkFormatTeachers,
           departments: mockData2,
@@ -142,7 +141,8 @@ export class AddTeacherPage extends React.Component {
         course: {
           ...history.location.state.course,
           teachers: chosenTeachers
-        }
+        }, 
+        type: history.location.state.type,
       }
     })
   }
@@ -218,7 +218,7 @@ export class AddTeacherPage extends React.Component {
 }
 
 AddTeacherPage.propTypes = {
-  // dispatch: PropTypes.func.isRequired,
+  fetchTeacher: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({

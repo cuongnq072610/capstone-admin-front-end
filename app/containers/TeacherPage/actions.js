@@ -25,9 +25,10 @@ export function searchTeacher(key) {
   }
 }
 
-export function updateActiveTeacher(teacherId) {
+export function updateActiveTeacher(teacherId, data) {
   return {
     type: UPDATE_TEACHER,
     teacherId,
+    data
   }
 }

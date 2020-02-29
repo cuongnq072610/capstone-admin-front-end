@@ -26,44 +26,9 @@ import columns from './tableCol';
 
 import "./index.scss";
 import TeacherInfo from './TeacherInfo';
-import { loadTeacher } from './actions';
+import { loadTeacher, searchTeacher, updateActiveTeacher } from './actions';
 
 const { Content, Header } = Layout;
-
-const mockData = [
-    {
-        teacher: "LamPD",
-        mail: "lampd@fe.edu.vn",
-        departments: ['Communication Business', 'New Category', 'Communication'],
-        courses: ["ECO101", "ASD203", "DBW231"],
-        rating: 2.4,
-        isActive: true,
-    },
-    {
-        teacher: "MaiTT",
-        mail: "maitt6@fe.edu.vn",
-        departments: ['Communication'],
-        courses: ["ECO101", "ASD203", "DBW231"],
-        rating: 1,
-        isActive: true,
-    },
-    {
-        teacher: "MaiVTT",
-        mail: "maitt@fe.edu.vn",
-        departments: ['Computer Science'],
-        courses: ["ECO101", "ASD203", "DBW231"],
-        rating: 1,
-        isActive: true,
-    },
-    {
-        teacher: "PhuongLh7",
-        mail: "phuonglh7@fe.edu.vn",
-        departments: ['Communication'],
-        courses: ["ECO101", "ASD203", "DBW231"],
-        rating: 1,
-        isActive: true,
-    }
-]
 
 const mockData2 = [
     "Business", "Communication Business", "Communication", "Finance", "Graphic Design"
@@ -89,8 +54,9 @@ export class TeacherPage extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        const { teachers } = this.props.teacherPage;
-        if (prevProps.teacherPage !== this.props.teacherPage) {
+        if (prevProps.teacherPage.teachers !== this.props.teacherPage.teachers) {
+            const { teachers } = this.props.teacherPage;
+
             const fomatTeachers = teachers.map((teacher, index) => {
                 return { ...teacher, key: `${index}` }
             })
@@ -143,8 +109,16 @@ export class TeacherPage extends React.Component {
         })
     }
 
-    onToggleActive = () => {
+    onToggleActive = (id, data) => {
+        this.props.toggleActiveTeacher(id, data);
+    }
 
+    handleSearch = (key) => {
+        this.props.fetchSearchTeacher(key)
+    }
+
+    handleClear = () => {
+        this.props.fetchTeacher();
     }
 
     render() {
@@ -170,6 +144,8 @@ export class TeacherPage extends React.Component {
                                 message="Please enter your teacher's name"
                                 placeholder="I want to find teachers"
                                 type="teacher"
+                                handleSearch={this.handleSearch}
+                                handleClear={this.handleClear}
                             />
                         </Header>
                         <Content>
@@ -221,7 +197,9 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
     return {
-        fetchTeacher: () => { dispatch(loadTeacher()) }
+        fetchTeacher: () => { dispatch(loadTeacher()) },
+        fetchSearchTeacher: (key) => { dispatch(searchTeacher(key)) },
+        toggleActiveTeacher: (id, data) => { dispatch(updateActiveTeacher(id, data)) }
     };
 }
 

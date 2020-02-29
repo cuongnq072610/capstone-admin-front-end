@@ -48,7 +48,6 @@ class SearchTeacher extends React.Component {
   }
   handleSubmit = (e) => {
     e.preventDefault()
-    console.log(this.state.chosenTeacher)
   }
   handleInputEvent = (value) => {
     var newArr2 = mockData.filter(teacher => teacher.teacher)
@@ -74,7 +73,7 @@ class SearchTeacher extends React.Component {
   }
 
   render() {
-    const { course } = this.props;
+    const { course, type } = this.props;
     return (
       <Layout className="wrap">
         <Header>Teachers</Header>
@@ -97,7 +96,8 @@ class SearchTeacher extends React.Component {
             onClick={() => history.push({
               pathname: "/addteacher",
               state: {
-                course: course
+                course: course,
+                type: type,
               }
             })}
           >

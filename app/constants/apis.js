@@ -6,8 +6,10 @@ const CREATE_COURSE = '/createcourse';
 const DELETE_COURSE = '/deletecourse';
 const UPDATE_COURSES = '/updatecourse';
 const SEARCH_COURSES = '/searchcourse';
-const UPDATE_TEACHER_ACTIVE = '/changeteacherisactive';
 const ALL_TEACHER = '/allteachers';
+const UPDATE_TEACHER_ACTIVE = '/changeteacherisactive';
+const SEARCH_TEACHERS = '/searchteacher';
+
 
 export {
     API_ENDPOINT,
@@ -19,4 +21,5 @@ export {
     SEARCH_COURSES,
     ALL_TEACHER,
     UPDATE_TEACHER_ACTIVE,
+    SEARCH_TEACHERS,
 }

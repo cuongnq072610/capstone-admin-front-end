@@ -9,7 +9,7 @@ function* addCourse(action) {
     if (response.data) {
       yield put({ type: ADD_COURSE_SUCCESS, payload: response.data.message })
     } else {
-      yield put({ type: ADD_COURSE_FAILURE, payload: response.data.message })
+      yield put({ type: ADD_COURSE_FAILURE, payload: { msg: "no data" } })
 
     }
   } catch (error) {
@@ -23,11 +23,10 @@ function* updateCourse(action) {
     if (response.data) {
       yield put({ type: UPDATE_COURSE_SUCCESS, payload: response.data.message })
     } else {
-      yield put({ type: UPDATE_COURSE_FAILURE, payload: response.data.message })
+      yield put({ type: UPDATE_COURSE_FAILURE, payload: { msg: 'no data' } })
     }
   } catch (error) {
-    console.log(error)
-    yield put({ type: UPDATE_COURSE_FAILURE, payload: error })
+    yield put({ type: UPDATE_COURSE_FAILURE, payload: { msg: error } })
   }
 }
 

@@ -10,6 +10,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
+import { isEmpty as _isEmpty, uniq as _isUniq } from 'lodash';
 import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
@@ -22,6 +23,7 @@ import messages from './messages';
 import SearchTeacher from '../../components/SearchTeacher';
 import history from '../../utils/history';
 import { addCourse, updateCourse } from './actions';
+import { isRequired } from '../../utils/validation';
 
 /* eslint-disable react/prefer-stateless-function */
 
@@ -43,6 +45,9 @@ export class AddCoursePage extends React.Component {
         teachers: [],
       },
       type: '',
+      isShow: false,
+      invalidField: [],
+      errMess: [],
     };
   }
 
@@ -62,6 +67,38 @@ export class AddCoursePage extends React.Component {
     }
   };
 
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.addCoursePage !== this.props.addCoursePage
+      && this.props.addCoursePage.isDone
+      && this.props.addCoursePage.isLoading === false
+      || prevState.errMess !== this.state.errMess && this.state.errMess.length !== 0
+    ) {
+      this.setState({
+        isShow: true
+      }, () => {
+        setTimeout(() => {
+          this.setState({
+            isShow: false
+          })
+        }, 3000)
+      })
+    }
+  }
+
+  getValidation = () => {
+    const { courseName, courseCode, departments, shortDes, courseURL } = this.state.course;
+    const errors = {
+      ...isRequired([
+        { name: 'courseName', value: courseName },
+        { name: 'courseCode', value: courseCode },
+        { name: 'departments', value: departments },
+        { name: 'shortDes', value: shortDes },
+        { name: 'courseURL', value: courseURL },
+      ])
+    }
+    return errors
+  }
+
   //handle change for Select Department
   handleChangeSelect = (value) => {
     this.setState({
@@ -74,12 +111,24 @@ export class AddCoursePage extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const { course, type } = this.state;
-    console.log(course)
-    if(type === 'add') {
-      this.props.handleAddCourse(course)
-    } else if(type === 'update') {
-      this.props.handleUpdateCourse(course)
+    const errors = this.getValidation();
+    if (!_isEmpty(errors)) {
+      console.log(errors)
+      this.setState({
+        invalidField: Object.keys(errors),
+        errMess: _isUniq(Object.values(errors)),
+      })
+    } else {
+      this.setState({
+        invalidField: [],
+        errMess: [],
+      })
+      const { course, type } = this.state;
+      if (type === 'add') {
+        this.props.handleAddCourse(course)
+      } else if (type === 'update') {
+        this.props.handleUpdateCourse(course)
+      }
     }
   }
 
@@ -93,9 +142,9 @@ export class AddCoursePage extends React.Component {
   }
 
   render() {
-    const { course, type } = this.state;
+    const { course, type, isShow, errMess } = this.state;
     const { courseName, courseCode, departments, shortDes, fullDes, courseURL } = course;
-    const { isLoading } = this.props.addCoursePage;
+    const { isLoading, isDone } = this.props.addCoursePage;
     const { Option } = Select;
     const departmentOption = [{
       id: 1,
@@ -123,7 +172,6 @@ export class AddCoursePage extends React.Component {
     departmentOption.map(item => {
       children.push(<Option key={item.id} value={item.value}>{item.name}</Option>)
     })
-
     const antIcon = <Icon type="loading" style={{ fontSize: 24, color: '#fff', marginRight: '10px' }} spin />;
     return (
       <Row className="addCourse">
@@ -214,16 +262,30 @@ export class AddCoursePage extends React.Component {
                       <Spin indicator={antIcon} /> :
                       type === 'update' ?
                         <span style={{ marginTop: '2px' }}>Update Course</span> :
-                        <span style={{ marginTop: ' 2px' }}>Add Course</span>
+                        <span style={{ marginTop: '2px' }}>Add Course</span>
                   }
                   <Icon type="plus" />
                 </Button>
               </Form>
+              <div className={isShow ? 'notification-show' : 'notification'}>
+                {
+                  errMess && errMess.length > 0 ?
+                    <div className='noti-content-error'>
+                      <span className='icon-noti deny-icon'></span>
+                      <p>{errMess}</p>
+                    </div>
+                    :
+                    <div className='noti-content-success'>
+                      <span className="icon-noti accept-icon"></span>
+                      <p>Done</p>
+                    </div>
+                }
+              </div>
             </Content>
           </Layout>
         </Col>
         <Col className="addTeacher" span={5}>
-          <SearchTeacher course={course} />
+          <SearchTeacher course={course} type={type} />
         </Col>
       </Row>
     );
@@ -242,7 +304,7 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch) {
   return {
     handleAddCourse: (course) => { dispatch(addCourse(course)) },
-    handleUpdateCourse: (course) => {dispatch(updateCourse(course))},
+    handleUpdateCourse: (course) => { dispatch(updateCourse(course)) },
   };
 }
 

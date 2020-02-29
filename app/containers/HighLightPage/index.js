@@ -215,8 +215,8 @@ export class HighLightPage extends React.Component {
             </Content>
           </Layout>
         </Col>
-        <Col span={5} className="note-side-wrapper" style={{'height': this.state.windowHeight - 10} }>
-          <Layout className="note-side">
+        <Col span={5} className="highlight-side-wrapper" style={{'height': this.state.windowHeight - 10} }>
+          <Layout className="highlight-side">
             <Header className="filter-head">
               <FormattedMessage {...messages.filter} />
             </Header>

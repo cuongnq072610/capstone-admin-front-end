@@ -320,7 +320,7 @@ export class NotePage extends React.Component {
             </Content>
           </Layout>
         </Col>
-        <Col span={5} style={{'height': this.state.windowHeight - 10} }>
+        <Col span={5} className="note-side-wrapper">
           <Layout className="note-side">
             <Header className="filter-head">
               <FormattedMessage {...messages.filter} />

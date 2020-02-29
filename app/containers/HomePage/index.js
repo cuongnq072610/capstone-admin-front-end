@@ -41,12 +41,25 @@ export class HomePage extends React.Component {
       search: "",
       courses: [],
       departments: [],
-      baseCourses: []
+      baseCourses: [],
+      isShow: false
     }
   }
 
   componentDidMount() {
     this.props.fetchCourse();
+    const { history } = this.props;
+    if (history.location.state && history.location.state.isDone) {
+      this.setState({
+        isShow: true
+      }, () => {
+        setTimeout(() => {
+          this.setState({
+            isShow: false
+          })
+        }, 3000)
+      })
+    }
   }
 
   componentDidUpdate(prevProps) {
@@ -101,7 +114,7 @@ export class HomePage extends React.Component {
   }
 
   render() {
-    const { courses, departments } = this.state;
+    const { courses, departments, isShow } = this.state;
     const { isLoading } = this.props.homePage;
     return (
       <Row className="homepage">
@@ -144,7 +157,7 @@ export class HomePage extends React.Component {
                   loading={isLoading}
                   // for pagination
                   pagination={{
-                    onChange: (page) => {console.log(page)}
+                    onChange: (page) => { console.log(page) }
                   }}
                 />
               </Row>
@@ -166,7 +179,16 @@ export class HomePage extends React.Component {
             onReset={this.onResetFilter}
             type={'home'}
           />
+
         </Col>
+        <div className={isShow ? 'notification-home-show' : 'notification-home'}>
+          {
+            <div className='noti-content-success'>
+              <span className='icon-noti accept-icon'></span>
+              <p>DONE</p>
+            </div>
+          }
+        </div>
       </Row>
     );
   }
@@ -183,7 +205,7 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch) {
   return {
     fetchCourse: () => { dispatch(loadCourse()) },
-    fetchSearchCourse: (key) => {dispatch(searchCourse(key))}
+    fetchSearchCourse: (key) => { dispatch(searchCourse(key)) }
   };
 }
 

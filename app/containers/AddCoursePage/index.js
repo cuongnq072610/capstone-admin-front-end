@@ -67,20 +67,13 @@ export class AddCoursePage extends React.Component {
     }
   };
 
-  componentDidUpdate(prevProps, prevState) {
-    if (prevProps.addCoursePage !== this.props.addCoursePage
-      && this.props.addCoursePage.isDone
-      && this.props.addCoursePage.isLoading === false
-      || prevState.errMess !== this.state.errMess && this.state.errMess.length !== 0
-    ) {
-      this.setState({
-        isShow: true
-      }, () => {
-        setTimeout(() => {
-          this.setState({
-            isShow: false
-          })
-        }, 3000)
+  componentDidUpdate(prevProps) {
+    if(prevProps.addCoursePage.isDone !== this.props.addCoursePage.isDone && this.props.addCoursePage.isDone === true) {
+      this.props.history.push({
+        pathname: '/course',
+        state: {
+          isDone: true
+        }
       })
     }
   }
@@ -113,16 +106,22 @@ export class AddCoursePage extends React.Component {
     e.preventDefault();
     const errors = this.getValidation();
     if (!_isEmpty(errors)) {
-      console.log(errors)
       this.setState({
         invalidField: Object.keys(errors),
         errMess: _isUniq(Object.values(errors)),
+        isShow: true,
+      }, () => {
+        setTimeout(() => {
+          this.setState({
+            isShow: false
+          })
+        }, 3000)
       })
     } else {
       this.setState({
         invalidField: [],
         errMess: [],
-      })
+      });
       const { course, type } = this.state;
       if (type === 'add') {
         this.props.handleAddCourse(course)
@@ -144,7 +143,7 @@ export class AddCoursePage extends React.Component {
   render() {
     const { course, type, isShow, errMess } = this.state;
     const { courseName, courseCode, departments, shortDes, fullDes, courseURL } = course;
-    const { isLoading, isDone } = this.props.addCoursePage;
+    const { isLoading } = this.props.addCoursePage;
     const { Option } = Select;
     const departmentOption = [{
       id: 1,
@@ -269,16 +268,11 @@ export class AddCoursePage extends React.Component {
               </Form>
               <div className={isShow ? 'notification-show' : 'notification'}>
                 {
-                  errMess && errMess.length > 0 ?
-                    <div className='noti-content-error'>
-                      <span className='icon-noti deny-icon'></span>
-                      <p>{errMess}</p>
-                    </div>
-                    :
-                    <div className='noti-content-success'>
-                      <span className="icon-noti accept-icon"></span>
-                      <p>Done</p>
-                    </div>
+                  errMess && errMess.length > 0 &&
+                  <div className='noti-content-error'>
+                    <span className='icon-noti deny-icon'></span>
+                    <p>{errMess}</p>
+                  </div>
                 }
               </div>
             </Content>

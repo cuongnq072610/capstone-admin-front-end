@@ -69,6 +69,7 @@ export class AddTeacherPage extends React.Component {
           key: `${index}`
         }
       })
+      // check duplicate teacher
       if (course.teachers && course.teachers.length > 0) {
         var checkFormatTeachers = formatTeachers.filter(teacher => course.teachers.map(teacher => teacher._id).indexOf(teacher._id) === -1)
         this.setState({
@@ -149,6 +150,7 @@ export class AddTeacherPage extends React.Component {
 
   render() {
     const { teachers, chosenTeachers } = this.state;
+    const { course } = this.props.history.location.state;
     const { isLoading } = this.props.addTeacherPage;
     return (
       <div>
@@ -209,7 +211,7 @@ export class AddTeacherPage extends React.Component {
             </Layout>
           </Col>
           <Col span={5} className='course'>
-            <CourseInfo />
+            <CourseInfo course={course}/>
           </Col>
         </Row>
       </div>

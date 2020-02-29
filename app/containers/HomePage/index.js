@@ -24,107 +24,9 @@ import WrappedSearchBar from '../../components/SearchBar';
 import Filter from '../../components/Filter';
 import './index.scss';
 import columns from './tableCol';
+import { loadCourse, searchCourse } from './actions';
 
 const { Content, Header } = Layout;
-const mockData = [
-  {
-    courseId: 'ASD203',
-    courseName: 'Algorithms and Data Theories',
-    description:
-      'The course goes through simple algorithms and thier applications in data manipulation',
-    departments: ['Communication Business', 'New Category', 'Communication'],
-    numberOfTeacher: 12,
-  },
-  {
-    courseId: 'ANM101',
-    courseName: 'Animation Designing',
-    description:
-      'The course goes through simple algorithms and thier applications in data manipulation',
-    departments: ['Communication Business', 'New Category', 'Category New', "New new new new", 'Communication Business', 'New Category', 'Category New'],
-    numberOfTeacher: 12,
-  },
-  {
-    courseId: 'EVP501',
-    courseName: 'Building Event Plans',
-    description:
-      'The course goes through simple algorithms and thier applications in data manipulation',
-    departments: ['Communication'],
-    numberOfTeacher: 12,
-  },
-  {
-    courseId: 'COM101',
-    courseName: 'Communication Principles',
-    description:
-      'The course goes through simple algorithms and thier applications in data manipulation',
-    departments: ['Communication Business'],
-    numberOfTeacher: 12,
-  },
-  {
-    courseId: 'ASD203',
-    courseName: 'Algorithms and Data Theories',
-    description:
-      'The course goes through simple algorithms and thier applications in data manipulation',
-    departments: ['Computer Science'],
-    numberOfTeacher: 12,
-  },
-  {
-    courseId: 'ANM101',
-    courseName: 'Animation Designing',
-    description:
-      'The course goes through simple algorithms and thier applications in data manipulation',
-    departments: ['Graphic Design'],
-    numberOfTeacher: 12,
-  },
-  {
-    courseId: 'EVP501',
-    courseName: 'Building Event Plans',
-    description:
-      'The course goes through simple algorithms and thier applications in data manipulation',
-    departments: ['Communication'],
-    numberOfTeacher: 12,
-  },
-  {
-    courseId: 'COM101',
-    courseName: 'Communication Principles',
-    description:
-      'The course goes through simple algorithms and thier applications in data manipulation',
-    departments: ['Communication Business'],
-    numberOfTeacher: 12,
-  },
-  {
-    courseId: 'ASD203',
-    courseName: 'Algorithms and Data Theories',
-    description:
-      'The course goes through simple algorithms and thier applications in data manipulation',
-    departments: ['Computer Science'],
-    numberOfTeacher: 12,
-  },
-  {
-    courseId: 'ANM101',
-    courseName: 'Animation Designing',
-    description:
-      'The course goes through simple algorithms and thier applications in data manipulation',
-    departments: ['Graphic Design'],
-    numberOfTeacher: 12,
-  },
-  {
-    courseId: 'EVP501',
-    courseName: 'Building Event Plans',
-    description:
-      'The course goes through simple algorithms and thier applications in data manipulation',
-    departments: ['Communication'],
-    numberOfTeacher: 12,
-  },
-  {
-    courseId: 'COM101',
-    courseName: 'Communication Principles',
-    description:
-      'The course goes through simple algorithms and thier applications in data manipulation',
-    departments: ['Graphic Design'],
-    numberOfTeacher: 12,
-  },
-];
-
 
 const mockData2 = [
   "Business", "Communication Business", "Communication", "Finance", "Graphic Design"
@@ -139,19 +41,43 @@ export class HomePage extends React.Component {
       search: "",
       courses: [],
       departments: [],
-      baseCourses: []
+      baseCourses: [],
+      isShow: false
     }
   }
 
   componentDidMount() {
-    const newCourses = mockData.map((course, index) => {
-      return { ...course, key: `${index}` }
-    })
-    this.setState({
-      courses: newCourses,
-      departments: mockData2,
-      baseCourses: newCourses,
-    })
+    this.props.fetchCourse();
+    const { history } = this.props;
+    if (history.location.state && history.location.state.isDone) {
+      this.setState({
+        isShow: true
+      }, () => {
+        setTimeout(() => {
+          this.setState({
+            isShow: false
+          })
+        }, 3000)
+      })
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.homePage !== this.props.homePage) {
+      const { courses } = this.props.homePage;
+      const newCourses = courses.map((course, index) => {
+        return {
+          ...course,
+          key: `${index}`,
+          numberOfTeacher: course.teachers.length,
+        }
+      })
+      this.setState({
+        courses: newCourses,
+        departments: mockData2,
+        baseCourses: newCourses,
+      })
+    }
   }
 
   onResetFilter = () => {
@@ -179,8 +105,17 @@ export class HomePage extends React.Component {
     }
   }
 
+  handleSearch = (key) => {
+    this.props.fetchSearchCourse(key)
+  }
+
+  handleClear = () => {
+    this.props.fetchCourse();
+  }
+
   render() {
-    const { courses, departments } = this.state;
+    const { courses, departments, isShow } = this.state;
+    const { isLoading } = this.props.homePage;
     return (
       <Row className="homepage">
         <Helmet>
@@ -201,6 +136,8 @@ export class HomePage extends React.Component {
                 message="Please enter your course name"
                 placeholder="I want to find my course"
                 type="home"
+                handleSearch={this.handleSearch}
+                handleClear={this.handleClear}
               />
             </Header>
             <Content>
@@ -213,13 +150,23 @@ export class HomePage extends React.Component {
                     return {
                       onClick: e => history.push({
                         pathname: './addcourse',
-                        state: { course: record }
+                        state: { course: record, type: 'update' }
                       })
                     }
                   }}
+                  loading={isLoading}
+                  // for pagination
+                  pagination={{
+                    onChange: (page) => { console.log(page) }
+                  }}
                 />
               </Row>
-              <div className="float" onClick={() => history.push("/addcourse")}>
+              <div className="float" onClick={() => history.push({
+                pathname: "/addcourse",
+                state: {
+                  type: 'add'
+                }
+              })}>
                 <Icon type="plus" className="my-float" />
               </div>
             </Content>
@@ -232,14 +179,23 @@ export class HomePage extends React.Component {
             onReset={this.onResetFilter}
             type={'home'}
           />
+
         </Col>
+        <div className={isShow ? 'notification-home-show' : 'notification-home'}>
+          {
+            <div className='noti-content-success'>
+              <span className='icon-noti accept-icon'></span>
+              <p>DONE</p>
+            </div>
+          }
+        </div>
       </Row>
     );
   }
 }
 
 HomePage.propTypes = {
-  dispatch: PropTypes.func.isRequired,
+  fetchCourse: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -248,7 +204,8 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
-    dispatch,
+    fetchCourse: () => { dispatch(loadCourse()) },
+    fetchSearchCourse: (key) => { dispatch(searchCourse(key)) }
   };
 }
 

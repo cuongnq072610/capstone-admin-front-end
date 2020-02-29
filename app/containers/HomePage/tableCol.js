@@ -3,14 +3,14 @@ import { Tooltip } from 'antd';
 
 const fomatDepartment = (departments) => {
     return departments.map((item, index) => {
-        return index !== departments.length - 1 ? item + " - " : item
+        return index !== departments.length - 1 ? item + " - " : item.name
     })
 }
 
 const colunms = [
     {
         title: "CODE",
-        dataIndex: "courseId",
+        dataIndex: "courseCode",
         sorter: (a, b) => a.courseId < b.courseId,
         sortDirections: ['descend'],
         render: text => <span style={{ color: '#9c4aee', fontWeight: 600 }}>{text}</span>,

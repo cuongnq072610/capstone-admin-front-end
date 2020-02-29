@@ -1,3 +1,4 @@
+@import './variable.scss';
 
 body {
   background-color: white;
@@ -92,6 +93,14 @@ body {
         margin-top: 18px;
         color: $purple;
         margin-left: 12px;
+      }
+    }
+
+    .iconAdd {
+      svg {
+        path {
+          fill: red; 
+        }
       }
     }
 }

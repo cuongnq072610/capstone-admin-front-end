@@ -21,6 +21,7 @@ import NotePage from 'containers/NotePage/Loadable';
 import NoteDetailPage from 'containers/NoteDetailPage/Loadable';
 import StudentAskPage from 'containers/StudentAskPage/Loadable';
 import StudentComposePage from 'containers/StudentComposePage/Loadable';
+import HighlightPage from 'containers/HighLightPage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import GlobalStyle from '../../global-styles';
 
@@ -42,6 +43,7 @@ export default function App() {
         <Route path='/addcourse' render={() => <WrapperLayout component={AddCoursePage} role="admin" page="course"/>}/>
         <Route path='/addteacher' render={() => <WrapperLayout component={AddTeacherPage} role="admin" page="course"/>}/>
         <Route exact path='/note' render={() => <WrapperLayout component={NotePage} role="student" page="note"/>}/>
+        <Route exact path='/highlight' render={() => <WrapperLayout component={HighlightPage} role="student" page="highlight"/>}/>
         <Route path='/note/:noteId' render={() => <WrapperLayout component={NoteDetailPage} role="student" page="note"/>}/>
         <Route path='/ask' render={() => <WrapperLayout component={StudentAskPage} role="student" page="ask"/>}/>
         <Route path='/compose' render={() => <WrapperLayout component={StudentComposePage} role="student" page="ask"/>}/>

@@ -10,18 +10,32 @@ import './index.scss';
 
 /* eslint-disable react/prefer-stateless-function */
 class SearchBar extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      showBtn: false
+    }
+  }
   handleSubmit = e => {
     e.preventDefault();
+    this.setState({
+      showBtn: true
+    })
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
+        this.props.handleSearch(values.searchField)
+      } else {
+        console.log(err)
       }
     });
   };
 
-  handleBlur = () => {
-    console.log(this.props.form.validateFields);
-  };
+  handleOnclickBtn = () => {
+    this.setState({
+      showBtn: false
+    })
+    this.props.handleClear();
+  }
 
   renderColor = (type) => {
     switch (type) {
@@ -59,6 +73,7 @@ class SearchBar extends React.Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
+    const { showBtn } = this.state;
     const { message, placeholder, type } = this.props;
     return (
       <Form onSubmit={this.handleSubmit} className="search">
@@ -74,8 +89,8 @@ class SearchBar extends React.Component {
                 />
               }
               placeholder={placeholder}
-              onBlur={this.handleBlur}
               className={`${this.renderClassName(type)}`}
+              suffix={showBtn && <span onClick={this.handleOnclickBtn} className='icon-deny'></span>}
             />,
           )}
         </Form.Item>

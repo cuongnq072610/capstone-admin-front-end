@@ -5,11 +5,12 @@
  */
 import { Link } from 'react-router-dom';
 import './addCourse.scss';
-import { Select, Layout, Row, Col, Input, Icon, Form, Button, Tag } from 'antd';
+import { Select, Layout, Row, Col, Input, Icon, Form, Button, Spin } from 'antd';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
+import { isEmpty as _isEmpty, uniq as _isUniq } from 'lodash';
 import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
@@ -21,100 +22,161 @@ import saga from './saga';
 import messages from './messages';
 import SearchTeacher from '../../components/SearchTeacher';
 import history from '../../utils/history';
+import { addCourse, updateCourse } from './actions';
+import { isRequired } from '../../utils/validation';
 
 /* eslint-disable react/prefer-stateless-function */
 
-const { Search, TextArea, Option } = Input;
+const { TextArea } = Input;
 
 const { Header, Content } = Layout;
-
-const mockData = {
-  courseCode: 'ASD203',
-  category: 'Computer Science',
-  description:
-    'The course goes through simple algorithms and thier applications in data manipulation',
-};
 
 export class AddCoursePage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      skill: '',
-      skills: [],
-      course: {},
+      course: {
+        courseName: '',
+        courseCode: '',
+        departments: [],
+        shortDes: '',
+        fullDes: '',
+        courseURL: '',
+        teachers: [],
+      },
+      type: '',
+      isShow: false,
+      invalidField: [],
+      errMess: [],
     };
   }
 
-  handleClick = e => {
-    e.preventDefault();
-    let newArr = [];
-    newArr = [...this.state.skills, this.state.skill];
-    this.setState({
-      skill: '',
-      skills: newArr,
-    });
-  };
-
   componentDidMount() {
-    if (history.location.state) {
-      this.setState({
-        course: history.location.state.course
-      })
+    const { state } = history.location;
+    if (state) {
+      if (state.course) {
+        this.setState({
+          course: state.course,
+          type: state.type
+        })
+      } else {
+        this.setState({
+          type: state.type
+        })
+      }
     }
   };
 
-  onChangeValue = e => {
+  componentDidUpdate(prevProps) {
+    if(prevProps.addCoursePage.isDone !== this.props.addCoursePage.isDone && this.props.addCoursePage.isDone === true) {
+      this.props.history.push({
+        pathname: '/course',
+        state: {
+          isDone: true
+        }
+      })
+    }
+  }
+
+  getValidation = () => {
+    const { courseName, courseCode, departments, shortDes, courseURL } = this.state.course;
+    const errors = {
+      ...isRequired([
+        { name: 'courseName', value: courseName },
+        { name: 'courseCode', value: courseCode },
+        { name: 'departments', value: departments },
+        { name: 'shortDes', value: shortDes },
+        { name: 'courseURL', value: courseURL },
+      ])
+    }
+    return errors
+  }
+
+  //handle change for Select Department
+  handleChangeSelect = (value) => {
     this.setState({
-      skill: e.target.value,
-    });
-  };
+      course: {
+        ...this.state.course,
+        departments: value
+      }
+    })
+  }
 
-  btnAddSkill = () => (
-    <Button
-      style={{ border: 'none', height: '30px', paddingBottom: '10px' }}
-      htmlType="submit"
-    >
-      <Icon type="plus" style={{ color: 'rgba(0,0,0,.25)' }} />
-    </Button>
-  );
+  handleSubmit = (e) => {
+    e.preventDefault();
+    const errors = this.getValidation();
+    if (!_isEmpty(errors)) {
+      this.setState({
+        invalidField: Object.keys(errors),
+        errMess: _isUniq(Object.values(errors)),
+        isShow: true,
+      }, () => {
+        setTimeout(() => {
+          this.setState({
+            isShow: false
+          })
+        }, 3000)
+      })
+    } else {
+      this.setState({
+        invalidField: [],
+        errMess: [],
+      });
+      const { course, type } = this.state;
+      const formatCourse = {
+        ...course,
+        teachers: course.teachers.map(teacher => teacher._id)
+      }
+      console.log(formatCourse)
+      if (type === 'add') {
+        this.props.handleAddCourse(formatCourse)
+      } else if (type === 'update') {
+        this.props.handleUpdateCourse(formatCourse)
+      }
+    }
+  }
 
-  handleClose = removedSkill => {
-    const newArr = this.state.skills.filter(item => item !== removedSkill);
-    this.setState({ skills: newArr });
-  };
+  handleChange = (e) => {
+    this.setState({
+      course: {
+        ...this.state.course,
+        [e.target.id]: e.target.value
+      }
+    })
+  }
 
   render() {
-    const {skills } = this.state;
+    const { course, type, isShow, errMess } = this.state;
+    const { courseName, courseCode, departments, shortDes, fullDes, courseURL } = course;
+    const { isLoading } = this.props.addCoursePage;
     const { Option } = Select;
-    const departments = [{
+    const departmentOption = [{
+      id: 1,
       value: 'computer',
       name: 'Computer Science'
     },
     {
+      id: 2,
       value: 'business',
       name: 'Business'
     },
     {
+      id: 3,
       value: 'finance',
       name: 'Finance'
     },
     {
+      id: 4,
       value: 'design',
       name: 'Graphic Design'
     }]
 
     const children = [];
-
     //pushing Option component into children
-    departments.map(department => {
-      children.push(<Option key={departments.indexOf(department)}
-        value={department.value}>{department.name}</Option>)
+    departmentOption.map(item => {
+      children.push(<Option key={item.id} value={item.value}>{item.name}</Option>)
     })
-
-    //handle change for Select Department
-    function handleChange(value) {
-      console.log(`selected ${value}`);
-    }
+    const antIcon = <Icon type="loading" style={{ fontSize: 24, color: '#fff', marginRight: '10px' }} spin />;
     return (
       <Row className="addCourse">
         <Helmet>
@@ -132,9 +194,11 @@ export class AddCoursePage extends React.Component {
               <Form>
                 <input
                   className="courseName"
+                  id="courseName"
                   type="text"
                   placeholder="Give your course a name"
-                  value = {this.state.course.courseName ? this.state.course.courseName : ""}
+                  value={courseName}
+                  onChange={this.handleChange}
                 />
                 <Row className="row">
                   <Col className="courseCode " span={12}>
@@ -144,8 +208,11 @@ export class AddCoursePage extends React.Component {
                     </label>
                     <Input
                       className="belowLabel "
+                      id="courseCode"
                       prefix={<Icon type="user" />}
-                      value = {this.state.course.courseId ? this.state.course.courseId : ""}/>
+                      value={courseCode}
+                      onChange={this.handleChange}
+                    />
                   </Col>
                   <Col span={12}>
                     <label>
@@ -157,8 +224,9 @@ export class AddCoursePage extends React.Component {
                       mode="multiple"
                       style={{ width: '100%' }}
                       placeholder="Please select"
-                      onChange={handleChange}
-                      value = {this.state.course.departments ? this.state.course.departments : ""}>
+                      onChange={this.handleChangeSelect}
+                      value={departments}
+                    >
                       {children}
                     </Select>
                   </Col>
@@ -168,13 +236,16 @@ export class AddCoursePage extends React.Component {
                     Short Description
                     <span>*</span>
                   </label>
-                  <TextArea className="belowLabel" rows={2}
-                    value={this.state.course.description ? this.state.course.description : ""}/>
+                  <TextArea className="belowLabel" rows={2} id="shortDes"
+                    value={shortDes}
+                    onChange={this.handleChange}
+                  />
                 </Row>
                 <Row>
                   <label>Full Description</label>
-                  <TextArea className="belowLabel" rows={4}
-
+                  <TextArea className="belowLabel" rows={4} id="fullDes"
+                    value={fullDes}
+                    onChange={this.handleChange}
                   />
                 </Row>
                 <Row className="row">
@@ -182,35 +253,38 @@ export class AddCoursePage extends React.Component {
                     <label>Course URL<span>*</span></label>
                     <Input
                       className="belowLabel"
+                      id="courseURL"
                       prefix={<Icon type="user" />}
+                      value={courseURL}
+                      onChange={this.handleChange}
                     />
-                    <div className="tag">
-                      {skills.map((item, index) => (
-                        <Tag
-                          color="purple"
-                          key={index}
-                          closable
-                          onClose={e => {
-                            e.preventDefault();
-                            this.handleClose(item);
-                          }}
-                        >
-                          {item}
-                        </Tag>
-                      ))}
-                    </div>
                   </Col>
                 </Row>
+                <Button className="addBtn" type="primary" onClick={this.handleSubmit}>
+                  {
+                    isLoading ?
+                      <Spin indicator={antIcon} /> :
+                      type === 'update' ?
+                        <span style={{ marginTop: '2px' }}>Update Course</span> :
+                        <span style={{ marginTop: '2px' }}>Add Course</span>
+                  }
+                  <Icon type="plus" />
+                </Button>
               </Form>
-              <Button className="addBtn" type="primary">
-                Add course
-                <Icon type="plus" />
-              </Button>
+              <div className={isShow ? 'notification-show' : 'notification'}>
+                {
+                  errMess && errMess.length > 0 &&
+                  <div className='noti-content-error'>
+                    <span className='icon-noti deny-icon'></span>
+                    <p>{errMess}</p>
+                  </div>
+                }
+              </div>
             </Content>
           </Layout>
         </Col>
         <Col className="addTeacher" span={5}>
-          <SearchTeacher />
+          <SearchTeacher course={course} type={type} />
         </Col>
       </Row>
     );
@@ -218,7 +292,8 @@ export class AddCoursePage extends React.Component {
 }
 
 AddCoursePage.propTypes = {
-  dispatch: PropTypes.func.isRequired,
+  handleAddCourse: PropTypes.func.isRequired,
+  handleUpdateCourse: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -227,7 +302,8 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
-    dispatch,
+    handleAddCourse: (course) => { dispatch(addCourse(course)) },
+    handleUpdateCourse: (course) => { dispatch(updateCourse(course)) },
   };
 }
 

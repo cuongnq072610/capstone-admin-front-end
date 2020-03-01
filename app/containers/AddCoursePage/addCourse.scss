@@ -19,6 +19,7 @@ body {
 
   .content {
     margin-right: 34px;
+    position: relative;
 
     .row {
       margin-top: 27px;
@@ -105,32 +106,30 @@ body {
   }
 }
 
-// .sider {
-//   display: flex;
-//   background-color: white;
-// }
+.sider {
+  display: flex;
+  background-color: white;
+}
 
-// .sider-left {
-//   padding-left: 50px;
-//   padding-top: 50px;
-//   width: 948px;
-//   height: 645px;
-// }
+.sider-left {
+  padding-left: 50px;
+  padding-top: 50px;
+  width: 948px;
+  height: 645px;
+}
 
-// .sider-right {
-//   display: inline;
-//   padding-top: 40px;
-//   margin-left: 65px;
-//   width: 240px;
-//   height: 695px;
-//   color: #9C4AEE;
-//   font-size: 180%;
-// }
+.sider-right {
+  display: inline;
+  padding-top: 40px;
+  margin-left: 65px;
+  color: #9C4AEE;
+  font-size: 180%;
+}
 
-// .sider-left .button-add {
-//   padding-left: 790px;
-//   color: #9C4AEE;
-// }
+.sider-left .button-add {
+  padding-left: 790px;
+  color: #9C4AEE;
+}
 
 .sider .sider-left {
   .course-code {
@@ -175,4 +174,50 @@ body {
   padding-top: 50px;
   width: 200px;
   height: 38px;
+}
+
+.notification {
+  position: absolute;
+  bottom: -50px;
+  opacity: 0;
+  transition: bottom 1s, opacity .25s ease-in-out;
+}
+
+.notification-show {
+  position: absolute;
+  bottom: -10px;
+  opacity: 1;
+  transition: bottom 1s, opacity .25s ease-in-out;
+}
+
+.noti-content-error {
+  width: 300px;
+  height: 50px;
+  color: #fff;
+  background-color: #fa9d9d;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: 20px;
+
+  p {
+    padding: 0px;
+    margin-left: 20px;
+    margin-bottom: 0px;
+  }
+}
+
+.icon-noti {
+  display: inline-block;
+  width: 25px;
+  height: 25px;
+  background-size: cover;
+}
+
+.accept-icon {
+  background-image: url(assets/accept.svg);
+}
+
+.deny-icon {
+  background-image: url(assets/deny.svg);
 }

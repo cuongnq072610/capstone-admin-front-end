@@ -4,7 +4,7 @@ import './index.scss';
 const Note = (props) => {
     const { navigateDetail, note } = props;
     return (
-        <div className="note-wrapper">
+        <div className="grid-item note-wrapper grid-item">
             <button className="note-delete" onClick={() => { }}>
                 <span className="note-delete-icon"></span>
             </button>

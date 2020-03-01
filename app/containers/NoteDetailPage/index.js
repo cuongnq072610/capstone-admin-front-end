@@ -101,11 +101,10 @@ export class NoteDetailPage extends React.Component {
     const { note, editorHtml } = this.state;
     const editorModule = {
       toolbar: [
-        [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
+        [{ 'font': [] }],
         [{ size: [] }],
-        ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-        [{ 'list': 'ordered' }, { 'list': 'bullet' },
-        { 'indent': '-1' }, { 'indent': '+1' }],
+        ['bold', 'italic', 'underline', 'blockquote'],
+        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
         [ 'image', 'video'],
         ['clean']
       ],

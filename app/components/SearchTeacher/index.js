@@ -94,7 +94,7 @@ class SearchTeacher extends React.Component {
             className="add-btn"
             icon="plus"
             onClick={() => history.push({
-              pathname: "/addteacher",
+              pathname: "/course/addteacher",
               state: {
                 course: course,
                 type: type,

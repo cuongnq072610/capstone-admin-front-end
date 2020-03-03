@@ -1,96 +1,103 @@
 @import "../../utils/variables.scss";
 
-.compose-information {
-  background-color: #fff;
-  padding: 28px 0px 28px 50px;
+.compose {
+  .compose-information {
+    background-color: #fff;
+    padding: 28px 0px 0px 20px;
 
-  .compose-header {
-    padding: 0;
-    background-color: white;
+    .compose-header {
+      padding: 0;
+      background-color: white;
 
-    i {
-      font-size: 20px;
-      color: $primary_blue;
-    }
-
-  }
-
-  .compose-body {
-    .compose-question {
-      font-size: 24px;
-      font-weight: 300;
-      color: $primary_black;
-      width: 100%;
-      margin-bottom: 25px;
-    }
-
-    .hr {
-      margin: 120px 0px;
-      width: 900px;
-      box-shadow: -1px -1px 0px 0px #ccc;
-    }
-
-    .reply {
-      position: fixed;
-      bottom: 0px;
-
-      .btn-reply {
-        width: 900px;
-        height: 60px;
-        font-size: 18px;
-        background-image: url(././Questions/assets/arrow.svg);
-        background-position: 98%;
-        background-repeat: no-repeat;
-        background-size: 15px 30px;
-        border-radius: 5px;
-        border: none;
-        box-shadow: -1px -1px 2px 2px #ccc;
-
-        .btn-reply-text {
-          float: right;
-          padding: 0px 30px;
-          color: $primary_blue;
-        }
+      i {
+        font-size: 20px;
+        color: $primary_blue;
       }
 
-      .btn-hide {
-        width: 900px;
-        height: 160px;
-        font-size: 18px;
-        background-image: url(././Questions/assets/dropdown.svg);
-        background-position: 98% 14%;
-        background-repeat: no-repeat;
-        background-size: 15px 30px;
-        border-radius: 5px;
-        border: none;
-        box-shadow: -2px -2px 3px 3px #ccc;
+    }
 
-        .btn-hide-text {
-          float: right;
-          margin: -60px 30px;
-          color: $primary_blue;
+    .compose-body {
+      .compose-question {
+        font-size: 24px;
+        font-weight: 300;
+        color: $primary_black;
+        width: 100%;
+        margin-bottom: 25px;
+      }
+
+      .reply {
+        position: fixed;
+        bottom: 0px;
+        box-shadow: 0 0 6px rgba(0, 0, 0, 0.16);
+        width: 71.5%;
+      }
+
+      .reply-hide {
+        height: 62px;
+      }
+
+      .reply-show {
+        height: 158px;
+      }
+
+      .reply-field {
+        display: flex;
+        justify-content: space-around;
+        padding-top: 20px;
+
+        .reply-text {
+          width: 85%;
         }
 
-        .btn-send {
-          position: fixed;
-          right: 320px;
-          bottom: 20px;
-          width: 80px;
-          height: 30px;
-          background-image: url(./Questions/assets/send.svg);
-          background-position: 90%;
-          background-repeat: no-repeat;
-          background-size: 15px 27px;
-          padding: 0px 10px;
+        .reply-icon {
+          display: inline-block;
+          width: 17px;
+          height: 17px;
+          background-size: cover;
+          margin-left: 5px;
+        }
 
-          .btn-send-text {
-            text-align: left;
-            font-size: 12px;
-            color: $primary_blue;
+        .arrow-down {
+          background-image: url(assets/dropdown.svg);
+        }
+
+        .arrow-up {
+          background-image: url(assets/arrow.svg);
+        }
+
+        .send {
+          background-image: url(assets/send.svg);
+        }
+
+        .reply-btn {
+          border: none;
+          color: $primary_blue;
+          font-family: Roboto;
+          font-size: 18px;
+          font-weight: 400;
+          letter-spacing: 1.8px;
+          line-height: 17px;
+          display: flex;
+          justify-content: space-around;
+        }
+
+        .reply-btn-field {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+
+          .reply-send {
+            width: 97px;
+            height: 38px;
+            box-shadow: 0 3px 6px rgba(72, 198, 255, 0.3);
+            border-radius: 5px;
+            background-color: $primary_blue;
+            color: $primary_white;
+            display: flex;
+            justify-content: space-around;
           }
         }
       }
     }
   }
-
 }

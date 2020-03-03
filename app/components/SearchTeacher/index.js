@@ -39,7 +39,7 @@ const mockData = [{
 ]
 
 /* eslint-disable react/prefer-stateless-function */
-class SearchTeacher extends React.Component {
+class SearchTeacher extends React.PureComponent {
   constructor(props) {
     super(props)
     this.state = {

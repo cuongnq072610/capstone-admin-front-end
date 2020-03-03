@@ -11,7 +11,7 @@ import './index.scss';
 // import styled from 'styled-components';
 
 /* eslint-disable react/prefer-stateless-function */
-class SearchBar extends React.Component {
+class SearchBar extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {

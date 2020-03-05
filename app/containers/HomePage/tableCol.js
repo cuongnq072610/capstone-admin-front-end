@@ -10,7 +10,7 @@ const fomatDepartment = (departments) => {
 const colunms = [
     {
         title: "CODE",
-        dataIndex: "courseId",
+        dataIndex: "courseCode",
         sorter: (a, b) => a.courseId < b.courseId,
         sortDirections: ['descend'],
         render: text => <span style={{ color: '#9c4aee', fontWeight: 600 }}>{text}</span>,

@@ -21,7 +21,6 @@ import messages from './messages';
 import { Row, Col, Button, Icon, Input, Layout } from 'antd';
 import "./index.scss";
 import ReactQuill from 'react-quill';
-import htmlToDraft from 'html-to-draftjs';
 const { Header, Content } = Layout;
 
 const mockDataFolder = [
@@ -101,11 +100,10 @@ export class NoteDetailPage extends React.Component {
     const { note, editorHtml } = this.state;
     const editorModule = {
       toolbar: [
-        [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
+        [{ 'font': [] }],
         [{ size: [] }],
-        ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-        [{ 'list': 'ordered' }, { 'list': 'bullet' },
-        { 'indent': '-1' }, { 'indent': '+1' }],
+        ['bold', 'italic', 'underline', 'blockquote'],
+        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
         [ 'image', 'video'],
         ['clean']
       ],

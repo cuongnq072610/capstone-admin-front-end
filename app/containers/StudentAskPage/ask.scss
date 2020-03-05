@@ -45,3 +45,13 @@
 .ant-table-pagination.ant-pagination {
   display: none;
 }
+
+.answered-icon {
+  display: flex;
+  flex-direction: row;
+  padding: 10px 0px;
+  background-image: url(./FilterSearch/assets/received.svg);
+  background-size: 12px 30px;
+  background-repeat: no-repeat;
+  font-size: 14px;
+}

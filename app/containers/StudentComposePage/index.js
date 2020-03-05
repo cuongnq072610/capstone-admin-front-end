@@ -33,6 +33,7 @@ export class StudentComposePage extends React.Component {
     this.state = {
       showMe: false,
       isClose: false,
+      isDelete: false,
       teacher: {},
     }
   }
@@ -57,8 +58,18 @@ export class StudentComposePage extends React.Component {
     })
   }
 
+  onToggleDelete = () => {
+    this.setState({
+      isDelete: !this.state.isDelete,
+    })
+  }
+
+  handleDeleteQues = () => {
+    this.onToggleDelete();
+  }
+
   render() {
-    const { teachers, showMe, isClose } = this.state;
+    const { teachers, showMe, isClose, isDelete } = this.state;
     return (
       <div>
         <Helmet>
@@ -111,7 +122,13 @@ export class StudentComposePage extends React.Component {
             </Layout>
           </Col>
           <Col span={5} className="compose-question">
-            <QuestionSide toggleClose={this.onToggleClose} isClosed={isClose}/>
+            <QuestionSide
+              toggleClose={this.onToggleClose}
+              isClosed={isClose}
+              toggleDelete={this.onToggleDelete}
+              isDelete={isDelete}
+              handleDelete={this.handleDeleteQues}
+            />
           </Col>
         </Row>
       </div>

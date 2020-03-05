@@ -58,7 +58,7 @@ class SideMenu extends React.Component {
           return (
             <Menu.Item key={index + 1}>
               <Tooltip title={menu.title} placement="right">
-                <NavLink exact to={menu.path} activeClassName={`${menu.name}-active`} className={`menu-icon ${menu.name}`}>
+                <NavLink exact={menu.exact} to={menu.path} activeClassName={`${menu.name}-active`} className={`menu-icon ${menu.name}`}>
                 </NavLink>
               </Tooltip>
             </Menu.Item>

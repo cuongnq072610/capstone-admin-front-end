@@ -45,8 +45,8 @@ export default function App() {
         <Route exact path='/note' render={() => <WrapperLayout component={NotePage} role="student" page="note"/>}/>
         <Route exact path='/highlight' render={() => <WrapperLayout component={HighlightPage} role="student" page="highlight"/>}/>
         <Route path='/note/:noteId' render={() => <WrapperLayout component={NoteDetailPage} role="student" page="note"/>}/>
-        <Route path='/ask' render={() => <WrapperLayout component={StudentAskPage} role="student" page="ask"/>}/>
-        <Route path='/compose' render={() => <WrapperLayout component={StudentComposePage} role="student" page="ask"/>}/>
+        <Route exact path='/ask' render={() => <WrapperLayout component={StudentAskPage} role="student" page="ask"/>}/>
+        <Route path='/ask/compose/:id' render={() => <WrapperLayout component={StudentComposePage} role="student" page="ask"/>}/>
         <Route path='' render={() => <WrapperLayout component={NotFoundPage}/>}/>
       </Switch>
       <GlobalStyle />

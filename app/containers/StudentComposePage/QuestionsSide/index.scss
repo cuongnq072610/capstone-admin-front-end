@@ -27,7 +27,7 @@
         justify-content: flex-start;
         align-items: center;
         margin-top: 25px;
-        
+
         .tutor-avatar {
           width: 24px;
           height: 24px;
@@ -38,6 +38,7 @@
           flex-direction: column;
           justify-content: flex-start;
           margin-left: 10px;
+
           .tutor-name {
             color: #212121;
             font-family: Roboto;
@@ -133,6 +134,51 @@
 
         p {
           margin: 0px 15px;
+        }
+      }
+
+      .setting-modal {
+        box-shadow: 0 3px 12px rgba(185, 117, 78, 0.3);
+        border-radius: 5px;
+        border: 1px solid $primary_blue;
+        background-color: $primary_white;
+        position: absolute;
+        z-index: 1;
+        overflow: hidden;
+        top: 330px;
+        height: 100px;
+
+        .setting-modal-header {
+          background-color: $primary_blue;
+          color: $primary_white;
+          padding: 10px 5px;
+
+          p {
+            padding: 0;
+            margin: 0;
+          }
+        }
+
+        .setting-modal-footer {
+          display: flex;
+          flex-direction: row;
+          justify-content: flex-end;
+          padding-top: 25px;
+
+          .setting-modal-yes {
+            background-color: $primary_blue;
+            color: $primary_white;
+            margin: 0px 10px;
+            border-radius: 5px;
+          }
+
+          .setting-modal-no {
+            border: 1px solid $primary_blue;
+            background-color: $primary_white;
+            color: $primary_blue;
+            margin: 0px 10px;
+            border-radius: 5px;
+          }
         }
       }
     }

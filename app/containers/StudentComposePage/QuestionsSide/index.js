@@ -8,8 +8,12 @@ const { Header, Content } = Layout;
 const QuestionSide = (props) => {
     const {
         toggleClose,
+        toggleDelete,
         isClosed,
+        isDelete,
+        handleDelete,
     } = props;
+
     return (
         <Row>
             <Layout className="questions-information">
@@ -46,9 +50,21 @@ const QuestionSide = (props) => {
                     }
                     <div className="settings">
                         <span className="p">SETTINGS</span>
-                        <Button className="settings-delete" size="small">
+                        <Button className="settings-delete" size="small" onClick={toggleDelete}>
                             <p>Delete this question</p>
                         </Button>
+                        {
+                            isDelete &&
+                            <div className="setting-modal">
+                                <div className="setting-modal-header">
+                                    <p>Do you want to delete this question</p>
+                                </div>
+                                <div className="setting-modal-footer">
+                                    <button className="setting-modal-yes" onClick={handleDelete}>Yes</button>
+                                    <button className="setting-modal-no" onClick={toggleDelete}>No</button>
+                                </div>
+                            </div>
+                        }
                     </div>
                 </Content>
             </Layout>

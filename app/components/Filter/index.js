@@ -12,7 +12,7 @@ import PropTypes from 'prop-types';
 // import styled from 'styled-components';
 
 /* eslint-disable react/prefer-stateless-function */
-class Filter extends React.Component {
+class Filter extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {

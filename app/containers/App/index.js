@@ -9,7 +9,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { Switch, Route } from 'react-router-dom';
-import { Layout, Col, Row } from 'antd';
+import { Layout } from 'antd';
 import 'antd/dist/antd.css';
 
 import HomePage from 'containers/HomePage/Loadable';
@@ -19,8 +19,8 @@ import TeacherPage from 'containers/TeacherPage/Loadable';
 import DashboardPage from 'containers/DashboardPage/Loadable';
 import NotePage from 'containers/NotePage/Loadable';
 import NoteDetailPage from 'containers/NoteDetailPage/Loadable';
-import StudentAskPage from 'containers/StudentAskPage/Loadable';
-import StudentComposePage from 'containers/StudentComposePage/Loadable';
+import HighlightPage from 'containers/HighLightPage/Loadable';
+import AskDetailPage from 'containers/StudentAskDetail/Loadable'
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import GlobalStyle from '../../global-styles';
 
@@ -37,13 +37,15 @@ export default function App() {
       </Helmet>
       <Switch>
         <Route exact path='/' render={() => <WrapperLayout component={DashboardPage} role="admin" page="dashboard"/>}/>
-        <Route path='/course' render={() => <WrapperLayout component={HomePage} role="admin" page="course"/>}/>
+        <Route exact path='/course' render={() => <WrapperLayout component={HomePage} role="admin" page="course"/>}/>
         <Route path='/teacher' render={() => <WrapperLayout component={TeacherPage} role="admin" page="teacher"/>}/>
-        <Route path='/addcourse' render={() => <WrapperLayout component={AddCoursePage} role="admin" page="course"/>}/>
-        <Route path='/addteacher' render={() => <WrapperLayout component={AddTeacherPage} role="admin" page="course"/>}/>
+        <Route path='/course/addcourse' render={() => <WrapperLayout component={AddCoursePage} role="admin" page="course"/>}/>
+        <Route path='/course/addteacher' render={() => <WrapperLayout component={AddTeacherPage} role="admin" page="course"/>}/>
         <Route exact path='/note' render={() => <WrapperLayout component={NotePage} role="student" page="note"/>}/>
+        <Route exact path='/highlight' render={() => <WrapperLayout component={HighlightPage} role="student" page="highlight"/>}/>
         <Route path='/note/:noteId' render={() => <WrapperLayout component={NoteDetailPage} role="student" page="note"/>}/>
         <Route path='/ask' render={() => <WrapperLayout component={StudentAskPage} role="student" page="ask"/>}/>
+        <Route path='/askDetail' render={() => <WrapperLayout component={AskDetailPage} role="student" page="ask"/>}/>
         <Route path='/compose' render={() => <WrapperLayout component={StudentComposePage} role="student" page="ask"/>}/>
         <Route path='' render={() => <WrapperLayout component={NotFoundPage}/>}/>
       </Switch>

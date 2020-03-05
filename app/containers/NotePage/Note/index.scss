@@ -12,13 +12,14 @@
 
     .note-btn {
         text-align: left;
+        cursor: pointer;
         .note-title {
             color: #616161;
             font-family: Roboto;
             font-size: 22px;
             font-weight: 700;
             letter-spacing: 0.22px;
-            line-height: 17px;
+            line-height: 24px;
         }
 
         .note-content {
@@ -44,7 +45,7 @@
         justify-content: center;
         align-items: center;
         position: absolute;
-        top: 0px;
+        top: -10px;
         right: -15px;
 
         .note-delete-icon {

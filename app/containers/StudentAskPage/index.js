@@ -74,7 +74,6 @@ export class StudentAskPage extends React.Component {
                       return {
                         onClick: e => this.props.history.push({
                           pathname: `/ask/compose/${record._id}`,
-                          state: { ask: record }
                         })
                       }
                     }}

@@ -21,8 +21,8 @@ import messages from './messages';
 import Note from './Note';
 import history from '../../utils/history';
 import WrappedSearchBar from '../../components/SearchBar';
-import { Row, Layout, Col, Icon, Button, Input } from 'antd';
-import { loadNote, loadFolder } from './actions';
+import { Row, Layout, Col, Icon, Button, Input, Spin } from 'antd';
+import { loadNote, loadFolder, createFolder } from './actions';
 import Masonry from 'masonry-layout'
 const { Content, Header } = Layout;
 
@@ -170,18 +170,18 @@ export class NotePage extends React.Component {
   }
 
   componentDidMount() {
+    this.props.handleLoadFolder();
     this.setState({
       notes: mockData,
       folders: mockDataFolder,
       baseNotes: mockData,
     });
-    
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     var elems = document.querySelectorAll('.grid');
     var msnryInstance = [];
-    elems.forEach((elem,index) => {
+    elems.forEach((elem, index) => {
       msnryInstance.push(
         new Masonry(elem, {
           // options
@@ -190,8 +190,11 @@ export class NotePage extends React.Component {
           gutter: 10,
           horizontalOrder: true
         })
-      ) 
+      )
     })
+    if (prevProps.notePage.message !== this.props.notePage.message) {
+      this.props.handleLoadFolder();
+    }
   }
 
   navigateDetail = (note) => {
@@ -206,7 +209,7 @@ export class NotePage extends React.Component {
   onHandleChosenFolder = (folder) => {
     const { folderChosen, baseNotes } = this.state;
     if (folder !== folderChosen) {
-      var newArrNotes = baseNoes.filter(note => note.folder === folder.name)
+      var newArrNotes = baseNotes.filter(note => note.folder === folder.name)
       this.setState({
         folderChosen: folder,
         notes: newArrNotes,
@@ -222,10 +225,10 @@ export class NotePage extends React.Component {
   renderFolder = (folder, index) => {
     const { folderChosen } = this.state;
     return (
-      <Button className={`${folder.name === folderChosen.name ? "folder-wrap-active" : "folder-wrap"}`} key={index} onClick={() => this.onHandleChosenFolder(folder)}>
+      <Button className={`${folder.folderName === folderChosen.folderName ? "folder-wrap-active" : "folder-wrap"}`} key={index} onClick={() => this.onHandleChosenFolder(folder)}>
         <div className="folder-content">
           <span className="icon-folder"></span>
-          <span className="name-folder">{folder.name}</span>
+          <span className="name-folder">{folder.folderName}</span>
         </div>
       </Button>
     )
@@ -233,10 +236,15 @@ export class NotePage extends React.Component {
 
   onHandleSubmit = () => {
     const { textValue, folders } = this.state;
-    var newArrFolders = [...folders, { id: folders.length + 2, name: textValue }]
-    this.setState({
-      folders: newArrFolders
-    })
+    // var newArrFolders = [...folders, { id: folders.length + 2, name: textValue }]
+    // this.setState({
+    //   folders: newArrFolders
+    // })
+    const body = {
+      "studentID": "5e4ea4d07c213e67373d3cdb",
+      "folderName": textValue,
+    }
+    this.props.handleCreateFolder(body);
   }
 
   onChangeText = (e) => {
@@ -245,27 +253,11 @@ export class NotePage extends React.Component {
     })
   }
 
-  // countNote = (type) => {
-  //   const { notes } = this.state;
-  //   var count = 0;
-  //   if (type === "pinned") {
-  //     for (let i = 0; i < notes.length; i++) {
-  //       if (notes[i].isPinned === true) {
-  //         count++
-  //       }
-  //     }
-  //   } else {
-  //     for (let i = 0; i < notes.length; i++) {
-  //       if (notes[i].isPinned === false) {
-  //         count++
-  //       }
-  //     }
-  //   }
-  //   return count
-  // }
-
   render() {
-    const { notes, folders } = this.state;
+    const { notes, folderChosen } = this.state;
+    const { isLoadingFolder, folders, message } = this.props.notePage;
+    const antIcon = <Icon type="loading" style={{ fontSize: 24, color: '#ffc143', marginRight: '10px' }} spin />;
+    console.log(message)
     return (
       <Row>
         <Helmet>
@@ -343,8 +335,16 @@ export class NotePage extends React.Component {
                   className="folder-add"
                 />
                 {
-                  folders.map((folder, index) => this.renderFolder(folder, index))
+                  isLoadingFolder ?
+                    <Spin indicator={antIcon} /> :
+                    folders.map((folder, index) => this.renderFolder(folder, index))
                 }
+                <div className={message && message.Sucess ? 'notification-show' : 'notification'}>
+                  <div className='noti-content-success'>
+                    <span className='icon-noti accept-icon '></span>
+                    <p style={{fontSize: '12px'}}>{message.Sucess}</p>
+                  </div>
+                </div>
               </div>
             </Content>
           </Layout>
@@ -357,6 +357,7 @@ export class NotePage extends React.Component {
 NotePage.propTypes = {
   handleLoadNote: PropTypes.func.isRequired,
   handleLoadFolder: PropTypes.func.isRequired,
+  handleCreateFolder: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -367,6 +368,7 @@ function mapDispatchToProps(dispatch) {
   return {
     handleLoadNote: () => { dispatch(loadNote()) },
     handleLoadFolder: () => { dispatch(loadFolder()) },
+    handleCreateFolder: (body) => { dispatch(createFolder(body)) }
   };
 }
 

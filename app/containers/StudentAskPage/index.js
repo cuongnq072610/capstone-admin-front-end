@@ -20,100 +20,9 @@ import saga from './saga';
 import "./ask.scss";
 import columns from './tableCol';
 import FilterSearch from './FilterSearch';
+import { loadAsk } from './actions';
 
 const { Content, Header } = Layout;
-
-const mockDataForAsks = [
-  {
-      "comments": [{
-        "_id": "5e61ca10a3e5d42d44d2544e",
-        "userID": "5e4ea4d07c213e67373d3cdb",
-        "ask": "5e61c4422ea9722f785cab17",
-        "message": "Thanks Evan for A2A.",
-        "dateCreated": "06/03/2020",
-        "__v": 0
-      },
-      {
-        "_id": "5e61ca5ea3e5d42d44d2544f",
-        "userID": "5e4eab447c213e67373d414a",
-        "ask": "5e61c4422ea9722f785cab17",
-        "message": "Usually over-relaxation pushes one to inactivity that is manifestation of sinking deeper and deeper in a comfort zone.",
-        "dateCreated": "06/03/2020",
-        "__v": 0
-      }],
-      "_id": "5e61c3417c213e3443e8dd81",
-      "scannedContent": "Plus, Apple decided that this black bar had to be always shown to the user",
-      "askContent": "How would Steve Jobs react if he saw the iPhone X?",
-      "student": {
-          "_id": "5e4ea4d07c213e67373d3cdb",
-          "name": "Minh",
-          "email": "first@fpt.edu.vn",
-          "studentCode": "SE12345"
-      },
-      "teacher": {
-          "rating": {
-              "star_1": 2,
-              "star_2": 3,
-              "star_3": 4,
-              "star_4": 5,
-              "star_5": 6
-          },
-          "courses": [],
-          "_id": "5e4eab447c213e67373d414a",
-          "name": "LamPT",
-          "email": "first@fpt.edu.vn",
-          "isActive": false
-      },
-      "courseURL": "abc.xyz",
-      "dateModified": "06/03/2020",
-      "dateCreated": "05/03/2020"
-  },
-  {
-      "comments": [{
-        "_id": "5e61ca10a3e5d42d44d2544e",
-        "userID": "5e4ea4d07c213e67373d3cdb",
-        "ask": "5e61c4422ea9722f785cab17",
-        "message": "Thanks Evan for A2A.",
-        "dateCreated": "06/03/2020",
-        "__v": 0
-      },
-      {
-        "_id": "5e61ca5ea3e5d42d44d2544f",
-        "userID": "5e4eab447c213e67373d414a",
-        "ask": "5e61c4422ea9722f785cab17",
-        "message": "Usually over-relaxation pushes one to inactivity that is manifestation of sinking deeper and deeper in a comfort zone.",
-        "dateCreated": "06/03/2020",
-        "__v": 0
-      }],
-      "_id": "5e61c4422ea9722f785cab17",
-      "scannedContent": "This is very simple and logical. When your iPhone is locked, and you’re getting an incoming call, you will have the ‘answer’ slider.",
-      "askContent": "Why is it that some incoming calls on my iPhone have a decline button, but some do not?",
-      "student": {
-          "_id": "5e4ea4d07c213e67373d3cdb",
-          "studentName": "Minh",
-          "email": "first@fpt.edu.vn",
-          "studentCode": "SE12345"
-      },
-      "teacher": {
-          "rating": {
-              "star_1": 2,
-              "star_2": 3,
-              "star_3": 4,
-              "star_4": 5,
-              "star_5": 6
-          },
-          "courses": [],
-          "_id": "5e4eab447c213e67373d414a",
-          "teacherName": "MaiTT",
-          "email": "first@fpt.edu.vn",
-          "isActive": false
-      },
-      "courseURL": "1",
-      "dateModified": "06/03/2020",
-      "dateCreated": "05/03/2020",
-      "__v": 0
-  }
-]
 
 /* eslint-disable react/prefer-stateless-function */
 export class StudentAskPage extends React.Component {
@@ -125,13 +34,20 @@ export class StudentAskPage extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({
-      asks: mockDataForAsks
-    })
+    this.props.handleFetchAsks();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.studentAskPage.asks !== this.props.studentAskPage.asks) {
+      this.setState({
+        asks: this.props.studentAskPage.asks
+      })
+    }
   }
 
   render() {
     const { asks } = this.state;
+    const { isLoading } = this.props.studentAskPage;
     return (
       <div>
         <Helmet>
@@ -162,6 +78,7 @@ export class StudentAskPage extends React.Component {
                         })
                       }
                     }}
+                    loading={isLoading}
                   />
                 </Row>
                 <div className="float" onClick={() => this.props.history.push("/ask/create")}>
@@ -180,7 +97,7 @@ export class StudentAskPage extends React.Component {
 }
 
 StudentAskPage.propTypes = {
-  dispatch: PropTypes.func.isRequired,
+  handleFetchAsks: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -189,7 +106,7 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
-    dispatch,
+    handleFetchAsks: () => { dispatch(loadAsk()) },
   };
 }
 

@@ -12,7 +12,7 @@ import { Helmet } from 'react-helmet';
 import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-import { Row, Layout, Col, Icon, Button } from 'antd';
+import { Row, Layout, Col, Icon, Button, Spin } from 'antd';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import makeSelectStudentComposePage from './selectors';
@@ -26,6 +26,7 @@ import AskAndAnswerField from './Question';
 
 //socket
 import io from 'socket.io-client';
+import { loadAskDetail } from './actions';
 let socket;
 const ENDPOINT = 'http://localhost:5000';
 
@@ -45,26 +46,29 @@ export class StudentComposePage extends React.Component {
   }
 
   componentDidMount() {
-    if (this.props.history.location.state) {
-      this.setState({
-        ask: this.props.history.location.state.ask,
-        comments : this.props.history.location.state.ask.comments
-      })
-    };     
+    const { id } = this.props.match.params;
+    this.props.handleFetchAskDetail(id)
 
-
-    socket = io(ENDPOINT); 
-    socket.emit('join', {message : 'Hello babe'}, (error) => {
-      if(error) {
+    socket = io(ENDPOINT);
+    socket.emit('join', { message: 'Hello babe' }, (error) => {
+      if (error) {
         console.log(error);
       }
     })
 
-    socket.on('hello' , (data) => {
+    socket.on('hello', (data) => {
       console.log(data);
     })
   };
-  
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.studentComposePage.ask !== this.props.studentComposePage.ask) {
+      this.setState({
+        ask: this.props.studentComposePage.ask,
+        teacher: this.props.studentComposePage.ask.teacher,
+      })
+    }
+  }
 
   componentWillUnmount() {
     socket.emit('disconect');
@@ -95,59 +99,59 @@ export class StudentComposePage extends React.Component {
 
   handleChangeMessage = (event) => {
     var message = event.target.value;
-    this.setState({ message : message });
+    this.setState({ message: message });
   }
 
   handleSendMessage = () => {
-    const {message,ask,comments} = this.state;
+    const { message, ask, comments } = this.state;
     //add to messages state first to render to UI
     //emit to server with userInfo and message to save to DB
     //if error show warning, if not do nothing
     const newComment = {
-        "userID": ask.student._id,
-        "ask": ask._id,
-        "message": message,
-        "dateCreated": this.getCurrentDate(),
-        "__v": 0
+      "userID": ask.student._id,
+      "ask": ask._id,
+      "message": message,
+      "dateCreated": this.getCurrentDate(),
+      "__v": 0
     }
 
     this.setState({
-      comments : [...comments, newComment]
+      comments: [...comments, newComment]
     });
 
-    socket.emit('send message', {message : message, user: ask.student, askID: ask._id}, (error) => {
-      if(error) {
+    socket.emit('send message', { message: message, user: ask.student, askID: ask._id }, (error) => {
+      if (error) {
         console.log(error);
       }
     })
   }
 
   getCurrentDate() {
-      var today = new Date();
-      var dd = today.getDate();
-      var mm = today.getMonth()+1; 
-      var yyyy = today.getFullYear();
-      if(dd<10) 
-      {
-          dd='0'+dd;
-      } 
-      if(mm<10) 
-      {
-          mm='0'+mm;
-      } 
-      return today = dd+'/'+mm+'/'+yyyy;
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth() + 1;
+    var yyyy = today.getFullYear();
+    if (dd < 10) {
+      dd = '0' + dd;
+    }
+    if (mm < 10) {
+      mm = '0' + mm;
+    }
+    return today = dd + '/' + mm + '/' + yyyy;
   }
   compareIDtoGetUser = (id, user1, user2) => {
-    if(user1._id === id) {
+    if (user1._id === id) {
       return user1
-    }else if(user2._id === id) {
+    } else if (user2._id === id) {
       return user2
     }
   }
 
   render() {
-    const { message,comments, showMe, isClose, isDelete, ask } = this.state;
+    const { message, comments, showMe, isClose, isDelete, ask, teacher } = this.state;
     const { Content, Header } = Layout;
+    const antIcon = <Icon type="loading" style={{ fontSize: 24, color: '#1593e6', marginRight: '10px' }} spin />;
+    const { isLoading } = this.props.studentComposePage;
     return (
       <div>
         <Helmet>
@@ -165,56 +169,66 @@ export class StudentComposePage extends React.Component {
                   <Icon type="arrow-left" />
                 </Link>
               </Header>
-              <Content className="compose-body">
-                <h1>{this.state.ask.askContent ? this.state.ask.askContent : ""}</h1>
-                { /* render the student scanned content as a commment */}
-                <AskAndAnswerField user={ask.student} date={ask.dateCreated} text = {ask.scannedContent}/>
-                {
-                  comments ?  
-                  comments.map((comment, index) => {
-                    return  <AskAndAnswerField user={this.compareIDtoGetUser(comment.userID, ask.student, ask.teacher)} comment = {comment} key={index}/>
-                  }) :
-                  ''
-                }
-                {
-                  !isClose &&
-                  <div className={`reply ${showMe ? 'reply-show' : 'reply-hide'}`}>
+              {
+                isLoading ?
+                  <div className="spin-wrapper">
+                    <Spin indicator={antIcon} />
+                  </div> :
+                  <Content className="compose-body">
+                    <h1>{this.state.ask.askContent ? this.state.ask.askContent : ""}</h1>
+                    { /* render the student scanned content as a commment */}
+                    <AskAndAnswerField user={ask.student} date={ask.dateCreated} text={ask.scannedContent} />
                     {
-                      showMe ?
-                        <div className="reply-field">
-                          <TextArea rows={5} className="reply-text" value={message} onChange={this.handleChangeMessage}/>
-                          <div className='reply-btn-field'>
-                            <button onClick={this.onToggleShow} className='reply-btn'>
-                              <span>Hide</span>
-                              <span className='reply-icon arrow-down'></span>
-                            </button>
-                            <button className='reply-send' onClick={this.handleSendMessage}>
-                              <span>Send</span>
-                              <span className='reply-icon send'></span>
-                            </button>
-                          </div>
-                        </div> :
-                        <div className="reply-field">
-                          <div style={{ width: '85%' }}></div>
-                          <button onClick={this.onToggleShow} className='reply-btn'>
-                            <span>Show</span>
-                            <span className='reply-icon arrow-up'></span>
-                          </button>
-                        </div>
+                      comments ?
+                        comments.map((comment, index) => {
+                          return <AskAndAnswerField user={this.compareIDtoGetUser(comment.userID, ask.student, ask.teacher)} comment={comment} key={index} />
+                        }) :
+                        ''
                     }
-                  </div>
-                }
-              </Content>
+                    {
+                      !isClose &&
+                      <div className={`reply ${showMe ? 'reply-show' : 'reply-hide'}`}>
+                        {
+                          showMe ?
+                            <div className="reply-field">
+                              <TextArea rows={5} className="reply-text" value={message} onChange={this.handleChangeMessage} />
+                              <div className='reply-btn-field'>
+                                <button onClick={this.onToggleShow} className='reply-btn'>
+                                  <span>Hide</span>
+                                  <span className='reply-icon arrow-down'></span>
+                                </button>
+                                <button className='reply-send' onClick={this.handleSendMessage}>
+                                  <span>Send</span>
+                                  <span className='reply-icon send'></span>
+                                </button>
+                              </div>
+                            </div> :
+                            <div className="reply-field">
+                              <div style={{ width: '85%' }}></div>
+                              <button onClick={this.onToggleShow} className='reply-btn'>
+                                <span>Show</span>
+                                <span className='reply-icon arrow-up'></span>
+                              </button>
+                            </div>
+                        }
+                      </div>
+                    }
+                  </Content>
+              }
             </Layout>
           </Col>
           <Col span={5} className="compose-question">
-            <QuestionSide
-              toggleClose={this.onToggleClose}
-              isClosed={isClose}
-              toggleDelete={this.onToggleDelete}
-              isDelete={isDelete}
-              handleDelete={this.handleDeleteQues}
-            />
+            {
+              !isLoading && teacher &&
+              <QuestionSide
+                toggleClose={this.onToggleClose}
+                isClosed={isClose}
+                toggleDelete={this.onToggleDelete}
+                isDelete={isDelete}
+                handleDelete={this.handleDeleteQues}
+                teacher={teacher}
+              />
+            }
           </Col>
         </Row>
       </div>
@@ -223,7 +237,7 @@ export class StudentComposePage extends React.Component {
 }
 
 StudentComposePage.propTypes = {
-  dispatch: PropTypes.func.isRequired,
+  handleFetchAskDetail: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -232,7 +246,7 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
-    dispatch,
+    handleFetchAskDetail: (askId) => { dispatch(loadAskDetail(askId)) },
   };
 }
 

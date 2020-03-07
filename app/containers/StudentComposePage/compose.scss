@@ -16,6 +16,11 @@
 
     }
 
+    .spin-wrapper {
+      display: flex;
+      justify-content: center;
+    }
+
     .compose-body {
       .compose-question {
         font-size: 24px;

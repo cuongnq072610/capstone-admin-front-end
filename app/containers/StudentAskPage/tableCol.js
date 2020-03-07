@@ -6,10 +6,10 @@ const colunms = [{
 },
 {
   title: "TUTOR",
-  dataIndex: "teacher.name",
+  dataIndex: "teacher.teacherName",
   render: text => <span style={{ color: '#1593E6', fontSize: 17, fontWeight: 600 }}>{text}</span>,
   width: 175,
-  key: 'teacher.name'
+  key: 'teacher.teacherName'
 },
 {
   title: "QUESTION",

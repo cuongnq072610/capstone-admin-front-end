@@ -28,7 +28,7 @@ const AskAndAnswerField = (props) => {
                 <img src={avatar} className='user-avatar' />
                 <div className='user-info'>
                     <div>
-                        <Name>{user.name}</Name>
+                        <Name>{user.studentName}</Name>
                         <Mail>{user.email}</Mail>
                     </div>
                     <p>{date ? date : comment.dateCreated}</p>

@@ -8,7 +8,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
-import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import WrappedSearchBar from '../../components/SearchBar';
@@ -18,75 +17,121 @@ import injectReducer from 'utils/injectReducer';
 import makeSelectStudentAskPage from './selectors';
 import reducer from './reducer';
 import saga from './saga';
-import messages from './messages';
 import "./ask.scss";
 import columns from './tableCol';
 import FilterSearch from './FilterSearch';
 
 const { Content, Header } = Layout;
 
-const mockData = [
-    {
-        teacher: "LamPD",
-        mail:"lampd@fe.edu.vn",
-        question: "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
-        date: '18:20',
-    },
-    {
-        teacher: "MaiTT",
-        mail: "maitt@fe.edu.vn",
-        question: "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
-        date: '14:57',
-    },
-    {
-        teacher: "MaiVTT",
-        mail: "maivtt@fe.edu.vn",
-        question: "It is a long established fact that a reader will be distracted by the readable",
-        date: 'Dec 19',
-    },
-    {
-        teacher: "PhuongLh7",
-        mail: "phuonglh17@fe.edu.vn",
-        question: "Contrary to popular, belief, Lorem Ipsum is not simply random text",
-        date: 'Dec 17',
-    },
-    {
-      teacher: "TungNN13",
-      mail: "tungnn13@fe.edu.vn",
-      question: "It has roots in a piece of classical Latin literature from 45 BC",
-      date: 'Dec 16',
-    },
-    {
-      teacher: "NguyetTM22",
-      mail: "nguyettm22@fe.edu.vn",
-      question: "There are many variations of passages of Lorem Ipsum available",
-      date: 'Dec 15',
-    },
+const mockDataForAsks = [
+  {
+      "comments": [{
+        "_id": "5e61ca10a3e5d42d44d2544e",
+        "userID": "5e4ea4d07c213e67373d3cdb",
+        "ask": "5e61c4422ea9722f785cab17",
+        "message": "Thanks Evan for A2A.",
+        "dateCreated": "06/03/2020",
+        "__v": 0
+      },
+      {
+        "_id": "5e61ca5ea3e5d42d44d2544f",
+        "userID": "5e4eab447c213e67373d414a",
+        "ask": "5e61c4422ea9722f785cab17",
+        "message": "Usually over-relaxation pushes one to inactivity that is manifestation of sinking deeper and deeper in a comfort zone.",
+        "dateCreated": "06/03/2020",
+        "__v": 0
+      }],
+      "_id": "5e61c3417c213e3443e8dd81",
+      "scannedContent": "Plus, Apple decided that this black bar had to be always shown to the user",
+      "askContent": "How would Steve Jobs react if he saw the iPhone X?",
+      "student": {
+          "_id": "5e4ea4d07c213e67373d3cdb",
+          "name": "Minh",
+          "email": "first@fpt.edu.vn",
+          "studentCode": "SE12345"
+      },
+      "teacher": {
+          "rating": {
+              "star_1": 2,
+              "star_2": 3,
+              "star_3": 4,
+              "star_4": 5,
+              "star_5": 6
+          },
+          "courses": [],
+          "_id": "5e4eab447c213e67373d414a",
+          "name": "LamPT",
+          "email": "first@fpt.edu.vn",
+          "isActive": false
+      },
+      "courseURL": "abc.xyz",
+      "dateModified": "06/03/2020",
+      "dateCreated": "05/03/2020"
+  },
+  {
+      "comments": [{
+        "_id": "5e61ca10a3e5d42d44d2544e",
+        "userID": "5e4ea4d07c213e67373d3cdb",
+        "ask": "5e61c4422ea9722f785cab17",
+        "message": "Thanks Evan for A2A.",
+        "dateCreated": "06/03/2020",
+        "__v": 0
+      },
+      {
+        "_id": "5e61ca5ea3e5d42d44d2544f",
+        "userID": "5e4eab447c213e67373d414a",
+        "ask": "5e61c4422ea9722f785cab17",
+        "message": "Usually over-relaxation pushes one to inactivity that is manifestation of sinking deeper and deeper in a comfort zone.",
+        "dateCreated": "06/03/2020",
+        "__v": 0
+      }],
+      "_id": "5e61c4422ea9722f785cab17",
+      "scannedContent": "This is very simple and logical. When your iPhone is locked, and you’re getting an incoming call, you will have the ‘answer’ slider.",
+      "askContent": "Why is it that some incoming calls on my iPhone have a decline button, but some do not?",
+      "student": {
+          "_id": "5e4ea4d07c213e67373d3cdb",
+          "studentName": "Minh",
+          "email": "first@fpt.edu.vn",
+          "studentCode": "SE12345"
+      },
+      "teacher": {
+          "rating": {
+              "star_1": 2,
+              "star_2": 3,
+              "star_3": 4,
+              "star_4": 5,
+              "star_5": 6
+          },
+          "courses": [],
+          "_id": "5e4eab447c213e67373d414a",
+          "teacherName": "MaiTT",
+          "email": "first@fpt.edu.vn",
+          "isActive": false
+      },
+      "courseURL": "1",
+      "dateModified": "06/03/2020",
+      "dateCreated": "05/03/2020",
+      "__v": 0
+  }
 ]
+
 /* eslint-disable react/prefer-stateless-function */
 export class StudentAskPage extends React.Component {
   constructor(props) {
-        super(props);
-        this.state = {
-            teachers: [],
-        }
+    super(props);
+    this.state = {
+      asks: [],
     }
+  }
 
-    componentDidMount() {
-      const formatTeachers = mockData.map((teacher, index) => {
-        return {
-          ...teacher,
-          key: `${index}`
-        }
-      })
-      this.setState({
-        teachers: formatTeachers,
-      })
-    }
-    
-  render() { 
-    const {teachers} =this.state;
-    console.log(this.props.history)
+  componentDidMount() {
+    this.setState({
+      asks: mockDataForAsks
+    })
+  }
+
+  render() {
+    const { asks } = this.state;
     return (
       <div>
         <Helmet>
@@ -98,35 +143,36 @@ export class StudentAskPage extends React.Component {
             <Layout className="ask-page">
               <Header className="ask-page-header">
                 <WrappedSearchBar className="ask-page-search"
-                                  message="Please enter your course name"
-                                  placeholder="I want to find my course"
-                                  type="ask"/>
-                </Header>
+                  message="Please enter your course name"
+                  placeholder="I want to find my course"
+                  type="ask" />
+              </Header>
               <Content className="ask-page-content">
-                  <Row>
-                    <Table
-                      columns={columns}
-                      dataSource={teachers}
-                      className="ask-table"
-                      onRow={(record, rowIndex) => {
-                    return {
-                      onClick: e => this.props.history.push({
-                        pathname: './compose',
-                        state: { teacher: record }
-                      })
-                    }
-                  }}
-                    />
-                  </Row>
-                  <div className="float" onClick={() => this.props.history.push("/compose")}>
-                <Icon type="plus" className="my-float" />
-              </div>
+                <Row>
+                  <Table
+                    rowKey="_id"
+                    columns={columns}
+                    dataSource={asks}
+                    className="ask-table"
+                    onRow={(record, rowIndex) => {
+                      return {
+                        onClick: e => this.props.history.push({
+                          pathname: `/ask/compose/${record._id}`,
+                          state: { ask: record }
+                        })
+                      }
+                    }}
+                  />
+                </Row>
+                <div className="float" onClick={() => this.props.history.push("/ask/create")}>
+                  <Icon type="plus" className="my-float" />
+                </div>
               </Content>
             </Layout>
-        </Col>
-        <Col span={5}>
-          <FilterSearch/>
-        </Col>
+          </Col>
+          <Col span={5}>
+            <FilterSearch />
+          </Col>
         </Row>
       </div>
     );

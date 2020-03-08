@@ -4,7 +4,7 @@
  *
  */
 
-import { DEFAULT_ACTION, LOAD_NOTE } from './constants';
+import { DEFAULT_ACTION, LOAD_NOTE, UPDATE_NOTE } from './constants';
 
 export function defaultAction() {
   return {
@@ -15,6 +15,14 @@ export function defaultAction() {
 export function loadNoteDetail(id) {
   return {
     type: LOAD_NOTE, 
+    id,
+  }
+}
+
+export function loadSaveNote(note, id) {
+  return {
+    type: UPDATE_NOTE,
+    note,
     id,
   }
 }

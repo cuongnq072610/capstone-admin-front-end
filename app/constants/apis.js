@@ -13,7 +13,7 @@ const SEARCH_TEACHERS = '/searchteacher';
 const GET_ALL_HIGHLIGHT = "/allhighlightbystudentid/5e4ea4d07c213e67373d3cdb";
 const DELETE_HIGHLIGHT = "/deletehighlightbyid";
 
-const GET_ALL_NOTE = "/allnotebystudentid";
+const GET_ALL_NOTE = "/allnotebystudentid/5e4ea4d07c213e67373d3cdb";
 const GET_NOTE_BY_ID = "/getnotebyid";
 
 const GET_ALL_FOLDER = "/allfolderbystudentid/5e4ea4d07c213e67373d3cdb";

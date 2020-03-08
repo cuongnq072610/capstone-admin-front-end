@@ -13,6 +13,7 @@
     .note-btn {
         text-align: left;
         cursor: pointer;
+
         .note-title {
             color: #616161;
             font-family: Roboto;
@@ -23,16 +24,18 @@
         }
 
         .note-content {
-            color: #616161;
-            font-family: Roboto;
-            font-size: 14px;
-            font-weight: 400;
-            -webkit-line-clamp: 13;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            display: block;
-            display: -webkit-box;
+            p {
+                color: #616161;
+                font-family: Roboto;
+                font-size: 14px;
+                font-weight: 400;
+                -webkit-line-clamp: 13;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: block;
+                display: -webkit-box;
+            }
         }
     }
 

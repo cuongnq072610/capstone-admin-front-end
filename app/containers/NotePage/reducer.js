@@ -21,14 +21,14 @@ function notePageReducer(state = initialState, action) {
   switch (action.type) {
     case DEFAULT_ACTION:
       return state;
-    case LOAD_FOLDER:
-      return state.set('isLoadingNote', true);
     case LOAD_NOTE:
-      return state.set('isLoadingFolder', true);
+      return state.set('isLoadingNote', true);
     case LOAD_SUCCESS_NOTE:
       return state.set('notes', fromJS(action.payload)).set("isLoadingNote", false);
     case LOAD_FAILURE_NOTE:
       return state.set('errors', action.payload).set("isLoadingNote", false);
+    case LOAD_FOLDER:
+      return state.set('isLoadingFolder', true);
     case LOAD_SUCCESS_FOLDER:
       return state.set('folders', fromJS(action.payload)).set("isLoadingFolder", false);
     case LOAD_FAILURE_FOLDER:
@@ -38,7 +38,7 @@ function notePageReducer(state = initialState, action) {
     case CREATE_SUCCESS_FOLDER:
       return state.set("isCreatingFolder", false).set("message", action.payload);
     case CREATE_FAILURE_FOLDER:
-      return state.set("isCreatingFolder", false).set("errors", action.payload);
+      return state.set("isCreatingFolder", false).set("message", action.payload);
     default:
       return state;
   }

@@ -48,10 +48,14 @@ function* loadNote() {
 function* createNewFolder(action) {
   try {
     let response = yield call(createFolder, `${API_ENDPOINT}${CREATE_NEW_FOLDER}`, action.body)
-    if(response.data) {
-      yield put({ type: CREATE_SUCCESS_FOLDER, payload: response.data });
+    if (response.data) {
+      if (response.data.Error) {
+        yield put({ type: CREATE_FAILURE_FOLDER, payload: response.data });
+      } else {
+        yield put({ type: CREATE_SUCCESS_FOLDER, payload: response.data });
+      }
     } else {
-      yield put({ type: CREATE_FAILURE_FOLDER, payload: response.data });
+      yield put({ type: CREATE_FAILURE_FOLDER, payload: { errors: 'NO DATA' } });
     }
   } catch (error) {
     yield put({ type: CREATE_FAILURE_FOLDER, payload: error });

@@ -197,21 +197,21 @@
       .notification {
         position: absolute;
         left: 0px;
-        top: 100vh;
+        top: 90vh;
         opacity: 0;
-        transition: top 1s, opacity .25s ease-in-out;
+        transition: opacity 1s ease-in-out;
       }
 
       .notification-show {
         position: absolute;
         left: 0px;
-        top: 80vh;
+        top: 90vh;
         opacity: 1;
-        transition: top 1s, opacity .25s ease-in-out;
+        transition: opacity 1s ease-in-out;
       }
 
       .noti-content-error {
-        width: 300px;
+        width: 250px;
         height: 50px;
         color: #fff;
         background-color: #fa9d9d;

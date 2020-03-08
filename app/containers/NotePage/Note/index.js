@@ -9,8 +9,8 @@ const Note = (props) => {
                 <span className="note-delete-icon"></span>
             </button>
             <button className="note-btn" onClick={navigateDetail}>
-                <p className="note-title">{note.title}</p>
-                <p className="note-content">{note.content}</p>
+                <p className="note-title">{note.description}</p>
+                <div dangerouslySetInnerHTML={{__html: note.note}} className="note-content"></div>
             </button>
         </div>
     )

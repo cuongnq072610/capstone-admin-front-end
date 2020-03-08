@@ -4,7 +4,7 @@
  *
  */
 
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
@@ -28,133 +28,23 @@ const { Content, Header } = Layout;
 
 const mockData = [
   {
-    id: 1,
-    title: "What is Lorem Ipsum",
-    content: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-    isPinned: false,
-    date: "2019/10/31",
-    folder: "Economy",
-  },
-  {
     id: 2,
-    title: "What is Lorem Ipsum CHECK",
+    title: "What is Lorem Ipsum CHECK 2",
     content: "<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>",
     isPinned: true,
     date: "2019/5/15",
     folder: "Marketting",
   },
   {
-    id: 3,
-    title: "What is Lorem Ipsum",
-    content: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    isPinned: true,
-    date: "2019/2/15",
-    folder: "Economy",
-  },
-  {
-    id: 4,
-    title: "What is Lorem Ipsum",
-    content: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    isPinned: true,
-    date: "2019/2/15",
-    folder: "Economy",
-  },
-  {
-    id: 5,
-    title: "What is Lorem Ipsum CHECK",
-    content: "",
-    isPinned: true,
-    date: "2019/2/15",
-    folder: "Economy",
-  },
-  {
-    id: 6,
-    title: "What is Lorem Ipsum",
-    content: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    isPinned: false,
-    date: "2019/2/15",
-    folder: "Economy",
-  },
-  {
-    id: 7,
-    title: "What is Lorem Ipsum",
-    content: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    isPinned: false,
-    date: "2019/2/15",
-    folder: "Marketting",
-  },
-  {
-    id: 8,
-    title: "What is Lorem Ipsum",
-    content: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    isPinned: true,
-    date: "2019/2/15",
-    folder: "Economy",
-  },
-  {
-    id: 9,
-    title: "What is Lorem Ipsum",
-    content: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    isPinned: false,
-    date: "2019/2/15",
-    folder: "Marketting",
-  },
-  {
-    id: 10,
-    title: "What is Lorem Ipsum",
-    content: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    isPinned: false,
-    date: "2019/2/15",
-    folder: "Economy",
-  },
-  {
-    id: 11,
-    title: "What is Lorem Ipsum",
-    content: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    isPinned: true,
-    date: "2019/2/15",
-    folder: "Budgeting",
-  },
-  {
-    id: 12,
-    title: "What is Lorem Ipsum",
-    content: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    isPinned: false,
-    date: "2019/2/15",
-    folder: "Marketting",
-  },
-  {
     id: 13,
     title: "What is Lorem Ipsum CHECK LAST",
-    content: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+    content: "<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>",
     isPinned: false,
     date: "2019/2/15",
     folder: "Economy",
   },
 ];
 
-const mockDataFolder = [
-  {
-    id: 1,
-    name: "Web development",
-  },
-  {
-    id: 2,
-    name: "Digital Marketing",
-  },
-  {
-    id: 3,
-    name: "Budgeting",
-  },
-  {
-    id: 4,
-    name: "Economy",
-  },
-  {
-    id: 5,
-    name: "Marketting",
-  },
-]
 /* eslint-disable react/prefer-stateless-function */
 export class NotePage extends React.Component {
   constructor(props) {
@@ -165,15 +55,16 @@ export class NotePage extends React.Component {
       folderChosen: {},
       textValue: "",
       folders: [],
-      windowHeight: window.innerHeight
+      windowHeight: window.innerHeight,
+      namePopup: "notification",
     }
   }
 
   componentDidMount() {
     this.props.handleLoadFolder();
+    this.props.handleLoadNote();
     this.setState({
       notes: mockData,
-      folders: mockDataFolder,
       baseNotes: mockData,
     });
   }
@@ -192,14 +83,24 @@ export class NotePage extends React.Component {
         })
       )
     })
+    if (prevProps.notePage.folders !== this.props.notePage.folders) {
+      this.setState({
+        folders: this.props.notePage.folders,
+      })
+    }
     if (prevProps.notePage.message !== this.props.notePage.message) {
-      this.props.handleLoadFolder();
+      this.renderPopup();
+    }
+    if (prevProps.notePage.notes !== this.props.notePage.notes) {
+      this.setState({
+        notes: this.props.notePage.notes,
+      })
     }
   }
 
   navigateDetail = (note) => {
     history.push({
-      pathname: `/note/${note.id}`,
+      pathname: `/note/${note._id}`,
       state: {
         note: note
       }
@@ -235,11 +136,7 @@ export class NotePage extends React.Component {
   }
 
   onHandleSubmit = () => {
-    const { textValue, folders } = this.state;
-    // var newArrFolders = [...folders, { id: folders.length + 2, name: textValue }]
-    // this.setState({
-    //   folders: newArrFolders
-    // })
+    const { textValue } = this.state;
     const body = {
       "studentID": "5e4ea4d07c213e67373d3cdb",
       "folderName": textValue,
@@ -253,11 +150,24 @@ export class NotePage extends React.Component {
     })
   }
 
+  renderPopup = () => {
+    setTimeout(() => {
+      this.setState({
+        namePopup: "notification-show",
+      }, () => {
+        setTimeout(() => {
+          this.setState({
+            namePopup: "notification",
+          });
+        }, 2000)
+      })
+    }, 1000)
+  }
+
   render() {
-    const { notes, folderChosen } = this.state;
-    const { isLoadingFolder, folders, message } = this.props.notePage;
+    const { notes, folders, namePopup } = this.state;
+    const { isLoadingFolder, message, isLoadingNote } = this.props.notePage;
     const antIcon = <Icon type="loading" style={{ fontSize: 24, color: '#ffc143', marginRight: '10px' }} spin />;
-    console.log(message)
     return (
       <Row>
         <Helmet>
@@ -281,34 +191,40 @@ export class NotePage extends React.Component {
               />
             </Header>
             <Content>
-              <div className="note-wrap">
-                <p className="note-type"><FormattedMessage {...messages.titlePinned} /></p>
-                <div className="grid note-container" >
-                  {
-                    notes.map((note, index) => {
-                      if (note.isPinned) {
-                        return (
-                          <Note key={index} note={note} navigateDetail={() => this.navigateDetail(note)} />
-                        )
-                      }
-                    })
-                  }
-                </div>
-              </div>
-              <div className="note-wrap">
-                <p className="note-type"><FormattedMessage {...messages.titleOther} /></p>
-                <div className="grid note-container" >
-                  {
-                    notes.map((note, index) => {
-                      if (!note.isPinned) {
-                        return (
-                          <Note key={index} note={note} navigateDetail={() => this.navigateDetail(note)} />
-                        )
-                      }
-                    })
-                  }
-                </div>
-              </div>
+              {
+                isLoadingNote ?
+                  <Spin indicator={antIcon} /> :
+                  <Fragment>
+                    <div className="note-wrap">
+                      <p className="note-type"><FormattedMessage {...messages.titlePinned} /></p>
+                      <div className="grid note-container" >
+                        {
+                          notes.map((note, index) => {
+                            if (note.isPinned) {
+                              return (
+                                <Note key={index} note={note} navigateDetail={() => this.navigateDetail(note)} />
+                              )
+                            }
+                          })
+                        }
+                      </div>
+                    </div>
+                    <div className="note-wrap">
+                      <p className="note-type"><FormattedMessage {...messages.titleOther} /></p>
+                      <div className="grid note-container" >
+                        {
+                          notes.map((note, index) => {
+                            if (!note.isPinned) {
+                              return (
+                                <Note key={index} note={note} navigateDetail={() => this.navigateDetail(note)} />
+                              )
+                            }
+                          })
+                        }
+                      </div>
+                    </div>
+                  </Fragment>
+              }
             </Content>
           </Layout>
         </Col>
@@ -339,12 +255,24 @@ export class NotePage extends React.Component {
                     <Spin indicator={antIcon} /> :
                     folders.map((folder, index) => this.renderFolder(folder, index))
                 }
-                <div className={message && message.Sucess ? 'notification-show' : 'notification'}>
-                  <div className='noti-content-success'>
-                    <span className='icon-noti accept-icon '></span>
-                    <p style={{fontSize: '12px'}}>{message.Sucess}</p>
+                {
+                  message.Sucess &&
+                  <div className={namePopup}>
+                    <div className='noti-content-success'>
+                      <span className='icon-noti accept-icon '></span>
+                      <p style={{ fontSize: '12px' }}>{message.Sucess}</p>
+                    </div>
                   </div>
-                </div>
+                }
+                {
+                  message.Error &&
+                  <div className={namePopup}>
+                    <div className='noti-content-error'>
+                      <span className='icon-noti deny-icon '></span>
+                      <p style={{ fontSize: '12px' }}>{message.Error}</p>
+                    </div>
+                  </div>
+                }
               </div>
             </Content>
           </Layout>

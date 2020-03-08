@@ -57,7 +57,7 @@ export class NoteDetailPage extends React.Component {
 
   componentDidMount() {
     const { note } = this.props.history.location.state
-    const htmlText = `${this.convertToH1tag(note.title)}<br>${this.convertToPtag(note.content)}`;
+    const htmlText = `${this.convertToH1tag(note.description)}<br>${note.note}`;
     this.setState({
       note,
       editorHtml: htmlText

@@ -20,83 +20,34 @@ import saga from './saga';
 import "./ask.scss";
 import columns from './tableCol';
 import FilterSearch from './FilterSearch';
+import { loadAsk } from './actions';
 
 const { Content, Header } = Layout;
 
-const mockData = [
-  {
-    id: 1,
-    teacher: "LamPD",
-    mail: "lampd@fe.edu.vn",
-    question: "Lorem Ipsum is simply dummy text of the printing and typesetting industry Lorem Ipsum is simply dummy text of the printing and typesetting industry",
-    date: '18:20',
-    isReaded: true,
-  },
-  {
-    id: 2,
-    teacher: "MaiTT",
-    mail: "maitt@fe.edu.vn",
-    question: "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
-    date: '14:57',
-    isReaded: false,
-  },
-  {
-    id: 3,
-    teacher: "MaiVTT",
-    mail: "maivtt@fe.edu.vn",
-    question: "It is a long established fact that a reader will be distracted by the readable",
-    date: 'Dec 19',
-    isReaded: true,
-  },
-  {
-    id: 4,
-    teacher: "PhuongLh7",
-    mail: "phuonglh17@fe.edu.vn",
-    question: "Contrary to popular, belief, Lorem Ipsum is not simply random text",
-    date: 'Dec 17',
-    isReaded: false,
-  },
-  {
-    id: 5,
-    teacher: "TungNN13",
-    mail: "tungnn13@fe.edu.vn",
-    question: "It has roots in a piece of classical Latin literature from 45 BC",
-    date: 'Dec 16',
-    isReaded: true,
-  },
-  {
-    id: 6,
-    teacher: "NguyetTM22",
-    mail: "nguyettm22@fe.edu.vn",
-    question: "There are many variations of passages of Lorem Ipsum available",
-    date: 'Dec 15',
-    isReaded: true,
-  },
-]
 /* eslint-disable react/prefer-stateless-function */
 export class StudentAskPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      teachers: [],
+      asks: [],
     }
   }
 
   componentDidMount() {
-    const formatTeachers = mockData.map((teacher, index) => {
-      return {
-        ...teacher,
-        key: `${index}`
-      }
-    })
-    this.setState({
-      teachers: formatTeachers,
-    })
+    this.props.handleFetchAsks();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.studentAskPage.asks !== this.props.studentAskPage.asks) {
+      this.setState({
+        asks: this.props.studentAskPage.asks
+      })
+    }
   }
 
   render() {
-    const { teachers } = this.state;
-    console.log(this.props.history)
+    const { asks } = this.state;
+    const { isLoading } = this.props.studentAskPage;
     return (
       <div>
         <Helmet>
@@ -115,17 +66,18 @@ export class StudentAskPage extends React.Component {
               <Content className="ask-page-content">
                 <Row>
                   <Table
+                    rowKey="_id"
                     columns={columns}
-                    dataSource={teachers}
+                    dataSource={asks}
                     className="ask-table"
                     onRow={(record, rowIndex) => {
                       return {
                         onClick: e => this.props.history.push({
-                          pathname: `/ask/compose/${record.id}`,
-                          state: { teacher: record }
+                          pathname: `/ask/compose/${record._id}`,
                         })
                       }
                     }}
+                    loading={isLoading}
                   />
                 </Row>
                 <div className="float" onClick={() => this.props.history.push("/ask/create")}>
@@ -144,7 +96,7 @@ export class StudentAskPage extends React.Component {
 }
 
 StudentAskPage.propTypes = {
-  dispatch: PropTypes.func.isRequired,
+  handleFetchAsks: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -153,7 +105,7 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
-    dispatch,
+    handleFetchAsks: () => { dispatch(loadAsk()) },
   };
 }
 

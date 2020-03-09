@@ -17,6 +17,8 @@ import AddCoursePage from 'containers/AddCoursePage/Loadable';
 import AddTeacherPage from 'containers/AddTeacherPage/Loadable';
 import TeacherPage from 'containers/TeacherPage/Loadable';
 import DashboardPage from 'containers/DashboardPage/Loadable';
+import StudentDashboardPage from 'containers/StudentDashboardPage/Loadable';
+import StudentAddCoursePage from 'containers/StudentAddCoursePage/Loadable';
 import NotePage from 'containers/NotePage/Loadable';
 import NoteDetailPage from 'containers/NoteDetailPage/Loadable';
 import StudentAskPage from 'containers/StudentAskPage/Loadable';
@@ -43,6 +45,8 @@ export default function App() {
         <Route path='/teacher' render={() => <WrapperLayout component={TeacherPage} role="admin" page="teacher"/>}/>
         <Route path='/course/addcourse' render={() => <WrapperLayout component={AddCoursePage} role="admin" page="course"/>}/>
         <Route path='/course/addteacher' render={() => <WrapperLayout component={AddTeacherPage} role="admin" page="course"/>}/>
+        <Route exact path='/student' render={() => <WrapperLayout component={StudentDashboardPage} role="student" page="student-dashboard"/>}/>
+        <Route exact path='/student/addcourse' render={() => <WrapperLayout component={StudentAddCoursePage} role="student" page="student-dashboard"/>}/>
         <Route exact path='/note' render={() => <WrapperLayout component={NotePage} role="student" page="note"/>}/>
         <Route exact path='/highlight' render={() => <WrapperLayout component={HighlightPage} role="student" page="highlight"/>}/>
         <Route path='/note/:noteId' render={() => <WrapperLayout component={NoteDetailPage} role="student" page="note"/>}/>

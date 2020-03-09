@@ -6,12 +6,13 @@ const colunms = [{
 },
 {
   title: "TUTOR",
-  dataIndex: "teacher",
+  dataIndex: "teacher.teacherName",
   render: text => <span style={{ color: '#1593E6', fontSize: 17, fontWeight: 600 }}>{text}</span>,
   width: 175,
+  key: 'teacher.teacherName'
 },
 {
-  title: "E-MAIL",
+  title: "QUESTION",
   render: (text, record) => {
     return (
       <div className="ask-content">
@@ -24,12 +25,14 @@ const colunms = [{
       </div>
     )
   },
-  dataIndex: "question",
+  dataIndex: "askContent",
   width: 600,
+  key: 'askContent'
 },
 {
   title: "Time",
-  dataIndex: "date",
+  dataIndex: "dateModified",
+  key : 'dateModified'
 },
 ];
 

@@ -12,8 +12,8 @@ const QuestionSide = (props) => {
         isClosed,
         isDelete,
         handleDelete,
+        teacher,
     } = props;
-
     return (
         <Row>
             <Layout className="questions-information">
@@ -26,8 +26,8 @@ const QuestionSide = (props) => {
                         <div className='tutor-field'>
                             <img src={avatar} className='tutor-avatar' />
                             <div className='tutor-info'>
-                                <span className='tutor-name'>LamPD</span>
-                                <span className='tutor-mail'>lampd@fe.edu.vn</span>
+                                <span className='tutor-name'>{teacher.teacherName}</span>
+                                <span className='tutor-mail'>{teacher.email}</span>
                             </div>
                         </div>
                     </div>

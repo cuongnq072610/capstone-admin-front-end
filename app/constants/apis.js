@@ -20,6 +20,8 @@ const DELETE_NOTE_BY_ID = "/deletenotebyid";
 
 const GET_ALL_FOLDER = "/allfolderbystudentid/5e4ea4d07c213e67373d3cdb";
 const CREATE_NEW_FOLDER = '/createfolder';
+const GET_ALL_ASK = "/allaskofstudent/5e4ea4d07c213e67373d3cdb";
+const GET_ASK_BY_ID = "/getaskbyid";
 
 export {
     API_ENDPOINT,
@@ -40,4 +42,6 @@ export {
     DELETE_NOTE_BY_ID,
     GET_ALL_FOLDER,
     CREATE_NEW_FOLDER,
+    GET_ALL_ASK,
+    GET_ASK_BY_ID,
 }

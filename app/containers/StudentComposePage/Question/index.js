@@ -20,26 +20,26 @@ const Mail = styled.p`
 `;
 
 const AskAndAnswerField = (props) => {
-    const {
-        user,
-        content,
-    } = props;
+    const {user, text, comment, date} = props;
     return (
+        user ?
         <div className='ask-wrapper'>
             <div className='user-field'>
                 <img src={avatar} className='user-avatar' />
                 <div className='user-info'>
                     <div>
-                        <Name>User-Beta</Name>
-                        <Mail>userbeta@noteit.co.vn</Mail>
+                        <Name>{user.studentName}</Name>
+                        <Mail>{user.email}</Mail>
                     </div>
-                    <p>09:29</p>
+                    <p>{date ? date : comment.dateCreated}</p>
                 </div>
             </div>
             <div className='content-field'>
-                <p>Is it because of Google or just himseft</p>
+                <p>{text ? text : comment.message}</p>
             </div>
         </div>
+        :
+        ''
     )
 }
 

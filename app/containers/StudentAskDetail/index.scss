@@ -1,0 +1,34 @@
+@import '../../utils/variables.scss';
+
+.askDetailPage {
+    .back-icon {
+        border: none;
+        box-shadow: none;
+
+        i {
+            color: $primary_blue;
+            font-size: 20px;
+        }
+    }
+
+    .sideInfo {
+        margin-top: 10px;
+        padding: 0px 30px;
+        height: 100%;
+        margin-top: 10px;
+        padding: 0px 30px;
+
+        .filter-head {
+        background-color: $primary_white;
+        padding-left: 0px;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        color: $primary_blue;
+        font-family: Roboto;
+        font-size: 30px;
+        font-weight: 700;
+        letter-spacing: 0.28px;
+        }
+    }
+}

@@ -3,8 +3,6 @@ import { Layout, Switch, Icon, Button, Progress } from 'antd';
 import "./index.scss";
 const { Header } = Layout;
 
-import avatar from '../assets/man6.png';
-
 class TeacherInfo extends React.Component {
     constructor(props) {
         super(props);
@@ -106,7 +104,7 @@ class TeacherInfo extends React.Component {
                     </Button>
                 </Header>
                 <div className="title">
-                    <img src={avatar} className="avatar" alt="avatar" />
+                    <img src={teacherInfo.avatar} className="avatar" alt="avatar" />
                     <p className="teacher-name">{teacherInfo.teacherName}</p>
                     <p className="teacher-mail">{teacherInfo.email}</p>
                 </div>

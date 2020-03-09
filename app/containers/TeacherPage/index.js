@@ -58,7 +58,7 @@ export class TeacherPage extends React.Component {
             const { teachers } = this.props.teacherPage;
 
             const fomatTeachers = teachers.map((teacher, index) => {
-                return { ...teacher, key: `${index}`, avatar: `/app/assets/png/girl-1.png` }
+                return { ...teacher, key: `${index}` }
             })
             this.setState({
                 departments: mockData2,

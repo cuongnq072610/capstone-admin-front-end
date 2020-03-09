@@ -4,8 +4,9 @@ import {Icon} from 'antd';
 const colunms = {
     columnToAdd : [
         {
-            dataIndex: "key",
+            dataIndex: "avatar",
             width: 50,
+            render: text => <img src={text} style={{ width: '30px', height: '30px' }} />
         },
         {
             title: "TEACHER",
@@ -43,8 +44,9 @@ const colunms = {
     ],
     columnToRemove : [
         {
-            dataIndex: "key",
+            dataIndex: "avatar",
             width: 50,
+            render: text => <img src={text} style={{ width: '30px', height: '30px' }} />
         },
         {
             title: "TEACHER",

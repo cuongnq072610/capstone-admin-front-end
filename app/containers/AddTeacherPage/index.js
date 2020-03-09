@@ -137,7 +137,7 @@ export class AddTeacherPage extends React.Component {
     const { chosenTeachers } = this.state;
     const { history } = this.props;
     history.push({
-      pathname: "/addcourse",
+      pathname: "/course/addcourse",
       state: {
         course: {
           ...history.location.state.course,

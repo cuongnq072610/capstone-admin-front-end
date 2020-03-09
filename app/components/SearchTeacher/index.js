@@ -66,7 +66,7 @@ class SearchTeacher extends React.PureComponent {
   renderTeacher = (teacher, index) => {
     return (
       <div className='teacher-field' key={index}>
-        <span>{index}</span>
+        <img src={teacher.avatar} style={{ width: '30px', height: '30px' }} />
         <p className='teacher-name'>{teacher.teacherName}</p>
       </div>
     )

@@ -14,7 +14,6 @@ const QuestionSide = (props) => {
         handleDelete,
         teacher,
     } = props;
-    console.log(teacher)
     return (
         <Row>
             <Layout className="questions-information">

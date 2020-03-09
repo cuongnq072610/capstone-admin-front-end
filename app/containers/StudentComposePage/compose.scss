@@ -22,6 +22,11 @@
     }
 
     .compose-body {
+      height: calc(100vh - 110px);
+      .commentWrapper {
+        max-height: calc(100vh - 310px);
+        overflow: auto;
+      }
       .compose-question {
         font-size: 24px;
         font-weight: 300;
@@ -31,10 +36,12 @@
       }
 
       .reply {
-        position: fixed;
+        position: absolute;
         bottom: 0px;
-        box-shadow: 0 0 6px rgba(0, 0, 0, 0.16);
-        width: 71.5%;
+        // box-shadow: 0 0 6px rgba(0, 0, 0, 0.5);
+        border: 1px solid $primary_grey;
+        border-radius: 5px;
+        width: 100%;
       }
 
       .reply-hide {
@@ -42,15 +49,16 @@
       }
 
       .reply-show {
-        height: 158px;
+        // height: 158px;
       }
 
       .reply-field {
         display: flex;
-        justify-content: space-around;
-        padding-top: 20px;
+        justify-content: space-between;
+        // padding-top: 20px;
 
         .reply-text {
+          resize: none;
           width: 85%;
         }
 
@@ -84,12 +92,14 @@
           line-height: 17px;
           display: flex;
           justify-content: space-around;
+          cursor: pointer;
         }
 
         .reply-btn-field {
           display: flex;
           flex-direction: column;
           justify-content: space-between;
+          padding: 15px;
 
           .reply-send {
             width: 97px;
@@ -100,6 +110,7 @@
             color: $primary_white;
             display: flex;
             justify-content: space-around;
+            cursor: pointer;
           }
         }
       }

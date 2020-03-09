@@ -58,6 +58,11 @@
             background-size: cover;
             background-image: url(../assets/delete.svg);
         }
+
+        .ant-sping-spinning {
+            margin-left: 10px;
+            margin-bottom: 5px;
+        }
     }
 
     &:hover {

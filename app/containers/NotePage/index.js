@@ -183,7 +183,7 @@ export class NotePage extends React.Component {
 
   render() {
     const { notes, folders, namePopup, isShow, deleteMessage } = this.state;
-    const { isLoadingFolder, message, isLoadingNote } = this.props.notePage;
+    const { isLoadingFolder, message, isLoadingNote, isLoadingDelete } = this.props.notePage;
     const antIcon = <Icon type="loading" style={{ fontSize: 24, color: '#ffc143', marginRight: '10px' }} spin />;
     return (
       <Row>
@@ -219,7 +219,13 @@ export class NotePage extends React.Component {
                           notes.map((note, index) => {
                             if (note.isPinned) {
                               return (
-                                <Note key={index} note={note} navigateDetail={() => this.navigateDetail(note)} deleteNote={this.handleDeleteNote} />
+                                <Note
+                                  key={index}
+                                  note={note}
+                                  navigateDetail={() => this.navigateDetail(note)}
+                                  deleteNote={this.handleDeleteNote}
+                                  isLoading={isLoadingDelete}
+                                />
                               )
                             }
                           })
@@ -233,7 +239,13 @@ export class NotePage extends React.Component {
                           notes.map((note, index) => {
                             if (!note.isPinned) {
                               return (
-                                <Note key={index} note={note} navigateDetail={() => this.navigateDetail(note)} deleteNote={this.handleDeleteNote} />
+                                <Note
+                                  key={index}
+                                  note={note}
+                                  navigateDetail={() => this.navigateDetail(note)}
+                                  deleteNote={this.handleDeleteNote}
+                                  isLoading={isLoadingDelete}
+                                />
                               )
                             }
                           })

@@ -26,7 +26,10 @@ import { loadNote, loadFolder, createFolder, loadDeleteNote } from './actions';
 import Masonry from 'masonry-layout'
 const { Content, Header } = Layout;
 
-let myTimeout = {};
+let myTimeout1 = {};
+let myTimeout2 = {};
+let myTimeout3 = {};
+let myTimeout4 = {};
 
 /* eslint-disable react/prefer-stateless-function */
 export class NotePage extends React.Component {
@@ -57,7 +60,7 @@ export class NotePage extends React.Component {
           pathname: '/note',
           state: {}
         })
-        myTimeout = setTimeout(() => {
+        this.timer1 = setTimeout(() => {
           this.setState({
             isShow: false
           })
@@ -99,7 +102,7 @@ export class NotePage extends React.Component {
         isShow: true,
         deleteMessage: "Succesfully Delete",
       }, () => {
-        myTimeout = setTimeout(() => {
+        this.timer2 = setTimeout(() => {
           this.setState({
             isShow: false
           })
@@ -109,7 +112,18 @@ export class NotePage extends React.Component {
   }
 
   componentWillUnmount() {
-    clearTimeout(myTimeout);
+    if (this.timer1) {
+      clearTimeout(this.timer1)
+    }
+    if (this.timer2) {
+      clearTimeout(this.timer2)
+    } 
+    if (this.timer3) {
+      clearTimeout(this.timer3)
+    } 
+    if (this.timer4) {
+      clearTimeout(this.timer4)
+    }
   }
 
   navigateDetail = (note) => {
@@ -164,11 +178,11 @@ export class NotePage extends React.Component {
   }
 
   renderPopup = () => {
-    myTimeout = setTimeout(() => {
+    this.timer3 = setTimeout(() => {
       this.setState({
         namePopup: "notification-show",
       }, () => {
-        setTimeout(() => {
+        this.timer4 = setTimeout(() => {
           this.setState({
             namePopup: "notification",
           });

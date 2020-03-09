@@ -4,16 +4,14 @@
     width: 300px;
     height: max-content;
     background-color: $secondary_yellow;
-    padding-top: 19px;
-    padding-left: 18px;
-    padding-right: 18px;
+    padding: 19px 18px;
     position: relative;
     margin-bottom: 20px;
 
     .note-btn {
         text-align: left;
         cursor: pointer;
-
+        width: 100%;
         .note-title {
             color: #616161;
             font-family: Roboto;
@@ -24,6 +22,8 @@
         }
 
         .note-content {
+            height: 200px;
+            overflow: hidden;
             p {
                 color: #616161;
                 font-family: Roboto;

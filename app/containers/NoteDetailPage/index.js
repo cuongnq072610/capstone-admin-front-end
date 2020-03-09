@@ -75,7 +75,7 @@ export class NoteDetailPage extends React.Component {
         })
       }
     }
-    if(prevProps.noteDetailPage.isLoadingDelete !== this.props.noteDetailPage.isLoadingDelete && this.props.noteDetailPage.isLoadingDelete === false) {
+    if (prevProps.noteDetailPage.isLoadingDelete !== this.props.noteDetailPage.isLoadingDelete && this.props.noteDetailPage.isLoadingDelete === false) {
       const { message } = this.props.noteDetailPage
       this.props.history.push({
         pathname: '/note',
@@ -114,10 +114,12 @@ export class NoteDetailPage extends React.Component {
   handleSaveNote = () => {
     const { note, isPinned, editorHtml, description } = this.state;
     const newNote = {
-      ...note,
-      isPinned: isPinned,
-      note: editorHtml,
       description: description,
+      isPinned: isPinned,
+      folderID: note.folderID,
+      url: note.url,
+      index: note.index,
+      note: editorHtml,
     }
     this.props.handleUpdateNote(newNote, note._id);
   }

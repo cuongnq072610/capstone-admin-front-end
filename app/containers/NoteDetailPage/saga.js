@@ -21,7 +21,8 @@ function* loadSaveNote(action) {
   const { note, id } = action;
   try {
     const response = yield call(updateNote, `${API_ENDPOINT}${UPDATE_NOTE_BY_ID}/${id}`, note);
-    if (response.data.Sucess) {
+    console.log(response)
+    if (response.data.Success) {
       yield put({ type: UPDATE_NOTE_SUCCESS, payload: response.data.Sucess, note: response.data.note });
     } else if (response.data.Error) {
       yield put({ type: UPDATE_NOTE_FAILURE, payload: response.data.Error })

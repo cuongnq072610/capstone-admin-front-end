@@ -26,25 +26,6 @@ import { loadNote, loadFolder, createFolder, loadDeleteNote } from './actions';
 import Masonry from 'masonry-layout'
 const { Content, Header } = Layout;
 
-const mockData = [
-  {
-    id: 2,
-    title: "What is Lorem Ipsum CHECK 2",
-    content: "<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>",
-    isPinned: true,
-    date: "2019/5/15",
-    folder: "Marketting",
-  },
-  {
-    id: 13,
-    title: "What is Lorem Ipsum CHECK LAST",
-    content: "<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>",
-    isPinned: false,
-    date: "2019/2/15",
-    folder: "Economy",
-  },
-];
-
 let myTimeout = {};
 
 /* eslint-disable react/prefer-stateless-function */
@@ -151,7 +132,6 @@ export class NotePage extends React.Component {
     } else {
       this.setState({
         folderChosen: {},
-        notes: mockData,
       })
     }
   }

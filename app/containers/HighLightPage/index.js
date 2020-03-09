@@ -20,9 +20,10 @@ import saga from './saga';
 import messages from './messages';
 import WrappedSearchBar from '../../components/SearchBar';
 import HighLightElement from './HighlightElement';
-import { Row, Layout, Col, Icon, Button, Input } from 'antd';
+import { Row, Layout, Col, Icon, Button, Input, Spin } from 'antd';
 import "./index.scss";
 import Masonry from 'masonry-layout'
+import { loadHighlight } from './actions';
 const { Header, Content } = Layout;
 
 const mockData = [
@@ -128,24 +129,27 @@ export class HighLightPage extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({
-      highlights: mockData,
-      baseHighlight: mockData,
-      folders: mockDataFolder
-    });
+    this.props.handleFetchHighlights();
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     var elem = document.querySelector('.grid');
-    var msnry = new Masonry( elem, {
+    var msnry = new Masonry(elem, {
       // options
       itemSelector: '.grid-item',
       columnWidth: 10,
       gutter: 10,
       horizontalOrder: true
     });
+    if (prevProps.highLightPage.highlights !== this.props.highLightPage.highlights) {
+      this.setState({
+        highlights: this.props.highLightPage.highlights,
+        baseHighlight: mockData,
+        folders: mockDataFolder
+      });
+    }
   }
-  
+
   renderFolder = (folder, index) => {
     const { folderChosen } = this.state;
     return (
@@ -157,31 +161,33 @@ export class HighLightPage extends React.Component {
       </Button>
     )
   }
-  
+
   render() {
-    const { highlights , folders} = this.state;
+    const { highlights, folders } = this.state;
+    const { isLoading } = this.props.highLightPage;
     const buttonSort = [
       {
-        id : 'greenSortButton',
-        color : 'green'
+        id: 'greenSortButton',
+        color: 'green'
       },
       {
-        id : 'redSortButton',
-        color : 'red'
+        id: 'redSortButton',
+        color: 'red'
       },
       {
-        id : 'blueSortButton',
-        color : 'blue'
+        id: 'blueSortButton',
+        color: 'blue'
       },
       {
-        id : 'yellowSortButton',
-        color : 'yellow'
+        id: 'yellowSortButton',
+        color: 'yellow'
       },
       {
-        id : 'orangeSortButton',
-        color : 'orange'
+        id: 'orangeSortButton',
+        color: 'orange'
       }
     ]
+    const antIcon = <Icon type="loading" style={{ fontSize: 24, color: '#40a887', marginRight: '10px' }} spin />;
     return (
       <Row>
         <Helmet>
@@ -205,17 +211,21 @@ export class HighLightPage extends React.Component {
               />
             </Header>
             <Content>
-              <div className="highLights grid" >
-                {
-                  highlights.map(highlight => {
-                    return <HighLightElement key={highlight.id} highlight={highlight} />
-                  })
-                }
-              </div>
+              {
+                isLoading ?
+                  <Spin indicator={antIcon} /> :
+                  <div className="highLights grid" >
+                    {
+                      highlights.map(highlight => {
+                        return <HighLightElement key={highlight.id} highlight={highlight} />
+                      })
+                    }
+                  </div>
+              }
             </Content>
           </Layout>
         </Col>
-        <Col span={5} className="highlight-side-wrapper" style={{'height': this.state.windowHeight - 10} }>
+        <Col span={5} className="highlight-side-wrapper" style={{ 'height': this.state.windowHeight - 10 }}>
           <Layout className="highlight-side">
             <Header className="filter-head">
               <FormattedMessage {...messages.filter} />
@@ -225,8 +235,8 @@ export class HighLightPage extends React.Component {
                 <p><FormattedMessage {...messages.sort} /></p>
                 <div className="sortByColor">
                   {
-                    buttonSort.map((item,index) => {
-                      return <Button key={index} id={item.id} className={'sortButton background-'+item.color} shape="circle" />
+                    buttonSort.map((item, index) => {
+                      return <Button key={index} id={item.id} className={'sortButton background-' + item.color} shape="circle" />
                     })
                   }
                 </div>
@@ -258,7 +268,7 @@ export class HighLightPage extends React.Component {
 }
 
 HighLightPage.propTypes = {
-  dispatch: PropTypes.func.isRequired,
+  handleFetchHighlights: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -267,7 +277,7 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
-    dispatch,
+    handleFetchHighlights: () => { dispatch(loadHighlight()) },
   };
 }
 

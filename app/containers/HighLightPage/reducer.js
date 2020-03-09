@@ -20,7 +20,7 @@ function highLightPageReducer(state = initialState, action) {
     case LOAD_HIGHLIGHT:
       return state.set("isLoading", true);
     case LOAD_HIGHLIGHT_SUCCESS:
-      return state.set("isLoading", false).set("highlights", action.payload);
+      return state.set("isLoading", false).set("highlights", fromJS(action.payload));
     case LOAD_HIGHLIGHT_FAILURE:
       return state.set("isLoading", false).set("errors", action.payload);
     default:

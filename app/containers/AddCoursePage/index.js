@@ -103,6 +103,7 @@ export class AddCoursePage extends React.Component {
   }
 
   handleSubmit = (e) => {
+    
     e.preventDefault();
     const errors = this.getValidation();
     if (!_isEmpty(errors)) {

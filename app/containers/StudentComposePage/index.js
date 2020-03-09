@@ -36,7 +36,7 @@ export class StudentComposePage extends React.Component {
   constructor() {
     super()
     this.state = {
-      showMe: false,
+      showMe: true,
       isClose: false,
       isDelete: false,
       ask: {},
@@ -48,7 +48,6 @@ export class StudentComposePage extends React.Component {
   componentDidMount() {
     const { id } = this.props.match.params;
     this.props.handleFetchAskDetail(id)
-
     socket = io(ENDPOINT);
     socket.emit('join', { message: 'Hello babe' }, (error) => {
       if (error) {
@@ -66,6 +65,7 @@ export class StudentComposePage extends React.Component {
       this.setState({
         ask: this.props.studentComposePage.ask,
         teacher: this.props.studentComposePage.ask.teacher,
+        comments: this.props.studentComposePage.ask.comments
       })
     }
   }
@@ -176,22 +176,24 @@ export class StudentComposePage extends React.Component {
                   </div> :
                   <Content className="compose-body">
                     <h1>{this.state.ask.askContent ? this.state.ask.askContent : ""}</h1>
-                    { /* render the student scanned content as a commment */}
-                    <AskAndAnswerField user={ask.student} date={ask.dateCreated} text={ask.scannedContent} />
-                    {
-                      comments ?
-                        comments.map((comment, index) => {
-                          return <AskAndAnswerField user={this.compareIDtoGetUser(comment.userID, ask.student, ask.teacher)} comment={comment} key={index} />
-                        }) :
-                        ''
-                    }
+                    <div className="commentWrapper">
+                      { /* render the student scanned content as a commment */}
+                      <AskAndAnswerField user={ask.student} date={ask.dateCreated} text={ask.scannedContent} />
+                      {
+                        comments ?
+                          comments.map((comment, index) => {
+                            return <AskAndAnswerField user={this.compareIDtoGetUser(comment.userID, ask.student, ask.teacher)} comment={comment} key={index} />
+                          }) :
+                          ''
+                      }
+                      </div>
                     {
                       !isClose &&
                       <div className={`reply ${showMe ? 'reply-show' : 'reply-hide'}`}>
                         {
                           showMe ?
                             <div className="reply-field">
-                              <TextArea rows={5} className="reply-text" value={message} onChange={this.handleChangeMessage} />
+                              <TextArea rows={6} className="reply-text" value={message} onChange={this.handleChangeMessage} />
                               <div className='reply-btn-field'>
                                 <button onClick={this.onToggleShow} className='reply-btn'>
                                   <span>Hide</span>

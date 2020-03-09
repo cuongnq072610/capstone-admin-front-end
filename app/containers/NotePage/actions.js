@@ -4,7 +4,7 @@
  *
  */
 
-import { DEFAULT_ACTION, LOAD_NOTE, LOAD_FOLDER, CREATE_FOLDER } from './constants';
+import { DEFAULT_ACTION, LOAD_NOTE, LOAD_FOLDER, CREATE_FOLDER, DELETE_NOTE } from './constants';
 
 export function defaultAction() {
   return {
@@ -28,5 +28,12 @@ export function createFolder(body) {
   return {
     type: CREATE_FOLDER,
     body,
+  }
+}
+
+export function loadDeleteNote(id) {
+  return {
+    type: DELETE_NOTE,
+    id,
   }
 }

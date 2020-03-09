@@ -21,7 +21,7 @@ import messages from './messages';
 import { Row, Col, Button, Icon, Input, Layout, Spin } from 'antd';
 import "./index.scss";
 import ReactQuill from 'react-quill';
-import { loadNoteDetail, loadSaveNote } from './actions';
+import { loadNoteDetail, loadSaveNote, loadDeleteNote } from './actions';
 const { Header, Content } = Layout;
 
 const mockDataFolder = [
@@ -65,13 +65,24 @@ export class NoteDetailPage extends React.Component {
 
   componentDidUpdate(prevProps) {
     if (prevProps.noteDetailPage.note !== this.props.noteDetailPage.note) {
-      const { note } = this.props.noteDetailPage
-      console.log(note)
-      this.setState({
-        note,
-        isPinned: note.isPinned,
-        editorHtml: note.note,
-        description: note.description,
+      const { note, isLoading, isLoadingUpdate } = this.props.noteDetailPage
+      if (!isLoading && !isLoadingUpdate) {
+        this.setState({
+          note,
+          isPinned: note.isPinned,
+          editorHtml: note.note,
+          description: note.description,
+        })
+      }
+    }
+    if(prevProps.noteDetailPage.isLoadingDelete !== this.props.noteDetailPage.isLoadingDelete && this.props.noteDetailPage.isLoadingDelete === false) {
+      const { message } = this.props.noteDetailPage
+      console.log(message)
+      this.props.history.push({
+        pathname: '/note',
+        state: {
+          isDoneDelete: message
+        }
       })
     }
   }
@@ -118,9 +129,14 @@ export class NoteDetailPage extends React.Component {
     })
   }
 
+  handleDeleteNote = () => {
+    const id = this.props.match.params.noteId;
+    this.props.handleDeleteNote(id);
+  }
+
   render() {
     const { isPinned, editorHtml, description } = this.state;
-    const { isLoading } = this.props.noteDetailPage;
+    const { isLoading, isLoadingUpdate } = this.props.noteDetailPage;
     const editorModule = {
       toolbar: [
         [{ 'font': [] }],
@@ -142,6 +158,8 @@ export class NoteDetailPage extends React.Component {
       'image', 'video'
     ]
     const antIcon = <Icon type="loading" style={{ fontSize: 24, color: '#ffc143', marginRight: '10px' }} spin />;
+    const antIconSave = <Icon type="loading" style={{ fontSize: 16, color: '#616161', marginRight: '10px' }} spin />;
+
     return (
       <Row>
         <Helmet>
@@ -193,13 +211,17 @@ export class NoteDetailPage extends React.Component {
                     </Button>
                 }
 
-                <Button className="btn-delete">
+                <Button className="btn-delete" onClick={this.handleDeleteNote}>
                   <span className="btn-delete-icon"></span>
                   <span>Delete this note</span>
                 </Button>
                 <Button className="btn-save" onClick={this.handleSaveNote}>
                   <Icon type="save" />
-                  <span>Save change note</span>
+                  <span>
+                    {isLoadingUpdate ?
+                      <Spin indicator={antIconSave} /> : "Save change note"
+                    }
+                  </span>
                 </Button>
               </div>
               <div className="note-detail-side-tag">
@@ -226,6 +248,7 @@ export class NoteDetailPage extends React.Component {
 NoteDetailPage.propTypes = {
   handleFetchNoteDetail: PropTypes.func.isRequired,
   handleUpdateNote: PropTypes.func.isRequired,
+  handleDeleteNote: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -235,7 +258,8 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch) {
   return {
     handleFetchNoteDetail: (id) => { dispatch(loadNoteDetail(id)) },
-    handleUpdateNote: (note, id) => { dispatch(loadSaveNote(note, id)) }
+    handleUpdateNote: (note, id) => { dispatch(loadSaveNote(note, id)) },
+    handleDeleteNote: (id) => { dispatch(loadDeleteNote(id)) },
   };
 }
 

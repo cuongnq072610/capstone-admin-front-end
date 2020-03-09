@@ -9,9 +9,12 @@ import {
   CREATE_FOLDER,
   CREATE_FAILURE_FOLDER,
   CREATE_SUCCESS_FOLDER,
+  DELETE_NOTE_FAILURE,
+  DELETE_NOTE_SUCCESS,
+  DELETE_NOTE,
 } from './constants';
-import { fetchAllNote, fetchAllFolder, createFolder } from './api';
-import { API_ENDPOINT, GET_ALL_NOTE, GET_ALL_FOLDER, CREATE_NEW_FOLDER } from '../../constants/apis';
+import { fetchAllNote, fetchAllFolder, createFolder, deleteNote } from './api';
+import { API_ENDPOINT, GET_ALL_NOTE, GET_ALL_FOLDER, CREATE_NEW_FOLDER, DELETE_NOTE_BY_ID } from '../../constants/apis';
 
 function* loadFolder() {
   try {
@@ -62,11 +65,27 @@ function* createNewFolder(action) {
   }
 }
 
+
+function* loadDeleteNote(action) {
+  const { id } = action;
+  try {
+    const response = yield call(deleteNote, `${API_ENDPOINT}${DELETE_NOTE_BY_ID}/${id}`);
+    if (response.data.Sucess) {
+      yield put({ type: DELETE_NOTE_SUCCESS, payload: response.data.Sucess });
+    } else if (response.data.Error) {
+      yield put({ type: DELETE_NOTE_FAILURE, payload: response.data.Error })
+    }
+  } catch (error) {
+    yield put({ type: DELETE_NOTE_FAILURE, payload: error });
+  }
+}
+
 // Individual exports for testing
 export default function* notePageSaga() {
   yield all([
     takeLatest(LOAD_FOLDER, loadFolder),
     takeLatest(LOAD_NOTE, loadNote),
     takeLatest(CREATE_FOLDER, createNewFolder),
+    takeLatest(DELETE_NOTE, loadDeleteNote),
   ])
 }

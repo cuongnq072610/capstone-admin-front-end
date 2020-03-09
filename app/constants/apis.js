@@ -16,6 +16,7 @@ const DELETE_HIGHLIGHT = "/deletehighlightbyid";
 const GET_ALL_NOTE = "/allnotebystudentid/5e4ea4d07c213e67373d3cdb";
 const GET_NOTE_BY_ID = "/getnotebyid";
 const UPDATE_NOTE_BY_ID = "/updatenotebyid";
+const DELETE_NOTE_BY_ID = "/deletenotebyid";
 
 const GET_ALL_FOLDER = "/allfolderbystudentid/5e4ea4d07c213e67373d3cdb";
 const CREATE_NEW_FOLDER = '/createfolder';
@@ -36,6 +37,7 @@ export {
     GET_ALL_NOTE,
     GET_NOTE_BY_ID,
     UPDATE_NOTE_BY_ID,
+    DELETE_NOTE_BY_ID,
     GET_ALL_FOLDER,
     CREATE_NEW_FOLDER,
 }

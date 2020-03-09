@@ -5,7 +5,21 @@
  */
 
 import { fromJS } from 'immutable';
-import { DEFAULT_ACTION, LOAD_SUCCESS_FOLDER, LOAD_FOLDER, LOAD_NOTE, LOAD_SUCCESS_NOTE, LOAD_FAILURE_NOTE, LOAD_FAILURE_FOLDER, CREATE_FOLDER, CREATE_SUCCESS_FOLDER, CREATE_FAILURE_FOLDER } from './constants';
+import {
+  DEFAULT_ACTION,
+  LOAD_SUCCESS_FOLDER,
+  LOAD_FOLDER,
+  LOAD_NOTE,
+  LOAD_SUCCESS_NOTE,
+  LOAD_FAILURE_NOTE,
+  LOAD_FAILURE_FOLDER,
+  CREATE_FOLDER,
+  CREATE_SUCCESS_FOLDER,
+  CREATE_FAILURE_FOLDER,
+  DELETE_NOTE,
+  DELETE_NOTE_SUCCESS,
+  DELETE_NOTE_FAILURE
+} from './constants';
 
 export const initialState = fromJS({
   notes: [],
@@ -13,6 +27,7 @@ export const initialState = fromJS({
   isLoadingNote: false,
   isLoadingFolder: false,
   isCreatingFolder: false,
+  isLoadingDelete: false,
   errors: "",
   message: {},
 });
@@ -39,6 +54,12 @@ function notePageReducer(state = initialState, action) {
       return state.set("isCreatingFolder", false).set("message", action.payload);
     case CREATE_FAILURE_FOLDER:
       return state.set("isCreatingFolder", false).set("message", action.payload);
+    case DELETE_NOTE:
+      return state.set("isLoadingDelete", true);
+    case DELETE_NOTE_SUCCESS:
+      return state.set("isLoadingDelete", false).set("message", action.payload);
+    case DELETE_NOTE_FAILURE:
+      return state.set("isLoadingDelete", false).set("error", action.payload);
     default:
       return state;
   }

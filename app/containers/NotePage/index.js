@@ -22,7 +22,7 @@ import Note from './Note';
 import history from '../../utils/history';
 import WrappedSearchBar from '../../components/SearchBar';
 import { Row, Layout, Col, Icon, Button, Input, Spin } from 'antd';
-import { loadNote, loadFolder, createFolder } from './actions';
+import { loadNote, loadFolder, createFolder, loadDeleteNote } from './actions';
 import Masonry from 'masonry-layout'
 const { Content, Header } = Layout;
 
@@ -45,6 +45,8 @@ const mockData = [
   },
 ];
 
+let myTimeout = {};
+
 /* eslint-disable react/prefer-stateless-function */
 export class NotePage extends React.Component {
   constructor(props) {
@@ -57,16 +59,30 @@ export class NotePage extends React.Component {
       folders: [],
       windowHeight: window.innerHeight,
       namePopup: "notification",
+      isShow: false,
+      deleteMessage: "",
     }
   }
 
   componentDidMount() {
     this.props.handleLoadFolder();
     this.props.handleLoadNote();
-    this.setState({
-      notes: mockData,
-      baseNotes: mockData,
-    });
+    if (this.props.history.location.state && this.props.history.location.state.isDoneDelete) {
+      this.setState({
+        isShow: true,
+        deleteMessage: this.props.history.location.state.isDoneDelete,
+      }, () => {
+        this.props.history.replace({
+          pathname: '/note',
+          state: {}
+        })
+        myTimeout = setTimeout(() => {
+          this.setState({
+            isShow: false
+          })
+        }, 3000)
+      })
+    }
   }
 
   componentDidUpdate(prevProps) {
@@ -96,6 +112,23 @@ export class NotePage extends React.Component {
         notes: this.props.notePage.notes,
       })
     }
+    if (prevProps.notePage.isLoadingDelete !== this.props.notePage.isLoadingDelete && this.props.notePage.isLoadingDelete === false) {
+      this.props.handleLoadNote();
+      this.setState({
+        isShow: true,
+        deleteMessage: "Succesfully Delete",
+      }, () => {
+        myTimeout = setTimeout(() => {
+          this.setState({
+            isShow: false
+          })
+        }, 3000)
+      })
+    }
+  }
+
+  componentWillUnmount() {
+    clearTimeout(myTimeout);
   }
 
   navigateDetail = (note) => {
@@ -151,7 +184,7 @@ export class NotePage extends React.Component {
   }
 
   renderPopup = () => {
-    setTimeout(() => {
+    myTimeout = setTimeout(() => {
       this.setState({
         namePopup: "notification-show",
       }, () => {
@@ -164,8 +197,12 @@ export class NotePage extends React.Component {
     }, 1000)
   }
 
+  handleDeleteNote = (id) => {
+    this.props.handleDeleteNote(id)
+  }
+
   render() {
-    const { notes, folders, namePopup } = this.state;
+    const { notes, folders, namePopup, isShow, deleteMessage } = this.state;
     const { isLoadingFolder, message, isLoadingNote } = this.props.notePage;
     const antIcon = <Icon type="loading" style={{ fontSize: 24, color: '#ffc143', marginRight: '10px' }} spin />;
     return (
@@ -202,7 +239,7 @@ export class NotePage extends React.Component {
                           notes.map((note, index) => {
                             if (note.isPinned) {
                               return (
-                                <Note key={index} note={note} navigateDetail={() => this.navigateDetail(note)} />
+                                <Note key={index} note={note} navigateDetail={() => this.navigateDetail(note)} deleteNote={this.handleDeleteNote} />
                               )
                             }
                           })
@@ -216,7 +253,7 @@ export class NotePage extends React.Component {
                           notes.map((note, index) => {
                             if (!note.isPinned) {
                               return (
-                                <Note key={index} note={note} navigateDetail={() => this.navigateDetail(note)} />
+                                <Note key={index} note={note} navigateDetail={() => this.navigateDetail(note)} deleteNote={this.handleDeleteNote} />
                               )
                             }
                           })
@@ -225,6 +262,12 @@ export class NotePage extends React.Component {
                     </div>
                   </Fragment>
               }
+              <div className={isShow ? 'notification-show' : 'notification'}>
+                <div className='noti-content-success'>
+                  <span className='icon-noti accept-icon '></span>
+                  <p style={{ fontSize: '14px' }}>{deleteMessage}</p>
+                </div>
+              </div>
             </Content>
           </Layout>
         </Col>
@@ -286,6 +329,7 @@ NotePage.propTypes = {
   handleLoadNote: PropTypes.func.isRequired,
   handleLoadFolder: PropTypes.func.isRequired,
   handleCreateFolder: PropTypes.func.isRequired,
+  handleDeleteNote: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -296,7 +340,8 @@ function mapDispatchToProps(dispatch) {
   return {
     handleLoadNote: () => { dispatch(loadNote()) },
     handleLoadFolder: () => { dispatch(loadFolder()) },
-    handleCreateFolder: (body) => { dispatch(createFolder(body)) }
+    handleCreateFolder: (body) => { dispatch(createFolder(body)) },
+    handleDeleteNote: (id) => { dispatch(loadDeleteNote(id)) },
   };
 }
 

@@ -2,10 +2,10 @@ import React from 'react';
 import './index.scss';
 
 const Note = (props) => {
-    const { navigateDetail, note } = props;
+    const { navigateDetail, note, deleteNote } = props;
     return (
         <div className="grid-item note-wrapper grid-item">
-            <button className="note-delete" onClick={() => { }}>
+            <button className="note-delete" onClick={() => deleteNote(note._id)}>
                 <span className="note-delete-icon"></span>
             </button>
             <button className="note-btn" onClick={navigateDetail}>

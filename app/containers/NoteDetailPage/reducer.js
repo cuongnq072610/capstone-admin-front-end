@@ -5,11 +5,12 @@
  */
 
 import { fromJS } from 'immutable';
-import { DEFAULT_ACTION, LOAD_NOTE, LOAD_NOTE_SUCCESS, LOAD_NOTE_FAILURE, UPDATE_NOTE, UPDATE_NOTE_SUCCESS, UPDATE_NOTE_FAILURE } from './constants';
+import { DEFAULT_ACTION, LOAD_NOTE, LOAD_NOTE_SUCCESS, LOAD_NOTE_FAILURE, UPDATE_NOTE, UPDATE_NOTE_SUCCESS, UPDATE_NOTE_FAILURE, DELETE_NOTE, DELETE_NOTE_SUCCESS, DELETE_NOTE_FAILURE } from './constants';
 
 export const initialState = fromJS({
   isLoading: false,
   isLoadingUpdate: false,
+  isLoadingDelete: false,
   note: {},
   error: {},
   message: {}
@@ -31,6 +32,12 @@ function noteDetailPageReducer(state = initialState, action) {
       return state.set("isLoadingUpdate", false).set("message", action.payload).set("note", fromJS(action.note));
     case UPDATE_NOTE_FAILURE:
       return state.set("isLoadingUpdate", false).set("message", action.payload);
+    case DELETE_NOTE:
+      return state.set("isLoadingDelete", true);
+    case DELETE_NOTE_SUCCESS:
+      return state.set("isLoadingDelete", false).set("message", action.payload);
+    case DELETE_NOTE_FAILURE:
+      return state.set("isLoadingDelete", false).set("error", action.payload);
     default:
       return state;
   }

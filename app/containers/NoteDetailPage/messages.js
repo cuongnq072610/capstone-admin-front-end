@@ -11,6 +11,6 @@ export const scope = 'app.containers.NoteDetailPage';
 export default defineMessages({
   header: {
     id: `${scope}.header`,
-    defaultMessage: 'This is the NoteDetailPage container!',
+    defaultMessage: 'Ask Detail Page',
   },
 });

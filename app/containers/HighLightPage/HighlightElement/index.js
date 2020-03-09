@@ -8,7 +8,7 @@ const Note = ({highlight}) => {
                 <span className="highlight-delete-icon"></span>
             </button>
             <div className="highlight">
-                <p>{highlight.content}</p>
+                <p>{highlight.text}</p>
             </div>
         </div>
     )

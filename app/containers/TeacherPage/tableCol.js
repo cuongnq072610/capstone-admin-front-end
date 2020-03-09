@@ -2,8 +2,9 @@ import React from 'react';
 
 const colunms = [
     {
-        dataIndex: "key",
+        dataIndex: "avatar",
         width: 50,
+        render: text => <img src={text} style={{ width: '30px', height: '30px' }} />
     },
     {
         title: "TEACHER",

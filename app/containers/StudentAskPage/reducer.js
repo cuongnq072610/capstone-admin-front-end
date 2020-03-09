@@ -5,14 +5,24 @@
  */
 
 import { fromJS } from 'immutable';
-import { DEFAULT_ACTION } from './constants';
+import { DEFAULT_ACTION, LOAD_ASK, LOAD_ASK_SUCCESS, LOAD_ASK_FAILURE } from './constants';
 
-export const initialState = fromJS({});
+export const initialState = fromJS({
+  isLoading: false,
+  asks: [],
+  errors: {},
+});
 
 function studentAskPageReducer(state = initialState, action) {
   switch (action.type) {
     case DEFAULT_ACTION:
       return state;
+    case LOAD_ASK:
+      return state.set("isLoading", true);
+    case LOAD_ASK_SUCCESS:
+      return state.set("isLoading", false).set("asks", fromJS(action.payload));
+    case LOAD_ASK_FAILURE:
+      return state.set("isLoading", false).set("errors", fromJS(action.payload));
     default:
       return state;
   }

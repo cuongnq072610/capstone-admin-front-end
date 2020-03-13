@@ -181,9 +181,9 @@ export class HomePage extends React.Component {
           />
 
         </Col>
-        <div className={isShow ? 'notification-home-show' : 'notification-home'}>
+        <div className={isShow ? 'notification-home-show-course' : 'notification-home-course'}>
           {
-            <div className='noti-content-success'>
+            <div className='noti-content-success-course'>
               <span className='icon-noti accept-icon'></span>
               <p>DONE</p>
             </div>

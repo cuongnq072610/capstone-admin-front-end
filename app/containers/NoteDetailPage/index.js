@@ -18,9 +18,10 @@ import makeSelectNoteDetailPage from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
-import { Row, Col, Button, Icon, Input, Layout } from 'antd';
+import { Row, Col, Button, Icon, Input, Layout, Spin } from 'antd';
 import "./index.scss";
 import ReactQuill from 'react-quill';
+import { loadNoteDetail, loadSaveNote, loadDeleteNote } from './actions';
 const { Header, Content } = Layout;
 
 const mockDataFolder = [
@@ -52,16 +53,37 @@ export class NoteDetailPage extends React.Component {
     this.state = {
       note: {},
       editorHtml: '',
+      isPinned: false,
+      description: "",
     }
   }
 
   componentDidMount() {
-    const { note } = this.props.history.location.state
-    const htmlText = `${this.convertToH1tag(note.title)}<br>${this.convertToPtag(note.content)}`;
-    this.setState({
-      note,
-      editorHtml: htmlText
-    })
+    const id = this.props.match.params.noteId;
+    this.props.handleFetchNoteDetail(id);
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.noteDetailPage.note !== this.props.noteDetailPage.note) {
+      const { note, isLoading, isLoadingUpdate } = this.props.noteDetailPage
+      if (!isLoading && !isLoadingUpdate) {
+        this.setState({
+          note,
+          isPinned: note.isPinned,
+          editorHtml: note.note,
+          description: note.description,
+        })
+      }
+    }
+    if (prevProps.noteDetailPage.isLoadingDelete !== this.props.noteDetailPage.isLoadingDelete && this.props.noteDetailPage.isLoadingDelete === false) {
+      const { message } = this.props.noteDetailPage
+      this.props.history.push({
+        pathname: '/note',
+        state: {
+          isDoneDelete: message
+        }
+      })
+    }
   }
 
   renderFolder = (folder, index) => {
@@ -83,29 +105,46 @@ export class NoteDetailPage extends React.Component {
     })
   }
 
-  convertToPtag = (str) => {
-    var p = "<p>";
-    var newStr = str.concat("</p>");
-    return p.concat(newStr);
+  handleChangeDescription = (e) => {
+    this.setState({
+      description: e.target.value,
+    })
   }
 
-  convertToH1tag = (str) => {
-    var h1 = "<h1>";
-    var newStr = str.concat("</h1>");
-    return h1.concat(newStr);
+  handleSaveNote = () => {
+    const { note, isPinned, editorHtml, description } = this.state;
+    const newNote = {
+      description: description,
+      isPinned: isPinned,
+      folderID: note.folderID,
+      url: note.url,
+      index: note.index,
+      note: editorHtml,
+    }
+    this.props.handleUpdateNote(newNote, note._id);
   }
 
+  handlePinNote = () => {
+    this.setState({
+      isPinned: !this.state.isPinned,
+    })
+  }
+
+  handleDeleteNote = () => {
+    const id = this.props.match.params.noteId;
+    this.props.handleDeleteNote(id);
+  }
 
   render() {
-    const { note, editorHtml } = this.state;
+    const { isPinned, editorHtml, description } = this.state;
+    const { isLoading, isLoadingUpdate } = this.props.noteDetailPage;
     const editorModule = {
       toolbar: [
-        [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
+        [{ 'font': [] }],
         [{ size: [] }],
-        ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-        [{ 'list': 'ordered' }, { 'list': 'bullet' },
-        { 'indent': '-1' }, { 'indent': '+1' }],
-        [ 'image', 'video'],
+        ['bold', 'italic', 'underline', 'blockquote'],
+        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+        ['image', 'video'],
         ['clean']
       ],
       clipboard: {
@@ -119,6 +158,9 @@ export class NoteDetailPage extends React.Component {
       'list', 'bullet', 'indent',
       'image', 'video'
     ]
+    const antIcon = <Icon type="loading" style={{ fontSize: 24, color: '#ffc143', marginRight: '10px' }} spin />;
+    const antIconSave = <Icon type="loading" style={{ fontSize: 16, color: '#616161', marginRight: '10px' }} spin />;
+
     return (
       <Row>
         <Helmet>
@@ -130,20 +172,24 @@ export class NoteDetailPage extends React.Component {
             <Button className="back-icon" onClick={() => this.props.history.push("/note")}>
               <Icon type="arrow-left" />
             </Button>
-            <div className="note-detail-info">
-              {/* <div className="note-detail-title">{note.title}</div> */}
-              <div className="note-detail-content">
-                <ReactQuill
-                  theme="bubble"
-                  bounds=".note-detail-content"
-                  placeholder="Let's take a note"
-                  modules={editorModule}
-                  formats={editorFomat}
-                  onChange={this.handleChange}
-                  value={editorHtml}
-                />
-              </div>
-            </div>
+            {
+              isLoading ?
+                <Spin indicator={antIcon} /> :
+                <div className="note-detail-info">
+                  <Input className="note-detail-title" value={description} onChange={this.handleChangeDescription} />
+                  <div className="note-detail-content">
+                    <ReactQuill
+                      theme="bubble"
+                      bounds=".note-detail-content"
+                      placeholder="Let's take a note"
+                      modules={editorModule}
+                      formats={editorFomat}
+                      onChange={this.handleChange}
+                      value={editorHtml}
+                    />
+                  </div>
+                </div>
+            }
           </div>
         </Col>
         <Col span={5}>
@@ -155,24 +201,28 @@ export class NoteDetailPage extends React.Component {
               <div className="note-detail-side-setting">
                 <p>Settings</p>
                 {
-                  note.isPinned ?
-                    <Button className="btn-pin-active">
+                  isPinned ?
+                    <Button className="btn-pin-active" onClick={this.handlePinNote}>
                       <span className="btn-pin-icon"></span>
                       <span>This note is pinned</span>
                     </Button> :
-                    <Button className="btn-pin">
+                    <Button className="btn-pin" onClick={this.handlePinNote}>
                       <span className="btn-pin-icon"></span>
                       <span>Pin this note</span>
                     </Button>
                 }
 
-                <Button className="btn-delete">
+                <Button className="btn-delete" onClick={this.handleDeleteNote}>
                   <span className="btn-delete-icon"></span>
                   <span>Delete this note</span>
                 </Button>
-                <Button className="btn-save">
+                <Button className="btn-save" onClick={this.handleSaveNote}>
                   <Icon type="save" />
-                  <span>Save change note</span>
+                  <span>
+                    {isLoadingUpdate ?
+                      <Spin indicator={antIconSave} /> : "Save change note"
+                    }
+                  </span>
                 </Button>
               </div>
               <div className="note-detail-side-tag">
@@ -197,7 +247,9 @@ export class NoteDetailPage extends React.Component {
 }
 
 NoteDetailPage.propTypes = {
-  dispatch: PropTypes.func.isRequired,
+  handleFetchNoteDetail: PropTypes.func.isRequired,
+  handleUpdateNote: PropTypes.func.isRequired,
+  handleDeleteNote: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -206,7 +258,9 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
-    dispatch,
+    handleFetchNoteDetail: (id) => { dispatch(loadNoteDetail(id)) },
+    handleUpdateNote: (note, id) => { dispatch(loadSaveNote(note, id)) },
+    handleDeleteNote: (id) => { dispatch(loadDeleteNote(id)) },
   };
 }
 

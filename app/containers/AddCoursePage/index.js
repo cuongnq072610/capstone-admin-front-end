@@ -114,6 +114,7 @@ export class AddCoursePage extends React.Component {
   }
 
   handleSubmit = (e) => {
+    
     e.preventDefault();
     const errors = this.getValidation();
     if (!_isEmpty(errors)) {
@@ -134,10 +135,15 @@ export class AddCoursePage extends React.Component {
         errMess: [],
       });
       const { course, type } = this.state;
+      const formatCourse = {
+        ...course,
+        teachers: course.teachers.map(teacher => teacher._id)
+      }
+      console.log(formatCourse)
       if (type === 'add') {
-        this.props.handleAddCourse(course)
+        this.props.handleAddCourse(formatCourse)
       } else if (type === 'update') {
-        this.props.handleUpdateCourse(course)
+        this.props.handleUpdateCourse(formatCourse)
       }
     }
   }

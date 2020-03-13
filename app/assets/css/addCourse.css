@@ -63,6 +63,8 @@ body {
       margin-top: 18px;
       color: #9C4AEE;
       margin-left: 12px; }
+  .addCourse .iconAdd svg path {
+    fill: red; }
 
 .sider {
   display: flex;

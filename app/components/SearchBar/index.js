@@ -7,11 +7,9 @@
 import React from 'react';
 import { Form, Icon, Input } from 'antd';
 import './index.scss';
-// import PropTypes from 'prop-types';
-// import styled from 'styled-components';
 
 /* eslint-disable react/prefer-stateless-function */
-class SearchBar extends React.Component {
+class SearchBar extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {

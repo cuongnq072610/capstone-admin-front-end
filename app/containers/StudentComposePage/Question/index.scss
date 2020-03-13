@@ -1,0 +1,37 @@
+@import "../../../utils/variables.scss";
+
+.ask-wrapper {
+    border-bottom: 1px solid #dbe1e6;
+    padding: 30px 0px;
+
+    .user-field {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+        }
+
+        .user-info {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            width: 95%;
+            margin-left: 10px;
+        }
+    }
+
+    .content-field {
+        margin-top: 23px;
+        p {
+            color: #212121;
+            font-family: Roboto;
+            font-size: 14px;
+            font-weight: 400;
+        }
+    }
+}

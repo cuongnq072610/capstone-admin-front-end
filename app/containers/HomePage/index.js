@@ -149,7 +149,7 @@ export class HomePage extends React.Component {
                   onRow={(record, rowIndex) => {
                     return {
                       onClick: e => history.push({
-                        pathname: './addcourse',
+                        pathname: '/course/addcourse',
                         state: { course: record, type: 'update' }
                       })
                     }
@@ -162,7 +162,7 @@ export class HomePage extends React.Component {
                 />
               </Row>
               <div className="float" onClick={() => history.push({
-                pathname: "/addcourse",
+                pathname: "/course/addcourse",
                 state: {
                   type: 'add'
                 }

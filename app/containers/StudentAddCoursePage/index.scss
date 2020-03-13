@@ -1,0 +1,110 @@
+@import "../../utils/variables.scss";
+
+
+.addTeacher {
+
+  .header-wrapper {
+    background-color: white;
+    display: flex;
+
+    .header {
+      display: flex;
+      align-items: center;
+
+      h1 {
+        margin-left: 24px;
+        font-weight: 500;
+        color: $primary_purple;
+      }
+
+      i {
+        font-size: 20px;
+        color: $primary_purple;
+      }
+    }
+
+    .search-teacher {
+      background-color: $secondary_purple;
+      margin-top: 10px;
+      width: 908px;
+      height: 38px;
+      border-radius: 5px;
+
+      input {
+        border: none;
+        background-color: $tertiary_purple;
+
+        &::placeholder {
+          color: $primary_purple;
+          opacity: 1;
+        }
+      }
+    }
+  }
+}
+
+.content-table {
+  .table-wrapper {
+
+    //overide ANT table style 
+    .ant-empty-normal {
+      margin: 0;
+    }
+
+    //disable pagination
+    .ant-table-pagination.ant-pagination {
+      display: none;
+    }
+
+    h3 {
+      display: flex;
+      font-size: 16px;
+      margin-left: 20px;
+      margin-top: 22px;
+      margin-bottom: 10px;
+
+      i {
+        padding: 5px 10px;
+      }
+    }
+
+    .table-content {
+      background-color: $tertiary_purple;
+      font-size: 16px;
+      color: #616161;
+
+      thead th {
+        background-color: white;
+        color: $secondary_grey;
+      }
+
+      tbody td {
+        cursor: pointer;
+        padding: 12px 16px;
+        color: #212121;
+      }
+    }
+
+    .others {
+      background-color: white;
+    }
+
+    .no-data {
+      padding-left: 20px;
+    }
+  }
+}
+
+.icon {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  background-size: cover;
+}
+
+.ant-table-pagination.ant-pagination {
+  float: none;
+  display: flex;
+  justify-content: center;
+
+}

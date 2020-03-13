@@ -39,7 +39,7 @@ const mockData = [{
 ]
 
 /* eslint-disable react/prefer-stateless-function */
-class SearchTeacher extends React.Component {
+class SearchTeacher extends React.PureComponent {
   constructor(props) {
     super(props)
     this.state = {
@@ -66,7 +66,7 @@ class SearchTeacher extends React.Component {
   renderTeacher = (teacher, index) => {
     return (
       <div className='teacher-field' key={index}>
-        <span>{index}</span>
+        <img src={teacher.avatar} style={{ width: '30px', height: '30px' }} />
         <p className='teacher-name'>{teacher.teacherName}</p>
       </div>
     )
@@ -94,7 +94,7 @@ class SearchTeacher extends React.Component {
             className="add-btn"
             icon="plus"
             onClick={() => history.push({
-              pathname: "/addteacher",
+              pathname: "/course/addteacher",
               state: {
                 course: course,
                 type: type,

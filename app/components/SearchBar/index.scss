@@ -1,24 +1,99 @@
 @import '../../utils/variables.scss';
 
 .search {
-    width: 600px;
+    width: 500px;
+    height: 54px;
     margin: 20px 0px;
 
     input {
         height: 50px;
-        border: 1px solid $primary_purple;
         border-radius: 5px;
-        color: $primary_purple;
         padding-left: 20px;
         font-size: 15px;
-        box-shadow: 1px 1px 1px 1px $primary_grey;
+        box-shadow: 0 3px 6px rgba(255, 255, 255, 0.25);
+    }
+
+    .homeTheme>input {
+        border: 1px solid $primary_purple;
+        background-color: $tertiary_purple;
+        color: $primary_purple;
+
+        &::placeholder {
+            color: $primary_purple;
+        }
+    }
+
+    .teacherTheme>input {
+        border: 1px solid $primary_brown;
+        background-color: $tertiary_yellow;
+        color: $primary_brown;
+
+        &::placeholder {
+            color: $primary_brown;
+        }
+    }
+
+    .noteTheme>input {
+        border: 1px solid $primary_yellow;
+        background-color: #fffbf2;
+        color: $primary_yellow;
+        box-shadow: 0 3px 6px rgba(255, 193, 67, 0.25);
+
+        &::placeholder {
+            color: $primary_yellow;
+        }
+    }
+
+    .askTheme>input {
+        border: 1px solid $primary_blue;
+        background-color: $secondary_blue;
+        color: $primary_blue;
+        box-shadow: 0 3px 6px rgba(21, 147, 230, 0.25);
+
+        &::placeholder {
+            color: $primary_blue;
+        }
+    }
+
+    .highlightTheme>input {
+        border: 1px solid $primary_green;
+        background-color: $secondary_green;
+        color: $primary_green;
+        box-shadow: 0 3px 6px rgba(116, 226, 137, 0.25);
+
+        &::placeholder {
+            color: $primary_green;
+        }
     }
 
     input::placeholder {
-        color: $primary_purple;
+        width: 185px;
+        height: 21px;
+        font-family: Roboto;
+        font-size: 17px;
+        font-weight: 400;
+        letter-spacing: 0.17px;
+        line-height: 17px;
+
     }
 
     .ant-input-affix-wrapper .ant-input:not(:first-child) {
         padding-left: 40px;
+    }
+
+    @supports (-moz-appearance:none) {
+        .ant-input-affix-wrapper .ant-input:not(:first-child) {
+            padding-left: 40px;
+            padding-top: 15px;
+        }
+    }
+
+    .icon-deny {
+        display: inline-block;
+        width: 19px;
+        height: 19px;
+        background-size: cover;
+        background-image: url(assets/deny.svg);
+        padding: 0px;
     }
 }

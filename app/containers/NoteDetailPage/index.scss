@@ -1,0 +1,250 @@
+@import '../../utils/variables.scss';
+
+.note-detail {
+    padding-top: 57px;
+
+    .back-icon {
+        border: none;
+        box-shadow: none;
+
+        i {
+            color: $primary_yellow;
+            font-size: 20px;
+        }
+    }
+
+    .note-detail-info {
+        margin-top: 24px;
+        padding-left: 20px;
+
+        .note-detail-title {
+            color: #212121;
+            font-family: Roboto;
+            font-size: 32px;
+            font-weight: 400;
+            border: none;
+        }
+
+        .note-detail-content {
+            color: #212121;
+            font-family: Roboto;
+            font-size: 18px;
+            font-weight: 400;
+            margin-top: 24px;
+        }
+
+    }
+}
+
+.note-detail-side {
+    margin-top: 10px;
+    padding: 0px 30px;
+
+    .note-detail-side-header {
+        background-color: $primary_white;
+        padding-left: 0px;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        color: $primary_yellow;
+        font-family: Roboto;
+        font-size: 30px;
+        font-weight: 700;
+        letter-spacing: 0.28px;
+    }
+
+    .note-detail-side-setting {
+        margin-bottom: 26px;
+
+        p {
+            color: #212121;
+            font-family: Roboto;
+            font-size: 16px;
+            font-weight: 400;
+            letter-spacing: 1.6px;
+            text-transform: uppercase;
+        }
+
+        .btn-pin {
+            width: 100%;
+            height: 54px;
+            display: flex;
+            align-items: center;
+            border: none;
+            box-shadow: none;
+            color: $primary_black;
+            margin-bottom: 20px;
+
+            .btn-pin-icon {
+                display: inline-block;
+                width: 16px;
+                height: 16px;
+                background-size: cover;
+                background-image: url(assets/pin.svg);
+                margin-right: 16px;
+            }
+        }
+
+        .btn-pin-active {
+            width: 100%;
+            height: 54px;
+            display: flex;
+            align-items: center;
+            border: none;
+            box-shadow: none;
+            color: $primary_yellow;
+            background-color: $tertiary_yellow;
+            margin-bottom: 20px;
+
+            .btn-pin-icon {
+                display: inline-block;
+                width: 16px;
+                height: 16px;
+                background-size: cover;
+                background-image: url(assets/pin_active.svg);
+                margin-right: 16px;
+            }
+        }
+
+        .btn-delete {
+            width: 100%;
+            height: 54px;
+            display: flex;
+            align-items: center;
+            border: none;
+            box-shadow: none;
+            color: red;
+            margin-bottom: 20px;
+
+            .btn-delete-icon {
+                display: inline-block;
+                width: 16px;
+                height: 16px;
+                background-size: cover;
+                background-image: url(assets/delete.svg);
+                margin-right: 16px;
+            }
+        }
+
+        .btn-save {
+            width: 100%;
+            height: 54px;
+            display: flex;
+            align-items: center;
+            border: none;
+            box-shadow: none;
+            color: #616161;
+            margin-bottom: 20px;
+
+            i {
+                font-size: 16px;
+                margin-right: 8px;
+            }
+        }
+    }
+
+    .note-detail-side-tag {
+        p {
+            color: #212121;
+            font-family: Roboto;
+            font-size: 16px;
+            font-weight: 400;
+            letter-spacing: 1.6px;
+            text-transform: uppercase;
+        }
+
+        .tag-search {
+            height: 38px;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            margin-bottom: 20px;
+
+            input {
+                color: $primary_yellow;
+                background-color: $tertiary_yellow;
+                border: none;
+
+                &::placeholder {
+                    color: $primary_yellow
+                }
+            }
+        }
+
+
+        .folder-wrap {
+            padding: 10px;
+            margin: 5px 0px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 50px;
+            width: 100%;
+            border: none;
+            box-shadow: none;
+
+            .folder-content {
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+
+                .name-folder {
+                    margin-left: 15px;
+                    color: #616161;
+                    font-family: Roboto;
+                    font-size: 14px;
+                    font-weight: 400;
+                    letter-spacing: 0.14px;
+                    line-height: 17px;
+                }
+
+                .icon-folder {
+                    display: inline-block;
+                    width: 16px;
+                    height: 16px;
+                    background-size: cover;
+                    background-image: url(assets/note.svg);
+                }
+            }
+        }
+
+        .folder-wrap-active {
+            padding: 10px;
+            margin: 5px 0px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 50px;
+            width: 100%;
+            border: none;
+            box-shadow: none;
+            background-color: $tertiary_yellow;
+
+            .folder-content {
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+
+                .name-folder {
+                    margin-left: 15px;
+                    color: $primary_yellow;
+                    font-family: Roboto;
+                    font-size: 14px;
+                    font-weight: 400;
+                    letter-spacing: 0.14px;
+                    line-height: 17px;
+                }
+
+                .icon-folder {
+                    display: inline-block;
+                    width: 16px;
+                    height: 16px;
+                    background-size: cover;
+                    background-image: url(assets/note_active.svg);
+                }
+            }
+        }
+
+
+    }
+}

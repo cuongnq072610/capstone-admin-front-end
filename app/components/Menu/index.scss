@@ -6,19 +6,20 @@
     top: 0;
     left: 0;
     width: 100px;
+    height: 100%;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     flex-direction: column;
 }
 
 .logo {
-    height: 40px;
-    margin: 10px 10px 55px;
+    height: 69px;
+    margin: 20px 10px 55px;
 
     img {
-        height: 40px;
-        width: 100%;
+        height: 69px;
+        width: 60px;
     }
 }
 
@@ -67,9 +68,58 @@
     height: 70px;
 }
 
-.ant-menu-vertical, .ant-menu-inline-collapsed {
-    height: 85vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
+.menu-icon {
+    display: inline-block;
+    width: 29px;
+    height: 25px;
+    background-size: cover;
+}
+
+.course {
+    background-image: url("assets/course.svg");
+}
+
+.course-active {
+    background-image: url("assets/course_active.svg");
+
+}
+
+.teacher {
+    background-image: url("assets/teacher.svg");
+}
+
+.teacher-active {
+    background-image: url("assets/teacher_active.svg");
+}
+
+.dashboard {
+    background-image: url("assets/dashboard.svg");
+}
+
+.dashboard-active {
+    background-image: url("assets/dashboard_active.svg");
+}
+
+.note {
+    background-image: url("assets/note.svg");
+}
+
+.note-active {
+    background-image: url("assets/note_active.svg");
+}
+
+.ask {
+    background-image: url("assets/ask.svg");
+}
+
+.ask-active {
+    background-image: url("assets/ask_active.svg");
+}
+
+.highlight {
+    background-image: url("assets/highlight.svg");
+}
+
+.highlight-active {
+    background-image: url("assets/highlight_active.svg");
 }

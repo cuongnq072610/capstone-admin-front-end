@@ -1,0 +1,78 @@
+@import "../../../utils/variables.scss";
+
+.course-information {
+  padding: 0px 20px;
+  border-left-width: thin;
+  box-shadow: -5px 0 5px -5px $primary_purple;
+  border: none;
+  height: 100vh;
+
+  .course-info-header {
+    background-color: white;
+
+    .p {
+      padding-top: 10px;
+      color: $primary_purple;
+      font-size: 28px;
+    }
+  }
+
+  .course-info-body {
+    .course-name {
+      margin-top: 20px;
+      max-width: 100%;
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    .course-code {
+      margin: 30px 0px;
+
+      .course-code-content {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        margin-top: 10px;
+
+        p {
+          padding-bottom: 0px;
+          padding-left: 10px;
+          margin: 0px;
+        }
+      }
+    }
+
+    .department {
+      margin-top: 0px;
+
+      .department-content {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        margin-top: 10px;
+
+        p {
+          padding-bottom: 0px;
+          padding-left: 10px;
+          margin: 0px;
+        }
+      }
+    }
+
+    .short-des {
+      padding: 35px 0px;
+
+      .short-des-input {
+        width: 240px;
+        height: 58px;
+      }
+    }
+
+    .full-des {
+      .full-des-input {
+        width: 240px;
+        height: 58px;
+      }
+    }
+  }
+}

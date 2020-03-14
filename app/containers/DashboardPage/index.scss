@@ -1,0 +1,62 @@
+@import "../../utils/variables.scss";
+
+.dashboard-wrapper {
+    background-image: url(assets/Home@2x.png);
+    background-size: 850px 800px;
+    background-position: right;
+    background-repeat: no-repeat;
+    height: 750px;
+
+    .dashboard-header {
+        text-align: center;
+        height: 100px;
+
+        .dashboard-title {
+            color: $primary_blue;
+            font-family: Roboto;
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: 0.28px;
+            margin: 20px 0px;
+        }
+    }
+
+    .dashboard-box {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    .dashboard-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 65px;
+        margin-left: 50px;
+        margin-right: 110px;
+        .dashboard-des {
+            width: 455px;
+            margin-top: 140px;
+            h1 {
+                color: #212121;
+                font-family: Roboto;
+                font-size: 32px;
+                font-weight: 500;
+            }
+
+            p {
+                color: #616161;
+                font-family: Roboto;
+                font-size: 18px;
+                font-weight: 500;
+            }
+        }
+
+        .content-background {
+            width: 382px;
+            height: 382px;
+            background-image: url(assets/sitting-4@2x.png);
+            background-size: cover;
+        }
+    }
+}

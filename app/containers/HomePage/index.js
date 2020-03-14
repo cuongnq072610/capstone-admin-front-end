@@ -10,9 +10,8 @@ import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
-import AddCoursePage from 'containers/AddCoursePage/Loadable';
 import { compose } from 'redux';
-import { Row, Layout, Col, Button, Icon } from 'antd';
+import { Row, Layout, Col, Table, Icon } from 'antd';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
@@ -20,115 +19,17 @@ import makeSelectHomePage from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
-import Box from './box';
+import history from '../../utils/history';
 import WrappedSearchBar from '../../components/SearchBar';
 import Filter from '../../components/Filter';
 import './index.scss';
-import { Link } from 'react-router-dom';
+import columns from './tableCol';
+import { loadCourse, searchCourse } from './actions';
 
 const { Content, Header } = Layout;
-const mockData = [
-  {
-    courseId: 'ASD203',
-    courseName: 'Algorithms and Data Theories',
-    description:
-      'The course goes through simple algorithms and thier applications in data manipulation',
-    category: 'Computer Science',
-    numberOfTeacher: 12,
-  },
-  {
-    courseId: 'ANM101',
-    courseName: 'Animation Designing',
-    description:
-      'The course goes through simple algorithms and thier applications in data manipulation',
-    category: 'Graphic Design',
-    numberOfTeacher: 12,
-  },
-  {
-    courseId: 'EVP501',
-    courseName: 'Building Event Plans',
-    description:
-      'The course goes through simple algorithms and thier applications in data manipulation',
-    category: 'Communication',
-    numberOfTeacher: 12,
-  },
-  {
-    courseId: 'COM101',
-    courseName: 'Communication Principles',
-    description:
-      'The course goes through simple algorithms and thier applications in data manipulation',
-    category: 'Communication Business',
-    numberOfTeacher: 12,
-  },
-  {
-    courseId: 'ASD203',
-    courseName: 'Algorithms and Data Theories',
-    description:
-      'The course goes through simple algorithms and thier applications in data manipulation',
-    category: 'Computer Science',
-    numberOfTeacher: 12,
-  },
-  {
-    courseId: 'ANM101',
-    courseName: 'Animation Designing',
-    description:
-      'The course goes through simple algorithms and thier applications in data manipulation',
-    category: 'Graphic Design',
-    numberOfTeacher: 12,
-  },
-  {
-    courseId: 'EVP501',
-    courseName: 'Building Event Plans',
-    description:
-      'The course goes through simple algorithms and thier applications in data manipulation',
-    category: 'Communication',
-    numberOfTeacher: 12,
-  },
-  {
-    courseId: 'COM101',
-    courseName: 'Communication Principles',
-    description:
-      'The course goes through simple algorithms and thier applications in data manipulation',
-    category: 'Communication Business',
-    numberOfTeacher: 12,
-  },
-  {
-    courseId: 'ASD203',
-    courseName: 'Algorithms and Data Theories',
-    description:
-      'The course goes through simple algorithms and thier applications in data manipulation',
-    category: 'Computer Science',
-    numberOfTeacher: 12,
-  },
-  {
-    courseId: 'ANM101',
-    courseName: 'Animation Designing',
-    description:
-      'The course goes through simple algorithms and thier applications in data manipulation',
-    category: 'Graphic Design',
-    numberOfTeacher: 12,
-  },
-  {
-    courseId: 'EVP501',
-    courseName: 'Building Event Plans',
-    description:
-      'The course goes through simple algorithms and thier applications in data manipulation',
-    category: 'Communication',
-    numberOfTeacher: 12,
-  },
-  {
-    courseId: 'COM101',
-    courseName: 'Communication Principles',
-    description:
-      'The course goes through simple algorithms and thier applications in data manipulation',
-    category: 'Communication Business',
-    numberOfTeacher: 12,
-  },
-];
-
 
 const mockData2 = [
-  "Business", "Business Communication", "Communication", "Finance", "Graphic Design"
+  "Business", "Communication Business", "Communication", "Finance", "Graphic Design"
 ];
 
 
@@ -139,38 +40,89 @@ export class HomePage extends React.Component {
     this.state = {
       search: "",
       courses: [],
-      categories: [],
+      departments: [],
+      baseCourses: [],
+      isShow: false
     }
   }
 
   componentDidMount() {
+    this.props.fetchCourse();
+    const { history } = this.props;
+    if (history.location.state && history.location.state.isDone) {
+      this.setState({
+        isShow: true
+      }, () => {
+        setTimeout(() => {
+          this.setState({
+            isShow: false
+          })
+        }, 3000)
+      })
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.homePage !== this.props.homePage) {
+      const { courses } = this.props.homePage;
+      const newCourses = courses.map((course, index) => {
+        return {
+          ...course,
+          key: `${index}`,
+          numberOfTeacher: course.teachers.length,
+        }
+      })
+      this.setState({
+        courses: newCourses,
+        departments: mockData2,
+        baseCourses: newCourses,
+      })
+    }
+  }
+
+  onResetFilter = () => {
+    const { baseCourses } = this.state;
     this.setState({
-      courses: mockData,
-      categories: mockData2,
+      courses: baseCourses,
     })
   }
 
-  onFilter = () => {
-    let newArr = this.state.courses.sort((a, b) => {
-      if (a.courseName < b.courseName) return -1;
-      if (a.courseName > b.courseName) return 1;
-      return 0;
-    });
-    this.setState({
-      courses: newArr,
-    })
+  checkDepartment = (departments, checkDepartments) => {
+    return checkDepartments.some(department => departments.indexOf(department) >= 0);
+  }
+
+  filterByDepartment = (departments) => {
+    const { baseCourses } = this.state;
+    if (!departments || departments.length === 0) {
+      this.onResetFilter();
+    } else {
+      const filterCourses = baseCourses.filter((course, index) => {
+        return this.checkDepartment(course.departments, departments) === true;
+      })
+      this.setState({
+        courses: filterCourses
+      })
+    }
+  }
+
+  handleSearch = (key) => {
+    this.props.fetchSearchCourse(key)
+  }
+
+  handleClear = () => {
+    this.props.fetchCourse();
   }
 
   render() {
-    const { courses, categories } = this.state;
-    // console.log(this.props.homePage)
+    const { courses, departments, isShow } = this.state;
+    const { isLoading } = this.props.homePage;
     return (
-      <Row>
+      <Row className="homepage">
         <Helmet>
           <title>HomePage</title>
           <meta name="description" content="Description of HomePage" />
         </Helmet>
-        <Col span={20}>
+        <Col span={19}>
           <Layout>
             <Header
               style={{
@@ -183,30 +135,67 @@ export class HomePage extends React.Component {
               <WrappedSearchBar
                 message="Please enter your course name"
                 placeholder="I want to find my course"
+                type="home"
+                handleSearch={this.handleSearch}
+                handleClear={this.handleClear}
               />
             </Header>
             <Content>
-              <Row type="flex" justify="space-around">
-                {courses.map((course, index) => (
-                  <Box course={course} key={index} />
-                ))}
+              <Row>
+                <Table
+                  columns={columns}
+                  dataSource={courses}
+                  className="courseTable"
+                  onRow={(record, rowIndex) => {
+                    return {
+                      onClick: e => history.push({
+                        pathname: '/course/addcourse',
+                        state: { course: record, type: 'update' }
+                      })
+                    }
+                  }}
+                  loading={isLoading}
+                  // for pagination
+                  pagination={{
+                    onChange: (page) => { console.log(page) }
+                  }}
+                />
               </Row>
-              <Link to="/addcourse" className="float">
+              <div className="float" onClick={() => history.push({
+                pathname: "/course/addcourse",
+                state: {
+                  type: 'add'
+                }
+              })}>
                 <Icon type="plus" className="my-float" />
-              </Link>
+              </div>
             </Content>
           </Layout>
         </Col>
-        <Col span={4}>
-          <Filter onFilter={this.onFilter} categories={categories} />
+        <Col span={5}>
+          <Filter
+            departments={departments}
+            onFilter={this.filterByDepartment}
+            onReset={this.onResetFilter}
+            type={'home'}
+          />
+
         </Col>
+        <div className={isShow ? 'notification-home-show-course' : 'notification-home-course'}>
+          {
+            <div className='noti-content-success-course'>
+              <span className='icon-noti accept-icon'></span>
+              <p>DONE</p>
+            </div>
+          }
+        </div>
       </Row>
     );
   }
 }
 
 HomePage.propTypes = {
-  dispatch: PropTypes.func.isRequired,
+  fetchCourse: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -215,7 +204,8 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
-    dispatch,
+    fetchCourse: () => { dispatch(loadCourse()) },
+    fetchSearchCourse: (key) => { dispatch(searchCourse(key)) }
   };
 }
 

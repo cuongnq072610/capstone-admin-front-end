@@ -95,6 +95,14 @@ body {
         margin-left: 12px;
       }
     }
+
+    .iconAdd {
+      svg {
+        path {
+          fill: red; 
+        }
+      }
+    }
 }
 
 .sider {

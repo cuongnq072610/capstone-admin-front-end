@@ -49,7 +49,6 @@ export class NotePage extends React.Component {
   }
 
   componentDidMount() {
-    this.props.handleLoadFolder();
     this.props.handleLoadNote();
     if (this.props.history.location.state && this.props.history.location.state.isDoneDelete) {
       this.setState({
@@ -160,15 +159,6 @@ export class NotePage extends React.Component {
         </div>
       </Button>
     )
-  }
-
-  onHandleSubmit = () => {
-    const { textValue } = this.state;
-    const body = {
-      "studentID": "5e4ea4d07c213e67373d3cdb",
-      "folderName": textValue,
-    }
-    this.props.handleCreateFolder(body);
   }
 
   onChangeText = (e) => {
@@ -290,39 +280,6 @@ export class NotePage extends React.Component {
                   <span>Time added</span>
                 </Button>
               </div>
-              <div className="folder">
-                <p><FormattedMessage {...messages.folder} /></p>
-                <Input
-                  placeholder="Add new folder"
-                  prefix={<Icon type="plus" style={{ color: "#ffc143" }} onClick={this.onHandleSubmit} />}
-                  onChange={this.onChangeText}
-                  onPressEnter={this.onHandleSubmit}
-                  className="folder-add"
-                />
-                {
-                  isLoadingFolder ?
-                    <Spin indicator={antIcon} /> :
-                    folders.map((folder, index) => this.renderFolder(folder, index))
-                }
-                {
-                  message.Sucess &&
-                  <div className={namePopup}>
-                    <div className='noti-content-success'>
-                      <span className='icon-noti accept-icon '></span>
-                      <p style={{ fontSize: '12px' }}>{message.Sucess}</p>
-                    </div>
-                  </div>
-                }
-                {
-                  message.Error &&
-                  <div className={namePopup}>
-                    <div className='noti-content-error'>
-                      <span className='icon-noti deny-icon '></span>
-                      <p style={{ fontSize: '12px' }}>{message.Error}</p>
-                    </div>
-                  </div>
-                }
-              </div>
             </Content>
           </Layout>
         </Col>
@@ -333,8 +290,6 @@ export class NotePage extends React.Component {
 
 NotePage.propTypes = {
   handleLoadNote: PropTypes.func.isRequired,
-  handleLoadFolder: PropTypes.func.isRequired,
-  handleCreateFolder: PropTypes.func.isRequired,
   handleDeleteNote: PropTypes.func.isRequired,
 };
 
@@ -345,8 +300,6 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch) {
   return {
     handleLoadNote: () => { dispatch(loadNote()) },
-    handleLoadFolder: () => { dispatch(loadFolder()) },
-    handleCreateFolder: (body) => { dispatch(createFolder(body)) },
     handleDeleteNote: (id) => { dispatch(loadDeleteNote(id)) },
   };
 }

@@ -18,19 +18,6 @@ export function loadNote() {
   }
 }
 
-export function loadFolder() {
-  return {
-    type: LOAD_FOLDER,
-  }
-}
-
-export function createFolder(body) {
-  return {
-    type: CREATE_FOLDER,
-    body,
-  }
-}
-
 export function loadDeleteNote(id) {
   return {
     type: DELETE_NOTE,

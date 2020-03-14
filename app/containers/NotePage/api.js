@@ -4,21 +4,11 @@ const fetchAllNote = (url) => {
     return axiosService.get(url);
 }
 
-const fetchAllFolder = (url) => {
-    return axiosService.get(url);
-}
-
-const createFolder = (url, body) => {
-    return axiosService.post(url, body);
-}
-
 const deleteNote = (url) => {
     return axiosService.delete(url);
 }
 
 export {
     fetchAllNote,
-    fetchAllFolder,
-    createFolder,
     deleteNote,
 }

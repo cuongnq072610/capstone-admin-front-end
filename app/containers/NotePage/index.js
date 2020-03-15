@@ -22,14 +22,38 @@ import Note from './Note';
 import history from '../../utils/history';
 import WrappedSearchBar from '../../components/SearchBar';
 import { Row, Layout, Col, Icon, Button, Input, Spin } from 'antd';
-import { loadNote, loadFolder, createFolder, loadDeleteNote } from './actions';
+import { loadNote, loadDeleteNote } from './actions';
 import Masonry from 'masonry-layout'
 const { Content, Header } = Layout;
 
-let myTimeout1 = {};
-let myTimeout2 = {};
-let myTimeout3 = {};
-let myTimeout4 = {};
+const mockDataFolder = [
+  {
+    id: 1,
+    courseCode: 'COM101',
+    courseName: 'Communication Principle',
+  },
+  {
+    id: 2,
+    courseCode: 'ASD203',
+    courseName: 'Algorithms and Data Structure',
+  },
+  {
+    id: 3,
+    courseCode: 'FIN102',
+    courseName: 'Finance Principles',
+  },
+  {
+    id: 4,
+    courseCode: 'DBW231',
+    courseName: 'Datawarehouse',
+  },
+  {
+    id: 5,
+    courseCode: 'ECO101',
+    courseName: 'E-commerce',
+  },
+]
+
 
 /* eslint-disable react/prefer-stateless-function */
 export class NotePage extends React.Component {
@@ -38,11 +62,7 @@ export class NotePage extends React.Component {
     this.state = {
       notes: [],
       baseNotes: [],
-      folderChosen: {},
-      textValue: "",
-      folders: [],
       windowHeight: window.innerHeight,
-      namePopup: "notification",
       isShow: false,
       deleteMessage: "",
     }
@@ -82,14 +102,6 @@ export class NotePage extends React.Component {
         })
       )
     })
-    if (prevProps.notePage.folders !== this.props.notePage.folders) {
-      this.setState({
-        folders: this.props.notePage.folders,
-      })
-    }
-    if (prevProps.notePage.message !== this.props.notePage.message) {
-      this.renderPopup();
-    }
     if (prevProps.notePage.notes !== this.props.notePage.notes) {
       this.setState({
         notes: this.props.notePage.notes,
@@ -110,21 +122,6 @@ export class NotePage extends React.Component {
     }
   }
 
-  componentWillUnmount() {
-    if (this.timer1) {
-      clearTimeout(this.timer1)
-    }
-    if (this.timer2) {
-      clearTimeout(this.timer2)
-    } 
-    if (this.timer3) {
-      clearTimeout(this.timer3)
-    } 
-    if (this.timer4) {
-      clearTimeout(this.timer4)
-    }
-  }
-
   navigateDetail = (note) => {
     history.push({
       pathname: `/note/${note._id}`,
@@ -134,60 +131,26 @@ export class NotePage extends React.Component {
     })
   }
 
-  onHandleChosenFolder = (folder) => {
-    const { folderChosen, baseNotes } = this.state;
-    if (folder !== folderChosen) {
-      var newArrNotes = baseNotes.filter(note => note.folder === folder.name)
-      this.setState({
-        folderChosen: folder,
-        notes: newArrNotes,
-      })
-    } else {
-      this.setState({
-        folderChosen: {},
-      })
-    }
-  }
-
-  renderFolder = (folder, index) => {
-    const { folderChosen } = this.state;
-    return (
-      <Button className={`${folder.folderName === folderChosen.folderName ? "folder-wrap-active" : "folder-wrap"}`} key={index} onClick={() => this.onHandleChosenFolder(folder)}>
-        <div className="folder-content">
-          <span className="icon-folder"></span>
-          <span className="name-folder">{folder.folderName}</span>
-        </div>
-      </Button>
-    )
-  }
-
-  onChangeText = (e) => {
-    this.setState({
-      textValue: e.target.value,
+  navigateDetailFolder = (folder) => {
+    history.push({
+      pathname: `/folder/${folder.courseCode}`,
+      state: {
+        folder
+      }
     })
-  }
-
-  renderPopup = () => {
-    this.timer3 = setTimeout(() => {
-      this.setState({
-        namePopup: "notification-show",
-      }, () => {
-        this.timer4 = setTimeout(() => {
-          this.setState({
-            namePopup: "notification",
-          });
-        }, 2000)
-      })
-    }, 1000)
   }
 
   handleDeleteNote = (id) => {
     this.props.handleDeleteNote(id)
   }
 
+  renderFolderNoteName = (name, code) => {
+    return code + ' - ' + name;
+  }
+
   render() {
-    const { notes, folders, namePopup, isShow, deleteMessage } = this.state;
-    const { isLoadingFolder, message, isLoadingNote, isLoadingDelete } = this.props.notePage;
+    const { notes, isShow, deleteMessage } = this.state;
+    const { isLoadingNote, isLoadingDelete } = this.props.notePage;
     const antIcon = <Icon type="loading" style={{ fontSize: 24, color: '#ffc143', marginRight: '10px' }} spin />;
     return (
       <Row>
@@ -195,16 +158,19 @@ export class NotePage extends React.Component {
           <title>NotePage</title>
           <meta name="description" content="Description of NotePage" />
         </Helmet>
-        <Col span={19}>
+        <Col>
           <Layout className="note-page">
             <Header
               style={{
                 backgroundColor: '#fff',
                 display: 'flex',
-                justifyContent: 'center',
+                justifyContent: "space-between",
+                alignItems: "center",
                 height: '100px',
+                paddingLeft: '0px',
               }}
             >
+              <p className="note-page-name">Notes</p>
               <WrappedSearchBar
                 message="Please enter your note's name"
                 placeholder="I want to find my notes"
@@ -212,73 +178,50 @@ export class NotePage extends React.Component {
               />
             </Header>
             <Content>
-              {
-                isLoadingNote ?
-                  <Spin indicator={antIcon} /> :
-                  <Fragment>
-                    <div className="note-wrap">
-                      <p className="note-type"><FormattedMessage {...messages.titlePinned} /></p>
-                      <div className="grid note-container" >
-                        {
-                          notes.map((note, index) => {
-                            if (note.isPinned) {
-                              return (
-                                <Note
-                                  key={index}
-                                  note={note}
-                                  navigateDetail={() => this.navigateDetail(note)}
-                                  deleteNote={this.handleDeleteNote}
-                                  isLoading={isLoadingDelete}
-                                />
-                              )
-                            }
-                          })
-                        }
-                      </div>
+              <div className='note-folder'>
+                <div className='note-folder-title'>
+                  <p>Folders</p><Icon type="up" />
+                </div>
+                <div className='grid folder-container'>
+                  {
+                    mockDataFolder.map((folder, index) => {
+                      return (
+                        <Button className='grid-item folder-note' key={index} onClick={() => this.navigateDetailFolder(folder)}>
+                          <span className='folder-note-icon'></span>
+                          <p className='folder-note-name'>{this.renderFolderNoteName(folder.courseName, folder.courseCode)}</p>
+                        </Button>
+                      )
+                    })
+                  }
+                </div>
+              </div>
+              <div className="note-wrap">
+                <p className="note-type">Recent Notes</p>
+                {
+                  isLoadingNote ?
+                    <Spin indicator={antIcon} /> :
+                    <div className="grid note-container" >
+                      {
+                        notes.map((note, index) => {
+                          return (
+                            <Note
+                              key={index}
+                              note={note}
+                              navigateDetail={() => this.navigateDetail(note)}
+                              deleteNote={this.handleDeleteNote}
+                              isLoading={isLoadingDelete}
+                            />
+                          )
+                        })
+                      }
                     </div>
-                    <div className="note-wrap">
-                      <p className="note-type"><FormattedMessage {...messages.titleOther} /></p>
-                      <div className="grid note-container" >
-                        {
-                          notes.map((note, index) => {
-                            if (!note.isPinned) {
-                              return (
-                                <Note
-                                  key={index}
-                                  note={note}
-                                  navigateDetail={() => this.navigateDetail(note)}
-                                  deleteNote={this.handleDeleteNote}
-                                  isLoading={isLoadingDelete}
-                                />
-                              )
-                            }
-                          })
-                        }
-                      </div>
-                    </div>
-                  </Fragment>
-              }
+                }
+              </div>
               <div className={isShow ? 'notification-show' : 'notification'}>
                 <div className='noti-content-success'>
                   <span className='icon-noti accept-icon '></span>
                   <p style={{ fontSize: '14px' }}>{deleteMessage}</p>
                 </div>
-              </div>
-            </Content>
-          </Layout>
-        </Col>
-        <Col span={5} className="note-side-wrapper">
-          <Layout className="note-side">
-            <Header className="filter-head">
-              <FormattedMessage {...messages.filter} />
-            </Header>
-            <Content>
-              <div className="sort">
-                <p><FormattedMessage {...messages.sort} /></p>
-                <Button className="btn-sort">
-                  <Icon type="arrow-down" style={{ fontSize: '16px' }} />
-                  <span>Time added</span>
-                </Button>
               </div>
             </Content>
           </Layout>

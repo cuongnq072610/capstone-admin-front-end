@@ -26,6 +26,7 @@ import StudentComposePage from 'containers/StudentComposePage/Loadable';
 import StudentCreateAskPage from 'containers/StudentCreateAskPage/Loadable';
 import HighlightPage from 'containers/HighLightPage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
+import NoteFolderPage from 'containers/NoteFolderPage/Loadable';
 import GlobalStyle from '../../global-styles';
 
 import WrapperLayout from '../../components/WrapperLayout';
@@ -50,9 +51,10 @@ export default function App() {
         {/* demo privateRoute */}
         {/* <PrivateRoute exact path='/student' component={<WrapperLayout component={StudentDashboardPage} role="student" page="student-dashboard"/>}/> */}
         <Route exact path='/student/addcourse' render={() => <WrapperLayout component={StudentAddCoursePage} role="student" page="student-dashboard"/>}/>
-        <Route exact path='/note' render={() => <WrapperLayout component={NotePage} role="student" page="note"/>}/>
         <Route exact path='/highlight' render={() => <WrapperLayout component={HighlightPage} role="student" page="highlight"/>}/>
+        <Route exact path='/note' render={() => <WrapperLayout component={NotePage} role="student" page="note"/>}/>
         <Route path='/note/:noteId' render={() => <WrapperLayout component={NoteDetailPage} role="student" page="note"/>}/>
+        <Route path='/folder/:courseCode' render={() => <WrapperLayout component={NoteFolderPage} role="student" page="note"/>}/>
         <Route exact path='/ask' render={() => <WrapperLayout component={StudentAskPage} role="student" page="ask"/>}/>
         <Route path='/ask/compose/:id' render={() => <WrapperLayout component={StudentComposePage} role="student" page="ask"/>}/>
         <Route path='/ask/create' render={() => <WrapperLayout component={StudentCreateAskPage} role="student" page="ask"/>}/>

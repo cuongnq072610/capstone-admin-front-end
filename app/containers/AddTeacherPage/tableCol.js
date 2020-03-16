@@ -10,7 +10,7 @@ const colunms = {
         },
         {
             title: "TEACHER",
-            dataIndex: "teacherName",
+            dataIndex: "name",
             sorter: (a, b) => a.teacher < b.teacher,
             sortDirections: ['descend'],
             render: text => <span style={{ color: '#9C4AEE', fontWeight: 600 }}>{text}</span>,
@@ -50,7 +50,7 @@ const colunms = {
         },
         {
             title: "TEACHER",
-            dataIndex: "teacherName",
+            dataIndex: "name",
             sorter: (a, b) => a.teacher < b.teacher,
             sortDirections: ['descend'],
             render: text => <span style={{ color: '#9C4AEE', fontWeight: 600 }}>{text}</span>,

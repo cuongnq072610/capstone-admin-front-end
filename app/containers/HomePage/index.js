@@ -24,7 +24,7 @@ import WrappedSearchBar from '../../components/SearchBar';
 import Filter from '../../components/Filter';
 import './index.scss';
 import columns from './tableCol';
-import { loadCourse, searchCourse } from './actions';
+import { loadCourse, searchCourse, loadDepartment } from './actions';
 
 const { Content, Header } = Layout;
 
@@ -48,6 +48,7 @@ export class HomePage extends React.Component {
 
   componentDidMount() {
     this.props.fetchCourse();
+    this.props.handleFetchDepartment();
     const { history } = this.props;
     if (history.location.state && history.location.state.isDone) {
       this.setState({
@@ -64,7 +65,7 @@ export class HomePage extends React.Component {
 
   componentDidUpdate(prevProps) {
     if (prevProps.homePage !== this.props.homePage) {
-      const { courses } = this.props.homePage;
+      const { courses, departments } = this.props.homePage;
       const newCourses = courses.map((course, index) => {
         return {
           ...course,
@@ -74,7 +75,7 @@ export class HomePage extends React.Component {
       })
       this.setState({
         courses: newCourses,
-        departments: mockData2,
+        departments: departments,
         baseCourses: newCourses,
       })
     }
@@ -181,9 +182,9 @@ export class HomePage extends React.Component {
           />
 
         </Col>
-        <div className={isShow ? 'notification-home-show' : 'notification-home'}>
+        <div className={isShow ? 'notification-home-show-course' : 'notification-home-course'}>
           {
-            <div className='noti-content-success'>
+            <div className='noti-content-success-course'>
               <span className='icon-noti accept-icon'></span>
               <p>DONE</p>
             </div>
@@ -196,6 +197,7 @@ export class HomePage extends React.Component {
 
 HomePage.propTypes = {
   fetchCourse: PropTypes.func.isRequired,
+  handleFetchDepartment: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -205,7 +207,8 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch) {
   return {
     fetchCourse: () => { dispatch(loadCourse()) },
-    fetchSearchCourse: (key) => { dispatch(searchCourse(key)) }
+    fetchSearchCourse: (key) => { dispatch(searchCourse(key)) },
+    handleFetchDepartment: () => {dispatch(loadDepartment())},
   };
 }
 

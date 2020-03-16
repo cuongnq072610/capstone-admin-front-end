@@ -8,7 +8,7 @@ const colunms = [
     },
     {
         title: "TEACHER",
-        dataIndex: "teacherName",
+        dataIndex: "name",
         sorter: (a, b) => a.teacher < b.teacher,
         sortDirections: ['descend'],
         render: text => <span style={{ color: '#b9754e', fontWeight: 600 }}>{text}</span>,

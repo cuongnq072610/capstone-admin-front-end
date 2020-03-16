@@ -178,7 +178,7 @@ export class AddTeacherPage extends React.Component {
               <Content>
                 <Row className="content-table">
                   <div className="chosen">
-                    <h3 className="chosen-teacher" >{this.state.chosenTeachers.length} CHOSEN TUTORS<Icon type="up" /></h3>
+                    <h3 className="chosen-teacher" >{this.state.chosenTeachers.length} CHOSEN TUTORS <Icon type="up" /></h3>
                     {chosenTeachers && chosenTeachers.length > 0 ?
                       <Table className="table-content"
                         columns={columns.columnToRemove}
@@ -194,7 +194,7 @@ export class AddTeacherPage extends React.Component {
                     }
                   </div>
                   <div className="chosen-other">
-                    <h3 className="chosen-other-teacher">OTHERS<Icon type="up" /></h3>
+                    <h3 className="chosen-other-teacher">OTHERS <Icon type="up" /></h3>
                     <Table className="table-content-non"
                       columns={columns.columnToAdd}
                       dataSource={teachers}
@@ -210,7 +210,7 @@ export class AddTeacherPage extends React.Component {
               </Content>
             </Layout>
           </Col>
-          <Col span={5} className='course'>
+          <Col span={5}>
             <CourseInfo course={course}/>
           </Col>
         </Row>

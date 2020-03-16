@@ -54,6 +54,58 @@ const mockDataFolder = [
   },
 ]
 
+const mockDataNotes = [
+  {
+    studentID: 1,
+    courseCode: 'ABC123',
+    note: '<p>Take note here</p>',
+    description: 'This is new note',
+    url: 'reactjs.org',
+    index: 1,
+    dateModified: 14 / 3 / 2020,
+    isPinned: false,
+  },
+  {
+    studentID: 1,
+    courseCode: 'ABC123',
+    note: '<p>Take note here</p>',
+    description: 'This is new note',
+    url: 'reactjs.org',
+    index: 1,
+    dateModified: 14 / 3 / 2020,
+    isPinned: false,
+  },
+  {
+    studentID: 1,
+    courseCode: 'ABC123',
+    note: '<p>Take note here</p>',
+    description: 'This is new note',
+    url: 'reactjs.org',
+    index: 1,
+    dateModified: 14 / 3 / 2020,
+    isPinned: false,
+  },
+  {
+    studentID: 1,
+    courseCode: 'ABC123',
+    note: '<p>Take note here</p>',
+    description: 'This is new note',
+    url: 'reactjs.org',
+    index: 1,
+    dateModified: 14 / 3 / 2020,
+    isPinned: false,
+  },
+  {
+    studentID: 1,
+    courseCode: 'ABC123',
+    note: '<p>Take note here</p>',
+    description: 'This is new note',
+    url: 'reactjs.org',
+    index: 1,
+    dateModified: 14 / 3 / 2020,
+    isPinned: false,
+  },
+]
 
 /* eslint-disable react/prefer-stateless-function */
 export class NotePage extends React.Component {
@@ -65,6 +117,7 @@ export class NotePage extends React.Component {
       windowHeight: window.innerHeight,
       isShow: false,
       deleteMessage: "",
+      isShowFolder: true,
     }
   }
 
@@ -148,8 +201,17 @@ export class NotePage extends React.Component {
     return code + ' - ' + name;
   }
 
+  handleShowFolder = () => {
+    this.setState(prevState => {
+      return {
+        ...prevState,
+        isShowFolder: !prevState.isShowFolder
+      }
+    })
+  }
+
   render() {
-    const { notes, isShow, deleteMessage } = this.state;
+    const { notes, isShow, deleteMessage, isShowFolder } = this.state;
     const { isLoadingNote, isLoadingDelete } = this.props.notePage;
     const antIcon = <Icon type="loading" style={{ fontSize: 24, color: '#ffc143', marginRight: '10px' }} spin />;
     return (
@@ -179,42 +241,45 @@ export class NotePage extends React.Component {
             </Header>
             <Content>
               <div className='note-folder'>
-                <div className='note-folder-title'>
-                  <p>Folders</p><Icon type="up" />
-                </div>
-                <div className='grid folder-container'>
-                  {
-                    mockDataFolder.map((folder, index) => {
-                      return (
-                        <Button className='grid-item folder-note' key={index} onClick={() => this.navigateDetailFolder(folder)}>
-                          <span className='folder-note-icon'></span>
-                          <p className='folder-note-name'>{this.renderFolderNoteName(folder.courseName, folder.courseCode)}</p>
-                        </Button>
-                      )
-                    })
-                  }
-                </div>
+                <Button className='note-folder-title' onClick={this.handleShowFolder}>
+                  <p>Folders</p>{isShowFolder ? <Icon type="down" style={{color: '#111'}}/> : <Icon type="up" style={{color: '#111'}}/>}
+                </Button>
+                {
+                  isShowFolder &&
+                  <div className='grid folder-container'>
+                    {
+                      mockDataFolder.map((folder, index) => {
+                        return (
+                          <Button className='grid-item folder-note' key={index} onClick={() => this.navigateDetailFolder(folder)}>
+                            <span className='folder-note-icon'></span>
+                            <p className='folder-note-name'>{this.renderFolderNoteName(folder.courseName, folder.courseCode)}</p>
+                          </Button>
+                        )
+                      })
+                    }
+                  </div>
+                }
               </div>
               <div className="note-wrap">
                 <p className="note-type">Recent Notes</p>
                 {
-                  isLoadingNote ?
-                    <Spin indicator={antIcon} /> :
-                    <div className="grid note-container" >
-                      {
-                        notes.map((note, index) => {
-                          return (
-                            <Note
-                              key={index}
-                              note={note}
-                              navigateDetail={() => this.navigateDetail(note)}
-                              deleteNote={this.handleDeleteNote}
-                              isLoading={isLoadingDelete}
-                            />
-                          )
-                        })
-                      }
-                    </div>
+                  // isLoadingNote ?
+                  //   <Spin indicator={antIcon} /> :
+                  <div className="grid note-container" >
+                    {
+                      mockDataNotes.map((note, index) => {
+                        return (
+                          <Note
+                            key={index}
+                            note={note}
+                            navigateDetail={() => this.navigateDetail(note)}
+                            deleteNote={this.handleDeleteNote}
+                            isLoading={isLoadingDelete}
+                          />
+                        )
+                      })
+                    }
+                  </div>
                 }
               </div>
               <div className={isShow ? 'notification-show' : 'notification'}>

@@ -4,7 +4,7 @@
  *
  */
 
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
@@ -20,21 +20,105 @@ import saga from './saga';
 import messages from './messages';
 import { Layout, Icon } from 'antd';
 import WrappedSearchBar from '../../components/SearchBar';
+import Note from './Note';
 import { Link } from 'react-router-dom';
+import Masonry from 'masonry-layout'
 import './index.scss';
+
 const { Header, Content } = Layout;
+
+const mockDataNotes = [
+  {
+    studentID: 1,
+    courseCode: 'ABC123',
+    note: '<p>Take note here</p>',
+    description: 'This is new note',
+    url: 'reactjs.org',
+    index: 1,
+    dateModified: 14 / 3 / 2020,
+    isPinned: false,
+  },
+  {
+    studentID: 1,
+    courseCode: 'ABC123',
+    note: '<p>Take note here</p>',
+    description: 'This is new note',
+    url: 'reactjs.org',
+    index: 1,
+    dateModified: 14 / 3 / 2020,
+    isPinned: false,
+  },
+  {
+    studentID: 1,
+    courseCode: 'ABC123',
+    note: '<p>Take note here</p>',
+    description: 'This is new note',
+    url: 'reactjs.org',
+    index: 1,
+    dateModified: 14 / 3 / 2020,
+    isPinned: false,
+  },
+  {
+    studentID: 1,
+    courseCode: 'ABC123',
+    note: '<p>Take note here</p>',
+    description: 'This is new note',
+    url: 'reactjs.org',
+    index: 1,
+    dateModified: 14 / 3 / 2020,
+    isPinned: true,
+  },
+  {
+    studentID: 1,
+    courseCode: 'ABC123',
+    note: '<p>Take note here</p>',
+    description: 'This is new note',
+    url: 'reactjs.org',
+    index: 1,
+    dateModified: 14 / 3 / 2020,
+    isPinned: true,
+  },
+]
+
 /* eslint-disable react/prefer-stateless-function */
 export class NoteFolderPage extends React.Component {
   constructor(props) {
     super(props),
       this.state = {
-        folder: {}
+        folder: {},
+        notes: [],
       }
   }
   componentDidMount() {
     const { folder } = this.props.history.location.state;
     this.setState({
-      folder
+      folder,
+      notes: mockDataNotes,
+    })
+  }
+
+  componentDidUpdate() {
+    var elems = document.querySelectorAll('.grid');
+    var msnryInstance = [];
+    elems.forEach((elem, index) => {
+      msnryInstance.push(
+        new Masonry(elem, {
+          // options
+          itemSelector: '.grid-item',
+          columnWidth: 98,
+          gutter: 10,
+          horizontalOrder: true
+        })
+      )
+    })
+  }
+
+  navigateDetail = (note) => {
+    this.props.history.push({
+      pathname: `/note/${note._id}`,
+      state: {
+        note: note
+      }
     })
   }
 
@@ -43,7 +127,7 @@ export class NoteFolderPage extends React.Component {
   }
 
   render() {
-    const { folder } = this.state;
+    const { folder, notes } = this.state;
     return (
       <div>
         <Helmet>
@@ -73,6 +157,54 @@ export class NoteFolderPage extends React.Component {
               type="note"
             />
           </Header>
+          <Content>
+            {
+              // isLoadingNote ?
+              //   <Spin indicator={antIcon} /> :
+              <Fragment>
+                <div className="note-wrap">
+                  <p className="note-type">Pinned</p>
+                  <div className="grid note-container" >
+                    {
+                      notes.map((note, index) => {
+                        if (note.isPinned) {
+                          return (
+                            <Note
+                              key={index}
+                              note={note}
+                              navigateDetail={() => this.navigateDetail(note)}
+                              deleteNote={this.handleDeleteNote}
+                            // isLoading={isLoadingDelete}
+                            />
+                          )
+                        }
+                      })
+                    }
+                  </div>
+                </div>
+                <div className="note-wrap">
+                  <p className="note-type">Other</p>
+                  <div className="grid note-container" >
+                    {
+                      notes.map((note, index) => {
+                        if (!note.isPinned) {
+                          return (
+                            <Note
+                              key={index}
+                              note={note}
+                              navigateDetail={() => this.navigateDetail(note)}
+                              deleteNote={this.handleDeleteNote}
+                            // isLoading={isLoadingDelete}
+                            />
+                          )
+                        }
+                      })
+                    }
+                  </div>
+                </div>
+              </Fragment>
+            }
+          </Content>
         </Layout>
       </div>
     );

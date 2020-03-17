@@ -18,18 +18,72 @@ import makeSelectLoginPage from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
+import { Col, Button, Row, Input } from 'antd';
+
+import './index.scss';
+import NoteItText from './assets/noteit-text-1@3x.png';
 
 /* eslint-disable react/prefer-stateless-function */
 export class LoginPage extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      username: "",
+      password: "",
+    }
+  }
+
+  onHandleChangeText = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value
+    })
+  }
+
+  onHandleSubmitLogin = () => {
+    const { username, password } = this.state;
+    console.log(username + " - " + password);
+  }
+
+  ongHandleLoginWithGg = () => {
+    document.location.href = '/auth/google';
+  }
+
   render() {
     return (
-      <div>
+      <Row className='login-page'>
         <Helmet>
           <title>LoginPage</title>
           <meta name="description" content="Description of LoginPage" />
         </Helmet>
-        <FormattedMessage {...messages.header} />
-      </div>
+        <Col span={11}>
+          <div className='login-wrapper'>
+            <img src={NoteItText} className='login-logo' alt='logo' />
+            <p className='login-title'>Sign in to noteIt </p>
+            <div className="login-field">
+              <Button className='btn-login-google'><span className='google-logo'></span> Log in with Google</Button>
+              <p>or</p>
+              <div className='login-input-field'>
+                <Input placeholder="Username or Email" type="email" className="login-input" name="username" onChange={this.onHandleChangeText} />
+                <Input.Password placeholder="Password" className="login-input-pass" name="password" onChange={this.onHandleChangeText} />
+                <div className='login-input-footer'>
+                  <Button className='btn-signin' onClick={this.onHandleSubmitLogin}>Sign in</Button>
+                  <Button className='btn-forgot'><u>Forgot password?</u></Button>
+                </div>
+              </div>
+            </div>
+            <div className='login-policy'>
+              <p>By clicking <u>Login with Google, you agree to our Terms.</u></p>
+              <p>Learn how we process your data in our <u>Privacy Policy and Cookie Policy.</u></p>
+            </div>
+          </div>
+        </Col>
+        <Col span={13}>
+          <div className='login-side'>
+
+          </div>
+        </Col>
+      </Row>
     );
   }
 }

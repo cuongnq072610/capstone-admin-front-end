@@ -1,0 +1,17 @@
+@import '../../utils/variables.scss';
+
+.note-folder {
+    .note-page-header {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        .note-page-name {
+            color: $primary_yellow;
+            font-family: Roboto;
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: 0.28px;
+            margin: 0 10px
+        }
+    }
+}

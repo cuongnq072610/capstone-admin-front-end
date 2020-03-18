@@ -123,3 +123,14 @@
 .highlight-active {
     background-image: url("assets/highlight_active.svg");
 }
+
+.btn-logout {
+    border: none;
+    width: 100%;
+    padding: 0;
+    img {
+        width: 30px;
+        height: 30px;
+        border-radius: 15px;
+    }
+}

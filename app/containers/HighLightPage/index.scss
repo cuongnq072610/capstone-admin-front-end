@@ -1,13 +1,18 @@
 @import "../../utils/variables.scss";
 
 .highlight-page {
-    .highLights {
-        // display: flex;
-        // flex-wrap: wrap;
+    .highlight-page-name {
+        color: $highlight_green;
+        font-family: Roboto;
+        font-size: 28px;
+        font-weight: 700;
+        letter-spacing: 0.28px;
+        margin: 0
     }
 
     .note-wrap-less-three {
         display: flex;
+
         .note-type {
             color: #616161;
             font-family: Roboto;
@@ -16,15 +21,79 @@
             letter-spacing: 1.6px;
             line-height: 17px;
         }
+
         .note-wrapper {
             margin-right: 20px;
         }
     }
+
+    .highlight-folder {
+        margin-top: 30px;
+
+        .highlight-folder-title {
+            display: flex;
+            justify-content: start;
+            align-items: center;
+            border: none;
+
+            p {
+                color: #616161;
+                font-family: Roboto;
+                font-size: 16px;
+                font-weight: 400;
+                letter-spacing: 1.6px;
+                line-height: 17px;
+                text-transform: uppercase;
+                margin-bottom: 0;
+                margin-right: 10px;
+            }
+        }
+
+        .folder-container {
+            margin: 24px 0;
+
+            .folder-highlight {
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+                width: 300px;
+                height: 40px;
+                border-radius: 5px;
+                border: 1px solid #adadad;
+                background-color: #ffffff;
+                padding: 0 10px;
+
+                p {
+                    margin-bottom: 0;
+                    margin-left: 10px;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    color: #111111
+                }
+            }
+        }
+
+    }
+
+    .highlight-type {
+        color: #616161;
+        font-family: Roboto;
+        font-size: 16px;
+        font-weight: 400;
+        letter-spacing: 1.6px;
+        line-height: 17px;
+        text-transform: uppercase;
+        margin-left: 13px;
+        margin-top: 50px;
+    }
+
 }
 
 .highlight-side-wrapper {
     position: absolute;
     right: 0;
+
     .highlight-side {
         height: 100%;
         margin-top: 10px;
@@ -32,7 +101,7 @@
         // -webkit-box-shadow: -3px 0px 6px 0px rgba(83,219,177,.5);
         // -moz-box-shadow: -3px 0px 6px 0px rgba(83,219,177,.5);
         // box-shadow: -3px 0px 6px 0px rgba(83,219,177,.5);
-    
+
         .filter-head {
             background-color: $primary_white;
             padding-left: 0px;
@@ -45,10 +114,10 @@
             font-weight: 700;
             letter-spacing: 0.28px;
         }
-    
+
         .sort {
             margin-bottom: 26px;
-    
+
             p {
                 color: #212121;
                 font-family: Roboto;
@@ -57,7 +126,7 @@
                 letter-spacing: 1.6px;
                 text-transform: uppercase;
             }
-    
+
             .btn-sort {
                 display: flex;
                 flex-direction: row;
@@ -65,7 +134,7 @@
                 align-items: center;
                 border: none;
                 box-shadow: none;
-    
+
                 span {
                     color: #616161;
                     font-family: Roboto;
@@ -75,22 +144,22 @@
                     line-height: 17px;
                 }
             }
-    
+
             .sortByColor {
                 display: flex;
                 justify-content: space-around;
-    
+
                 .sortButton {
                     opacity: .4;
                     border: none;
-    
+
                     &:hover {
                         opacity: 1;
                     }
                 }
             }
         }
-    
+
         .folder {
             p {
                 color: #212121;
@@ -100,7 +169,7 @@
                 letter-spacing: 1.6px;
                 text-transform: uppercase;
             }
-    
+
             .folder-wrap {
                 padding: 10px;
                 margin: 5px 0px;
@@ -111,12 +180,12 @@
                 width: 100%;
                 border: none;
                 box-shadow: none;
-    
+
                 .folder-content {
                     display: flex;
                     justify-content: flex-start;
                     align-items: center;
-    
+
                     .name-folder {
                         margin-left: 15px;
                         color: #616161;
@@ -126,18 +195,18 @@
                         letter-spacing: 0.14px;
                         line-height: 17px;
                     }
-    
+
                     .icon-folder {
                         display: inline-block;
                         width: 16px;
                         height: 16px;
-                        background-size: cover; 
+                        background-size: cover;
                         background-image: url(assets/note.svg);
                     }
                 }
-    
+
             }
-    
+
             .folder-wrap-active {
                 padding: 10px;
                 margin: 5px 0px;
@@ -149,12 +218,12 @@
                 border: none;
                 box-shadow: none;
                 background-color: $tertiary_yellow;
-    
+
                 .folder-content {
                     display: flex;
                     justify-content: flex-start;
                     align-items: center;
-    
+
                     .name-folder {
                         margin-left: 15px;
                         color: $primary_yellow;
@@ -164,7 +233,7 @@
                         letter-spacing: 0.14px;
                         line-height: 17px;
                     }
-    
+
                     .icon-folder {
                         display: inline-block;
                         width: 16px;
@@ -174,19 +243,19 @@
                     }
                 }
             }
-    
+
             .note-add {
                 height: 38px;
                 display: flex;
                 justify-content: flex-start;
                 align-items: center;
                 margin-bottom: 20px;
-    
+
                 input {
                     color: $highlight_green;
                     background-color: $secondary_green;
                     border: none;
-    
+
                     &::placeholder {
                         color: $highlight_green;
                     }

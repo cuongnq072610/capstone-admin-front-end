@@ -38,15 +38,14 @@ export class LoginPage extends React.Component {
   }
 
   componentWillMount() {
-    console.log('willmount')
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const token = urlParams.get('token');
     if (token) {
+      localStorage.setItem("token", token);
       const parseToken = parseJwt(token);
       const user = JSON.stringify(parseToken.user);
       localStorage.setItem('user', user);
-      console.log(JSON.parse(user).role)
       switch (JSON.parse(user).role) {
         case 'student':
           console.log(`go here`)

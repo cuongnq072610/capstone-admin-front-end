@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const token = JSON.parse(localStorage.getItem('user')).tokens[0].accessToken;
+const token = localStorage.getItem('token');
 class AxiosService {
     constructor() {
         const instance = axios.create({

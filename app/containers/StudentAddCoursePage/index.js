@@ -23,6 +23,8 @@ import messages from './messages';
 
 import './index.scss'
 import columns from './tableCol';
+import { loadCourse, searchCourse } from './actions';
+import WrappedSearchBar from '../../components/SearchBar';
 const { Header, Content } = Layout;
 
 const coursesData = [
@@ -170,9 +172,24 @@ export class StudentAddCoursePage extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({
-      courses: coursesData
-    })
+    this.props.fetchCourse();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.studentAddCoursePage !== this.props.studentAddCoursePage) {
+      const { courses } = this.props.studentAddCoursePage;
+      const newCourses = courses.map((course, index) => {
+        return {
+          ...course,
+          key: `${index}`,
+          numberOfTeacher: course.teachers.length,
+        }
+      })
+      this.setState({
+        courses: newCourses,
+        baseCourses: newCourses,
+      })
+    }
   }
 
   navigateDashboard = () => {
@@ -215,8 +232,18 @@ export class StudentAddCoursePage extends React.Component {
     })
   }
 
+  handleSearch = (key) => {
+    this.props.fetchSearchCourse(key)
+  }
+
+  handleClear = () => {
+    this.props.fetchCourse();
+  }
+
   render() {
     const { courses, chosenCourses } = this.state;
+    const { isLoading } = this.props.studentAddCoursePage;
+
     return (
       <div>
         <Helmet>
@@ -231,17 +258,20 @@ export class StudentAddCoursePage extends React.Component {
             <Layout>
               <div className="header-wrapper">
                 <div className="header">
-                  <Button style={{ border: 'none' }} onClick={this.navigateDashboard}>
-                    <Icon type="arrow-left" />
-                  </Button>
-                  <p className="p"><b>Add Courses</b></p>
+                  <div className='header-back'>
+                    <Button style={{ border: 'none' }} onClick={this.navigateDashboard}>
+                      <Icon type="arrow-left" />
+                    </Button>
+                    <p className="p"><b>Add Courses</b></p>
+                  </div>
+                  <WrappedSearchBar
+                    message="Please enter your course name"
+                    placeholder="I want to find my course"
+                    type="ask"
+                    handleSearch={this.handleSearch}
+                    handleClear={this.handleClear}
+                  />
                 </div>
-                <Input className="search-course"
-                  name='search-course'
-                  placeholder="Search for courses"
-                  onKeyUp={this.handleSearchInput}
-                  prefix={<Icon type="search" style={{ color: '#1593e6' }} />}
-                />
               </div>
               <Content>
                 <Row className="content-table">
@@ -271,6 +301,11 @@ export class StudentAddCoursePage extends React.Component {
                           onClick: e => this.addCourse(record, rowIndex)
                         }
                       }}
+                      loading={isLoading}
+                      // for pagination
+                      pagination={{
+                        onChange: (page) => { console.log(page) }
+                      }}
                     />
                   </div>
                 </Row>
@@ -284,7 +319,8 @@ export class StudentAddCoursePage extends React.Component {
 }
 
 StudentAddCoursePage.propTypes = {
-  dispatch: PropTypes.func.isRequired,
+  fetchCourse: PropTypes.func.isRequired,
+  // searchCourse: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -293,7 +329,8 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
-    dispatch,
+    fetchCourse: () => { dispatch(loadCourse()) },
+    fetchSearchCourse: (key) => { dispatch(searchCourse(key)) },
   };
 }
 

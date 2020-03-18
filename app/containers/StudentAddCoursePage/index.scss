@@ -2,12 +2,19 @@
 
 .addcourse-page {
   padding: 20px 20px 0 20px;
+
   .header-wrapper {
     background-color: white;
 
     .header {
       display: flex;
       align-items: center;
+      justify-content: space-between;
+
+      .header-back {
+        display: flex;
+        align-items: center;
+      }
 
       i {
         font-size: 20px;

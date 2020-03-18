@@ -270,8 +270,8 @@ export class StudentDashboardPage extends React.Component {
                 </svg>
                 Courses
               </div>
-              <Button className="addBtn" onClick={e => history.push({
-                    pathname: "/student/addteacher"
+              <Button className="addBtn" onClick={e => this.props.history.push({
+                    pathname: "/student/addcourse"
                   })}>
                 <Icon type="plus" />
                 Add course

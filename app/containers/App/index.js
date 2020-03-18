@@ -28,14 +28,15 @@ import HighlightPage from 'containers/HighLightPage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import NoteFolderPage from 'containers/NoteFolderPage/Loadable';
 import HighLightFolderPage from 'containers/HighLightFolderPage/Loadable';
-import LoginPage  from 'containers/LoginPage/Loadable';
+import LoginPage from 'containers/LoginPage/Loadable';
 
 import GlobalStyle from '../../global-styles';
 
 import WrapperLayout from '../../components/WrapperLayout';
-// import PrivateRoute from '../../components/PrivateRoute';
+import PrivateRoute from '../../components/PrivateRoute';
 
 export default function App() {
+  const user = JSON.parse(localStorage.getItem('user'));
   return (
     <Layout>
       <Helmet
@@ -45,24 +46,25 @@ export default function App() {
         <meta name="description" content="Smart Course Management Admin" />
       </Helmet>
       <Switch>
-        <Route exact path='/' render={() => <LoginPage/>} />
-        <Route exact path='/admin' render={() => <WrapperLayout component={DashboardPage} role="admin" page="dashboard" />} />
-        <Route exact path='/course' render={() => <WrapperLayout component={HomePage} role="admin" page="course" />} />
+        <Route exact path='/' render={() => <LoginPage />} />
+        {/* STUDENT */}
+        <PrivateRoute exact path='/student' component={() => user && user.role === 'student' ? <WrapperLayout component={StudentDashboardPage} role="student" page="student-dashboard" /> : <WrapperLayout component={NotFoundPage} />} />
+        <PrivateRoute exact path='/student/addcourse' component={() => user && user.role === 'student' ? <WrapperLayout component={StudentAddCoursePage} role="student" page="student-dashboard" /> : <WrapperLayout component={NotFoundPage} />} />
+        <PrivateRoute exact path='/highlight' component={() => user && user.role === 'student' ? <WrapperLayout component={HighlightPage} role="student" page="highlight" /> : <WrapperLayout component={NotFoundPage} />} />
+        <PrivateRoute exact path='/highlight/:courseCode' component={() => user && user.role === 'student' ? <WrapperLayout component={HighLightFolderPage} role="student" page="highlight" /> : <WrapperLayout component={NotFoundPage} />} />
+        <PrivateRoute exact path='/note' component={() => user && user.role === 'student' ? <WrapperLayout component={NotePage} role="student" page="note" /> : <WrapperLayout component={NotFoundPage} />} />
+        <PrivateRoute path='/note/:noteId' component={() => user && user.role === 'student' ? <WrapperLayout component={NoteDetailPage} role="student" page="note" /> : <WrapperLayout component={NotFoundPage} />} />
+        <PrivateRoute path='/folder/:courseCode' component={() => user && user.role === 'student' ? <WrapperLayout component={NoteFolderPage} role="student" page="note" /> : <WrapperLayout component={NotFoundPage} />} />
+        <PrivateRoute exact path='/ask' component={() => user && user.role === 'student' ? <WrapperLayout component={StudentAskPage} role="student" page="ask" /> : <WrapperLayout component={NotFoundPage} />} />
+        <PrivateRoute path='/ask/compose/:id' component={() => user && user.role === 'student' ? <WrapperLayout component={StudentComposePage} role="student" page="ask" /> : <WrapperLayout component={NotFoundPage} />} />
+        <PrivateRoute path='/ask/create' component={() => user && user.role === 'student' ? <WrapperLayout component={StudentCreateAskPage} role="student" page="ask" /> : <WrapperLayout component={NotFoundPage} />} />
+        {/* ADMIN */}
+        <Route exact path='/admin' render={() => user && user.role === 'admin' ? <WrapperLayout component={DashboardPage} role="admin" page="dashboard" /> : <WrapperLayout component={NotFoundPage} />} />
         <Route path='/teacher' render={() => <WrapperLayout component={TeacherPage} role="admin" page="teacher" />} />
+        <Route exact path='/course' render={() => <WrapperLayout component={HomePage} role="admin" page="course" />} />
         <Route path='/course/addcourse' render={() => <WrapperLayout component={AddCoursePage} role="admin" page="course" />} />
         <Route path='/course/addteacher' render={() => <WrapperLayout component={AddTeacherPage} role="admin" page="course" />} />
-        <Route exact path='/student' render={() => <WrapperLayout component={StudentDashboardPage} role="student" page="student-dashboard" />} />
-        {/* demo privateRoute */}
-        {/* <PrivateRoute exact path='/student' component={<WrapperLayout component={StudentDashboardPage} role="student" page="student-dashboard"/>}/> */}
-        <Route exact path='/student/addcourse' render={() => <WrapperLayout component={StudentAddCoursePage} role="student" page="student-dashboard" />} />
-        <Route exact path='/highlight' render={() => <WrapperLayout component={HighlightPage} role="student" page="highlight" />} />
-        <Route exact path='/highlight/:courseCode' render={() => <WrapperLayout component={HighLightFolderPage} role="student" page="highlight" />} />
-        <Route exact path='/note' render={() => <WrapperLayout component={NotePage} role="student" page="note" />} />
-        <Route path='/note/:noteId' render={() => <WrapperLayout component={NoteDetailPage} role="student" page="note" />} />
-        <Route path='/folder/:courseCode' render={() => <WrapperLayout component={NoteFolderPage} role="student" page="note" />} />
-        <Route exact path='/ask' render={() => <WrapperLayout component={StudentAskPage} role="student" page="ask" />} />
-        <Route path='/ask/compose/:id' render={() => <WrapperLayout component={StudentComposePage} role="student" page="ask" />} />
-        <Route path='/ask/create' render={() => <WrapperLayout component={StudentCreateAskPage} role="student" page="ask" />} />
+        {/* NOT FOUND */}
         <Route path='' render={() => <WrapperLayout component={NotFoundPage} />} />
       </Switch>
       <GlobalStyle />

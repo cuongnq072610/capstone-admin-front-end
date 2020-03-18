@@ -1,8 +1,13 @@
 import axios from 'axios';
 
+const token = JSON.parse(localStorage.getItem('user')).tokens[0].accessToken;
 class AxiosService {
     constructor() {
-        const instance = axios.create();
+        const instance = axios.create({
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
         instance.interceptors.response.use(this.handleSuccess, this.handleError);
         this.instance = instance;
     }
@@ -26,7 +31,7 @@ class AxiosService {
     put(url, body) {
         return this.instance.put(url, body);
     }
-    
+
     deleteWithBody(url, body) {
         return this.instance.delete(url, body);
     }

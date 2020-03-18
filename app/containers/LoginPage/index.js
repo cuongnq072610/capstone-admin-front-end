@@ -19,9 +19,12 @@ import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
 import { Col, Button, Row, Input } from 'antd';
+import { API_ENDPOINT } from '../../constants/apis';
 
 import './index.scss';
 import NoteItText from './assets/noteit-text-1@3x.png';
+import parseJwt from '../../utils/parseJWT';
+import history from '../../utils/history';
 
 /* eslint-disable react/prefer-stateless-function */
 export class LoginPage extends React.Component {
@@ -31,6 +34,30 @@ export class LoginPage extends React.Component {
     this.state = {
       username: "",
       password: "",
+    }
+  }
+
+  componentWillMount() {
+    console.log('willmount')
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const token = urlParams.get('token');
+    if (token) {
+      const parseToken = parseJwt(token);
+      const user = JSON.stringify(parseToken.user);
+      localStorage.setItem('user', user);
+      console.log(JSON.parse(user).role)
+      switch (JSON.parse(user).role) {
+        case 'student':
+          console.log(`go here`)
+          history.push('/student');
+          break;
+        case 'teacher':
+          history.push('/teacher');
+          break;
+        default:
+          break;
+      }
     }
   }
 
@@ -46,7 +73,7 @@ export class LoginPage extends React.Component {
   }
 
   ongHandleLoginWithGg = () => {
-    document.location.href = '/auth/google';
+    document.location.href = `${API_ENDPOINT}/auth/google`;
   }
 
   render() {
@@ -61,7 +88,7 @@ export class LoginPage extends React.Component {
             <img src={NoteItText} className='login-logo' alt='logo' />
             <p className='login-title'>Sign in to noteIt </p>
             <div className="login-field">
-              <Button className='btn-login-google'><span className='google-logo'></span> Log in with Google</Button>
+              <Button className='btn-login-google' onClick={this.ongHandleLoginWithGg}><span className='google-logo'></span> Log in with Google</Button>
               <p>or</p>
               <div className='login-input-field'>
                 <Input placeholder="Username or Email" type="email" className="login-input" name="username" onChange={this.onHandleChangeText} />

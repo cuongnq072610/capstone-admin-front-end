@@ -51,6 +51,23 @@
   .content-table {
     margin-top: 10px;
 
+    .chosen {
+      .chosen-header {
+        display: flex;
+        justify-content: space-between;
+        .btn-update-course {
+          background-color: $primary_blue;
+          color: $primary_white;
+          border: none;
+          &:hover {
+            background-color: $primary_white;
+            border: 1px solid $primary_blue;
+            color: $primary_blue;
+          }
+        }
+      }
+      
+    }
     .table-wrapper {
 
       //overide ANT table style 

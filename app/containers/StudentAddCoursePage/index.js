@@ -276,7 +276,10 @@ export class StudentAddCoursePage extends React.Component {
               <Content>
                 <Row className="content-table">
                   <div className="chosen">
-                    <h3 className="chosen-course" >{this.state.chosenCourses.length} CHOSEN COURSES</h3>
+                    <div className='chosen-header'>
+                      <h3 className="chosen-course" >{this.state.chosenCourses.length} CHOSEN COURSES</h3>
+                      <Button className='btn-update-course'>Update Course</Button>
+                    </div>
                     {chosenCourses && chosenCourses.length > 0 ?
                       <Table className="table-content"
                         columns={columns.columnToRemove}

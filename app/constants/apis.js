@@ -25,6 +25,8 @@ const GET_ASK_BY_ID = "/getaskbyid";
 
 const GET_ALL_DEPARTMENT = '/allDepartment';
 
+const GET_STUDENT_INFO = '/getstudentbyid';
+
 export {
     API_ENDPOINT,
     ALL_COURSE,
@@ -47,4 +49,5 @@ export {
     GET_ALL_ASK,
     GET_ASK_BY_ID,
     GET_ALL_DEPARTMENT,
+    GET_STUDENT_INFO,
 }

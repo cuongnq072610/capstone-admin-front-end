@@ -6,7 +6,6 @@ const colunms = [
     dataIndex: "courseCode",
     render: text => <span className="course-code">{text}</span>,
     width: 150,
-    key: 'courseCode'
   },
   {
     title: "COURSE TITLE",
@@ -17,7 +16,6 @@ const colunms = [
     },
     dataIndex: "courseName",
     width: 600,
-    key: 'courseName'
   }
 ];
 

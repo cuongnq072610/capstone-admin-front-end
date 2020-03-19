@@ -12,10 +12,9 @@ export function defaultAction() {
   };
 }
 
-export function loadNote(body) {
+export function loadNote() {
   return {
     type: LOAD_NOTE,
-    body,
   }
 }
 

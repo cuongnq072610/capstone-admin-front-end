@@ -17,6 +17,7 @@ const GET_RECENT_NOTE = "/getRecentNote";
 const GET_NOTE_BY_ID = "/getnotebyid";
 const UPDATE_NOTE_BY_ID = "/updatenotebyid";
 const DELETE_NOTE_BY_ID = "/deletenotebyid";
+const GET_NOTE_BY_FOLDER = "/getNoteByCourse";
 
 const GET_ALL_FOLDER = "/allfolderbystudentid/5e6a7eddb42dae46b2c25a01";
 const CREATE_NEW_FOLDER = '/createfolder';
@@ -52,6 +53,7 @@ export {
     DELETE_NOTE_BY_ID,
     GET_ALL_FOLDER,
     CREATE_NEW_FOLDER,
+    GET_NOTE_BY_FOLDER,
     //ASK
     GET_ALL_ASK,
     GET_ASK_BY_ID,

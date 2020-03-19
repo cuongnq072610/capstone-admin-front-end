@@ -18,12 +18,13 @@ import makeSelectNoteFolderPage from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
-import { Layout, Icon } from 'antd';
+import { Layout, Icon, Spin } from 'antd';
 import WrappedSearchBar from '../../components/SearchBar';
 import Note from './Note';
 import { Link } from 'react-router-dom';
 import Masonry from 'masonry-layout'
 import './index.scss';
+import { loadNotesByFolder } from './actions';
 
 const { Header, Content } = Layout;
 
@@ -93,11 +94,11 @@ export class NoteFolderPage extends React.Component {
     const { folder } = this.props.history.location.state;
     this.setState({
       folder,
-      notes: mockDataNotes,
     })
+    this.props.handleFetchNoteByCourse(folder._id)
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     var elems = document.querySelectorAll('.grid');
     var msnryInstance = [];
     elems.forEach((elem, index) => {
@@ -111,13 +112,21 @@ export class NoteFolderPage extends React.Component {
         })
       )
     })
+    if (prevProps.noteFolderPage.notes !== this.props.noteFolderPage.notes) {
+      this.setState({
+        notes: this.props.noteFolderPage.notes,
+      })
+    }
   }
 
   navigateDetail = (note) => {
+    const { folder } = this.state;
     this.props.history.push({
       pathname: `/note/${note._id}`,
       state: {
-        note: note
+        note: note,
+        folder,
+        from: `/folder/${folder.courseCode}`,
       }
     })
   }
@@ -128,6 +137,9 @@ export class NoteFolderPage extends React.Component {
 
   render() {
     const { folder, notes } = this.state;
+    const { isLoading } = this.props.noteFolderPage;
+    const antIcon = <Icon type="loading" style={{ fontSize: 24, color: '#ffc143', marginRight: '10px' }} spin />;
+
     return (
       <div>
         <Helmet>
@@ -159,50 +171,51 @@ export class NoteFolderPage extends React.Component {
           </Header>
           <Content>
             {
-              // isLoadingNote ?
-              //   <Spin indicator={antIcon} /> :
-              <Fragment>
-                <div className="note-wrap">
-                  <p className="note-type">Pinned</p>
-                  <div className="grid note-container" >
-                    {
-                      notes.map((note, index) => {
-                        if (note.isPinned) {
-                          return (
-                            <Note
-                              key={index}
-                              note={note}
-                              navigateDetail={() => this.navigateDetail(note)}
-                              deleteNote={this.handleDeleteNote}
-                            // isLoading={isLoadingDelete}
-                            />
-                          )
+              isLoading ?
+                <Spin indicator={antIcon} /> :
+                notes.length > 0 ?
+                  <Fragment>
+                    <div className="note-wrap">
+                      <p className="note-type">Pinned</p>
+                      <div className="grid note-container" >
+                        {
+                          notes.map((note, index) => {
+                            if (note.isPinned) {
+                              return (
+                                <Note
+                                  key={index}
+                                  note={note}
+                                  navigateDetail={() => this.navigateDetail(note)}
+                                  deleteNote={this.handleDeleteNote}
+                                // isLoading={isLoadingDelete}
+                                />
+                              )
+                            }
+                          })
                         }
-                      })
-                    }
-                  </div>
-                </div>
-                <div className="note-wrap">
-                  <p className="note-type">Other</p>
-                  <div className="grid note-container" >
-                    {
-                      notes.map((note, index) => {
-                        if (!note.isPinned) {
-                          return (
-                            <Note
-                              key={index}
-                              note={note}
-                              navigateDetail={() => this.navigateDetail(note)}
-                              deleteNote={this.handleDeleteNote}
-                            // isLoading={isLoadingDelete}
-                            />
-                          )
+                      </div>
+                    </div>
+                    <div className="note-wrap">
+                      <p className="note-type">Other</p>
+                      <div className="grid note-container" >
+                        {
+                          notes.map((note, index) => {
+                            if (!note.isPinned) {
+                              return (
+                                <Note
+                                  key={index}
+                                  note={note}
+                                  navigateDetail={() => this.navigateDetail(note)}
+                                  deleteNote={this.handleDeleteNote}
+                                // isLoading={isLoadingDelete}
+                                />
+                              )
+                            }
+                          })
                         }
-                      })
-                    }
-                  </div>
-                </div>
-              </Fragment>
+                      </div>
+                    </div>
+                  </Fragment> : <span style={{ color: "#8c8a82" }}>You don't have any notes</span>
             }
           </Content>
         </Layout>
@@ -212,7 +225,7 @@ export class NoteFolderPage extends React.Component {
 }
 
 NoteFolderPage.propTypes = {
-  dispatch: PropTypes.func.isRequired,
+  handleFetchNoteByCourse: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -221,7 +234,7 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
-    dispatch,
+    handleFetchNoteByCourse: (courseId) => { dispatch(loadNotesByFolder(courseId)) },
   };
 }
 

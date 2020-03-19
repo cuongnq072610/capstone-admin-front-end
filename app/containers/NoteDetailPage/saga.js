@@ -21,10 +21,9 @@ function* loadSaveNote(action) {
   const { note, id } = action;
   try {
     const response = yield call(updateNote, `${API_ENDPOINT}${UPDATE_NOTE_BY_ID}/${id}`, note);
-    console.log(response)
-    if (response.data.Success) {
+    if (response.data.success) {
       yield put({ type: UPDATE_NOTE_SUCCESS, payload: response.data.Sucess, note: response.data.note });
-    } else if (response.data.Error) {
+    } else if (response.data.error) {
       yield put({ type: UPDATE_NOTE_FAILURE, payload: response.data.Error })
     }
   } catch (error) {
@@ -36,9 +35,9 @@ function* loadDeleteNote(action) {
   const { id } = action;
   try {
     const response = yield call(deleteNote, `${API_ENDPOINT}${DELETE_NOTE_BY_ID}/${id}`);
-    if (response.data.Sucess) {
+    if (response.data.success) {
       yield put({ type: DELETE_NOTE_SUCCESS, payload: response.data.Sucess });
-    } else if (response.data.Error) {
+    } else if (response.data.error) {
       yield put({ type: DELETE_NOTE_FAILURE, payload: response.data.Error })
     }
   } catch (error) {

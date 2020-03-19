@@ -96,11 +96,7 @@ export class NotePage extends React.Component {
 
   componentDidMount() {
     const user = JSON.parse(localStorage.getItem("user"));
-    const body = {
-      "studentID": user.profile,
-      "limit": 10
-    }
-    // this.props.handleLoadNote(body);
+    this.props.handleLoadNote();
     this.props.handleLoadCourse(user.profile);
 
     //show delete navigate from detail page
@@ -165,7 +161,8 @@ export class NotePage extends React.Component {
     history.push({
       pathname: `/note/${note._id}`,
       state: {
-        note: note
+        note: note,
+        from: `/note`
       }
     })
   }
@@ -200,7 +197,6 @@ export class NotePage extends React.Component {
     const { notes, isShow, deleteMessage, isShowFolder, courses } = this.state;
     const { isLoadingNote, isLoadingDelete, isLoadingCourse } = this.props.notePage;
     const antIcon = <Icon type="loading" style={{ fontSize: 24, color: '#ffc143', marginRight: '10px' }} spin />;
-    console.log(courses)
     return (
       <Row>
         <Helmet>
@@ -251,25 +247,27 @@ export class NotePage extends React.Component {
               </div>
               <div className="note-wrap">
                 <p className="note-type">Recent Notes</p>
-                {/* {
+                {
                   isLoadingNote ?
                     <Spin indicator={antIcon} /> :
                     <div className="grid note-container" >
                       {
-                        notes.map((note, index) => {
-                          return (
-                            <Note
-                              key={index}
-                              note={note}
-                              navigateDetail={() => this.navigateDetail(note)}
-                              deleteNote={this.handleDeleteNote}
-                              isLoading={isLoadingDelete}
-                            />
-                          )
-                        })
+                        notes.length > 0 ?
+                          notes.map((note, index) => {
+                            return (
+                              <Note
+                                key={index}
+                                note={note}
+                                navigateDetail={() => this.navigateDetail(note)}
+                                deleteNote={this.handleDeleteNote}
+                                isLoading={isLoadingDelete}
+                              />
+                            )
+                          }) :
+                          <span style={{color: "#8c8a82"}}>You don't have any notes</span>
                       }
                     </div>
-                } */}
+                }
               </div>
               <div className={isShow ? 'notification-show' : 'notification'}>
                 <div className='noti-content-success'>
@@ -297,7 +295,7 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
-    handleLoadNote: (body) => { dispatch(loadNote(body)) },
+    handleLoadNote: () => { dispatch(loadNote()) },
     handleDeleteNote: (id) => { dispatch(loadDeleteNote(id)) },
     handleLoadCourse: (id) => { dispatch(loadStudentCourses(id)) },
   };

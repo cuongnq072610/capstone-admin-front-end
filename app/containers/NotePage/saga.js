@@ -13,12 +13,10 @@ import {
 import { fetchRecentNote, deleteNote, fetchStudentCourses } from './api';
 import { API_ENDPOINT, GET_RECENT_NOTE, DELETE_NOTE_BY_ID, GET_STUDENT_INFO } from '../../constants/apis';
 
-function* loadNote(action) {
-  const { body } = action;
-  console.log(body)
+function* loadNote() {
+  const user = JSON.parse(localStorage.getItem("user"));
   try {
-    let response = yield call(fetchRecentNote, `${API_ENDPOINT}${GET_RECENT_NOTE}`, body);
-    console.log(response)
+    let response = yield call(fetchRecentNote, `${API_ENDPOINT}${GET_RECENT_NOTE}/${user.profile}/10`);
     if (response.data) {
       let noteData = response.data.map((item, index) => {
         return item

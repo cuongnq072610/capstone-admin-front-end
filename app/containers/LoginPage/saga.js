@@ -2,6 +2,7 @@ import { take, call, put, select, takeLatest } from 'redux-saga/effects';
 import { LOGIN, LOGIN_FAILURE, LOGIN_SUCCESS } from './constants';
 import { loginService } from './api';
 import { API_ENDPOINT, LOGIN_API } from '../../constants/apis';
+import history from '../../utils/history';
 
 function* handleLogin(action) {
   const { email, password } = action;

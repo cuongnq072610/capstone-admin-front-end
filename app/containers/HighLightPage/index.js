@@ -29,7 +29,7 @@ const { Header, Content } = Layout;
 const mockData = [
   {
     id: 1,
-    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. ",
+    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. ",
     color: 'green',
     date: "2019/10/31",
     tags: ['english', 'accounting']
@@ -37,55 +37,55 @@ const mockData = [
   {
     id: 2,
     color: 'blue',
-    content: "Lorem ipsum dolor sit amet",
+    text: "Lorem ipsum dolor sit amet",
     date: "2019/10/31",
     tags: ['english']
   },
   {
     id: 3,
-    content: "Sed magna arcu, fermentum vel porttitor non, fermentum ac metus. Etiam pharetra posuere erat, vitae sagittis felis mattis eget.",
+    text: "Sed magna arcu, fermentum vel porttitor non, fermentum ac metus. Etiam pharetra posuere erat, vitae sagittis felis mattis eget.",
     color: 'red',
     date: "2019/10/31",
     tags: ['animation']
   },
   {
     id: 4,
-    content: "Sed in arcu fermentum, consectetur justo a, lacinia lorem, justo alor.",
+    text: "Sed in arcu fermentum, consectetur justo a, lacinia lorem, justo alor.",
     color: 'yellow',
     date: "2019/10/31",
     tags: ['important']
   },
   {
     id: 5,
-    content: "Nunc rutrum sapien ut felis ullamcorper, ac euismod felis tempus. Nulla lobortis interdum felis, sollicitudin condimentum dolor rhoncus vitae.",
+    text: "Nunc rutrum sapien ut felis ullamcorper, ac euismod felis tempus. Nulla lobortis interdum felis, sollicitudin condimentum dolor rhoncus vitae.",
     color: 'green',
     date: "2019/10/31",
     tags: ['important', 'advertising']
   },
   {
     id: 6,
-    content: "Nulla a arcu a lacus eleifend convallis a tempor eros.",
+    text: "Nulla a arcu a lacus eleifend convallis a tempor eros.",
     color: 'blue',
     date: "2019/10/31",
     tags: ['quote']
   },
   {
     id: 7,
-    content: "Cras dapibus erat erat, quis lobortis nunc placerat quis. Nunc vitae mollis lorem. Sed suscipit porttitor elit. Ut lacinia magna non auctor aliquet. ",
+    text: "Cras dapibus erat erat, quis lobortis nunc placerat quis. Nunc vitae mollis lorem. Sed suscipit porttitor elit. Ut lacinia magna non auctor aliquet. ",
     color: 'orange',
     date: "2019/10/31",
     tags: ['quote']
   },
   {
     id: 8,
-    content: "In sem sapien, gravida sed sem non, pellentesque malesuada felis.",
+    text: "In sem sapien, gravida sed sem non, pellentesque malesuada felis.",
     color: 'yellow',
     date: "2019/10/31",
     tags: ['important']
   },
   {
     id: 9,
-    content: "Aenean maximus sodales ex, ut rhoncus lectus hendrerit ac. Mauris vestibulum diam justo, id efficitur lorem consequat a. Praesent eu rutrum tortor.",
+    text: "Aenean maximus sodales ex, ut rhoncus lectus hendrerit ac. Mauris vestibulum diam justo, id efficitur lorem consequat a. Praesent eu rutrum tortor.",
     color: 'red',
     date: "2019/10/31",
     tags: ['advertising']
@@ -95,25 +95,31 @@ const mockData = [
 const mockDataFolder = [
   {
     id: 1,
-    name: "Web development",
+    courseCode: 'COM101',
+    courseName: 'Communication Principle',
   },
   {
     id: 2,
-    name: "Digital Marketing",
+    courseCode: 'ASD203',
+    courseName: 'Algorithms and Data Structure',
   },
   {
     id: 3,
-    name: "Budgeting",
+    courseCode: 'FIN102',
+    courseName: 'Finance Principles',
   },
   {
     id: 4,
-    name: "Economy",
+    courseCode: 'DBW231',
+    courseName: 'Datawarehouse',
   },
   {
     id: 5,
-    name: "Marketting",
+    courseCode: 'ECO101',
+    courseName: 'E-commerce',
   },
 ]
+
 /* eslint-disable react/prefer-stateless-function */
 export class HighLightPage extends React.Component {
   constructor(props) {
@@ -124,7 +130,8 @@ export class HighLightPage extends React.Component {
       folderChosen: {},
       textValue: "",
       folders: [],
-      windowHeight: window.innerHeight
+      windowHeight: window.innerHeight,
+      isShowFolder: true,
     }
   }
 
@@ -162,8 +169,30 @@ export class HighLightPage extends React.Component {
     )
   }
 
+  handleShowFolder = () => {
+    this.setState(prevState => {
+      return {
+        ...prevState,
+        isShowFolder: !prevState.isShowFolder
+      }
+    })
+  }
+
+  renderFolderNoteName = (name, code) => {
+    return code + ' - ' + name;
+  }
+
+  navigateDetailFolder = (folder) => {
+    this.props.history.push({
+      pathname: `/highlight/${folder.courseCode}`,
+      state: {
+        folder
+      }
+    })
+  }
+
   render() {
-    const { highlights, folders } = this.state;
+    const { highlights, folders, isShowFolder } = this.state;
     const { isLoading } = this.props.highLightPage;
     const buttonSort = [
       {
@@ -200,10 +229,13 @@ export class HighLightPage extends React.Component {
               style={{
                 backgroundColor: '#fff',
                 display: 'flex',
-                justifyContent: 'center',
+                justifyContent: "space-between",
+                alignItems: "center",
                 height: '100px',
+                paddingLeft: '0px',
               }}
             >
+              <p className="highlight-page-name">HighLights</p>
               <WrappedSearchBar
                 message="Please enter your note's name"
                 placeholder="I want to find my notes"
@@ -211,12 +243,33 @@ export class HighLightPage extends React.Component {
               />
             </Header>
             <Content>
+              <div className='highlight-folder'>
+                <Button className='highlight-folder-title' onClick={this.handleShowFolder}>
+                  <p>Folders</p>{isShowFolder ? <Icon type="down" style={{ color: '#111' }} /> : <Icon type="up" style={{ color: '#111' }} />}
+                </Button>
+                {
+                  isShowFolder &&
+                  <div className='grid folder-container'>
+                    {
+                      mockDataFolder.map((folder, index) => {
+                        return (
+                          <Button className='grid-item folder-highlight' key={index} onClick={() => this.navigateDetailFolder(folder)}>
+                            <span className='folder-highlight-icon'></span>
+                            <p className='folder-highlight-name'>{this.renderFolderNoteName(folder.courseName, folder.courseCode)}</p>
+                          </Button>
+                        )
+                      })
+                    }
+                  </div>
+                }
+              </div>
+              <p className="highlight-type">Recent Highlights</p>
               {
-                isLoading ?
-                  <Spin indicator={antIcon} /> :
+                // isLoading ?
+                //   <Spin indicator={antIcon} /> :
                   <div className="highLights grid" >
                     {
-                      highlights.map(highlight => {
+                      mockData.map(highlight => {
                         return <HighLightElement key={highlight.id} highlight={highlight} />
                       })
                     }
@@ -240,23 +293,6 @@ export class HighLightPage extends React.Component {
                     })
                   }
                 </div>
-                <Button className="btn-sort">
-                  <Icon type="arrow-down" style={{ fontSize: '16px' }} />
-                  <span>Time added</span>
-                </Button>
-              </div>
-              <div className="folder">
-                <p><FormattedMessage {...messages.tags} /></p>
-                <Input
-                  placeholder="Add new tag"
-                  prefix={<Icon type="plus" style={{ color: "#53DBB1" }} onClick={this.onHandleSubmit} />}
-                  onChange={this.onChangeText}
-                  onPressEnter={this.onHandleSubmit}
-                  className="note-add"
-                />
-                {
-                  folders.map((folder, index) => this.renderFolder(folder, index))
-                }
               </div>
             </Content>
           </Layout>

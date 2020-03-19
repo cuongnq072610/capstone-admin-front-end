@@ -3,6 +3,7 @@ import { LOGIN, LOGIN_FAILURE, LOGIN_SUCCESS } from './constants';
 import { loginService } from './api';
 import { API_ENDPOINT, LOGIN_API } from '../../constants/apis';
 import history from '../../utils/history';
+import parseJwt from '../../utils/parseJWT';
 
 function* handleLogin(action) {
   const { email, password } = action;

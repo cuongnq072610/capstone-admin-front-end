@@ -22,37 +22,9 @@ import Note from './Note';
 import history from '../../utils/history';
 import WrappedSearchBar from '../../components/SearchBar';
 import { Row, Layout, Col, Icon, Button, Input, Spin } from 'antd';
-import { loadNote, loadDeleteNote } from './actions';
+import { loadNote, loadDeleteNote, loadStudentCourses } from './actions';
 import Masonry from 'masonry-layout'
 const { Content, Header } = Layout;
-
-const mockDataFolder = [
-  {
-    id: 1,
-    courseCode: 'COM101',
-    courseName: 'Communication Principle',
-  },
-  {
-    id: 2,
-    courseCode: 'ASD203',
-    courseName: 'Algorithms and Data Structure',
-  },
-  {
-    id: 3,
-    courseCode: 'FIN102',
-    courseName: 'Finance Principles',
-  },
-  {
-    id: 4,
-    courseCode: 'DBW231',
-    courseName: 'Datawarehouse',
-  },
-  {
-    id: 5,
-    courseCode: 'ECO101',
-    courseName: 'E-commerce',
-  },
-]
 
 const mockDataNotes = [
   {
@@ -118,11 +90,20 @@ export class NotePage extends React.Component {
       isShow: false,
       deleteMessage: "",
       isShowFolder: true,
+      courses: [],
     }
   }
 
   componentDidMount() {
-    this.props.handleLoadNote();
+    const user = JSON.parse(localStorage.getItem("user"));
+    const body = {
+      "studentID": user.profile,
+      "limit": 10
+    }
+    // this.props.handleLoadNote(body);
+    this.props.handleLoadCourse(user.profile);
+
+    //show delete navigate from detail page
     if (this.props.history.location.state && this.props.history.location.state.isDoneDelete) {
       this.setState({
         isShow: true,
@@ -158,6 +139,11 @@ export class NotePage extends React.Component {
     if (prevProps.notePage.notes !== this.props.notePage.notes) {
       this.setState({
         notes: this.props.notePage.notes,
+      })
+    }
+    if (prevProps.notePage.courses !== this.props.notePage.courses) {
+      this.setState({
+        courses: this.props.notePage.courses,
       })
     }
     if (prevProps.notePage.isLoadingDelete !== this.props.notePage.isLoadingDelete && this.props.notePage.isLoadingDelete === false) {
@@ -211,9 +197,10 @@ export class NotePage extends React.Component {
   }
 
   render() {
-    const { notes, isShow, deleteMessage, isShowFolder } = this.state;
-    const { isLoadingNote, isLoadingDelete } = this.props.notePage;
+    const { notes, isShow, deleteMessage, isShowFolder, courses } = this.state;
+    const { isLoadingNote, isLoadingDelete, isLoadingCourse } = this.props.notePage;
     const antIcon = <Icon type="loading" style={{ fontSize: 24, color: '#ffc143', marginRight: '10px' }} spin />;
+    console.log(courses)
     return (
       <Row>
         <Helmet>
@@ -242,45 +229,47 @@ export class NotePage extends React.Component {
             <Content>
               <div className='note-folder'>
                 <Button className='note-folder-title' onClick={this.handleShowFolder}>
-                  <p>Folders</p>{isShowFolder ? <Icon type="down" style={{color: '#111'}}/> : <Icon type="up" style={{color: '#111'}}/>}
+                  <p>Folders</p>{isShowFolder ? <Icon type="down" style={{ color: '#111' }} /> : <Icon type="up" style={{ color: '#111' }} />}
                 </Button>
                 {
                   isShowFolder &&
                   <div className='grid folder-container'>
                     {
-                      mockDataFolder.map((folder, index) => {
-                        return (
-                          <Button className='grid-item folder-note' key={index} onClick={() => this.navigateDetailFolder(folder)}>
-                            <span className='folder-note-icon'></span>
-                            <p className='folder-note-name'>{this.renderFolderNoteName(folder.courseName, folder.courseCode)}</p>
-                          </Button>
-                        )
-                      })
+                      isLoadingCourse ?
+                        <Spin indicator={antIcon} /> :
+                        courses.map((course, index) => {
+                          return (
+                            <Button className='grid-item folder-note' key={index} onClick={() => this.navigateDetailFolder(course)}>
+                              <span className='folder-note-icon'></span>
+                              <p className='folder-note-name'>{this.renderFolderNoteName(course.courseName, course.courseCode)}</p>
+                            </Button>
+                          )
+                        })
                     }
                   </div>
                 }
               </div>
               <div className="note-wrap">
                 <p className="note-type">Recent Notes</p>
-                {
-                  // isLoadingNote ?
-                  //   <Spin indicator={antIcon} /> :
-                  <div className="grid note-container" >
-                    {
-                      mockDataNotes.map((note, index) => {
-                        return (
-                          <Note
-                            key={index}
-                            note={note}
-                            navigateDetail={() => this.navigateDetail(note)}
-                            deleteNote={this.handleDeleteNote}
-                            isLoading={isLoadingDelete}
-                          />
-                        )
-                      })
-                    }
-                  </div>
-                }
+                {/* {
+                  isLoadingNote ?
+                    <Spin indicator={antIcon} /> :
+                    <div className="grid note-container" >
+                      {
+                        notes.map((note, index) => {
+                          return (
+                            <Note
+                              key={index}
+                              note={note}
+                              navigateDetail={() => this.navigateDetail(note)}
+                              deleteNote={this.handleDeleteNote}
+                              isLoading={isLoadingDelete}
+                            />
+                          )
+                        })
+                      }
+                    </div>
+                } */}
               </div>
               <div className={isShow ? 'notification-show' : 'notification'}>
                 <div className='noti-content-success'>
@@ -299,6 +288,7 @@ export class NotePage extends React.Component {
 NotePage.propTypes = {
   handleLoadNote: PropTypes.func.isRequired,
   handleDeleteNote: PropTypes.func.isRequired,
+  handleLoadCourse: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -307,8 +297,9 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
-    handleLoadNote: () => { dispatch(loadNote()) },
+    handleLoadNote: (body) => { dispatch(loadNote(body)) },
     handleDeleteNote: (id) => { dispatch(loadDeleteNote(id)) },
+    handleLoadCourse: (id) => { dispatch(loadStudentCourses(id)) },
   };
 }
 

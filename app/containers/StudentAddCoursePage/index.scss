@@ -55,19 +55,40 @@
       .chosen-header {
         display: flex;
         justify-content: space-between;
-        .btn-update-course {
-          background-color: $primary_blue;
-          color: $primary_white;
-          border: none;
-          &:hover {
-            background-color: $primary_white;
-            border: 1px solid $primary_blue;
-            color: $primary_blue;
+        margin-bottom: 10px;
+
+        .update-field {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          .text {
+            &-success {
+              margin-bottom: 0;
+              color: green;
+              margin-right: 10px;
+            }
+            &-fail {
+              margin-bottom: 0;
+              color: red;
+              margin-right: 10px;
+            }
+          }
+          .btn-update-course {
+            background-color: $primary_blue;
+            color: $primary_white;
+            border: none;
+
+            &:hover {
+              background-color: $primary_white;
+              border: 1px solid $primary_blue;
+              color: $primary_blue;
+            }
           }
         }
       }
-      
+
     }
+
     .table-wrapper {
 
       //overide ANT table style 

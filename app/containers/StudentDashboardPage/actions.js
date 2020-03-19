@@ -4,7 +4,7 @@
  *
  */
 
-import { DEFAULT_ACTION, LOAD_STUDENT_INFO } from './constants';
+import { DEFAULT_ACTION, LOAD_STUDENT_INFO, LOAD_STUDENT_STATISTIC } from './constants';
 
 export function defaultAction() {
   return {
@@ -16,5 +16,12 @@ export function loadStudentInfo(id) {
   return {
     type: LOAD_STUDENT_INFO,
     id
+  }
+}
+
+export function loadStudentStatistic(id) {
+  return {
+    type: LOAD_STUDENT_STATISTIC,
+    id,
   }
 }

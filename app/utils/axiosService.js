@@ -27,8 +27,12 @@ class AxiosService {
         return this.instance.put(url, body);
     }
     
-    delete(url, body) {
+    deleteWithBody(url, body) {
         return this.instance.delete(url, body);
+    }
+
+    delete(url) {
+        return this.instance.delete(url);
     }
 }
 

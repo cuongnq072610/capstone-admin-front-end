@@ -45,7 +45,7 @@ class Filter extends React.PureComponent {
     return (
       <Button className={`category ${type === "home" ? "categoryHomeTheme" : "categoryTeacherTheme"}`} key={index} onClick={() => this.handleFilter(department)}>
         <span className={`icon ${this.isCheck(department) ? "check-icon" : "category-icon"}`}></span>
-        <span className="name">{department}</span>
+        <span className="name">{department.description}</span>
       </Button>
     )
   }

@@ -33,6 +33,7 @@ import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import GlobalStyle from '../../global-styles';
 
 import WrapperLayout from '../../components/WrapperLayout';
+// import PrivateRoute from '../../components/PrivateRoute';
 
 export default function App() {
   return (
@@ -50,6 +51,8 @@ export default function App() {
         <Route path='/course/addcourse' render={() => <WrapperLayout component={AddCoursePage} role="admin" page="course"/>}/>
         <Route path='/course/addteacher' render={() => <WrapperLayout component={AddTeacherPage} role="admin" page="course"/>}/>
         <Route exact path='/student' render={() => <WrapperLayout component={StudentDashboardPage} role="student" page="student-dashboard"/>}/>
+        {/* demo privateRoute */}
+        {/* <PrivateRoute exact path='/student' component={<WrapperLayout component={StudentDashboardPage} role="student" page="student-dashboard"/>}/> */}
         <Route exact path='/student/addcourse' render={() => <WrapperLayout component={StudentAddCoursePage} role="student" page="student-dashboard"/>}/>
         <Route exact path='/note' render={() => <WrapperLayout component={NotePage} role="student" page="note"/>}/>
         <Route exact path='/highlight' render={() => <WrapperLayout component={HighlightPage} role="student" page="highlight"/>}/>

@@ -26,7 +26,7 @@ import columns from './tableCol';
 
 import "./index.scss";
 import TeacherInfo from './TeacherInfo';
-import { loadTeacher, searchTeacher, updateActiveTeacher } from './actions';
+import { loadTeacher, searchTeacher, updateActiveTeacher, loadDepartment } from './actions';
 
 const { Content, Header } = Layout;
 
@@ -51,17 +51,18 @@ export class TeacherPage extends React.Component {
 
     componentDidMount() {
         this.props.fetchTeacher();
+        this.props.handleFetchDepartment();
     }
 
     componentDidUpdate(prevProps) {
-        if (prevProps.teacherPage.teachers !== this.props.teacherPage.teachers) {
-            const { teachers } = this.props.teacherPage;
+        if (prevProps.teacherPage !== this.props.teacherPage) {
+            const { teachers, departments } = this.props.teacherPage;
 
             const fomatTeachers = teachers.map((teacher, index) => {
-                return { ...teacher, key: `${index}`, avatar: `/app/assets/png/girl-1.png` }
+                return { ...teacher, key: `${index}` }
             })
             this.setState({
-                departments: mockData2,
+                departments: departments,
                 teachers: fomatTeachers,
                 baseTeachers: fomatTeachers,
             })
@@ -190,6 +191,7 @@ export class TeacherPage extends React.Component {
 }
 
 TeacherPage.propTypes = {
+    handleFetchDepartment: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -200,7 +202,8 @@ function mapDispatchToProps(dispatch) {
     return {
         fetchTeacher: () => { dispatch(loadTeacher()) },
         fetchSearchTeacher: (key) => { dispatch(searchTeacher(key)) },
-        toggleActiveTeacher: (id, data) => { dispatch(updateActiveTeacher(id, data)) }
+        toggleActiveTeacher: (id, data) => { dispatch(updateActiveTeacher(id, data)) },
+        handleFetchDepartment: () => { dispatch(loadDepartment()) },
     };
 }
 

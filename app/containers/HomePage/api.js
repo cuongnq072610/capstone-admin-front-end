@@ -4,6 +4,11 @@ const fetchCourse = (url) => {
   return axiosService.get(url)
 }
 
+const fetchDepartment = (url) => {
+  return axiosService.get(url);
+}
+
 export {
-    fetchCourse
+    fetchCourse,
+    fetchDepartment,
 }

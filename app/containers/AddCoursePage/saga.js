@@ -6,10 +6,10 @@ import { API_ENDPOINT, CREATE_COURSE, UPDATE_COURSES } from '../../constants/api
 function* addCourse(action) {
   try {
     const response = yield call(addCourseApi, `${API_ENDPOINT}${CREATE_COURSE}`, action.course)
-    if (response.data) {
-      yield put({ type: ADD_COURSE_SUCCESS, payload: response.data.message })
-    } else {
-      yield put({ type: ADD_COURSE_FAILURE, payload: { msg: "no data" } })
+    if (response.data.success) {
+      yield put({ type: ADD_COURSE_SUCCESS, payload: response.data.success })
+    } else if(response.data.error) {
+      yield put({ type: ADD_COURSE_FAILURE, payload: response.data.error })
 
     }
   } catch (error) {
@@ -20,10 +20,10 @@ function* addCourse(action) {
 function* updateCourse(action) {
   try {
     const response = yield call(updateCourseApi, `${API_ENDPOINT}${UPDATE_COURSES}/${action.course._id}`, action.course)
-    if (response.data) {
+    if (response.data.success) {
       yield put({ type: UPDATE_COURSE_SUCCESS, payload: response.data.message })
-    } else {
-      yield put({ type: UPDATE_COURSE_FAILURE, payload: { msg: 'no data' } })
+    } else if(response.data.error) {
+      yield put({ type: UPDATE_COURSE_FAILURE, payload: response.data.error })
     }
   } catch (error) {
     yield put({ type: UPDATE_COURSE_FAILURE, payload: { msg: error } })

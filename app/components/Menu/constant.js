@@ -23,7 +23,7 @@ const StudentMenu = [
     {
         "name": "dashboard",
         "title": "Dashboard",
-        "path": "/",
+        "path": "/student",
         'exact': true,
     },
     {

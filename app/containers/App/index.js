@@ -25,6 +25,10 @@ import StudentAskPage from 'containers/StudentAskPage/Loadable';
 import StudentComposePage from 'containers/StudentComposePage/Loadable';
 import StudentCreateAskPage from 'containers/StudentCreateAskPage/Loadable';
 import HighlightPage from 'containers/HighLightPage/Loadable';
+//teacher's page
+import TeacherAskPage from 'containers/TeacherAskPage/Loadable';
+import TeacherComposePage from 'containers/TeacherComposePage/Loadable';
+
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import GlobalStyle from '../../global-styles';
 
@@ -42,7 +46,7 @@ export default function App() {
       <Switch>
         <Route exact path='/' render={() => <WrapperLayout component={DashboardPage} role="admin" page="dashboard"/>}/>
         <Route exact path='/course' render={() => <WrapperLayout component={HomePage} role="admin" page="course"/>}/>
-        <Route path='/teacher' render={() => <WrapperLayout component={TeacherPage} role="admin" page="teacher"/>}/>
+        <Route exact path='/teacher' render={() => <WrapperLayout component={TeacherPage} role="admin" page="teacher"/>}/>
         <Route path='/course/addcourse' render={() => <WrapperLayout component={AddCoursePage} role="admin" page="course"/>}/>
         <Route path='/course/addteacher' render={() => <WrapperLayout component={AddTeacherPage} role="admin" page="course"/>}/>
         <Route exact path='/student' render={() => <WrapperLayout component={StudentDashboardPage} role="student" page="student-dashboard"/>}/>
@@ -53,6 +57,8 @@ export default function App() {
         <Route exact path='/ask' render={() => <WrapperLayout component={StudentAskPage} role="student" page="ask"/>}/>
         <Route path='/ask/compose/:id' render={() => <WrapperLayout component={StudentComposePage} role="student" page="ask"/>}/>
         <Route path='/ask/create' render={() => <WrapperLayout component={StudentCreateAskPage} role="student" page="ask"/>}/>
+        <Route path='/teacher/ask' render={() => <WrapperLayout component={TeacherAskPage} role="teacher" page="ask"/>}/>
+        <Route path='/teacher/ask/compose/:id' render={() => <WrapperLayout component={TeacherComposePage} role="student" page="ask"/>}/>
         <Route path='' render={() => <WrapperLayout component={NotFoundPage}/>}/>
       </Switch>
       <GlobalStyle />

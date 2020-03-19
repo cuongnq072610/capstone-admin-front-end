@@ -30,6 +30,8 @@ const GET_STUDENT_INFO = '/getstudentbyid';
 const UPDATE_STUDENT_COURSE = '/updatestudentcourse';
 const GET_STUDENT_STATISTIC = '/getStudentStatistic';
 
+const LOGIN_API = '/login';
+
 export {
     API_ENDPOINT,
     //COURSE
@@ -62,4 +64,6 @@ export {
     GET_STUDENT_INFO,
     UPDATE_STUDENT_COURSE,
     GET_STUDENT_STATISTIC,
+    //USER
+    LOGIN_API,
 }

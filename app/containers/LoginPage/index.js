@@ -25,6 +25,7 @@ import './index.scss';
 import NoteItText from './assets/noteit-text-1@3x.png';
 import parseJwt from '../../utils/parseJWT';
 import history from '../../utils/history';
+import { login } from './actions';
 
 /* eslint-disable react/prefer-stateless-function */
 export class LoginPage extends React.Component {
@@ -68,7 +69,7 @@ export class LoginPage extends React.Component {
 
   onHandleSubmitLogin = () => {
     const { username, password } = this.state;
-    console.log(username + " - " + password);
+    this.props.onHandleLogin(username, password);
   }
 
   ongHandleLoginWithGg = () => {
@@ -115,7 +116,7 @@ export class LoginPage extends React.Component {
 }
 
 LoginPage.propTypes = {
-  dispatch: PropTypes.func.isRequired,
+  onHandleLogin: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -124,7 +125,7 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
-    dispatch,
+    onHandleLogin: (email, password) => {dispatch(login(email, password))},
   };
 }
 

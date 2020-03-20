@@ -124,6 +124,10 @@ export class HighLightPage extends React.Component {
     this.props.handleDeleteHighlight(id);
   }
 
+  handleSyncHighlight = () => {
+    this.props.handleFetchHighlights();
+  }
+
   render() {
     const { highlights, courses, isShowFolder, isShow, deleteMessage } = this.state;
     const { isLoading, isLoadingCourse, isLoadingDelete } = this.props.highLightPage;
@@ -146,7 +150,10 @@ export class HighLightPage extends React.Component {
                 paddingLeft: '0px',
               }}
             >
-              <p className="highlight-page-name">HighLights</p>
+              <div className='highlight-page-name-wrapper'>
+                <p className="highlight-page-name">HighLights</p>
+                <Button className='btn-sync' onClick={this.handleSyncHighlight}><span className='sync-icon'></span></Button>
+              </div>
               <WrappedSearchBar
                 message="Please enter your note's name"
                 placeholder="I want to find my highlights"

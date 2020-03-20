@@ -1,13 +1,33 @@
 @import "../../utils/variables.scss";
 
 .note-page {
-  .note-page-name {
-    color: $primary_yellow;
-    font-family: Roboto;
-    font-size: 28px;
-    font-weight: 700;
-    letter-spacing: 0.28px;
-    margin: 0
+  .note-page-name-wrapper {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    .note-page-name {
+      color: $primary_yellow;
+      font-family: Roboto;
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: 0.28px;
+      margin: 0;
+      padding-right: 20px;
+    }
+
+    .sync-icon {
+      display: inline-block;
+      width: 25px;
+      height: 25px;
+      background-size: cover;
+      background-image: url(assets/sync.png);
+    }
+
+    .btn-sync {
+      border: none;
+      box-shadow: none;
+      padding: 0;
+    }
   }
 
   .note-wrap {

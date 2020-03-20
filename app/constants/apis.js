@@ -10,7 +10,7 @@ const ALL_TEACHER = '/allteachers';
 const UPDATE_TEACHER_ACTIVE = '/changeteacherisactive';
 const SEARCH_TEACHERS = '/searchteacher';
 
-const GET_ALL_HIGHLIGHT = "/allhighlightbystudentid/5e6a7eddb42dae46b2c25a01";
+const GET_RECENT_HIGHLIGHT = "/getRecentHighlight";
 const DELETE_HIGHLIGHT = "/deletehighlightbyid";
 
 const GET_RECENT_NOTE = "/getRecentNote";
@@ -46,7 +46,7 @@ export {
     UPDATE_TEACHER_ACTIVE,
     SEARCH_TEACHERS,
     //HIGHLIGHT
-    GET_ALL_HIGHLIGHT,
+    GET_RECENT_HIGHLIGHT,
     DELETE_HIGHLIGHT,
     //NOTE
     GET_RECENT_NOTE,

@@ -23,7 +23,7 @@ import HighLightElement from './HighlightElement';
 import { Row, Layout, Col, Icon, Button, Input, Spin } from 'antd';
 import "./index.scss";
 import Masonry from 'masonry-layout'
-import { loadHighlight } from './actions';
+import { loadHighlight, loadStudentCourses } from './actions';
 const { Header, Content } = Layout;
 
 const mockData = [
@@ -92,34 +92,6 @@ const mockData = [
   }
 ];
 
-const mockDataFolder = [
-  {
-    id: 1,
-    courseCode: 'COM101',
-    courseName: 'Communication Principle',
-  },
-  {
-    id: 2,
-    courseCode: 'ASD203',
-    courseName: 'Algorithms and Data Structure',
-  },
-  {
-    id: 3,
-    courseCode: 'FIN102',
-    courseName: 'Finance Principles',
-  },
-  {
-    id: 4,
-    courseCode: 'DBW231',
-    courseName: 'Datawarehouse',
-  },
-  {
-    id: 5,
-    courseCode: 'ECO101',
-    courseName: 'E-commerce',
-  },
-]
-
 /* eslint-disable react/prefer-stateless-function */
 export class HighLightPage extends React.Component {
   constructor(props) {
@@ -132,11 +104,14 @@ export class HighLightPage extends React.Component {
       folders: [],
       windowHeight: window.innerHeight,
       isShowFolder: true,
+      courses: [],
     }
   }
 
   componentDidMount() {
     this.props.handleFetchHighlights();
+    const user = JSON.parse(localStorage.getItem("user"));
+    this.props.handleLoadCourse(user.profile);
   }
 
   componentDidUpdate(prevProps) {
@@ -151,9 +126,12 @@ export class HighLightPage extends React.Component {
     if (prevProps.highLightPage.highlights !== this.props.highLightPage.highlights) {
       this.setState({
         highlights: this.props.highLightPage.highlights,
-        baseHighlight: mockData,
-        folders: mockDataFolder
       });
+    }
+    if (prevProps.highLightPage.courses !== this.props.highLightPage.courses) {
+      this.setState({
+        courses: this.props.highLightPage.courses,
+      })
     }
   }
 
@@ -192,30 +170,8 @@ export class HighLightPage extends React.Component {
   }
 
   render() {
-    const { highlights, folders, isShowFolder } = this.state;
-    const { isLoading } = this.props.highLightPage;
-    const buttonSort = [
-      {
-        id: 'greenSortButton',
-        color: 'green'
-      },
-      {
-        id: 'redSortButton',
-        color: 'red'
-      },
-      {
-        id: 'blueSortButton',
-        color: 'blue'
-      },
-      {
-        id: 'yellowSortButton',
-        color: 'yellow'
-      },
-      {
-        id: 'orangeSortButton',
-        color: 'orange'
-      }
-    ]
+    const { highlights, courses, isShowFolder } = this.state;
+    const { isLoading, isLoadingCourse } = this.props.highLightPage;
     const antIcon = <Icon type="loading" style={{ fontSize: 24, color: '#40a887', marginRight: '10px' }} spin />;
     return (
       <Row>
@@ -223,7 +179,7 @@ export class HighLightPage extends React.Component {
           <title>Highlight Page</title>
           <meta name="description" content="Description of Highlight Page" />
         </Helmet>
-        <Col span={19}>
+        <Col>
           <Layout className="highlight-page">
             <Header
               style={{
@@ -251,53 +207,37 @@ export class HighLightPage extends React.Component {
                   isShowFolder &&
                   <div className='grid folder-container'>
                     {
-                      mockDataFolder.map((folder, index) => {
-                        return (
-                          <Button className='grid-item folder-highlight' key={index} onClick={() => this.navigateDetailFolder(folder)}>
-                            <span className='folder-highlight-icon'></span>
-                            <p className='folder-highlight-name'>{this.renderFolderNoteName(folder.courseName, folder.courseCode)}</p>
-                          </Button>
-                        )
-                      })
+                      isLoadingCourse ?
+                        <Spin indicator={antIcon} /> :
+                        courses.length > 0 ?
+                          courses.map((folder, index) => {
+                            return (
+                              <Button className='grid-item folder-highlight' key={index} onClick={() => this.navigateDetailFolder(folder)}>
+                                <span className='folder-highlight-icon'></span>
+                                <p className='folder-highlight-name'>{this.renderFolderNoteName(folder.courseName, folder.courseCode)}</p>
+                              </Button>
+                            )
+                          }) : <span style={{ color: "#8c8a82" }}>You don't join any courses</span>
                     }
                   </div>
                 }
               </div>
               <p className="highlight-type">Recent Highlights</p>
               {
-                // isLoading ?
-                //   <Spin indicator={antIcon} /> :
+                isLoading ?
+                  <Spin indicator={antIcon} /> :
                   <div className="highLights grid" >
                     {
-                      mockData.map(highlight => {
-                        return <HighLightElement key={highlight.id} highlight={highlight} />
-                      })
+                      highlights.length > 0 ?
+                        highlights.map(highlight => {
+                          return <HighLightElement key={highlight.id} highlight={highlight} />
+                        }) : <span style={{ color: "#8c8a82" }}>You don't have any highlights</span>
                     }
                   </div>
               }
             </Content>
           </Layout>
         </Col>
-        <Col span={5} className="highlight-side-wrapper" style={{ 'height': this.state.windowHeight - 10 }}>
-          <Layout className="highlight-side">
-            <Header className="filter-head">
-              <FormattedMessage {...messages.filter} />
-            </Header>
-            <Content>
-              <div className="sort">
-                <p><FormattedMessage {...messages.sort} /></p>
-                <div className="sortByColor">
-                  {
-                    buttonSort.map((item, index) => {
-                      return <Button key={index} id={item.id} className={'sortButton background-' + item.color} shape="circle" />
-                    })
-                  }
-                </div>
-              </div>
-            </Content>
-          </Layout>
-        </Col>
-
       </Row>
     );
   }
@@ -305,6 +245,7 @@ export class HighLightPage extends React.Component {
 
 HighLightPage.propTypes = {
   handleFetchHighlights: PropTypes.func.isRequired,
+  handleLoadCourse: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -314,6 +255,7 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch) {
   return {
     handleFetchHighlights: () => { dispatch(loadHighlight()) },
+    handleLoadCourse: (id) => { dispatch(loadStudentCourses(id)) },
   };
 }
 

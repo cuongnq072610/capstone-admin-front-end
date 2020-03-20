@@ -4,6 +4,11 @@ const fetchHighlight = (url) => {
   return axiosService.get(url)
 }
 
+const fetchStudentCourses = (url) => {
+  return axiosService.get(url);
+}
+
 export {
-    fetchHighlight
+    fetchHighlight,
+    fetchStudentCourses,
 }

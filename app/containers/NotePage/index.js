@@ -58,7 +58,7 @@ export class NotePage extends React.Component {
         this.timer1 = setTimeout(() => {
           this.setState({
             isShow: false,
-          },() => localStorage.removeItem("message"))
+          }, () => localStorage.removeItem("message"))
         }, 3000)
       })
     }
@@ -185,14 +185,15 @@ export class NotePage extends React.Component {
                     {
                       isLoadingCourse ?
                         <Spin indicator={antIcon} /> :
-                        courses.map((course, index) => {
-                          return (
-                            <Button className='grid-item folder-note' key={index} onClick={() => this.navigateDetailFolder(course)}>
-                              <span className='folder-note-icon'></span>
-                              <p className='folder-note-name'>{this.renderFolderNoteName(course.courseName, course.courseCode)}</p>
-                            </Button>
-                          )
-                        })
+                        courses.length > 0 ?
+                          courses.map((course, index) => {
+                            return (
+                              <Button className='grid-item folder-note' key={index} onClick={() => this.navigateDetailFolder(course)}>
+                                <span className='folder-note-icon'></span>
+                                <p className='folder-note-name'>{this.renderFolderNoteName(course.courseName, course.courseCode)}</p>
+                              </Button>
+                            )
+                          }) : <span style={{ color: "#8c8a82" }}>You don't join any courses</span>
                     }
                   </div>
                 }

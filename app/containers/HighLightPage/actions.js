@@ -4,7 +4,7 @@
  *
  */
 
-import { DEFAULT_ACTION, LOAD_HIGHLIGHT } from './constants';
+import { DEFAULT_ACTION, LOAD_HIGHLIGHT, LOAD_COURSE } from './constants';
 
 export function defaultAction() {
   return {
@@ -16,4 +16,11 @@ export function loadHighlight() {
   return {
     type: LOAD_HIGHLIGHT,
   };
+}
+
+export function loadStudentCourses(id) {
+  return {
+    type: LOAD_COURSE,
+    id
+  }
 }

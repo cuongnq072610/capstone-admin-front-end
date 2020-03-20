@@ -4,7 +4,7 @@
  *
  */
 
-import { DEFAULT_ACTION, LOAD_NOTE, LOAD_FOLDER } from './constants';
+import { DEFAULT_ACTION, LOAD_NOTE, DELETE_NOTE, LOAD_COURSE } from './constants';
 
 export function defaultAction() {
   return {
@@ -18,8 +18,16 @@ export function loadNote() {
   }
 }
 
-export function loadFolder() {
+export function loadDeleteNote(id) {
   return {
-    type: LOAD_FOLDER,
+    type: DELETE_NOTE,
+    id,
+  }
+}
+
+export function loadStudentCourses(id) {
+  return {
+    type: LOAD_COURSE,
+    id
   }
 }

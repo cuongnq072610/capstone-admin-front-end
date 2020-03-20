@@ -2,12 +2,13 @@ import React from 'react';
 
 const colunms = [
     {
-        dataIndex: "key",
+        dataIndex: "avatar",
         width: 50,
+        render: text => <img src={text} style={{ width: '30px', height: '30px' }} />
     },
     {
         title: "TEACHER",
-        dataIndex: "teacherName",
+        dataIndex: "name",
         sorter: (a, b) => a.teacher < b.teacher,
         sortDirections: ['descend'],
         render: text => <span style={{ color: '#b9754e', fontWeight: 600 }}>{text}</span>,

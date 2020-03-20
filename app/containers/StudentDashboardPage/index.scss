@@ -59,7 +59,19 @@
 
     .courses-info-wrapper {
         margin-top: 40px;
-
+        .course-header {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 5px;
+            .btn-close {
+                height: fit-content;
+                border-radius: 15px;
+                text-align: center;
+                color: red;
+                border: 2px solid red;
+                padding-top: 1px;
+            }
+        }
         .courses-info {
             padding-right: 30px;
             .course-info-header {

@@ -49,7 +49,7 @@
     }
 }
 
-.noti-content-success {
+.noti-content-success-course {
     width: 250px;
     height: 50px;
     background-color: honeydew;
@@ -65,16 +65,16 @@
     }
 }
 
-.notification-home {
-    position: absolute;
+.notification-home-course {
+    position: fixed;
     bottom: 0px;
     right: 10px;
     opacity: 0;
     transition: bottom 1s, opacity .25s ease-in-out;
 }
 
-.notification-home-show {
-    position: absolute;
+.notification-home-show-course {
+    position: fixed;
     bottom: 50px;
     right: 10px;
     opacity: 1;

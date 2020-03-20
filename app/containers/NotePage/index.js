@@ -4,7 +4,7 @@
  *
  */
 
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
@@ -21,140 +21,11 @@ import messages from './messages';
 import Note from './Note';
 import history from '../../utils/history';
 import WrappedSearchBar from '../../components/SearchBar';
-import { Row, Layout, Col, Icon, Button, Input } from 'antd';
-import { loadNote, loadFolder } from './actions';
+import { Row, Layout, Col, Icon, Button, Input, Spin } from 'antd';
+import { loadNote, loadDeleteNote, loadStudentCourses } from './actions';
 import Masonry from 'masonry-layout'
 const { Content, Header } = Layout;
 
-const mockData = [
-  {
-    id: 1,
-    title: "What is Lorem Ipsum",
-    content: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-    isPinned: false,
-    date: "2019/10/31",
-    folder: "Economy",
-  },
-  {
-    id: 2,
-    title: "What is Lorem Ipsum CHECK",
-    content: "<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>",
-    isPinned: true,
-    date: "2019/5/15",
-    folder: "Marketting",
-  },
-  {
-    id: 3,
-    title: "What is Lorem Ipsum",
-    content: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    isPinned: true,
-    date: "2019/2/15",
-    folder: "Economy",
-  },
-  {
-    id: 4,
-    title: "What is Lorem Ipsum",
-    content: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    isPinned: true,
-    date: "2019/2/15",
-    folder: "Economy",
-  },
-  {
-    id: 5,
-    title: "What is Lorem Ipsum CHECK",
-    content: "",
-    isPinned: true,
-    date: "2019/2/15",
-    folder: "Economy",
-  },
-  {
-    id: 6,
-    title: "What is Lorem Ipsum",
-    content: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    isPinned: false,
-    date: "2019/2/15",
-    folder: "Economy",
-  },
-  {
-    id: 7,
-    title: "What is Lorem Ipsum",
-    content: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    isPinned: false,
-    date: "2019/2/15",
-    folder: "Marketting",
-  },
-  {
-    id: 8,
-    title: "What is Lorem Ipsum",
-    content: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    isPinned: true,
-    date: "2019/2/15",
-    folder: "Economy",
-  },
-  {
-    id: 9,
-    title: "What is Lorem Ipsum",
-    content: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    isPinned: false,
-    date: "2019/2/15",
-    folder: "Marketting",
-  },
-  {
-    id: 10,
-    title: "What is Lorem Ipsum",
-    content: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    isPinned: false,
-    date: "2019/2/15",
-    folder: "Economy",
-  },
-  {
-    id: 11,
-    title: "What is Lorem Ipsum",
-    content: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    isPinned: true,
-    date: "2019/2/15",
-    folder: "Budgeting",
-  },
-  {
-    id: 12,
-    title: "What is Lorem Ipsum",
-    content: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    isPinned: false,
-    date: "2019/2/15",
-    folder: "Marketting",
-  },
-  {
-    id: 13,
-    title: "What is Lorem Ipsum CHECK LAST",
-    content: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    isPinned: false,
-    date: "2019/2/15",
-    folder: "Economy",
-  },
-];
-
-const mockDataFolder = [
-  {
-    id: 1,
-    name: "Web development",
-  },
-  {
-    id: 2,
-    name: "Digital Marketing",
-  },
-  {
-    id: 3,
-    name: "Budgeting",
-  },
-  {
-    id: 4,
-    name: "Economy",
-  },
-  {
-    id: 5,
-    name: "Marketting",
-  },
-]
 /* eslint-disable react/prefer-stateless-function */
 export class NotePage extends React.Component {
   constructor(props) {
@@ -162,26 +33,41 @@ export class NotePage extends React.Component {
     this.state = {
       notes: [],
       baseNotes: [],
-      folderChosen: {},
-      textValue: "",
-      folders: [],
-      windowHeight: window.innerHeight
+      windowHeight: window.innerHeight,
+      isShow: false,
+      deleteMessage: "",
+      isShowFolder: true,
+      courses: [],
     }
   }
 
   componentDidMount() {
-    this.setState({
-      notes: mockData,
-      folders: mockDataFolder,
-      baseNotes: mockData,
-    });
-    
+    const user = JSON.parse(localStorage.getItem("user"));
+    this.props.handleLoadNote();
+    this.props.handleLoadCourse(user.profile);
+
+    const message = localStorage.getItem("message");
+    console.log(message)
+    //show delete navigate from detail page
+    if (message) {
+      // show modal success
+      this.setState({
+        isShow: true,
+        deleteMessage: message,
+      }, () => {
+        this.timer1 = setTimeout(() => {
+          this.setState({
+            isShow: false,
+          }, () => localStorage.removeItem("message"))
+        }, 3000)
+      })
+    }
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     var elems = document.querySelectorAll('.grid');
     var msnryInstance = [];
-    elems.forEach((elem,index) => {
+    elems.forEach((elem, index) => {
       msnryInstance.push(
         new Masonry(elem, {
           // options
@@ -190,98 +76,98 @@ export class NotePage extends React.Component {
           gutter: 10,
           horizontalOrder: true
         })
-      ) 
+      )
     })
-  }
-
-  navigateDetail = (note) => {
-    history.push({
-      pathname: `/note/${note.id}`,
-      state: {
-        note: note
-      }
-    })
-  }
-
-  onHandleChosenFolder = (folder) => {
-    const { folderChosen, baseNotes } = this.state;
-    if (folder !== folderChosen) {
-      var newArrNotes = baseNoes.filter(note => note.folder === folder.name)
+    if (prevProps.notePage.notes !== this.props.notePage.notes) {
       this.setState({
-        folderChosen: folder,
-        notes: newArrNotes,
+        notes: this.props.notePage.notes,
       })
-    } else {
+    }
+    if (prevProps.notePage.courses !== this.props.notePage.courses) {
       this.setState({
-        folderChosen: {},
-        notes: mockData,
+        courses: this.props.notePage.courses,
+      })
+    }
+    if (prevProps.notePage.isLoadingDelete !== this.props.notePage.isLoadingDelete && this.props.notePage.isLoadingDelete === false) {
+      this.props.handleLoadNote();
+      // show modal success
+      this.setState({
+        isShow: true,
+        deleteMessage: "Succesfully Delete",
+      }, () => {
+        this.timer2 = setTimeout(() => {
+          this.setState({
+            isShow: false
+          })
+        }, 3000)
       })
     }
   }
 
-  renderFolder = (folder, index) => {
-    const { folderChosen } = this.state;
-    return (
-      <Button className={`${folder.name === folderChosen.name ? "folder-wrap-active" : "folder-wrap"}`} key={index} onClick={() => this.onHandleChosenFolder(folder)}>
-        <div className="folder-content">
-          <span className="icon-folder"></span>
-          <span className="name-folder">{folder.name}</span>
-        </div>
-      </Button>
-    )
+  componentWillUnmount() {
+    clearTimeout(this.timer1);
+    clearTimeout(this.timer2);
   }
 
-  onHandleSubmit = () => {
-    const { textValue, folders } = this.state;
-    var newArrFolders = [...folders, { id: folders.length + 2, name: textValue }]
-    this.setState({
-      folders: newArrFolders
+  navigateDetail = (note) => {
+    history.push({
+      pathname: `/note/${note._id}`,
+      state: {
+        note: note,
+        from: `/note`
+      }
     })
   }
 
-  onChangeText = (e) => {
-    this.setState({
-      textValue: e.target.value,
+  navigateDetailFolder = (folder) => {
+    history.push({
+      pathname: `/folder/${folder.courseCode}`,
+      state: {
+        folder
+      }
     })
   }
 
-  // countNote = (type) => {
-  //   const { notes } = this.state;
-  //   var count = 0;
-  //   if (type === "pinned") {
-  //     for (let i = 0; i < notes.length; i++) {
-  //       if (notes[i].isPinned === true) {
-  //         count++
-  //       }
-  //     }
-  //   } else {
-  //     for (let i = 0; i < notes.length; i++) {
-  //       if (notes[i].isPinned === false) {
-  //         count++
-  //       }
-  //     }
-  //   }
-  //   return count
-  // }
+  handleDeleteNote = (id) => {
+    this.props.handleDeleteNote(id)
+  }
+
+  renderFolderNoteName = (name, code) => {
+    return code + ' - ' + name;
+  }
+
+  handleShowFolder = () => {
+    this.setState(prevState => {
+      return {
+        ...prevState,
+        isShowFolder: !prevState.isShowFolder
+      }
+    })
+  }
 
   render() {
-    const { notes, folders } = this.state;
+    const { notes, isShow, deleteMessage, isShowFolder, courses } = this.state;
+    const { isLoadingNote, isLoadingDelete, isLoadingCourse } = this.props.notePage;
+    const antIcon = <Icon type="loading" style={{ fontSize: 24, color: '#ffc143', marginRight: '10px' }} spin />;
     return (
       <Row>
         <Helmet>
           <title>NotePage</title>
           <meta name="description" content="Description of NotePage" />
         </Helmet>
-        <Col span={19}>
+        <Col>
           <Layout className="note-page">
             <Header
               style={{
                 backgroundColor: '#fff',
                 display: 'flex',
-                justifyContent: 'center',
+                justifyContent: "space-between",
+                alignItems: "center",
                 height: '100px',
+                paddingLeft: '0px',
               }}
             >
+              <p className="note-page-name">Notes</p>
               <WrappedSearchBar
                 message="Please enter your note's name"
                 placeholder="I want to find my notes"
@@ -289,62 +175,58 @@ export class NotePage extends React.Component {
               />
             </Header>
             <Content>
-              <div className="note-wrap">
-                <p className="note-type"><FormattedMessage {...messages.titlePinned} /></p>
-                <div className="grid note-container" >
-                  {
-                    notes.map((note, index) => {
-                      if (note.isPinned) {
-                        return (
-                          <Note key={index} note={note} navigateDetail={() => this.navigateDetail(note)} />
-                        )
-                      }
-                    })
-                  }
-                </div>
-              </div>
-              <div className="note-wrap">
-                <p className="note-type"><FormattedMessage {...messages.titleOther} /></p>
-                <div className="grid note-container" >
-                  {
-                    notes.map((note, index) => {
-                      if (!note.isPinned) {
-                        return (
-                          <Note key={index} note={note} navigateDetail={() => this.navigateDetail(note)} />
-                        )
-                      }
-                    })
-                  }
-                </div>
-              </div>
-            </Content>
-          </Layout>
-        </Col>
-        <Col span={5} className="note-side-wrapper">
-          <Layout className="note-side">
-            <Header className="filter-head">
-              <FormattedMessage {...messages.filter} />
-            </Header>
-            <Content>
-              <div className="sort">
-                <p><FormattedMessage {...messages.sort} /></p>
-                <Button className="btn-sort">
-                  <Icon type="arrow-down" style={{ fontSize: '16px' }} />
-                  <span>Time added</span>
+              <div className='note-folder'>
+                <Button className='note-folder-title' onClick={this.handleShowFolder}>
+                  <p>Folders</p>{isShowFolder ? <Icon type="down" style={{ color: '#111' }} /> : <Icon type="up" style={{ color: '#111' }} />}
                 </Button>
-              </div>
-              <div className="folder">
-                <p><FormattedMessage {...messages.folder} /></p>
-                <Input
-                  placeholder="Add new folder"
-                  prefix={<Icon type="plus" style={{ color: "#ffc143" }} onClick={this.onHandleSubmit} />}
-                  onChange={this.onChangeText}
-                  onPressEnter={this.onHandleSubmit}
-                  className="folder-add"
-                />
                 {
-                  folders.map((folder, index) => this.renderFolder(folder, index))
+                  isShowFolder &&
+                  <div className='grid folder-container'>
+                    {
+                      isLoadingCourse ?
+                        <Spin indicator={antIcon} /> :
+                        courses.length > 0 ?
+                          courses.map((course, index) => {
+                            return (
+                              <Button className='grid-item folder-note' key={index} onClick={() => this.navigateDetailFolder(course)}>
+                                <span className='folder-note-icon'></span>
+                                <p className='folder-note-name'>{this.renderFolderNoteName(course.courseName, course.courseCode)}</p>
+                              </Button>
+                            )
+                          }) : <span style={{ color: "#8c8a82" }}>You don't join any courses</span>
+                    }
+                  </div>
                 }
+              </div>
+              <div className="note-wrap">
+                <p className="note-type">Recent Notes</p>
+                {
+                  isLoadingNote ?
+                    <Spin indicator={antIcon} /> :
+                    <div className="grid note-container" >
+                      {
+                        notes.length > 0 ?
+                          notes.map((note, index) => {
+                            return (
+                              <Note
+                                key={index}
+                                note={note}
+                                navigateDetail={() => this.navigateDetail(note)}
+                                deleteNote={this.handleDeleteNote}
+                                isLoading={isLoadingDelete}
+                              />
+                            )
+                          }) :
+                          <span style={{ color: "#8c8a82" }}>You don't have any notes</span>
+                      }
+                    </div>
+                }
+              </div>
+              <div className={isShow ? 'notification-show' : 'notification'}>
+                <div className='noti-content-success'>
+                  <span className='icon-noti accept-icon '></span>
+                  <p style={{ fontSize: '14px' }}>{deleteMessage}</p>
+                </div>
               </div>
             </Content>
           </Layout>
@@ -356,7 +238,8 @@ export class NotePage extends React.Component {
 
 NotePage.propTypes = {
   handleLoadNote: PropTypes.func.isRequired,
-  handleLoadFolder: PropTypes.func.isRequired,
+  handleDeleteNote: PropTypes.func.isRequired,
+  handleLoadCourse: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -366,7 +249,8 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch) {
   return {
     handleLoadNote: () => { dispatch(loadNote()) },
-    handleLoadFolder: () => { dispatch(loadFolder()) },
+    handleDeleteNote: (id) => { dispatch(loadDeleteNote(id)) },
+    handleLoadCourse: (id) => { dispatch(loadStudentCourses(id)) },
   };
 }
 

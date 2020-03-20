@@ -68,12 +68,23 @@ export class AddCoursePage extends React.Component {
   };
 
   componentDidUpdate(prevProps) {
-    if(prevProps.addCoursePage.isDone !== this.props.addCoursePage.isDone && this.props.addCoursePage.isDone === true) {
+    if (prevProps.addCoursePage.isDone !== this.props.addCoursePage.isDone && this.props.addCoursePage.isDone === true) {
       this.props.history.push({
         pathname: '/course',
         state: {
           isDone: true
         }
+      })
+    }
+    if (prevProps.addCoursePage.errors !== this.props.addCoursePage.errors) {
+      this.setState({
+        isShow: true
+      }, () => {
+        setTimeout(() => {
+          this.setState({
+            isShow: false
+          })
+        }, 5000)
       })
     }
   }
@@ -116,7 +127,7 @@ export class AddCoursePage extends React.Component {
           this.setState({
             isShow: false
           })
-        }, 3000)
+        }, 5000)
       })
     } else {
       this.setState({
@@ -149,26 +160,26 @@ export class AddCoursePage extends React.Component {
   render() {
     const { course, type, isShow, errMess } = this.state;
     const { courseName, courseCode, departments, shortDes, fullDes, courseURL } = course;
-    const { isLoading } = this.props.addCoursePage;
+    const { isLoading, errors } = this.props.addCoursePage;
     const { Option } = Select;
     const departmentOption = [{
       id: 1,
-      value: 'computer',
+      value: 'Computer Science',
       name: 'Computer Science'
     },
     {
       id: 2,
-      value: 'business',
+      value: 'Business',
       name: 'Business'
     },
     {
       id: 3,
-      value: 'finance',
+      value: 'Finance',
       name: 'Finance'
     },
     {
       id: 4,
-      value: 'design',
+      value: 'Graphic Design',
       name: 'Graphic Design'
     }]
 
@@ -278,6 +289,13 @@ export class AddCoursePage extends React.Component {
                   <div className='noti-content-error'>
                     <span className='icon-noti deny-icon'></span>
                     <p>{errMess}</p>
+                  </div>
+                }
+                {
+                  errors && errors.length > 0 &&
+                  <div className='noti-content-error'>
+                    <span className='icon-noti deny-icon'></span>
+                    <p>{errors}</p>
                   </div>
                 }
               </div>

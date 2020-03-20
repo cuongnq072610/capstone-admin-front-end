@@ -1,29 +1,22 @@
 import React from 'react';
 
 const colunms = [
-{
-  title: "CODE",
-  dataIndex: "courseCode",
-  render: text => <span className="course-code">{text}</span>,
-  width: 150,
-  key: 'courseCode'
-},
-{
-  title: "COURSE TITLE",
-  render: (text, record) => {
-    return (
-      <div className="ask-content">
-        {
-          <span className="ask-icon ask-icon-unread" ></span>
-        }
-        <span className={`ask-content-ques`}>{text}</span>
-      </div>
-    )
+  {
+    title: "CODE",
+    dataIndex: "courseCode",
+    render: text => <span className="course-code">{text}</span>,
+    width: 150,
   },
-  dataIndex: "courseName",
-  width: 600,
-  key: 'courseName'
-}
+  {
+    title: "COURSE TITLE",
+    render: (text, record) => {
+      return (
+        <span>{text}</span>
+      )
+    },
+    dataIndex: "courseName",
+    width: 600,
+  }
 ];
 
 export default colunms;

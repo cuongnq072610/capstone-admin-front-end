@@ -121,23 +121,11 @@ export class AddTeacherPage extends React.Component {
     })
   }
 
-  handleSearchInput = (event) => {
-    const { baseTeachers } = this.state;
-    const value = event.target.value;
-    const searchTeacher = baseTeachers.filter((teacher, index) => {
-      return teacher.teacher.includes(value) || teacher.mail.includes(value)
-    });
-
-    this.setState({
-      teachers: searchTeacher
-    })
-  }
-
   navigateAddCourse = () => {
     const { chosenTeachers } = this.state;
     const { history } = this.props;
     history.push({
-      pathname: "/addcourse",
+      pathname: "/course/addcourse",
       state: {
         course: {
           ...history.location.state.course,
@@ -168,17 +156,11 @@ export class AddTeacherPage extends React.Component {
                   </Button>
                   <p className="p"><b>Add Teachers</b></p>
                 </div>
-                <Input className="search-teacher"
-                  name='search-teacher'
-                  placeholder="Search for teachers"
-                  onKeyUp={this.handleSearchInput}
-                  prefix={<Icon type="search" style={{ color: '#9C4AEE' }} />}
-                />
               </div>
               <Content>
                 <Row className="content-table">
                   <div className="chosen">
-                    <h3 className="chosen-teacher" >{this.state.chosenTeachers.length} CHOSEN TUTORS<Icon type="up" /></h3>
+                    <h3 className="chosen-teacher" >{this.state.chosenTeachers.length} CHOSEN TUTORS <Icon type="up" /></h3>
                     {chosenTeachers && chosenTeachers.length > 0 ?
                       <Table className="table-content"
                         columns={columns.columnToRemove}
@@ -194,7 +176,7 @@ export class AddTeacherPage extends React.Component {
                     }
                   </div>
                   <div className="chosen-other">
-                    <h3 className="chosen-other-teacher">OTHERS<Icon type="up" /></h3>
+                    <h3 className="chosen-other-teacher">OTHERS <Icon type="up" /></h3>
                     <Table className="table-content-non"
                       columns={columns.columnToAdd}
                       dataSource={teachers}
@@ -210,7 +192,7 @@ export class AddTeacherPage extends React.Component {
               </Content>
             </Layout>
           </Col>
-          <Col span={5} className='course'>
+          <Col span={5}>
             <CourseInfo course={course}/>
           </Col>
         </Row>

@@ -4,12 +4,13 @@ import {Icon} from 'antd';
 const colunms = {
     columnToAdd : [
         {
-            dataIndex: "key",
+            dataIndex: "avatar",
             width: 50,
+            render: text => <img src={text} style={{ width: '30px', height: '30px' }} />
         },
         {
             title: "TEACHER",
-            dataIndex: "teacherName",
+            dataIndex: "name",
             sorter: (a, b) => a.teacher < b.teacher,
             sortDirections: ['descend'],
             render: text => <span style={{ color: '#9C4AEE', fontWeight: 600 }}>{text}</span>,
@@ -43,12 +44,13 @@ const colunms = {
     ],
     columnToRemove : [
         {
-            dataIndex: "key",
+            dataIndex: "avatar",
             width: 50,
+            render: text => <img src={text} style={{ width: '30px', height: '30px' }} />
         },
         {
             title: "TEACHER",
-            dataIndex: "teacherName",
+            dataIndex: "name",
             sorter: (a, b) => a.teacher < b.teacher,
             sortDirections: ['descend'],
             render: text => <span style={{ color: '#9C4AEE', fontWeight: 600 }}>{text}</span>,

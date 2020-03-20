@@ -2,7 +2,7 @@ const AdminMenu = [
     {
         "name": "dashboard",
         "title": "Dashboard",
-        "path": "/",
+        "path": "/admin",
         'exact': true,
     },
     {
@@ -23,7 +23,7 @@ const StudentMenu = [
     {
         "name": "dashboard",
         "title": "Dashboard",
-        "path": "/",
+        "path": "/student",
         'exact': true,
     },
     {

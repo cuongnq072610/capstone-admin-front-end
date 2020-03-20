@@ -5,7 +5,7 @@ body {
 }
 
 .addTeacher {
-  
+
 
   .header {
     background-color: white;
@@ -48,7 +48,9 @@ body {
 }
 
 .content-table {
-  .table-wrapper  {
+  margin-top: 10px;
+
+  .table-wrapper {
 
     //overide ANT table style 
     .ant-empty-normal {
@@ -60,18 +62,6 @@ body {
       display: none;
     }
 
-    h3 {
-      display: flex;
-      font-size: 16px;
-      margin-left: 20px;
-      margin-top: 22px;
-      margin-bottom: 10px;
-
-      i {
-        padding: 5px 10px;
-      }
-    }
-
     .table-content {
       background-color: $tertiary_purple;
       font-size: 16px;
@@ -81,6 +71,7 @@ body {
         background-color: white;
         color: $secondary_grey;
       }
+
       tbody td {
         cursor: pointer;
         padding: 12px 16px;

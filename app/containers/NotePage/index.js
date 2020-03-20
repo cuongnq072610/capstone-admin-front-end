@@ -47,7 +47,6 @@ export class NotePage extends React.Component {
     this.props.handleLoadCourse(user.profile);
 
     const message = localStorage.getItem("message");
-    console.log(message)
     //show delete navigate from detail page
     if (message) {
       // show modal success

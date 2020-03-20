@@ -10,12 +10,13 @@ import LogoGreen from './assets/Logo/noteIt-green.png';
 import LogoOrange from './assets/Logo/noteIt-orange.png';
 import UserIcon from './assets/man1.png'
 import history from '../../utils/history';
-import { AdminMenu, StudentMenu } from './constant';
+import { AdminMenu, StudentMenu, TeacherMenu } from './constant';
 
 class SideMenu extends React.PureComponent {
   renderLogo = (pathname) => {
     switch (pathname) {
-      case "student-dashboard":
+      case "tutor":
+        return LogoBlue;
       case "dashboard":
         return LogoBlue;
       case "course":
@@ -46,16 +47,26 @@ class SideMenu extends React.PureComponent {
               </Tooltip>
             </Menu.Item>
           )
-        }) : StudentMenu.map((menu, index) => {
-          return (
-            <Menu.Item key={index + 1}>
-              <Tooltip title={menu.title} placement="right">
-                <NavLink exact={menu.exact} to={menu.path} activeClassName={`${menu.name}-active`} className={`menu-icon ${menu.name}`}>
-                </NavLink>
-              </Tooltip>
-            </Menu.Item>
-          )
-        })
+        }) : role === 'student' ?
+          StudentMenu.map((menu, index) => {
+            return (
+              <Menu.Item key={index + 1}>
+                <Tooltip title={menu.title} placement="right">
+                  <NavLink exact={menu.exact} to={menu.path} activeClassName={`${menu.name}-active`} className={`menu-icon ${menu.name}`}>
+                  </NavLink>
+                </Tooltip>
+              </Menu.Item>
+            )
+          }) : TeacherMenu.map((menu, index) => {
+            return (
+              <Menu.Item key={index + 1}>
+                <Tooltip title={menu.title} placement="right">
+                  <NavLink exact={menu.exact} to={menu.path} activeClassName={`${menu.name}-active`} className={`menu-icon ${menu.name}`}>
+                  </NavLink>
+                </Tooltip>
+              </Menu.Item>
+            )
+          })
     )
   }
 
@@ -67,7 +78,7 @@ class SideMenu extends React.PureComponent {
   render() {
     const { page } = this.props;
     const content = (
-      <Button style={{border: 'none'}} onClick={this.onHandleLogout}>
+      <Button style={{ border: 'none' }} onClick={this.onHandleLogout}>
         Log out
       </Button>
     )

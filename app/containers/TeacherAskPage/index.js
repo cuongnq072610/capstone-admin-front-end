@@ -80,9 +80,6 @@ export class StudentAskPage extends React.Component {
                     loading={isLoading}
                   />
                 </Row>
-                <div className="float" onClick={() => this.props.history.push("/ask/create")}>
-                  <Icon type="plus" className="my-float" />
-                </div>
               </Content>
             </Layout>
           </Col>

@@ -26,6 +26,7 @@ const GET_ALL_FOLDER = "/allfolderbystudentid/5e6a7eddb42dae46b2c25a01";
 const CREATE_NEW_FOLDER = '/createfolder';
 const GET_ALL_ASK = "/allaskofstudent";
 const GET_ASK_BY_ID = "/getaskbyid";
+const GET_ALL_ASK_TEACHER = '/allaskofteacher';
 
 const GET_ALL_DEPARTMENT = '/allDepartment';
 
@@ -65,6 +66,7 @@ export {
     GET_ALL_ASK,
     GET_ASK_BY_ID,
     GET_ALL_DEPARTMENT,
+    GET_ALL_ASK_TEACHER,
     //STUDENT
     GET_STUDENT_INFO,
     UPDATE_STUDENT_COURSE,

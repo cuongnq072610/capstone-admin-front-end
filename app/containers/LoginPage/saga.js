@@ -14,20 +14,6 @@ function* handleLogin(action) {
       yield put({ type: LOGIN_FAILURE, payload: response.data.err })
     } else {
       yield put({ type: LOGIN_SUCCESS, payload: response.data.token })
-      localStorage.setItem("token", response.data.token);
-      const parseToken = parseJwt(response.data.token);
-      const user = JSON.stringify(parseToken.user);
-      localStorage.setItem('user', user);
-      switch (JSON.parse(user).role) {
-        case 'admin':
-          history.push('/admin');
-          break;
-        case 'teacher':
-          history.push('/teacher');
-          break;
-        default:
-          break;
-      }
     }
   } catch (error) {
     yield put({ type: LOGIN_FAILURE, payload: error })

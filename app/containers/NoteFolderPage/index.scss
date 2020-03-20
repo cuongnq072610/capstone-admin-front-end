@@ -5,6 +5,7 @@
         display: flex;
         align-items: center;
         justify-content: flex-start;
+
         .note-page-name {
             color: $primary_yellow;
             font-family: Roboto;
@@ -13,5 +14,48 @@
             letter-spacing: 0.28px;
             margin: 0 10px
         }
+    }
+
+    .notification {
+        position: absolute;
+        left: 0px;
+        top: 90vh;
+        opacity: 0;
+        transition: opacity 1s ease-in-out;
+    }
+
+    .notification-show {
+        position: absolute;
+        left: 0px;
+        top: 90vh;
+        opacity: 1;
+        transition: opacity 1s ease-in-out;
+    }
+
+    .noti-content-success {
+        width: 250px;
+        height: 50px;
+        background-color: honeydew;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        padding-left: 20px;
+
+        p {
+            padding: 0px;
+            margin-left: 20px;
+            margin-bottom: 0px;
+        }
+    }
+
+    .icon-noti {
+        display: inline-block;
+        width: 25px;
+        height: 25px;
+        background-size: cover;
+    }
+
+    .accept-icon {
+        background-image: url(assets/accept.svg);
     }
 }

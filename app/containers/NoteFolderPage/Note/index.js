@@ -15,7 +15,7 @@ const Note = (props) => {
             </button>
             <button className="note-btn" onClick={navigateDetail}>
                 <p className="note-title">{note.description}</p>
-                <div dangerouslySetInnerHTML={{ __html: note.note }} className="note-content"></div>
+                <div dangerouslySetInnerHTML={{ __html: note.scannedContent }} className="note-content"></div>
             </button>
         </div>
     )

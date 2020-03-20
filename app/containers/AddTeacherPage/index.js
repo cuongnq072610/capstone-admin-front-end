@@ -121,18 +121,6 @@ export class AddTeacherPage extends React.Component {
     })
   }
 
-  handleSearchInput = (event) => {
-    const { baseTeachers } = this.state;
-    const value = event.target.value;
-    const searchTeacher = baseTeachers.filter((teacher, index) => {
-      return teacher.teacher.includes(value) || teacher.mail.includes(value)
-    });
-
-    this.setState({
-      teachers: searchTeacher
-    })
-  }
-
   navigateAddCourse = () => {
     const { chosenTeachers } = this.state;
     const { history } = this.props;
@@ -168,12 +156,6 @@ export class AddTeacherPage extends React.Component {
                   </Button>
                   <p className="p"><b>Add Teachers</b></p>
                 </div>
-                <Input className="search-teacher"
-                  name='search-teacher'
-                  placeholder="Search for teachers"
-                  onKeyUp={this.handleSearchInput}
-                  prefix={<Icon type="search" style={{ color: '#9C4AEE' }} />}
-                />
               </div>
               <Content>
                 <Row className="content-table">

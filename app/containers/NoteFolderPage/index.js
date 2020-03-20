@@ -18,67 +18,15 @@ import makeSelectNoteFolderPage from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
-import { Layout, Icon } from 'antd';
+import { Layout, Icon, Spin } from 'antd';
 import WrappedSearchBar from '../../components/SearchBar';
 import Note from './Note';
 import { Link } from 'react-router-dom';
 import Masonry from 'masonry-layout'
 import './index.scss';
+import { loadNotesByFolder, loadDeleteNote } from './actions';
 
 const { Header, Content } = Layout;
-
-const mockDataNotes = [
-  {
-    studentID: 1,
-    courseCode: 'ABC123',
-    note: '<p>Take note here</p>',
-    description: 'This is new note',
-    url: 'reactjs.org',
-    index: 1,
-    dateModified: 14 / 3 / 2020,
-    isPinned: false,
-  },
-  {
-    studentID: 1,
-    courseCode: 'ABC123',
-    note: '<p>Take note here</p>',
-    description: 'This is new note',
-    url: 'reactjs.org',
-    index: 1,
-    dateModified: 14 / 3 / 2020,
-    isPinned: false,
-  },
-  {
-    studentID: 1,
-    courseCode: 'ABC123',
-    note: '<p>Take note here</p>',
-    description: 'This is new note',
-    url: 'reactjs.org',
-    index: 1,
-    dateModified: 14 / 3 / 2020,
-    isPinned: false,
-  },
-  {
-    studentID: 1,
-    courseCode: 'ABC123',
-    note: '<p>Take note here</p>',
-    description: 'This is new note',
-    url: 'reactjs.org',
-    index: 1,
-    dateModified: 14 / 3 / 2020,
-    isPinned: true,
-  },
-  {
-    studentID: 1,
-    courseCode: 'ABC123',
-    note: '<p>Take note here</p>',
-    description: 'This is new note',
-    url: 'reactjs.org',
-    index: 1,
-    dateModified: 14 / 3 / 2020,
-    isPinned: true,
-  },
-]
 
 /* eslint-disable react/prefer-stateless-function */
 export class NoteFolderPage extends React.Component {
@@ -87,17 +35,34 @@ export class NoteFolderPage extends React.Component {
       this.state = {
         folder: {},
         notes: [],
+        isShow: false,
       }
   }
   componentDidMount() {
     const { folder } = this.props.history.location.state;
     this.setState({
       folder,
-      notes: mockDataNotes,
     })
+    this.props.handleFetchNoteByCourse(folder._id);
+    const message = localStorage.getItem("message");
+    //show delete navigate from detail page
+    if (message) {
+      // show modal success
+      this.setState({
+        isShow: true,
+        deleteMessage: message,
+      }, () => {
+        this.timer1 = setTimeout(() => {
+          this.setState({
+            isShow: false,
+          }, () => localStorage.removeItem("message"))
+        }, 3000)
+      })
+    }
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
+    const { folder } = this.state;
     var elems = document.querySelectorAll('.grid');
     var msnryInstance = [];
     elems.forEach((elem, index) => {
@@ -111,13 +76,39 @@ export class NoteFolderPage extends React.Component {
         })
       )
     })
+    if (prevProps.noteFolderPage.notes !== this.props.noteFolderPage.notes) {
+      this.setState({
+        notes: this.props.noteFolderPage.notes,
+      })
+    }
+    if (prevProps.noteFolderPage.isLoadingDelete !== this.props.noteFolderPage.isLoadingDelete && this.props.noteFolderPage.isLoadingDelete === false) {
+      this.props.handleFetchNoteByCourse(folder._id);
+      // show modal success
+      this.setState({
+        isShow: true,
+        deleteMessage: "Succesfully Delete",
+      }, () => {
+        this.timer1 = setTimeout(() => {
+          this.setState({
+            isShow: false
+          })
+        }, 3000)
+      })
+    }
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.timer1);
   }
 
   navigateDetail = (note) => {
+    const { folder } = this.state;
     this.props.history.push({
       pathname: `/note/${note._id}`,
       state: {
-        note: note
+        note: note,
+        folder,
+        from: `/folder/${folder.courseCode}`,
       }
     })
   }
@@ -126,8 +117,15 @@ export class NoteFolderPage extends React.Component {
     return code + ' - ' + name;
   }
 
+  handleDeleteNote = (id) => {
+    this.props.handleDeleteNote(id)
+  }
+
   render() {
-    const { folder, notes } = this.state;
+    const { folder, notes, isShow, deleteMessage } = this.state;
+    const { isLoading, isLoadingDelete } = this.props.noteFolderPage;
+    const antIcon = <Icon type="loading" style={{ fontSize: 24, color: '#ffc143', marginRight: '10px' }} spin />;
+
     return (
       <div>
         <Helmet>
@@ -159,51 +157,58 @@ export class NoteFolderPage extends React.Component {
           </Header>
           <Content>
             {
-              // isLoadingNote ?
-              //   <Spin indicator={antIcon} /> :
-              <Fragment>
-                <div className="note-wrap">
-                  <p className="note-type">Pinned</p>
-                  <div className="grid note-container" >
-                    {
-                      notes.map((note, index) => {
-                        if (note.isPinned) {
-                          return (
-                            <Note
-                              key={index}
-                              note={note}
-                              navigateDetail={() => this.navigateDetail(note)}
-                              deleteNote={this.handleDeleteNote}
-                            // isLoading={isLoadingDelete}
-                            />
-                          )
+              isLoading ?
+                <Spin indicator={antIcon} /> :
+                notes.length > 0 ?
+                  <Fragment>
+                    <div className="note-wrap">
+                      <p className="note-type">Pinned</p>
+                      <div className="grid note-container" >
+                        {
+                          notes.map((note, index) => {
+                            if (note.isPinned) {
+                              return (
+                                <Note
+                                  key={index}
+                                  note={note}
+                                  navigateDetail={() => this.navigateDetail(note)}
+                                  deleteNote={this.handleDeleteNote}
+                                  isLoading={isLoadingDelete}
+                                />
+                              )
+                            }
+                          })
                         }
-                      })
-                    }
-                  </div>
-                </div>
-                <div className="note-wrap">
-                  <p className="note-type">Other</p>
-                  <div className="grid note-container" >
-                    {
-                      notes.map((note, index) => {
-                        if (!note.isPinned) {
-                          return (
-                            <Note
-                              key={index}
-                              note={note}
-                              navigateDetail={() => this.navigateDetail(note)}
-                              deleteNote={this.handleDeleteNote}
-                            // isLoading={isLoadingDelete}
-                            />
-                          )
+                      </div>
+                    </div>
+                    <div className="note-wrap">
+                      <p className="note-type">Other</p>
+                      <div className="grid note-container" >
+                        {
+                          notes.map((note, index) => {
+                            if (!note.isPinned) {
+                              return (
+                                <Note
+                                  key={index}
+                                  note={note}
+                                  navigateDetail={() => this.navigateDetail(note)}
+                                  deleteNote={this.handleDeleteNote}
+                                  isLoading={isLoadingDelete}
+                                />
+                              )
+                            }
+                          })
                         }
-                      })
-                    }
-                  </div>
-                </div>
-              </Fragment>
+                      </div>
+                    </div>
+                  </Fragment> : <span style={{ color: "#8c8a82" }}>You don't have any notes</span>
             }
+            <div className={isShow ? 'notification-show' : 'notification'}>
+              <div className='noti-content-success'>
+                <span className='icon-noti accept-icon '></span>
+                <p style={{ fontSize: '14px' }}>{deleteMessage}</p>
+              </div>
+            </div>
           </Content>
         </Layout>
       </div>
@@ -212,7 +217,8 @@ export class NoteFolderPage extends React.Component {
 }
 
 NoteFolderPage.propTypes = {
-  dispatch: PropTypes.func.isRequired,
+  handleFetchNoteByCourse: PropTypes.func.isRequired,
+  handleDeleteNote: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -221,7 +227,8 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
-    dispatch,
+    handleFetchNoteByCourse: (courseId) => { dispatch(loadNotesByFolder(courseId)) },
+    handleDeleteNote: (id) => { dispatch(loadDeleteNote(id)) },
   };
 }
 

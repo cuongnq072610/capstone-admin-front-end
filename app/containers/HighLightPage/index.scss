@@ -88,179 +88,47 @@
         margin-top: 50px;
     }
 
-}
+    .notification {
+        position: absolute;
+        left: 0px;
+        top: 90vh;
+        opacity: 0;
+        transition: opacity 1s ease-in-out;
+    }
 
-.highlight-side-wrapper {
-    position: absolute;
-    right: 0;
+    .notification-show {
+        position: absolute;
+        left: 0px;
+        top: 90vh;
+        opacity: 1;
+        transition: opacity 1s ease-in-out;
+    }
 
-    .highlight-side {
-        height: 100%;
-        margin-top: 10px;
-        padding: 0px 30px;
-        // -webkit-box-shadow: -3px 0px 6px 0px rgba(83,219,177,.5);
-        // -moz-box-shadow: -3px 0px 6px 0px rgba(83,219,177,.5);
-        // box-shadow: -3px 0px 6px 0px rgba(83,219,177,.5);
+    .noti-content-success {
+        width: 250px;
+        height: 50px;
+        background-color: honeydew;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        padding-left: 20px;
 
-        .filter-head {
-            background-color: $primary_white;
-            padding-left: 0px;
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            color: $highlight_green;
-            font-family: Roboto;
-            font-size: 30px;
-            font-weight: 700;
-            letter-spacing: 0.28px;
-        }
-
-        .sort {
-            margin-bottom: 26px;
-
-            p {
-                color: #212121;
-                font-family: Roboto;
-                font-size: 16px;
-                font-weight: 400;
-                letter-spacing: 1.6px;
-                text-transform: uppercase;
-            }
-
-            .btn-sort {
-                display: flex;
-                flex-direction: row;
-                justify-content: flex-start;
-                align-items: center;
-                border: none;
-                box-shadow: none;
-
-                span {
-                    color: #616161;
-                    font-family: Roboto;
-                    font-size: 14px;
-                    font-weight: 400;
-                    letter-spacing: 0.14px;
-                    line-height: 17px;
-                }
-            }
-
-            .sortByColor {
-                display: flex;
-                justify-content: space-around;
-
-                .sortButton {
-                    opacity: .4;
-                    border: none;
-
-                    &:hover {
-                        opacity: 1;
-                    }
-                }
-            }
-        }
-
-        .folder {
-            p {
-                color: #212121;
-                font-family: Roboto;
-                font-size: 16px;
-                font-weight: 400;
-                letter-spacing: 1.6px;
-                text-transform: uppercase;
-            }
-
-            .folder-wrap {
-                padding: 10px;
-                margin: 5px 0px;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                height: 50px;
-                width: 100%;
-                border: none;
-                box-shadow: none;
-
-                .folder-content {
-                    display: flex;
-                    justify-content: flex-start;
-                    align-items: center;
-
-                    .name-folder {
-                        margin-left: 15px;
-                        color: #616161;
-                        font-family: Roboto;
-                        font-size: 14px;
-                        font-weight: 400;
-                        letter-spacing: 0.14px;
-                        line-height: 17px;
-                    }
-
-                    .icon-folder {
-                        display: inline-block;
-                        width: 16px;
-                        height: 16px;
-                        background-size: cover;
-                        background-image: url(assets/note.svg);
-                    }
-                }
-
-            }
-
-            .folder-wrap-active {
-                padding: 10px;
-                margin: 5px 0px;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                height: 50px;
-                width: 100%;
-                border: none;
-                box-shadow: none;
-                background-color: $tertiary_yellow;
-
-                .folder-content {
-                    display: flex;
-                    justify-content: flex-start;
-                    align-items: center;
-
-                    .name-folder {
-                        margin-left: 15px;
-                        color: $primary_yellow;
-                        font-family: Roboto;
-                        font-size: 14px;
-                        font-weight: 400;
-                        letter-spacing: 0.14px;
-                        line-height: 17px;
-                    }
-
-                    .icon-folder {
-                        display: inline-block;
-                        width: 16px;
-                        height: 16px;
-                        background-size: cover;
-                        background-image: url(assets/note_active.svg);
-                    }
-                }
-            }
-
-            .note-add {
-                height: 38px;
-                display: flex;
-                justify-content: flex-start;
-                align-items: center;
-                margin-bottom: 20px;
-
-                input {
-                    color: $highlight_green;
-                    background-color: $secondary_green;
-                    border: none;
-
-                    &::placeholder {
-                        color: $highlight_green;
-                    }
-                }
-            }
+        p {
+            padding: 0px;
+            margin-left: 20px;
+            margin-bottom: 0px;
         }
     }
+
+    .icon-noti {
+        display: inline-block;
+        width: 25px;
+        height: 25px;
+        background-size: cover;
+    }
+
+    .accept-icon {
+        background-image: url(assets/accept.svg);
+    }
+
 }

@@ -12,16 +12,20 @@ import {
   LOAD_FAILURE_NOTE,
   DELETE_NOTE,
   DELETE_NOTE_SUCCESS,
-  DELETE_NOTE_FAILURE
+  DELETE_NOTE_FAILURE,
+  LOAD_COURSE,
+  LOAD_FAILURE_COURSE,
+  LOAD_SUCCESS_COURSE
 } from './constants';
 
 export const initialState = fromJS({
   notes: [],
   isLoadingNote: false,
-  isCreatingFolder: false,
+  isLoadingCourse: false,
   isLoadingDelete: false,
   errors: "",
   message: {},
+  courses: [],
 });
 
 function notePageReducer(state = initialState, action) {
@@ -40,6 +44,12 @@ function notePageReducer(state = initialState, action) {
       return state.set("isLoadingDelete", false).set("message", action.payload);
     case DELETE_NOTE_FAILURE:
       return state.set("isLoadingDelete", false).set("error", action.payload);
+    case LOAD_COURSE:
+      return state.set("isLoadingCourse", true);
+    case LOAD_SUCCESS_COURSE:
+      return state.set("isLoadingCourse", false).set('courses', fromJS(action.payload));
+    case LOAD_FAILURE_COURSE:
+      return state.set("isLoadingCourse", false).set("error", action.payload);
     default:
       return state;
   }

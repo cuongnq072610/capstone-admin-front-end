@@ -71,7 +71,7 @@ class SideMenu extends React.PureComponent {
         Log out
       </Button>
     )
-    const avatar = JSON.parse(localStorage.getItem('user')).avatar
+    const avatar = JSON.parse(localStorage.getItem('user')) ? JSON.parse(localStorage.getItem('user')).avatar : UserIcon;
     return (
       <Layout id="sideMenu">
         <div className="logo">
@@ -93,7 +93,7 @@ class SideMenu extends React.PureComponent {
             <Popover placement="right" content={content} trigger="click">
               <Button className='btn-logout'>
                 <img
-                  src={avatar ? avatar : UserIcon}
+                  src={avatar}
                   alt="User Logo"
                 />
               </Button>

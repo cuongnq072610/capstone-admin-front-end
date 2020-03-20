@@ -78,7 +78,7 @@ class Filter extends React.PureComponent {
 Filter.propTypes = {
   onReset: PropTypes.func,
   onFilter: PropTypes.func,
-  departments: PropTypes.arrayOf(PropTypes.string),
+  departments: PropTypes.arrayOf(PropTypes.object),
   type: PropTypes.string,
 };
 

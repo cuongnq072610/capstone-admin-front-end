@@ -23,102 +23,8 @@ import HighLightElement from './HighlightElement';
 import { Row, Layout, Col, Icon, Button, Input, Spin } from 'antd';
 import "./index.scss";
 import Masonry from 'masonry-layout'
-import { loadHighlight } from './actions';
+import { loadHighlight, loadStudentCourses, loadDeleteHighlight } from './actions';
 const { Header, Content } = Layout;
-
-const mockData = [
-  {
-    id: 1,
-    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. ",
-    color: 'green',
-    date: "2019/10/31",
-    tags: ['english', 'accounting']
-  },
-  {
-    id: 2,
-    color: 'blue',
-    text: "Lorem ipsum dolor sit amet",
-    date: "2019/10/31",
-    tags: ['english']
-  },
-  {
-    id: 3,
-    text: "Sed magna arcu, fermentum vel porttitor non, fermentum ac metus. Etiam pharetra posuere erat, vitae sagittis felis mattis eget.",
-    color: 'red',
-    date: "2019/10/31",
-    tags: ['animation']
-  },
-  {
-    id: 4,
-    text: "Sed in arcu fermentum, consectetur justo a, lacinia lorem, justo alor.",
-    color: 'yellow',
-    date: "2019/10/31",
-    tags: ['important']
-  },
-  {
-    id: 5,
-    text: "Nunc rutrum sapien ut felis ullamcorper, ac euismod felis tempus. Nulla lobortis interdum felis, sollicitudin condimentum dolor rhoncus vitae.",
-    color: 'green',
-    date: "2019/10/31",
-    tags: ['important', 'advertising']
-  },
-  {
-    id: 6,
-    text: "Nulla a arcu a lacus eleifend convallis a tempor eros.",
-    color: 'blue',
-    date: "2019/10/31",
-    tags: ['quote']
-  },
-  {
-    id: 7,
-    text: "Cras dapibus erat erat, quis lobortis nunc placerat quis. Nunc vitae mollis lorem. Sed suscipit porttitor elit. Ut lacinia magna non auctor aliquet. ",
-    color: 'orange',
-    date: "2019/10/31",
-    tags: ['quote']
-  },
-  {
-    id: 8,
-    text: "In sem sapien, gravida sed sem non, pellentesque malesuada felis.",
-    color: 'yellow',
-    date: "2019/10/31",
-    tags: ['important']
-  },
-  {
-    id: 9,
-    text: "Aenean maximus sodales ex, ut rhoncus lectus hendrerit ac. Mauris vestibulum diam justo, id efficitur lorem consequat a. Praesent eu rutrum tortor.",
-    color: 'red',
-    date: "2019/10/31",
-    tags: ['advertising']
-  }
-];
-
-const mockDataFolder = [
-  {
-    id: 1,
-    courseCode: 'COM101',
-    courseName: 'Communication Principle',
-  },
-  {
-    id: 2,
-    courseCode: 'ASD203',
-    courseName: 'Algorithms and Data Structure',
-  },
-  {
-    id: 3,
-    courseCode: 'FIN102',
-    courseName: 'Finance Principles',
-  },
-  {
-    id: 4,
-    courseCode: 'DBW231',
-    courseName: 'Datawarehouse',
-  },
-  {
-    id: 5,
-    courseCode: 'ECO101',
-    courseName: 'E-commerce',
-  },
-]
 
 /* eslint-disable react/prefer-stateless-function */
 export class HighLightPage extends React.Component {
@@ -132,11 +38,14 @@ export class HighLightPage extends React.Component {
       folders: [],
       windowHeight: window.innerHeight,
       isShowFolder: true,
+      courses: [],
     }
   }
 
   componentDidMount() {
     this.props.handleFetchHighlights();
+    const user = JSON.parse(localStorage.getItem("user"));
+    this.props.handleLoadCourse(user.profile);
   }
 
   componentDidUpdate(prevProps) {
@@ -151,9 +60,28 @@ export class HighLightPage extends React.Component {
     if (prevProps.highLightPage.highlights !== this.props.highLightPage.highlights) {
       this.setState({
         highlights: this.props.highLightPage.highlights,
-        baseHighlight: mockData,
-        folders: mockDataFolder
       });
+    }
+    if (prevProps.highLightPage.courses !== this.props.highLightPage.courses) {
+      this.setState({
+        courses: this.props.highLightPage.courses,
+      })
+    }
+    if (prevProps.highLightPage.isLoadingDelete !== this.props.highLightPage.isLoadingDelete
+      && this.props.highLightPage.isLoadingDelete === false
+    ) {
+      this.props.handleFetchHighlights();
+      // show modal success
+      this.setState({
+        isShow: true,
+        deleteMessage: "Succesfully Delete",
+      }, () => {
+        this.timer1 = setTimeout(() => {
+          this.setState({
+            isShow: false
+          })
+        }, 3000)
+      })
     }
   }
 
@@ -191,31 +119,14 @@ export class HighLightPage extends React.Component {
     })
   }
 
+
+  handleDeleteHighlight = (id) => {
+    this.props.handleDeleteHighlight(id);
+  }
+
   render() {
-    const { highlights, folders, isShowFolder } = this.state;
-    const { isLoading } = this.props.highLightPage;
-    const buttonSort = [
-      {
-        id: 'greenSortButton',
-        color: 'green'
-      },
-      {
-        id: 'redSortButton',
-        color: 'red'
-      },
-      {
-        id: 'blueSortButton',
-        color: 'blue'
-      },
-      {
-        id: 'yellowSortButton',
-        color: 'yellow'
-      },
-      {
-        id: 'orangeSortButton',
-        color: 'orange'
-      }
-    ]
+    const { highlights, courses, isShowFolder, isShow, deleteMessage } = this.state;
+    const { isLoading, isLoadingCourse, isLoadingDelete } = this.props.highLightPage;
     const antIcon = <Icon type="loading" style={{ fontSize: 24, color: '#40a887', marginRight: '10px' }} spin />;
     return (
       <Row>
@@ -223,7 +134,7 @@ export class HighLightPage extends React.Component {
           <title>Highlight Page</title>
           <meta name="description" content="Description of Highlight Page" />
         </Helmet>
-        <Col span={19}>
+        <Col>
           <Layout className="highlight-page">
             <Header
               style={{
@@ -238,7 +149,7 @@ export class HighLightPage extends React.Component {
               <p className="highlight-page-name">HighLights</p>
               <WrappedSearchBar
                 message="Please enter your note's name"
-                placeholder="I want to find my notes"
+                placeholder="I want to find my highlights"
                 type="highlight"
               />
             </Header>
@@ -251,53 +162,48 @@ export class HighLightPage extends React.Component {
                   isShowFolder &&
                   <div className='grid folder-container'>
                     {
-                      mockDataFolder.map((folder, index) => {
-                        return (
-                          <Button className='grid-item folder-highlight' key={index} onClick={() => this.navigateDetailFolder(folder)}>
-                            <span className='folder-highlight-icon'></span>
-                            <p className='folder-highlight-name'>{this.renderFolderNoteName(folder.courseName, folder.courseCode)}</p>
-                          </Button>
-                        )
-                      })
+                      isLoadingCourse ?
+                        <Spin indicator={antIcon} /> :
+                        courses.length > 0 ?
+                          courses.map((folder, index) => {
+                            return (
+                              <Button className='grid-item folder-highlight' key={index} onClick={() => this.navigateDetailFolder(folder)}>
+                                <span className='folder-highlight-icon'></span>
+                                <p className='folder-highlight-name'>{this.renderFolderNoteName(folder.courseName, folder.courseCode)}</p>
+                              </Button>
+                            )
+                          }) : <span style={{ color: "#8c8a82" }}>You don't join any courses</span>
                     }
                   </div>
                 }
               </div>
               <p className="highlight-type">Recent Highlights</p>
               {
-                // isLoading ?
-                //   <Spin indicator={antIcon} /> :
+                isLoading ?
+                  <Spin indicator={antIcon} /> :
                   <div className="highLights grid" >
                     {
-                      mockData.map(highlight => {
-                        return <HighLightElement key={highlight.id} highlight={highlight} />
-                      })
+                      highlights.length > 0 ?
+                        highlights.map(highlight => {
+                          return <HighLightElement
+                            key={highlight.id}
+                            highlight={highlight}
+                            deleteHighlight={this.handleDeleteHighlight}
+                            isLoading={isLoadingDelete}
+                          />
+                        }) : <span style={{ color: "#8c8a82" }}>You don't have any highlights</span>
                     }
                   </div>
               }
-            </Content>
-          </Layout>
-        </Col>
-        <Col span={5} className="highlight-side-wrapper" style={{ 'height': this.state.windowHeight - 10 }}>
-          <Layout className="highlight-side">
-            <Header className="filter-head">
-              <FormattedMessage {...messages.filter} />
-            </Header>
-            <Content>
-              <div className="sort">
-                <p><FormattedMessage {...messages.sort} /></p>
-                <div className="sortByColor">
-                  {
-                    buttonSort.map((item, index) => {
-                      return <Button key={index} id={item.id} className={'sortButton background-' + item.color} shape="circle" />
-                    })
-                  }
+              <div className={isShow ? 'notification-show' : 'notification'}>
+                <div className='noti-content-success'>
+                  <span className='icon-noti accept-icon '></span>
+                  <p style={{ fontSize: '14px' }}>{deleteMessage}</p>
                 </div>
               </div>
             </Content>
           </Layout>
         </Col>
-
       </Row>
     );
   }
@@ -305,6 +211,8 @@ export class HighLightPage extends React.Component {
 
 HighLightPage.propTypes = {
   handleFetchHighlights: PropTypes.func.isRequired,
+  handleLoadCourse: PropTypes.func.isRequired,
+  handleDeleteHighlight: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -314,6 +222,8 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch) {
   return {
     handleFetchHighlights: () => { dispatch(loadHighlight()) },
+    handleLoadCourse: (id) => { dispatch(loadStudentCourses(id)) },
+    handleDeleteHighlight: (id) => { dispatch(loadDeleteHighlight(id)) },
   };
 }
 

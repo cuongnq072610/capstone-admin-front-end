@@ -10,10 +10,6 @@ const fomatDepartment = (departments) => {
 const colunms = {
     columnToAdd: [
         {
-            dataIndex: "key",
-            width: 50,
-        },
-        {
             title: "CODE",
             dataIndex: "courseCode",
             sorter: (a, b) => a.teacher < b.teacher,
@@ -80,10 +76,6 @@ const colunms = {
         }
     ],
     columnToRemove: [
-        {
-            dataIndex: "key",
-            width: 50,
-        },
         {
             title: "CODE",
             dataIndex: "courseCode",

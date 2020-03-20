@@ -14,6 +14,7 @@ const SEARCH_TEACHERS = '/searchteacher';
 const GET_RECENT_HIGHLIGHT = "/getRecentHighlight";
 const DELETE_HIGHLIGHT_BY_ID = "/deletehighlightbyid";
 const GET_HIGHLIGHT_BY_FOLDER = "/getHighlightByCourse";
+const GET_HIGHLIGHT_BY_COLOR = '/getHighlightByColor';
 
 const GET_RECENT_NOTE = "/getRecentNote";
 const GET_NOTE_BY_ID = "/getnotebyid";
@@ -23,7 +24,7 @@ const GET_NOTE_BY_FOLDER = "/getNoteByCourse";
 
 const GET_ALL_FOLDER = "/allfolderbystudentid/5e6a7eddb42dae46b2c25a01";
 const CREATE_NEW_FOLDER = '/createfolder';
-const GET_ALL_ASK = "/allaskofstudent/5e6a7eddb42dae46b2c25a01";
+const GET_ALL_ASK = "/allaskofstudent";
 const GET_ASK_BY_ID = "/getaskbyid";
 
 const GET_ALL_DEPARTMENT = '/allDepartment';
@@ -51,6 +52,7 @@ export {
     GET_RECENT_HIGHLIGHT,
     DELETE_HIGHLIGHT_BY_ID,
     GET_HIGHLIGHT_BY_FOLDER,
+    GET_HIGHLIGHT_BY_COLOR,
     //NOTE
     GET_RECENT_NOTE,
     GET_NOTE_BY_ID,

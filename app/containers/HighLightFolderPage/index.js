@@ -24,7 +24,7 @@ import WrappedSearchBar from '../../components/SearchBar';
 import HighLightElement from './HighlightElement';
 import './index.scss';
 import { Link } from 'react-router-dom';
-import { loadHighlightByFolder, loadDeleteHighlight } from './actions';
+import { loadHighlightByFolder, loadDeleteHighlight, loadFilterHighlight } from './actions';
 const { Header, Content } = Layout;
 
 /* eslint-disable react/prefer-stateless-function */
@@ -95,6 +95,16 @@ export class HighLightFolderPage extends React.Component {
 
   handleDeleteHighlight = (id) => {
     this.props.handleDeleteHighlight(id);
+  }
+
+  handleFilterHighlight = (color) => {
+    const { folder } = this.state;
+    this.props.handleFetchHighlightByColor(color, folder._id);
+  }
+
+  handleClearFilter = () => {
+    const { folder } = this.state;
+    this.props.handleFetchHighlightByCourse(folder._id);
   }
 
   render() {
@@ -193,10 +203,11 @@ export class HighLightFolderPage extends React.Component {
                 <div className="sortByColor">
                   {
                     buttonSort.map((item, index) => {
-                      return <Button key={index} id={item.id} className={'sortButton background-' + item.color} shape="circle" />
+                      return <Button key={index} id={item.id} className={'sortButton background-' + item.color} shape="circle" onClick={() => this.handleFilterHighlight(item.color)} />
                     })
                   }
                 </div>
+                <Button className='btn-clear-filter' onClick={this.handleClearFilter}>Clear</Button>
               </div>
             </Content>
           </Layout>
@@ -209,6 +220,7 @@ export class HighLightFolderPage extends React.Component {
 HighLightFolderPage.propTypes = {
   handleFetchHighlightByCourse: PropTypes.func.isRequired,
   handleDeleteHighlight: PropTypes.func.isRequired,
+  handleFetchHighlightByColor: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -219,6 +231,7 @@ function mapDispatchToProps(dispatch) {
   return {
     handleFetchHighlightByCourse: (courseId) => { dispatch(loadHighlightByFolder(courseId)) },
     handleDeleteHighlight: (id) => { dispatch(loadDeleteHighlight(id)) },
+    handleFetchHighlightByColor: (color, courseId) => { dispatch(loadFilterHighlight(color, courseId)) }
   };
 }
 

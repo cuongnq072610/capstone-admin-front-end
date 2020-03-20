@@ -1,27 +1,30 @@
 import { take, call, put, select, all, takeLatest } from 'redux-saga/effects';
-import { 
-  LOAD__HIGHLIGHT_BY_FOLDER, 
-  DELETE_HIGHLIGHT, 
+import {
+  LOAD__HIGHLIGHT_BY_FOLDER,
+  DELETE_HIGHLIGHT,
   LOAD__HIGHLIGHT_BY_FOLDER_SUCCESS,
   LOAD__HIGHLIGHT_BY_FOLDER_FAILURE,
-  DELETE_HIGHLIGHT_FAILURE, 
+  DELETE_HIGHLIGHT_FAILURE,
   DELETE_HIGHLIGHT_SUCCESS,
+  FILTER_HIGHLIGHT,
+  FILTER_HIGHLIGHT_SUCCESS,
+  FILTER_HIGHLIGHT_FAILURE,
 } from './constants';
-import { API_ENDPOINT, GET_HIGHLIGHT_BY_FOLDER, DELETE_HIGHLIGHT_BY_ID } from '../../constants/apis';
-import { fetchHighlightByFolder, deleteHighlight } from './api';
+import { API_ENDPOINT, GET_HIGHLIGHT_BY_FOLDER, DELETE_HIGHLIGHT_BY_ID, GET_HIGHLIGHT_BY_COLOR } from '../../constants/apis';
+import { fetchHighlightByFolder, deleteHighlight, fetchHighlightByColor } from './api';
 
 function* loadHighlightByFolder(action) {
   const user = JSON.parse(localStorage.getItem("user"));
   const { courseId } = action;
   try {
     let response = yield call(fetchHighlightByFolder, `${API_ENDPOINT}${GET_HIGHLIGHT_BY_FOLDER}/${user.profile}/${courseId}`);
-    if(response.data) {
+    if (response.data) {
       let highlightData = response.data.map((item, index) => {
         return item
       })
-      yield put({type: LOAD__HIGHLIGHT_BY_FOLDER_SUCCESS, payload: highlightData});
+      yield put({ type: LOAD__HIGHLIGHT_BY_FOLDER_SUCCESS, payload: highlightData });
     } else {
-      yield put({type: LOAD__HIGHLIGHT_BY_FOLDER_FAILURE, payload: "No Data"})
+      yield put({ type: LOAD__HIGHLIGHT_BY_FOLDER_FAILURE, payload: "No Data" })
     }
   } catch (error) {
     yield put({ type: LOAD__HIGHLIGHT_BY_FOLDER_FAILURE, payload: error });
@@ -42,10 +45,29 @@ function* loadDeleteHighlight(action) {
   }
 }
 
+function* filterByColor(action) {
+  const user = JSON.parse(localStorage.getItem("user"));
+  const { courseId, color } = action;
+  try {
+    let response = yield call(fetchHighlightByColor, `${API_ENDPOINT}${GET_HIGHLIGHT_BY_COLOR}/${user.profile}/${courseId}/${color}`);
+    if (response.data) {
+      let highlightData = response.data.map((item, index) => {
+        return item
+      })
+      yield put({ type: FILTER_HIGHLIGHT_SUCCESS, payload: highlightData });
+    } else {
+      yield put({ type: FILTER_HIGHLIGHT_FAILURE, payload: "No Data" })
+    }
+  } catch (error) {
+    yield put({ type: FILTER_HIGHLIGHT_FAILURE, payload: error });
+  }
+}
+
 // Individual exports for testing
 export default function* highLightFolderPageSaga() {
   yield all([
     takeLatest(LOAD__HIGHLIGHT_BY_FOLDER, loadHighlightByFolder),
     takeLatest(DELETE_HIGHLIGHT, loadDeleteHighlight),
+    takeLatest(FILTER_HIGHLIGHT, filterByColor),
   ])
 }

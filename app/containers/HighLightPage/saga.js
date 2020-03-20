@@ -34,7 +34,6 @@ function* loadCourse(action) {
   const { id } = action;
   try {
     let response = yield call(fetchStudentCourses, `${API_ENDPOINT}${GET_STUDENT_INFO}/${id}`);
-    console.log(response)
     if (response.data) {
       let courses = response.data.courses.map(course => course);
       yield put({ type: LOAD_SUCCESS_COURSE, payload: courses })

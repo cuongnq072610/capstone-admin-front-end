@@ -5,14 +5,17 @@
  */
 
 import { fromJS } from 'immutable';
-import { 
-  DEFAULT_ACTION, 
-  LOAD__HIGHLIGHT_BY_FOLDER, 
-  LOAD__HIGHLIGHT_BY_FOLDER_SUCCESS, 
-  LOAD__HIGHLIGHT_BY_FOLDER_FAILURE, 
-  DELETE_HIGHLIGHT, 
+import {
+  DEFAULT_ACTION,
+  LOAD__HIGHLIGHT_BY_FOLDER,
+  LOAD__HIGHLIGHT_BY_FOLDER_SUCCESS,
+  LOAD__HIGHLIGHT_BY_FOLDER_FAILURE,
+  DELETE_HIGHLIGHT,
   DELETE_HIGHLIGHT_SUCCESS,
-  DELETE_HIGHLIGHT_FAILURE
+  DELETE_HIGHLIGHT_FAILURE,
+  FILTER_HIGHLIGHT,
+  FILTER_HIGHLIGHT_FAILURE,
+  FILTER_HIGHLIGHT_SUCCESS,
 } from './constants';
 
 export const initialState = fromJS({
@@ -39,6 +42,12 @@ function highLightFolderPageReducer(state = initialState, action) {
       return state.set("isLoadingDelete", false).set("message", action.payload);
     case DELETE_HIGHLIGHT_FAILURE:
       return state.set("isLoadingDelete", false).set("error", action.payload);
+    case FILTER_HIGHLIGHT:
+      return state.set("isLoading", true);
+    case FILTER_HIGHLIGHT_SUCCESS:
+      return state.set("isLoading", false).set("highlights", fromJS(action.payload));
+    case FILTER_HIGHLIGHT_FAILURE:
+      return state.set("isLoading", false).set("error", action.payload);
     default:
       return state;
   }

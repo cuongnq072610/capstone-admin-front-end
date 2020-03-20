@@ -88,6 +88,17 @@
                         }
                     }
                 }
+
+                .btn-clear-filter {
+                    background-color: $primary_green;
+                    color: $primary_white;
+                    margin-top: 20px;
+                    &:hover {
+                        border: 1px solid $primary_green;
+                        color: $primary_green;
+                        background-color: $primary_white;
+                    }
+                }
             }
         }
     }

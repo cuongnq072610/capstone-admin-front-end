@@ -13,6 +13,7 @@ const SEARCH_TEACHERS = '/searchteacher';
 const GET_RECENT_HIGHLIGHT = "/getRecentHighlight";
 const DELETE_HIGHLIGHT_BY_ID = "/deletehighlightbyid";
 const GET_HIGHLIGHT_BY_FOLDER = "/getHighlightByCourse";
+const GET_HIGHLIGHT_BY_COLOR = '/getHighlightByColor';
 
 const GET_RECENT_NOTE = "/getRecentNote";
 const GET_NOTE_BY_ID = "/getnotebyid";
@@ -50,6 +51,7 @@ export {
     GET_RECENT_HIGHLIGHT,
     DELETE_HIGHLIGHT_BY_ID,
     GET_HIGHLIGHT_BY_FOLDER,
+    GET_HIGHLIGHT_BY_COLOR,
     //NOTE
     GET_RECENT_NOTE,
     GET_NOTE_BY_ID,

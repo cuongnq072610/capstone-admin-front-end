@@ -4,7 +4,7 @@
  *
  */
 
-import { DEFAULT_ACTION, LOAD__HIGHLIGHT_BY_FOLDER, DELETE_HIGHLIGHT } from './constants';
+import { DEFAULT_ACTION, LOAD__HIGHLIGHT_BY_FOLDER, DELETE_HIGHLIGHT, FILTER_HIGHLIGHT } from './constants';
 
 export function defaultAction() {
   return {
@@ -23,5 +23,13 @@ export function loadDeleteHighlight(id) {
   return {
     type: DELETE_HIGHLIGHT,
     id,
+  }
+}
+
+export function loadFilterHighlight(color, courseId) {
+  return {
+    type: FILTER_HIGHLIGHT,
+    color,
+    courseId,
   }
 }

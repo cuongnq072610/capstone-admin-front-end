@@ -1,0 +1,73 @@
+@import "../../../utils/variables.scss";
+
+.note-wrapper {
+    width: 300px;
+    height: max-content;
+    background-color: $secondary_yellow;
+    padding: 19px 18px;
+    position: relative;
+    margin-bottom: 20px;
+
+    .note-btn {
+        text-align: left;
+        cursor: pointer;
+        width: 100%;
+        .note-title {
+            color: #616161;
+            font-family: Roboto;
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: 0.22px;
+            line-height: 24px;
+        }
+
+        .note-content {
+            height: 200px;
+            overflow: hidden;
+            p {
+                color: #616161;
+                font-family: Roboto;
+                font-size: 14px;
+                font-weight: 400;
+                -webkit-line-clamp: 13;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: block;
+                display: -webkit-box;
+            }
+        }
+    }
+
+    .note-delete {
+        width: 28px;
+        height: 28px;
+        border-radius: 14px;
+        background-color: red;
+        display: none;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        top: -10px;
+        right: -15px;
+
+        .note-delete-icon {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            background-size: cover;
+            background-image: url(../assets/delete.svg);
+        }
+
+        .ant-sping-spinning {
+            margin-left: 10px;
+            margin-bottom: 5px;
+        }
+    }
+
+    &:hover {
+        .note-delete {
+            display: flex;
+        }
+    }
+}

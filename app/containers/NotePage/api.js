@@ -1,24 +1,18 @@
 import axiosService from "../../utils/axiosService";
 
-const fetchAllNote = (url) => {
+const fetchRecentNote = (url) => {
     return axiosService.get(url);
-}
-
-const fetchAllFolder = (url) => {
-    return axiosService.get(url);
-}
-
-const createFolder = (url, body) => {
-    return axiosService.post(url, body);
 }
 
 const deleteNote = (url) => {
     return axiosService.delete(url);
 }
+const fetchStudentCourses = (url) => {
+    return axiosService.get(url);
+}
 
 export {
-    fetchAllNote,
-    fetchAllFolder,
-    createFolder,
+    fetchRecentNote,
     deleteNote,
+    fetchStudentCourses,
 }

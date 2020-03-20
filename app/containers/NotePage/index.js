@@ -21,15 +21,10 @@ import messages from './messages';
 import Note from './Note';
 import history from '../../utils/history';
 import WrappedSearchBar from '../../components/SearchBar';
-import { Row, Layout, Col, Icon, Button, Input, Spin } from 'antd';
-import { loadNote, loadFolder, createFolder, loadDeleteNote } from './actions';
+import { Row, Layout, Col, Icon, Button, Spin } from 'antd';
+import { loadNote, loadDeleteNote, loadStudentCourses } from './actions';
 import Masonry from 'masonry-layout'
 const { Content, Header } = Layout;
-
-let myTimeout1 = {};
-let myTimeout2 = {};
-let myTimeout3 = {};
-let myTimeout4 = {};
 
 /* eslint-disable react/prefer-stateless-function */
 export class NotePage extends React.Component {
@@ -38,32 +33,31 @@ export class NotePage extends React.Component {
     this.state = {
       notes: [],
       baseNotes: [],
-      folderChosen: {},
-      textValue: "",
-      folders: [],
       windowHeight: window.innerHeight,
-      namePopup: "notification",
       isShow: false,
       deleteMessage: "",
+      isShowFolder: true,
+      courses: [],
     }
   }
 
   componentDidMount() {
-    this.props.handleLoadFolder();
+    const user = JSON.parse(localStorage.getItem("user"));
     this.props.handleLoadNote();
-    if (this.props.history.location.state && this.props.history.location.state.isDoneDelete) {
+    this.props.handleLoadCourse(user.profile);
+
+    const message = localStorage.getItem("message");
+    //show delete navigate from detail page
+    if (message) {
+      // show modal success
       this.setState({
         isShow: true,
-        deleteMessage: this.props.history.location.state.isDoneDelete,
+        deleteMessage: message,
       }, () => {
-        this.props.history.replace({
-          pathname: '/note',
-          state: {}
-        })
         this.timer1 = setTimeout(() => {
           this.setState({
-            isShow: false
-          })
+            isShow: false,
+          }, () => localStorage.removeItem("message"))
         }, 3000)
       })
     }
@@ -83,21 +77,19 @@ export class NotePage extends React.Component {
         })
       )
     })
-    if (prevProps.notePage.folders !== this.props.notePage.folders) {
-      this.setState({
-        folders: this.props.notePage.folders,
-      })
-    }
-    if (prevProps.notePage.message !== this.props.notePage.message) {
-      this.renderPopup();
-    }
     if (prevProps.notePage.notes !== this.props.notePage.notes) {
       this.setState({
         notes: this.props.notePage.notes,
       })
     }
+    if (prevProps.notePage.courses !== this.props.notePage.courses) {
+      this.setState({
+        courses: this.props.notePage.courses,
+      })
+    }
     if (prevProps.notePage.isLoadingDelete !== this.props.notePage.isLoadingDelete && this.props.notePage.isLoadingDelete === false) {
       this.props.handleLoadNote();
+      // show modal success
       this.setState({
         isShow: true,
         deleteMessage: "Succesfully Delete",
@@ -112,92 +104,53 @@ export class NotePage extends React.Component {
   }
 
   componentWillUnmount() {
-    if (this.timer1) {
-      clearTimeout(this.timer1)
-    }
-    if (this.timer2) {
-      clearTimeout(this.timer2)
-    } 
-    if (this.timer3) {
-      clearTimeout(this.timer3)
-    } 
-    if (this.timer4) {
-      clearTimeout(this.timer4)
-    }
+    clearTimeout(this.timer1);
+    clearTimeout(this.timer2);
   }
 
   navigateDetail = (note) => {
     history.push({
       pathname: `/note/${note._id}`,
       state: {
-        note: note
+        note: note,
+        from: `/note`
       }
     })
   }
 
-  onHandleChosenFolder = (folder) => {
-    const { folderChosen, baseNotes } = this.state;
-    if (folder !== folderChosen) {
-      var newArrNotes = baseNotes.filter(note => note.folder === folder.name)
-      this.setState({
-        folderChosen: folder,
-        notes: newArrNotes,
-      })
-    } else {
-      this.setState({
-        folderChosen: {},
-      })
-    }
-  }
-
-  renderFolder = (folder, index) => {
-    const { folderChosen } = this.state;
-    return (
-      <Button className={`${folder.folderName === folderChosen.folderName ? "folder-wrap-active" : "folder-wrap"}`} key={index} onClick={() => this.onHandleChosenFolder(folder)}>
-        <div className="folder-content">
-          <span className="icon-folder"></span>
-          <span className="name-folder">{folder.folderName}</span>
-        </div>
-      </Button>
-    )
-  }
-
-  onHandleSubmit = () => {
-    const { textValue } = this.state;
-    const body = {
-      "studentID": "5e4ea4d07c213e67373d3cdb",
-      "folderName": textValue,
-    }
-    this.props.handleCreateFolder(body);
-  }
-
-  onChangeText = (e) => {
-    this.setState({
-      textValue: e.target.value,
+  navigateDetailFolder = (folder) => {
+    history.push({
+      pathname: `/folder/${folder.courseCode}`,
+      state: {
+        folder
+      }
     })
-  }
-
-  renderPopup = () => {
-    this.timer3 = setTimeout(() => {
-      this.setState({
-        namePopup: "notification-show",
-      }, () => {
-        this.timer4 = setTimeout(() => {
-          this.setState({
-            namePopup: "notification",
-          });
-        }, 2000)
-      })
-    }, 1000)
   }
 
   handleDeleteNote = (id) => {
     this.props.handleDeleteNote(id)
   }
 
+  renderFolderNoteName = (name, code) => {
+    return code + ' - ' + name;
+  }
+
+  handleShowFolder = () => {
+    this.setState(prevState => {
+      return {
+        ...prevState,
+        isShowFolder: !prevState.isShowFolder
+      }
+    })
+  }
+
+  handleSyncNote = () => {
+    this.props.handleLoadNote();
+  }
+
   render() {
-    const { notes, folders, namePopup, isShow, deleteMessage } = this.state;
-    const { isLoadingFolder, message, isLoadingNote, isLoadingDelete } = this.props.notePage;
+    const { notes, isShow, deleteMessage, isShowFolder, courses } = this.state;
+    const { isLoadingNote, isLoadingDelete, isLoadingCourse } = this.props.notePage;
     const antIcon = <Icon type="loading" style={{ fontSize: 24, color: '#ffc143', marginRight: '10px' }} spin />;
     return (
       <Row>
@@ -205,16 +158,22 @@ export class NotePage extends React.Component {
           <title>NotePage</title>
           <meta name="description" content="Description of NotePage" />
         </Helmet>
-        <Col span={19}>
+        <Col>
           <Layout className="note-page">
             <Header
               style={{
                 backgroundColor: '#fff',
                 display: 'flex',
-                justifyContent: 'center',
+                justifyContent: "space-between",
+                alignItems: "center",
                 height: '100px',
+                paddingLeft: '0px',
               }}
             >
+              <div className='note-page-name-wrapper'>
+                <p className="note-page-name">Notes</p>
+                <Button className='btn-sync' onClick={this.handleSyncNote}><span className='sync-icon'></span></Button>
+              </div>
               <WrappedSearchBar
                 message="Please enter your note's name"
                 placeholder="I want to find my notes"
@@ -222,106 +181,58 @@ export class NotePage extends React.Component {
               />
             </Header>
             <Content>
-              {
-                isLoadingNote ?
-                  <Spin indicator={antIcon} /> :
-                  <Fragment>
-                    <div className="note-wrap">
-                      <p className="note-type"><FormattedMessage {...messages.titlePinned} /></p>
-                      <div className="grid note-container" >
-                        {
+              <div className='note-folder'>
+                <Button className='note-folder-title' onClick={this.handleShowFolder}>
+                  <p>Folders</p>{isShowFolder ? <Icon type="down" style={{ color: '#111' }} /> : <Icon type="up" style={{ color: '#111' }} />}
+                </Button>
+                {
+                  isShowFolder &&
+                  <div className='grid folder-container'>
+                    {
+                      isLoadingCourse ?
+                        <Spin indicator={antIcon} /> :
+                        courses.length > 0 ?
+                          courses.map((course, index) => {
+                            return (
+                              <Button className='grid-item folder-note' key={index} onClick={() => this.navigateDetailFolder(course)}>
+                                <span className='folder-note-icon'></span>
+                                <p className='folder-note-name'>{this.renderFolderNoteName(course.courseName, course.courseCode)}</p>
+                              </Button>
+                            )
+                          }) : <span style={{ color: "#8c8a82" }}>You don't join any courses</span>
+                    }
+                  </div>
+                }
+              </div>
+              <div className="note-wrap">
+                <p className="note-type">Recent Notes</p>
+                {
+                  isLoadingNote ?
+                    <Spin indicator={antIcon} /> :
+                    <div className="grid note-container" >
+                      {
+                        notes.length > 0 ?
                           notes.map((note, index) => {
-                            if (note.isPinned) {
-                              return (
-                                <Note
-                                  key={index}
-                                  note={note}
-                                  navigateDetail={() => this.navigateDetail(note)}
-                                  deleteNote={this.handleDeleteNote}
-                                  isLoading={isLoadingDelete}
-                                />
-                              )
-                            }
-                          })
-                        }
-                      </div>
+                            return (
+                              <Note
+                                key={index}
+                                note={note}
+                                navigateDetail={() => this.navigateDetail(note)}
+                                deleteNote={this.handleDeleteNote}
+                                isLoading={isLoadingDelete}
+                              />
+                            )
+                          }) :
+                          <span style={{ color: "#8c8a82" }}>You don't have any notes</span>
+                      }
                     </div>
-                    <div className="note-wrap">
-                      <p className="note-type"><FormattedMessage {...messages.titleOther} /></p>
-                      <div className="grid note-container" >
-                        {
-                          notes.map((note, index) => {
-                            if (!note.isPinned) {
-                              return (
-                                <Note
-                                  key={index}
-                                  note={note}
-                                  navigateDetail={() => this.navigateDetail(note)}
-                                  deleteNote={this.handleDeleteNote}
-                                  isLoading={isLoadingDelete}
-                                />
-                              )
-                            }
-                          })
-                        }
-                      </div>
-                    </div>
-                  </Fragment>
-              }
+                }
+              </div>
               <div className={isShow ? 'notification-show' : 'notification'}>
                 <div className='noti-content-success'>
                   <span className='icon-noti accept-icon '></span>
                   <p style={{ fontSize: '14px' }}>{deleteMessage}</p>
                 </div>
-              </div>
-            </Content>
-          </Layout>
-        </Col>
-        <Col span={5} className="note-side-wrapper">
-          <Layout className="note-side">
-            <Header className="filter-head">
-              <FormattedMessage {...messages.filter} />
-            </Header>
-            <Content>
-              <div className="sort">
-                <p><FormattedMessage {...messages.sort} /></p>
-                <Button className="btn-sort">
-                  <Icon type="arrow-down" style={{ fontSize: '16px' }} />
-                  <span>Time added</span>
-                </Button>
-              </div>
-              <div className="folder">
-                <p><FormattedMessage {...messages.folder} /></p>
-                <Input
-                  placeholder="Add new folder"
-                  prefix={<Icon type="plus" style={{ color: "#ffc143" }} onClick={this.onHandleSubmit} />}
-                  onChange={this.onChangeText}
-                  onPressEnter={this.onHandleSubmit}
-                  className="folder-add"
-                />
-                {
-                  isLoadingFolder ?
-                    <Spin indicator={antIcon} /> :
-                    folders.map((folder, index) => this.renderFolder(folder, index))
-                }
-                {
-                  message.Sucess &&
-                  <div className={namePopup}>
-                    <div className='noti-content-success'>
-                      <span className='icon-noti accept-icon '></span>
-                      <p style={{ fontSize: '12px' }}>{message.Sucess}</p>
-                    </div>
-                  </div>
-                }
-                {
-                  message.Error &&
-                  <div className={namePopup}>
-                    <div className='noti-content-error'>
-                      <span className='icon-noti deny-icon '></span>
-                      <p style={{ fontSize: '12px' }}>{message.Error}</p>
-                    </div>
-                  </div>
-                }
               </div>
             </Content>
           </Layout>
@@ -333,9 +244,8 @@ export class NotePage extends React.Component {
 
 NotePage.propTypes = {
   handleLoadNote: PropTypes.func.isRequired,
-  handleLoadFolder: PropTypes.func.isRequired,
-  handleCreateFolder: PropTypes.func.isRequired,
   handleDeleteNote: PropTypes.func.isRequired,
+  handleLoadCourse: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -345,9 +255,8 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch) {
   return {
     handleLoadNote: () => { dispatch(loadNote()) },
-    handleLoadFolder: () => { dispatch(loadFolder()) },
-    handleCreateFolder: (body) => { dispatch(createFolder(body)) },
     handleDeleteNote: (id) => { dispatch(loadDeleteNote(id)) },
+    handleLoadCourse: (id) => { dispatch(loadStudentCourses(id)) },
   };
 }
 

@@ -6,14 +6,28 @@
   box-shadow: -5px 0 5px -5px $primary_purple;
   border: none;
   height: 100vh;
+  margin-left: 5px;
 
   .course-info-header {
     background-color: white;
-
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-top: 20px;
     .p {
       padding-top: 10px;
       color: $primary_purple;
       font-size: 28px;
+    }
+
+    .icon-course {
+      display: inline-block;
+      width: 25px;
+      height: 25px;
+      background-size: cover;
+      background-image: url(assets/course_active.svg);
+      margin-right: 5px;
+      margin-bottom: 5px;
     }
   }
 
@@ -39,6 +53,15 @@
           padding-left: 10px;
           margin: 0px;
         }
+
+        .icon-course-code {
+          display: inline-block;
+          width: 12px;
+          height: 12px;
+          background-size: cover;
+          background-image: url(assets/course-code.svg);
+        }
+
       }
     }
 

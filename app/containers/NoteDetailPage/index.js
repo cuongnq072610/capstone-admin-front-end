@@ -70,19 +70,18 @@ export class NoteDetailPage extends React.Component {
         this.setState({
           note,
           isPinned: note.isPinned,
-          editorHtml: note.note,
+          editorHtml: note.scannedContent,
           description: note.description,
         })
       }
     }
     if (prevProps.noteDetailPage.isLoadingDelete !== this.props.noteDetailPage.isLoadingDelete && this.props.noteDetailPage.isLoadingDelete === false) {
       const { message } = this.props.noteDetailPage
-      this.props.history.push({
-        pathname: '/note',
-        state: {
-          isDoneDelete: message
-        }
-      })
+      // this.props.history.push({
+      //   pathname: '/note',
+      // })
+      this.handleNavigateBack();
+      localStorage.setItem("message", message)
     }
   }
 
@@ -116,10 +115,10 @@ export class NoteDetailPage extends React.Component {
     const newNote = {
       description: description,
       isPinned: isPinned,
-      folderID: note.folderID,
+      course: note.course,
       url: note.url,
       index: note.index,
-      note: editorHtml,
+      scannedContent: editorHtml,
     }
     this.props.handleUpdateNote(newNote, note._id);
   }
@@ -133,6 +132,22 @@ export class NoteDetailPage extends React.Component {
   handleDeleteNote = () => {
     const id = this.props.match.params.noteId;
     this.props.handleDeleteNote(id);
+  }
+
+  handleNavigateBack = () => {
+    const {from, folder} = this.props.history.location.state;
+    if(folder) {
+      this.props.history.push({
+        pathname: from,
+        state: {
+          folder,
+        }
+      })
+    } else {
+      this.props.history.push({
+        pathname: from,
+      })
+    }
   }
 
   render() {
@@ -169,7 +184,7 @@ export class NoteDetailPage extends React.Component {
         </Helmet>
         <Col span={19}>
           <div className="note-detail">
-            <Button className="back-icon" onClick={() => this.props.history.push("/note")}>
+            <Button className="back-icon" onClick={this.handleNavigateBack}>
               <Icon type="arrow-left" />
             </Button>
             {

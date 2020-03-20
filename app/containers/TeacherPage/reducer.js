@@ -15,11 +15,16 @@ import {
   SEARCH_FAILURE_TEACHER,
   UPDATE_FAILURE_TEACHER,
   UPDATE_SUCCESS_TEACHER,
-  UPDATE_TEACHER
+  UPDATE_TEACHER,
+  LOAD_SUCCESS_DEPARTMENT,
+  LOAD_DEPARTMENT,
+  LOAD_FAILURE_DEPARTMENT
 } from './constants';
 
 export const initialState = fromJS({
   teachers: [],
+  departments: [],
+  isLoadingDepartment: false,
   isLoading: false,
   errors: '',
   message: ""
@@ -47,6 +52,12 @@ function teacherPageReducer(state = initialState, action) {
       return state.set('message', fromJS(action.payload)).set("teachers", action.payloadTeachers);
     case UPDATE_FAILURE_TEACHER:
       return state.set('errors', action.payload);
+    case LOAD_DEPARTMENT:
+      return state.set('isLoadingDepartment', true);
+    case LOAD_SUCCESS_DEPARTMENT:
+      return state.set('departments', fromJS(action.payload)).set('isLoadingDepartment', false);
+    case LOAD_FAILURE_DEPARTMENT:
+      return state.set('errors', action.payload).set('isLoadingDepartment', false);
     default:
       return state;
   }

@@ -7,29 +7,25 @@
 import { fromJS } from 'immutable';
 import {
   DEFAULT_ACTION,
-  LOAD_SUCCESS_FOLDER,
-  LOAD_FOLDER,
   LOAD_NOTE,
   LOAD_SUCCESS_NOTE,
   LOAD_FAILURE_NOTE,
-  LOAD_FAILURE_FOLDER,
-  CREATE_FOLDER,
-  CREATE_SUCCESS_FOLDER,
-  CREATE_FAILURE_FOLDER,
   DELETE_NOTE,
   DELETE_NOTE_SUCCESS,
-  DELETE_NOTE_FAILURE
+  DELETE_NOTE_FAILURE,
+  LOAD_COURSE,
+  LOAD_FAILURE_COURSE,
+  LOAD_SUCCESS_COURSE
 } from './constants';
 
 export const initialState = fromJS({
   notes: [],
-  folders: [],
   isLoadingNote: false,
-  isLoadingFolder: false,
-  isCreatingFolder: false,
+  isLoadingCourse: false,
   isLoadingDelete: false,
   errors: "",
   message: {},
+  courses: [],
 });
 
 function notePageReducer(state = initialState, action) {
@@ -42,24 +38,18 @@ function notePageReducer(state = initialState, action) {
       return state.set('notes', fromJS(action.payload)).set("isLoadingNote", false);
     case LOAD_FAILURE_NOTE:
       return state.set('errors', action.payload).set("isLoadingNote", false);
-    case LOAD_FOLDER:
-      return state.set('isLoadingFolder', true);
-    case LOAD_SUCCESS_FOLDER:
-      return state.set('folders', fromJS(action.payload)).set("isLoadingFolder", false);
-    case LOAD_FAILURE_FOLDER:
-      return state.set('errors', action.payload).set("isLoadingFolder", false);
-    case CREATE_FOLDER:
-      return state.set("isCreatingFolder", true).set("message", {}).set("errors", {});
-    case CREATE_SUCCESS_FOLDER:
-      return state.set("isCreatingFolder", false).set("message", action.payload);
-    case CREATE_FAILURE_FOLDER:
-      return state.set("isCreatingFolder", false).set("message", action.payload);
     case DELETE_NOTE:
       return state.set("isLoadingDelete", true);
     case DELETE_NOTE_SUCCESS:
       return state.set("isLoadingDelete", false).set("message", action.payload);
     case DELETE_NOTE_FAILURE:
       return state.set("isLoadingDelete", false).set("error", action.payload);
+    case LOAD_COURSE:
+      return state.set("isLoadingCourse", true);
+    case LOAD_SUCCESS_COURSE:
+      return state.set("isLoadingCourse", false).set('courses', fromJS(action.payload));
+    case LOAD_FAILURE_COURSE:
+      return state.set("isLoadingCourse", false).set("error", action.payload);
     default:
       return state;
   }

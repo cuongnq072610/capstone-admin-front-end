@@ -2,7 +2,7 @@ const AdminMenu = [
     {
         "name": "dashboard",
         "title": "Dashboard",
-        "path": "/",
+        "path": "/admin",
         'exact': true,
     },
     {
@@ -44,9 +44,19 @@ const StudentMenu = [
         "path": "/ask",
         'exact': false,
     },
-]
+];
+
+const TeacherMenu = [
+    {
+        "name": "ask",
+        "title": "ASK",
+        "path": "/tutor",
+        'exact': true,
+    },
+];
 
 export {
     AdminMenu,
     StudentMenu,
+    TeacherMenu,
 }

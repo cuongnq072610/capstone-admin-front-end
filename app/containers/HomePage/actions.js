@@ -4,7 +4,7 @@
  *
  */
 
-import { DEFAULT_ACTION, LOAD_COURSE, SEARCH_COURSE } from './constants';
+import { DEFAULT_ACTION, LOAD_COURSE, SEARCH_COURSE, LOAD_DEPARTMENT } from './constants';
 
 export function defaultAction() {
   return {
@@ -22,5 +22,11 @@ export function searchCourse(key) {
   return {
     type: SEARCH_COURSE,
     key,
+  }
+}
+
+export function loadDepartment() {
+  return {
+    type: LOAD_DEPARTMENT,
   }
 }

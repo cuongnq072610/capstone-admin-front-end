@@ -57,7 +57,7 @@ export class LoginPage extends React.Component {
           history.push('/student');
           break;
         case 'teacher':
-          history.push('/teacher');
+          history.push('/tutor');
           break;
         default:
           break;
@@ -80,7 +80,7 @@ export class LoginPage extends React.Component {
           history.push('/admin');
           break;
         case 'teacher':
-          history.push('/teacher');
+          history.push('/tutor');
           break;
         default:
           break;

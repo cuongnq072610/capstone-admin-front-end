@@ -25,6 +25,10 @@ import StudentAskPage from 'containers/StudentAskPage/Loadable';
 import StudentComposePage from 'containers/StudentComposePage/Loadable';
 import StudentCreateAskPage from 'containers/StudentCreateAskPage/Loadable';
 import HighlightPage from 'containers/HighLightPage/Loadable';
+//teacher's page
+import TeacherAskPage from 'containers/TeacherAskPage/Loadable';
+import TeacherComposePage from 'containers/TeacherComposePage/Loadable';
+
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import NoteFolderPage from 'containers/NoteFolderPage/Loadable';
 import HighLightFolderPage from 'containers/HighLightFolderPage/Loadable';
@@ -58,6 +62,9 @@ export default function App() {
         <PrivateRoute exact path='/ask' component={() => user && user.role === 'student' ? <WrapperLayout component={StudentAskPage} role="student" page="ask" /> : <WrapperLayout component={NotFoundPage} />} />
         <PrivateRoute path='/ask/compose/:id' component={() => user && user.role === 'student' ? <WrapperLayout component={StudentComposePage} role="student" page="ask" /> : <WrapperLayout component={NotFoundPage} />} />
         <PrivateRoute path='/ask/create' component={() => user && user.role === 'student' ? <WrapperLayout component={StudentCreateAskPage} role="student" page="ask" /> : <WrapperLayout component={NotFoundPage} />} />
+        {/* TEACHER */}
+        <PrivateRoute exact path='/tutor' component={() => user && user.role === 'teacher' ? <WrapperLayout component={TeacherAskPage} role="teacher" page="tutor" /> : <WrapperLayout component={NotFoundPage} />} />
+        <PrivateRoute path='/tutor/compose/:id' component={() => user && user.role === 'teacher' ? <WrapperLayout component={TeacherComposePage} role="teacher" page="tutor" /> : <WrapperLayout component={NotFoundPage} />} />
         {/* ADMIN */}
         <Route exact path='/admin' render={() => user && user.role === 'admin' ? <WrapperLayout component={DashboardPage} role="admin" page="dashboard" /> : <WrapperLayout component={NotFoundPage} />} />
         <Route path='/teacher' render={() => user && user.role === 'admin' ? <WrapperLayout component={TeacherPage} role="admin" page="teacher" /> : <WrapperLayout component={NotFoundPage} />} />

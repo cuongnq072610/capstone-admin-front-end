@@ -26,59 +26,6 @@ import { loadNote, loadDeleteNote, loadStudentCourses } from './actions';
 import Masonry from 'masonry-layout'
 const { Content, Header } = Layout;
 
-const mockDataNotes = [
-  {
-    studentID: 1,
-    courseCode: 'ABC123',
-    note: '<p>Take note here</p>',
-    description: 'This is new note',
-    url: 'reactjs.org',
-    index: 1,
-    dateModified: 14 / 3 / 2020,
-    isPinned: false,
-  },
-  {
-    studentID: 1,
-    courseCode: 'ABC123',
-    note: '<p>Take note here</p>',
-    description: 'This is new note',
-    url: 'reactjs.org',
-    index: 1,
-    dateModified: 14 / 3 / 2020,
-    isPinned: false,
-  },
-  {
-    studentID: 1,
-    courseCode: 'ABC123',
-    note: '<p>Take note here</p>',
-    description: 'This is new note',
-    url: 'reactjs.org',
-    index: 1,
-    dateModified: 14 / 3 / 2020,
-    isPinned: false,
-  },
-  {
-    studentID: 1,
-    courseCode: 'ABC123',
-    note: '<p>Take note here</p>',
-    description: 'This is new note',
-    url: 'reactjs.org',
-    index: 1,
-    dateModified: 14 / 3 / 2020,
-    isPinned: false,
-  },
-  {
-    studentID: 1,
-    courseCode: 'ABC123',
-    note: '<p>Take note here</p>',
-    description: 'This is new note',
-    url: 'reactjs.org',
-    index: 1,
-    dateModified: 14 / 3 / 2020,
-    isPinned: false,
-  },
-]
-
 /* eslint-disable react/prefer-stateless-function */
 export class NotePage extends React.Component {
   constructor(props) {
@@ -99,20 +46,19 @@ export class NotePage extends React.Component {
     this.props.handleLoadNote();
     this.props.handleLoadCourse(user.profile);
 
+    const message = localStorage.getItem("message");
+    console.log(message)
     //show delete navigate from detail page
-    if (this.props.history.location.state && this.props.history.location.state.isDoneDelete) {
+    if (message) {
+      // show modal success
       this.setState({
         isShow: true,
-        deleteMessage: this.props.history.location.state.isDoneDelete,
+        deleteMessage: message,
       }, () => {
-        this.props.history.replace({
-          pathname: '/note',
-          state: {}
-        })
         this.timer1 = setTimeout(() => {
           this.setState({
-            isShow: false
-          })
+            isShow: false,
+          }, () => localStorage.removeItem("message"))
         }, 3000)
       })
     }
@@ -144,6 +90,7 @@ export class NotePage extends React.Component {
     }
     if (prevProps.notePage.isLoadingDelete !== this.props.notePage.isLoadingDelete && this.props.notePage.isLoadingDelete === false) {
       this.props.handleLoadNote();
+      // show modal success
       this.setState({
         isShow: true,
         deleteMessage: "Succesfully Delete",
@@ -155,6 +102,11 @@ export class NotePage extends React.Component {
         }, 3000)
       })
     }
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.timer1);
+    clearTimeout(this.timer2);
   }
 
   navigateDetail = (note) => {
@@ -233,14 +185,15 @@ export class NotePage extends React.Component {
                     {
                       isLoadingCourse ?
                         <Spin indicator={antIcon} /> :
-                        courses.map((course, index) => {
-                          return (
-                            <Button className='grid-item folder-note' key={index} onClick={() => this.navigateDetailFolder(course)}>
-                              <span className='folder-note-icon'></span>
-                              <p className='folder-note-name'>{this.renderFolderNoteName(course.courseName, course.courseCode)}</p>
-                            </Button>
-                          )
-                        })
+                        courses.length > 0 ?
+                          courses.map((course, index) => {
+                            return (
+                              <Button className='grid-item folder-note' key={index} onClick={() => this.navigateDetailFolder(course)}>
+                                <span className='folder-note-icon'></span>
+                                <p className='folder-note-name'>{this.renderFolderNoteName(course.courseName, course.courseCode)}</p>
+                              </Button>
+                            )
+                          }) : <span style={{ color: "#8c8a82" }}>You don't join any courses</span>
                     }
                   </div>
                 }
@@ -264,7 +217,7 @@ export class NotePage extends React.Component {
                               />
                             )
                           }) :
-                          <span style={{color: "#8c8a82"}}>You don't have any notes</span>
+                          <span style={{ color: "#8c8a82" }}>You don't have any notes</span>
                       }
                     </div>
                 }

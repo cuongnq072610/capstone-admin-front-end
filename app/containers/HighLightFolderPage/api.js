@@ -1,14 +1,14 @@
 import axiosService from '../../utils/axiosService';
 
-const fetchNoteByFolder = (url) => {
+const fetchHighlightByFolder = (url) => {
     return axiosService.get(url);
 }
 
-const deleteNote = (url) => {
+const deleteHighlight = (url) => {
     return axiosService.delete(url);
 }
 
 export {
-    fetchNoteByFolder,
-    deleteNote,
+    fetchHighlightByFolder,
+    deleteHighlight,
 }

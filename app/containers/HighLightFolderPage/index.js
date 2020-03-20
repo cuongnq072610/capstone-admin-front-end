@@ -24,73 +24,8 @@ import WrappedSearchBar from '../../components/SearchBar';
 import HighLightElement from './HighlightElement';
 import './index.scss';
 import { Link } from 'react-router-dom';
+import { loadHighlightByFolder, loadDeleteHighlight } from './actions';
 const { Header, Content } = Layout;
-
-const mockData = [
-  {
-    id: 1,
-    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. ",
-    color: 'green',
-    date: "2019/10/31",
-    tags: ['english', 'accounting']
-  },
-  {
-    id: 2,
-    color: 'blue',
-    text: "Lorem ipsum dolor sit amet",
-    date: "2019/10/31",
-    tags: ['english']
-  },
-  {
-    id: 3,
-    text: "Sed magna arcu, fermentum vel porttitor non, fermentum ac metus. Etiam pharetra posuere erat, vitae sagittis felis mattis eget.",
-    color: 'red',
-    date: "2019/10/31",
-    tags: ['animation']
-  },
-  {
-    id: 4,
-    text: "Sed in arcu fermentum, consectetur justo a, lacinia lorem, justo alor.",
-    color: 'yellow',
-    date: "2019/10/31",
-    tags: ['important']
-  },
-  {
-    id: 5,
-    text: "Nunc rutrum sapien ut felis ullamcorper, ac euismod felis tempus. Nulla lobortis interdum felis, sollicitudin condimentum dolor rhoncus vitae.",
-    color: 'green',
-    date: "2019/10/31",
-    tags: ['important', 'advertising']
-  },
-  {
-    id: 6,
-    text: "Nulla a arcu a lacus eleifend convallis a tempor eros.",
-    color: 'blue',
-    date: "2019/10/31",
-    tags: ['quote']
-  },
-  {
-    id: 7,
-    text: "Cras dapibus erat erat, quis lobortis nunc placerat quis. Nunc vitae mollis lorem. Sed suscipit porttitor elit. Ut lacinia magna non auctor aliquet. ",
-    color: 'orange',
-    date: "2019/10/31",
-    tags: ['quote']
-  },
-  {
-    id: 8,
-    text: "In sem sapien, gravida sed sem non, pellentesque malesuada felis.",
-    color: 'yellow',
-    date: "2019/10/31",
-    tags: ['important']
-  },
-  {
-    id: 9,
-    text: "Aenean maximus sodales ex, ut rhoncus lectus hendrerit ac. Mauris vestibulum diam justo, id efficitur lorem consequat a. Praesent eu rutrum tortor.",
-    color: 'red',
-    date: "2019/10/31",
-    tags: ['advertising']
-  }
-];
 
 /* eslint-disable react/prefer-stateless-function */
 export class HighLightFolderPage extends React.Component {
@@ -99,6 +34,8 @@ export class HighLightFolderPage extends React.Component {
     this.state = {
       folder: {},
       windowHeight: window.innerHeight,
+      highlights: [],
+      isShow: false,
     }
   }
 
@@ -107,9 +44,10 @@ export class HighLightFolderPage extends React.Component {
     this.setState({
       folder,
     })
+    this.props.handleFetchHighlightByCourse(folder._id);
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     var elems = document.querySelectorAll('.grid');
     var msnryInstance = [];
     elems.forEach((elem, index) => {
@@ -123,14 +61,45 @@ export class HighLightFolderPage extends React.Component {
         })
       )
     })
+    if (prevProps.highLightFolderPage.highlights !== this.props.highLightFolderPage.highlights) {
+      this.setState({
+        highlights: this.props.highLightFolderPage.highlights,
+      })
+    }
+    if (prevProps.highLightFolderPage.isLoadingDelete !== this.props.highLightFolderPage.isLoadingDelete
+      && this.props.highLightFolderPage.isLoadingDelete === false
+    ) {
+      const { folder } = this.state;
+      this.props.handleFetchHighlightByCourse(folder._id);
+      // show modal success
+      this.setState({
+        isShow: true,
+        deleteMessage: "Succesfully Delete",
+      }, () => {
+        this.timer1 = setTimeout(() => {
+          this.setState({
+            isShow: false
+          })
+        }, 3000)
+      })
+    }
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.timer1);
   }
 
   renderFolderNoteName = (name, code) => {
     return code + ' - ' + name;
   }
 
+  handleDeleteHighlight = (id) => {
+    this.props.handleDeleteHighlight(id);
+  }
+
   render() {
-    const { folder, windowHeight } = this.state;
+    const { folder, windowHeight, highlights, isShow, deleteMessage } = this.state;
+    const { isLoading, isLoadingDelete } = this.props.highLightFolderPage;
     const buttonSort = [
       {
         id: 'greenSortButton',
@@ -183,22 +152,34 @@ export class HighLightFolderPage extends React.Component {
             </div>
             <WrappedSearchBar
               message="Please enter your note's name"
-              placeholder="I want to find my notes"
+              placeholder="I want to find my highlights"
               type="highlight"
             />
           </Header>
           <Content>
             {
-              // isLoading ?
-              //   <Spin indicator={antIcon} /> :
+              isLoading ?
+                <Spin indicator={antIcon} /> :
                 <div className="highLights grid" >
                   {
-                    mockData.map(highlight => {
-                      return <HighLightElement key={highlight.id} highlight={highlight} />
-                    })
+                    highlights.length > 0 ?
+                      highlights.map(highlight => {
+                        return <HighLightElement
+                          key={highlight.id}
+                          highlight={highlight}
+                          deleteHighlight={this.handleDeleteHighlight}
+                          isLoading={isLoadingDelete}
+                        />
+                      }) : <span style={{ color: "#8c8a82" }}>You don't have any highlights</span>
                   }
                 </div>
             }
+            <div className={isShow ? 'notification-show' : 'notification'}>
+              <div className='noti-content-success'>
+                <span className='icon-noti accept-icon '></span>
+                <p style={{ fontSize: '14px' }}>{deleteMessage}</p>
+              </div>
+            </div>
           </Content>
         </Col>
         <Col span={5} className="highlight-side-wrapper" style={{ 'height': windowHeight - 10 }}>
@@ -226,7 +207,8 @@ export class HighLightFolderPage extends React.Component {
 }
 
 HighLightFolderPage.propTypes = {
-  dispatch: PropTypes.func.isRequired,
+  handleFetchHighlightByCourse: PropTypes.func.isRequired,
+  handleDeleteHighlight: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -235,7 +217,8 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
-    dispatch,
+    handleFetchHighlightByCourse: (courseId) => { dispatch(loadHighlightByFolder(courseId)) },
+    handleDeleteHighlight: (id) => { dispatch(loadDeleteHighlight(id)) },
   };
 }
 

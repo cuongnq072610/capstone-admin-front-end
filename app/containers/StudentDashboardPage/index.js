@@ -42,7 +42,11 @@ export class StudentDashboardPage extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.studentDashboardPage.user !== this.props.studentDashboardPage.user) {
+    if (
+      prevProps.studentDashboardPage.user !== this.props.studentDashboardPage.user &&
+      this.props.studentDashboardPage.isLoading !== prevProps.studentDashboardPage.isLoading &&
+      this.props.studentDashboardPage.isLoading === false
+    ) {
       const { user } = this.props.studentDashboardPage;
       const courses = user.courses.map((item, index) => {
         return {

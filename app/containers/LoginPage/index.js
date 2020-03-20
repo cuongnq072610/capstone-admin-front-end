@@ -18,7 +18,7 @@ import makeSelectLoginPage from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
-import { Col, Button, Row, Input } from 'antd';
+import { Col, Button, Row, Input, Icon } from 'antd';
 import { API_ENDPOINT } from '../../constants/apis';
 
 import './index.scss';
@@ -49,8 +49,27 @@ export class LoginPage extends React.Component {
       localStorage.setItem('user', user);
       switch (JSON.parse(user).role) {
         case 'student':
-          console.log(`go here`)
           history.push('/student');
+          break;
+        case 'teacher':
+          history.push('/teacher');
+          break;
+        default:
+          break;
+      }
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.loginPage.token !== this.props.loginPage.token) {
+      const { token } = this.props.loginPage;
+      localStorage.setItem("token", token);
+      const parseToken = parseJwt(token);
+      const user = JSON.stringify(parseToken.user);
+      localStorage.setItem('user', user);
+      switch (JSON.parse(user).role) {
+        case 'admin':
+          history.push('/admin');
           break;
         case 'teacher':
           history.push('/teacher');
@@ -77,6 +96,9 @@ export class LoginPage extends React.Component {
   }
 
   render() {
+    const { isLoading } = this.props.loginPage;
+    const antIcon = <Icon type="loading" style={{ fontSize: 24, color: '#ffc143', marginRight: '10px' }} spin />;
+
     return (
       <Row className='login-page'>
         <Helmet>
@@ -94,7 +116,13 @@ export class LoginPage extends React.Component {
                 <Input placeholder="Username or Email" type="email" className="login-input" name="username" onChange={this.onHandleChangeText} />
                 <Input.Password placeholder="Password" className="login-input-pass" name="password" onChange={this.onHandleChangeText} />
                 <div className='login-input-footer'>
-                  <Button className='btn-signin' onClick={this.onHandleSubmitLogin}>Sign in</Button>
+                  <Button className='btn-signin' onClick={this.onHandleSubmitLogin}>
+                    {
+                      isLoading ?
+                        <Spin indicator={antIcon} /> :
+                        "Sign in"
+                    }
+                  </Button>
                   <Button className='btn-forgot'><u>Forgot password?</u></Button>
                 </div>
               </div>
@@ -125,7 +153,7 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
-    onHandleLogin: (email, password) => {dispatch(login(email, password))},
+    onHandleLogin: (email, password) => { dispatch(login(email, password)) },
   };
 }
 

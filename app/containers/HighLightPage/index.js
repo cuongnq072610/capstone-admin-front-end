@@ -23,74 +23,8 @@ import HighLightElement from './HighlightElement';
 import { Row, Layout, Col, Icon, Button, Input, Spin } from 'antd';
 import "./index.scss";
 import Masonry from 'masonry-layout'
-import { loadHighlight, loadStudentCourses } from './actions';
+import { loadHighlight, loadStudentCourses, loadDeleteHighlight } from './actions';
 const { Header, Content } = Layout;
-
-const mockData = [
-  {
-    id: 1,
-    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. ",
-    color: 'green',
-    date: "2019/10/31",
-    tags: ['english', 'accounting']
-  },
-  {
-    id: 2,
-    color: 'blue',
-    text: "Lorem ipsum dolor sit amet",
-    date: "2019/10/31",
-    tags: ['english']
-  },
-  {
-    id: 3,
-    text: "Sed magna arcu, fermentum vel porttitor non, fermentum ac metus. Etiam pharetra posuere erat, vitae sagittis felis mattis eget.",
-    color: 'red',
-    date: "2019/10/31",
-    tags: ['animation']
-  },
-  {
-    id: 4,
-    text: "Sed in arcu fermentum, consectetur justo a, lacinia lorem, justo alor.",
-    color: 'yellow',
-    date: "2019/10/31",
-    tags: ['important']
-  },
-  {
-    id: 5,
-    text: "Nunc rutrum sapien ut felis ullamcorper, ac euismod felis tempus. Nulla lobortis interdum felis, sollicitudin condimentum dolor rhoncus vitae.",
-    color: 'green',
-    date: "2019/10/31",
-    tags: ['important', 'advertising']
-  },
-  {
-    id: 6,
-    text: "Nulla a arcu a lacus eleifend convallis a tempor eros.",
-    color: 'blue',
-    date: "2019/10/31",
-    tags: ['quote']
-  },
-  {
-    id: 7,
-    text: "Cras dapibus erat erat, quis lobortis nunc placerat quis. Nunc vitae mollis lorem. Sed suscipit porttitor elit. Ut lacinia magna non auctor aliquet. ",
-    color: 'orange',
-    date: "2019/10/31",
-    tags: ['quote']
-  },
-  {
-    id: 8,
-    text: "In sem sapien, gravida sed sem non, pellentesque malesuada felis.",
-    color: 'yellow',
-    date: "2019/10/31",
-    tags: ['important']
-  },
-  {
-    id: 9,
-    text: "Aenean maximus sodales ex, ut rhoncus lectus hendrerit ac. Mauris vestibulum diam justo, id efficitur lorem consequat a. Praesent eu rutrum tortor.",
-    color: 'red',
-    date: "2019/10/31",
-    tags: ['advertising']
-  }
-];
 
 /* eslint-disable react/prefer-stateless-function */
 export class HighLightPage extends React.Component {
@@ -133,6 +67,22 @@ export class HighLightPage extends React.Component {
         courses: this.props.highLightPage.courses,
       })
     }
+    if (prevProps.highLightPage.isLoadingDelete !== this.props.highLightPage.isLoadingDelete
+      && this.props.highLightPage.isLoadingDelete === false
+    ) {
+      this.props.handleFetchHighlights();
+      // show modal success
+      this.setState({
+        isShow: true,
+        deleteMessage: "Succesfully Delete",
+      }, () => {
+        this.timer1 = setTimeout(() => {
+          this.setState({
+            isShow: false
+          })
+        }, 3000)
+      })
+    }
   }
 
   renderFolder = (folder, index) => {
@@ -169,9 +119,14 @@ export class HighLightPage extends React.Component {
     })
   }
 
+
+  handleDeleteHighlight = (id) => {
+    this.props.handleDeleteHighlight(id);
+  }
+
   render() {
-    const { highlights, courses, isShowFolder } = this.state;
-    const { isLoading, isLoadingCourse } = this.props.highLightPage;
+    const { highlights, courses, isShowFolder, isShow, deleteMessage } = this.state;
+    const { isLoading, isLoadingCourse, isLoadingDelete } = this.props.highLightPage;
     const antIcon = <Icon type="loading" style={{ fontSize: 24, color: '#40a887', marginRight: '10px' }} spin />;
     return (
       <Row>
@@ -230,11 +185,22 @@ export class HighLightPage extends React.Component {
                     {
                       highlights.length > 0 ?
                         highlights.map(highlight => {
-                          return <HighLightElement key={highlight.id} highlight={highlight} />
+                          return <HighLightElement
+                            key={highlight.id}
+                            highlight={highlight}
+                            deleteHighlight={this.handleDeleteHighlight}
+                            isLoading={isLoadingDelete}
+                          />
                         }) : <span style={{ color: "#8c8a82" }}>You don't have any highlights</span>
                     }
                   </div>
               }
+              <div className={isShow ? 'notification-show' : 'notification'}>
+                <div className='noti-content-success'>
+                  <span className='icon-noti accept-icon '></span>
+                  <p style={{ fontSize: '14px' }}>{deleteMessage}</p>
+                </div>
+              </div>
             </Content>
           </Layout>
         </Col>
@@ -246,6 +212,7 @@ export class HighLightPage extends React.Component {
 HighLightPage.propTypes = {
   handleFetchHighlights: PropTypes.func.isRequired,
   handleLoadCourse: PropTypes.func.isRequired,
+  handleDeleteHighlight: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -256,6 +223,7 @@ function mapDispatchToProps(dispatch) {
   return {
     handleFetchHighlights: () => { dispatch(loadHighlight()) },
     handleLoadCourse: (id) => { dispatch(loadStudentCourses(id)) },
+    handleDeleteHighlight: (id) => { dispatch(loadDeleteHighlight(id)) },
   };
 }
 

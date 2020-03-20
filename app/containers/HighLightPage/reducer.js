@@ -5,14 +5,17 @@
  */
 
 import { fromJS } from 'immutable';
-import { 
-  DEFAULT_ACTION, 
-  LOAD_HIGHLIGHT, 
-  LOAD_HIGHLIGHT_SUCCESS, 
+import {
+  DEFAULT_ACTION,
+  LOAD_HIGHLIGHT,
+  LOAD_HIGHLIGHT_SUCCESS,
   LOAD_HIGHLIGHT_FAILURE,
-  LOAD_COURSE, 
-  LOAD_FAILURE_COURSE, 
-  LOAD_SUCCESS_COURSE, 
+  LOAD_COURSE,
+  LOAD_FAILURE_COURSE,
+  LOAD_SUCCESS_COURSE,
+  DELETE_HIGHLIGHT,
+  DELETE_HIGHLIGHT_FAILURE, 
+  DELETE_HIGHLIGHT_SUCCESS,
 } from './constants';
 
 export const initialState = fromJS({
@@ -21,6 +24,8 @@ export const initialState = fromJS({
   errors: [],
   courses: [],
   isLoadingCourse: false,
+  isLoadingDelete: false,
+  message: {},
 });
 
 function highLightPageReducer(state = initialState, action) {
@@ -39,6 +44,12 @@ function highLightPageReducer(state = initialState, action) {
       return state.set("isLoadingCourse", false).set('courses', fromJS(action.payload));
     case LOAD_FAILURE_COURSE:
       return state.set("isLoadingCourse", false).set("error", action.payload);
+    case DELETE_HIGHLIGHT:
+      return state.set("isLoadingDelete", true);
+    case DELETE_HIGHLIGHT_SUCCESS:
+      return state.set("isLoadingDelete", false).set("message", action.payload);
+    case DELETE_HIGHLIGHT_FAILURE:
+      return state.set("isLoadingDelete", false).set("error", action.payload);
     default:
       return state;
   }

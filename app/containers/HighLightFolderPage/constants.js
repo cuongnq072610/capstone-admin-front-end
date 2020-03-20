@@ -12,4 +12,4 @@ export const LOAD__HIGHLIGHT_BY_FOLDER_FAILURE = 'app/HighLightFolderPage/LOAD__
 
 export const DELETE_HIGHLIGHT = 'app/HighLightFolderPage/DELETE_HIGHLIGHT';
 export const DELETE_HIGHLIGHT_SUCCESS = 'app/HighLightFolderPage/DELETE_HIGHLIGHT_SUCCESS';
-export const DELETE_HIGHLIGHT_FAILURE = 'app/NoteFoldHighLightFolderPageerPage/DELET_HIGHLIGHT_FAILURE';
+export const DELETE_HIGHLIGHT_FAILURE = 'app/NoteFoldHighLightFolderPageerPage/DELETE_HIGHLIGHT_FAILURE';

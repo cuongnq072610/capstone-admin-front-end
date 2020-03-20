@@ -6,9 +6,12 @@ import {
   LOAD_COURSE, 
   LOAD_FAILURE_COURSE, 
   LOAD_SUCCESS_COURSE, 
+  DELETE_HIGHLIGHT, 
+  DELETE_HIGHLIGHT_FAILURE, 
+  DELETE_HIGHLIGHT_SUCCESS,
 } from './constants';
-import { fetchHighlight, fetchStudentCourses } from './api';
-import { API_ENDPOINT, GET_STUDENT_INFO, GET_RECENT_HIGHLIGHT } from '../../constants/apis';
+import { fetchHighlight, fetchStudentCourses, deleteHighlight } from './api';
+import { API_ENDPOINT, GET_STUDENT_INFO, GET_RECENT_HIGHLIGHT, DELETE_HIGHLIGHT_BY_ID } from '../../constants/apis';
 
 function* getAllHighlight() {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -43,10 +46,25 @@ function* loadCourse(action) {
   }
 }
 
+function* loadDeleteHighlight(action) {
+  const { id } = action;
+  try {
+    const response = yield call(deleteHighlight, `${API_ENDPOINT}${DELETE_HIGHLIGHT_BY_ID}/${id}`);
+    if (response.data.success) {
+      yield put({ type: DELETE_HIGHLIGHT_SUCCESS, payload: response.data.success });
+    } else if (response.data.error) {
+      yield put({ type: DELETE_HIGHLIGHT_FAILURE, payload: response.data.error })
+    }
+  } catch (error) {
+    yield put({ type: DELETE_HIGHLIGHT_FAILURE, payload: error });
+  }
+}
+
 // Individual exports for testing
 export default function* highLightPageSaga() {
   yield all([
     takeLatest(LOAD_HIGHLIGHT, getAllHighlight),
     takeLatest(LOAD_COURSE, loadCourse),
+    takeLatest(DELETE_HIGHLIGHT, loadDeleteHighlight),
   ])
 }

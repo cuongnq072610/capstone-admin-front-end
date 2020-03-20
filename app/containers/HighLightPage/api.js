@@ -8,7 +8,12 @@ const fetchStudentCourses = (url) => {
   return axiosService.get(url);
 }
 
+const deleteHighlight = (url) => {
+  return axiosService.delete(url);
+}
+
 export {
     fetchHighlight,
     fetchStudentCourses,
+    deleteHighlight,
 }

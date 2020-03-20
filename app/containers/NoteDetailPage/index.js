@@ -77,12 +77,11 @@ export class NoteDetailPage extends React.Component {
     }
     if (prevProps.noteDetailPage.isLoadingDelete !== this.props.noteDetailPage.isLoadingDelete && this.props.noteDetailPage.isLoadingDelete === false) {
       const { message } = this.props.noteDetailPage
-      this.props.history.push({
-        pathname: '/note',
-        state: {
-          isDoneDelete: message
-        }
-      })
+      // this.props.history.push({
+      //   pathname: '/note',
+      // })
+      this.handleNavigateBack();
+      localStorage.setItem("message", message)
     }
   }
 

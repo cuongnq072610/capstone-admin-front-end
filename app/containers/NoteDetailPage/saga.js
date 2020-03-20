@@ -36,9 +36,9 @@ function* loadDeleteNote(action) {
   try {
     const response = yield call(deleteNote, `${API_ENDPOINT}${DELETE_NOTE_BY_ID}/${id}`);
     if (response.data.success) {
-      yield put({ type: DELETE_NOTE_SUCCESS, payload: response.data.Sucess });
+      yield put({ type: DELETE_NOTE_SUCCESS, payload: response.data.success });
     } else if (response.data.error) {
-      yield put({ type: DELETE_NOTE_FAILURE, payload: response.data.Error })
+      yield put({ type: DELETE_NOTE_FAILURE, payload: response.data.error })
     }
   } catch (error) {
     yield put({ type: DELETE_NOTE_FAILURE, payload: error });

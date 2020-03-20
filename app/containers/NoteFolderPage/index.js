@@ -24,62 +24,9 @@ import Note from './Note';
 import { Link } from 'react-router-dom';
 import Masonry from 'masonry-layout'
 import './index.scss';
-import { loadNotesByFolder } from './actions';
+import { loadNotesByFolder, loadDeleteNote } from './actions';
 
 const { Header, Content } = Layout;
-
-const mockDataNotes = [
-  {
-    studentID: 1,
-    courseCode: 'ABC123',
-    note: '<p>Take note here</p>',
-    description: 'This is new note',
-    url: 'reactjs.org',
-    index: 1,
-    dateModified: 14 / 3 / 2020,
-    isPinned: false,
-  },
-  {
-    studentID: 1,
-    courseCode: 'ABC123',
-    note: '<p>Take note here</p>',
-    description: 'This is new note',
-    url: 'reactjs.org',
-    index: 1,
-    dateModified: 14 / 3 / 2020,
-    isPinned: false,
-  },
-  {
-    studentID: 1,
-    courseCode: 'ABC123',
-    note: '<p>Take note here</p>',
-    description: 'This is new note',
-    url: 'reactjs.org',
-    index: 1,
-    dateModified: 14 / 3 / 2020,
-    isPinned: false,
-  },
-  {
-    studentID: 1,
-    courseCode: 'ABC123',
-    note: '<p>Take note here</p>',
-    description: 'This is new note',
-    url: 'reactjs.org',
-    index: 1,
-    dateModified: 14 / 3 / 2020,
-    isPinned: true,
-  },
-  {
-    studentID: 1,
-    courseCode: 'ABC123',
-    note: '<p>Take note here</p>',
-    description: 'This is new note',
-    url: 'reactjs.org',
-    index: 1,
-    dateModified: 14 / 3 / 2020,
-    isPinned: true,
-  },
-]
 
 /* eslint-disable react/prefer-stateless-function */
 export class NoteFolderPage extends React.Component {
@@ -88,6 +35,7 @@ export class NoteFolderPage extends React.Component {
       this.state = {
         folder: {},
         notes: [],
+        isShow: false,
       }
   }
   componentDidMount() {
@@ -95,10 +43,26 @@ export class NoteFolderPage extends React.Component {
     this.setState({
       folder,
     })
-    this.props.handleFetchNoteByCourse(folder._id)
+    this.props.handleFetchNoteByCourse(folder._id);
+    const message = localStorage.getItem("message");
+    //show delete navigate from detail page
+    if (message) {
+      // show modal success
+      this.setState({
+        isShow: true,
+        deleteMessage: message,
+      }, () => {
+        this.timer1 = setTimeout(() => {
+          this.setState({
+            isShow: false,
+          }, () => localStorage.removeItem("message"))
+        }, 3000)
+      })
+    }
   }
 
   componentDidUpdate(prevProps) {
+    const { folder } = this.state;
     var elems = document.querySelectorAll('.grid');
     var msnryInstance = [];
     elems.forEach((elem, index) => {
@@ -117,6 +81,24 @@ export class NoteFolderPage extends React.Component {
         notes: this.props.noteFolderPage.notes,
       })
     }
+    if (prevProps.noteFolderPage.isLoadingDelete !== this.props.noteFolderPage.isLoadingDelete && this.props.noteFolderPage.isLoadingDelete === false) {
+      this.props.handleFetchNoteByCourse(folder._id);
+      // show modal success
+      this.setState({
+        isShow: true,
+        deleteMessage: "Succesfully Delete",
+      }, () => {
+        this.timer1 = setTimeout(() => {
+          this.setState({
+            isShow: false
+          })
+        }, 3000)
+      })
+    }
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.timer1);
   }
 
   navigateDetail = (note) => {
@@ -135,9 +117,13 @@ export class NoteFolderPage extends React.Component {
     return code + ' - ' + name;
   }
 
+  handleDeleteNote = (id) => {
+    this.props.handleDeleteNote(id)
+  }
+
   render() {
-    const { folder, notes } = this.state;
-    const { isLoading } = this.props.noteFolderPage;
+    const { folder, notes, isShow, deleteMessage } = this.state;
+    const { isLoading, isLoadingDelete } = this.props.noteFolderPage;
     const antIcon = <Icon type="loading" style={{ fontSize: 24, color: '#ffc143', marginRight: '10px' }} spin />;
 
     return (
@@ -187,7 +173,7 @@ export class NoteFolderPage extends React.Component {
                                   note={note}
                                   navigateDetail={() => this.navigateDetail(note)}
                                   deleteNote={this.handleDeleteNote}
-                                // isLoading={isLoadingDelete}
+                                  isLoading={isLoadingDelete}
                                 />
                               )
                             }
@@ -207,7 +193,7 @@ export class NoteFolderPage extends React.Component {
                                   note={note}
                                   navigateDetail={() => this.navigateDetail(note)}
                                   deleteNote={this.handleDeleteNote}
-                                // isLoading={isLoadingDelete}
+                                  isLoading={isLoadingDelete}
                                 />
                               )
                             }
@@ -217,6 +203,12 @@ export class NoteFolderPage extends React.Component {
                     </div>
                   </Fragment> : <span style={{ color: "#8c8a82" }}>You don't have any notes</span>
             }
+            <div className={isShow ? 'notification-show' : 'notification'}>
+              <div className='noti-content-success'>
+                <span className='icon-noti accept-icon '></span>
+                <p style={{ fontSize: '14px' }}>{deleteMessage}</p>
+              </div>
+            </div>
           </Content>
         </Layout>
       </div>
@@ -226,6 +218,7 @@ export class NoteFolderPage extends React.Component {
 
 NoteFolderPage.propTypes = {
   handleFetchNoteByCourse: PropTypes.func.isRequired,
+  handleDeleteNote: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -235,6 +228,7 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch) {
   return {
     handleFetchNoteByCourse: (courseId) => { dispatch(loadNotesByFolder(courseId)) },
+    handleDeleteNote: (id) => { dispatch(loadDeleteNote(id)) },
   };
 }
 

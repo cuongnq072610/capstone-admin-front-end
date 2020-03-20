@@ -60,10 +60,10 @@ export default function App() {
         <PrivateRoute path='/ask/create' component={() => user && user.role === 'student' ? <WrapperLayout component={StudentCreateAskPage} role="student" page="ask" /> : <WrapperLayout component={NotFoundPage} />} />
         {/* ADMIN */}
         <Route exact path='/admin' render={() => user && user.role === 'admin' ? <WrapperLayout component={DashboardPage} role="admin" page="dashboard" /> : <WrapperLayout component={NotFoundPage} />} />
-        <Route path='/teacher' render={() => <WrapperLayout component={TeacherPage} role="admin" page="teacher" />} />
-        <Route exact path='/course' render={() => <WrapperLayout component={HomePage} role="admin" page="course" />} />
-        <Route path='/course/addcourse' render={() => <WrapperLayout component={AddCoursePage} role="admin" page="course" />} />
-        <Route path='/course/addteacher' render={() => <WrapperLayout component={AddTeacherPage} role="admin" page="course" />} />
+        <Route path='/teacher' render={() => user && user.role === 'admin' ? <WrapperLayout component={TeacherPage} role="admin" page="teacher" /> : <WrapperLayout component={NotFoundPage} />} />
+        <Route exact path='/course' render={() => user && user.role === 'admin' ? <WrapperLayout component={HomePage} role="admin" page="course" /> : <WrapperLayout component={NotFoundPage} />} />
+        <Route path='/course/addcourse' render={() => user && user.role === 'admin' ? <WrapperLayout component={AddCoursePage} role="admin" page="course" /> : <WrapperLayout component={NotFoundPage} />} />
+        <Route path='/course/addteacher' render={() => user && user.role === 'admin' ? <WrapperLayout component={AddTeacherPage} role="admin" page="course" /> : <WrapperLayout component={NotFoundPage} />} />
         {/* NOT FOUND */}
         <Route path='' render={() => <WrapperLayout component={NotFoundPage} />} />
       </Switch>

@@ -194,7 +194,7 @@ export class HighLightPage extends React.Component {
               <p className="highlight-page-name">HighLights</p>
               <WrappedSearchBar
                 message="Please enter your note's name"
-                placeholder="I want to find my notes"
+                placeholder="I want to find my highlights"
                 type="highlight"
               />
             </Header>

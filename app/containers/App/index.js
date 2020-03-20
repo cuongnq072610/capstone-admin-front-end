@@ -52,8 +52,8 @@ export default function App() {
       <Switch>
         <Route exact path='/' render={() => <LoginPage />} />
         {/* STUDENT */}
-        <PrivateRoute exact path='/student' component={() => user && user.role === 'student' ? <WrapperLayout component={StudentDashboardPage} role="student" page="student-dashboard" /> : <WrapperLayout component={NotFoundPage} />} />
-        <PrivateRoute exact path='/student/addcourse' component={() => user && user.role === 'student' ? <WrapperLayout component={StudentAddCoursePage} role="student" page="student-dashboard" /> : <WrapperLayout component={NotFoundPage} />} />
+        <PrivateRoute exact path='/student' component={() => user && user.role === 'student' ? <WrapperLayout component={StudentDashboardPage} role="student" page="dashboard" /> : <WrapperLayout component={NotFoundPage} />} />
+        <PrivateRoute exact path='/student/addcourse' component={() => user && user.role === 'student' ? <WrapperLayout component={StudentAddCoursePage} role="student" page="dashboard" /> : <WrapperLayout component={NotFoundPage} />} />
         <PrivateRoute exact path='/highlight' component={() => user && user.role === 'student' ? <WrapperLayout component={HighlightPage} role="student" page="highlight" /> : <WrapperLayout component={NotFoundPage} />} />
         <PrivateRoute exact path='/highlight/:courseCode' component={() => user && user.role === 'student' ? <WrapperLayout component={HighLightFolderPage} role="student" page="highlight" /> : <WrapperLayout component={NotFoundPage} />} />
         <PrivateRoute exact path='/note' component={() => user && user.role === 'student' ? <WrapperLayout component={NotePage} role="student" page="note" /> : <WrapperLayout component={NotFoundPage} />} />

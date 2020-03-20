@@ -49,7 +49,6 @@ export class LoginPage extends React.Component {
       localStorage.setItem('user', user);
       switch (JSON.parse(user).role) {
         case 'student':
-          console.log(`go here`)
           history.push('/student');
           break;
         case 'teacher':

@@ -23,7 +23,7 @@ const GET_NOTE_BY_FOLDER = "/getNoteByCourse";
 
 const GET_ALL_FOLDER = "/allfolderbystudentid/5e6a7eddb42dae46b2c25a01";
 const CREATE_NEW_FOLDER = '/createfolder';
-const GET_ALL_ASK = "/allaskofstudent/5e6a7eddb42dae46b2c25a01";
+const GET_ALL_ASK = "/allaskofstudent";
 const GET_ASK_BY_ID = "/getaskbyid";
 
 const GET_ALL_DEPARTMENT = '/allDepartment';

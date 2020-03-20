@@ -2,7 +2,7 @@ const AdminMenu = [
     {
         "name": "dashboard",
         "title": "Dashboard",
-        "path": "/",
+        "path": "/admin",
         'exact': true,
     },
     {

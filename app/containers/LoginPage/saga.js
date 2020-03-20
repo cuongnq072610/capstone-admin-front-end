@@ -11,6 +11,7 @@ function* handleLogin(action) {
       yield put({ type: LOGIN_FAILURE, payload: response.data.err })
     } else {
       yield put({ type: LOGIN_SUCCESS, payload: response.data.token })
+      localStorage.setItem("token", response.data.token);
     }
   } catch (error) {
     yield put({ type: LOGIN_FAILURE, payload: error })

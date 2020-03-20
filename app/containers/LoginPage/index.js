@@ -21,6 +21,9 @@ import messages from './messages';
 import { Col, Button, Row, Input, Icon, Spin } from 'antd';
 import { API_ENDPOINT } from '../../constants/apis';
 
+import { isEmpty as _isEmpty, uniq as _isUniq } from 'lodash';
+import { isRequired } from '../../utils/validation';
+
 import './index.scss';
 import NoteItText from './assets/noteit-text-1@3x.png';
 import parseJwt from '../../utils/parseJWT';
@@ -35,6 +38,8 @@ export class LoginPage extends React.Component {
     this.state = {
       username: "",
       password: "",
+      invalidField: [],
+      errMess: [],
     }
   }
 
@@ -61,9 +66,12 @@ export class LoginPage extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.loginPage.token !== this.props.loginPage.token) {
+    if (prevProps.loginPage.token !== this.props.loginPage.token &&
+      prevProps.loginPage.isLoading !== this.props.loginPage.isLoading &&
+      this.props.loginPage.isLoading === false &&
+      _isEmpty(this.props.loginPage.error)
+    ) {
       const { token } = this.props.loginPage;
-      localStorage.setItem("token", token);
       const parseToken = parseJwt(token);
       const user = JSON.stringify(parseToken.user);
       localStorage.setItem('user', user);
@@ -78,6 +86,20 @@ export class LoginPage extends React.Component {
           break;
       }
     }
+    if (!_isEmpty(this.props.loginPage.error)) {
+      console.log(this.props.loginPage.error);
+    }
+  }
+
+  getValidation = () => {
+    const { username, password } = this.state;
+    const errors = {
+      ...isRequired([
+        { name: 'username', value: username },
+        { name: 'password', value: password },
+      ])
+    }
+    return errors
   }
 
   onHandleChangeText = (e) => {
@@ -86,9 +108,22 @@ export class LoginPage extends React.Component {
     })
   }
 
-  onHandleSubmitLogin = () => {
-    const { username, password } = this.state;
-    this.props.onHandleLogin(username, password);
+  onHandleSubmitLogin = (event) => {
+    event.preventDefault();
+    const errors = this.getValidation();
+    if (!_isEmpty(errors)) {
+      this.setState({
+        invalidField: Object.keys(errors),
+        errMess: _isUniq(Object.values(errors)),
+      })
+    } else {
+      this.setState({
+        invalidField: [],
+        errMess: [],
+      });
+      const { username, password } = this.state;
+      this.props.onHandleLogin(username, password);
+    }
   }
 
   ongHandleLoginWithGg = () => {
@@ -97,6 +132,7 @@ export class LoginPage extends React.Component {
 
   render() {
     const { isLoading } = this.props.loginPage;
+    const { errMess } = this.state;
     const antIcon = <Icon type="loading" style={{ fontSize: 24, color: '#ffc143', marginRight: '10px' }} spin />;
 
     return (
@@ -109,7 +145,7 @@ export class LoginPage extends React.Component {
           <div className='login-wrapper'>
             <img src={NoteItText} className='login-logo' alt='logo' />
             <p className='login-title'>Sign in to noteIt </p>
-            <div className="login-field">
+            <form className="login-field" onSubmit={this.onHandleSubmitLogin}>
               <Button className='btn-login-google' onClick={this.ongHandleLoginWithGg}><span className='google-logo'></span> Log in with Google</Button>
               <p>or</p>
               <div className='login-input-field'>
@@ -120,13 +156,14 @@ export class LoginPage extends React.Component {
                     {
                       isLoading ?
                         <Spin indicator={antIcon} /> :
-                        "Sign in"
+                        <input type="submit" value="Log in" />
                     }
                   </Button>
                   <Button className='btn-forgot'><u>Forgot password?</u></Button>
                 </div>
+                <p style={{ color: 'red' }}>{errMess ? errMess : ""}</p>
               </div>
-            </div>
+            </form>
             <div className='login-policy'>
               <p>By clicking <u>Login with Google, you agree to our Terms.</u></p>
               <p>Learn how we process your data in our <u>Privacy Policy and Cookie Policy.</u></p>

@@ -41,15 +41,18 @@ export class StudentComposePage extends React.Component {
       isDelete: false,
       ask: {},
       message: '',
-      comments: []
+      comments: [],
+      user: JSON.parse(localStorage.getItem("user"))
     }
   }
 
   componentDidMount() {
     const { id } = this.props.match.params;
-    this.props.handleFetchAskDetail(id)
-    socket = io(ENDPOINT);
-    socket.emit('join', { message: 'Hello babe' }, (error) => {
+    this.props.handleFetchAskDetail(id);
+
+    socket = io(ENDPOINT, {transports: ['websocket']});
+    socket.emit('join', { askID: id }, (error) => {
+      console.log('emit join connection')
       if (error) {
         console.log(error);
       }
@@ -103,25 +106,26 @@ export class StudentComposePage extends React.Component {
   }
 
   handleSendMessage = () => {
-    const { message, ask, comments } = this.state;
+    const { message, ask, comments, user } = this.state;
     //add to messages state first to render to UI
     //emit to server with userInfo and message to save to DB
     //if error show warning, if not do nothing
 
     if(message) {
       const newComment = {
-        "userID": ask.student._id,
+        "userID": user.profile,
         "ask": ask._id,
         "message": message,
         "dateCreated": this.getCurrentDate(),
         "__v": 0
       }
+
   
       this.setState({
         comments: [...comments, newComment]
       });
   
-      socket.emit('send message', { message: message, user: ask.student, askID: ask._id }, (error) => {
+      socket.emit('send message', { message: message, user: user, askID: ask._id }, (error) => {
         if (error) {
           console.log(error);
         }
@@ -153,7 +157,7 @@ export class StudentComposePage extends React.Component {
   }
 
   render() {
-    const { message, comments, showMe, isClose, isDelete, ask, teacher } = this.state;
+    const { message, comments, showMe, isClose, isDelete, ask, teacher, user } = this.state;
     const { Content, Header } = Layout;
     const antIcon = <Icon type="loading" style={{ fontSize: 24, color: '#1593e6', marginRight: '10px' }} spin />;
     const { isLoading } = this.props.studentComposePage;

@@ -21,6 +21,7 @@ const Mail = styled.p`
 
 const AskAndAnswerField = (props) => {
     const {user, text, comment, date} = props;
+    
     return (
         user ?
         <div className='ask-wrapper'>
@@ -28,7 +29,7 @@ const AskAndAnswerField = (props) => {
                 <img src={avatar} className='user-avatar' />
                 <div className='user-info'>
                     <div>
-                        <Name>{user.studentName}</Name>
+                        <Name>{user.email}</Name>
                         <Mail>{user.email}</Mail>
                     </div>
                     <p>{date ? date : comment.dateCreated}</p>

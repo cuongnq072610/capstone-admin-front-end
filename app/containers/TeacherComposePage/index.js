@@ -41,15 +41,17 @@ export class StudentComposePage extends React.Component {
       isDelete: false,
       ask: {},
       message: '',
-      comments: []
+      comments: [],
+      user: JSON.parse(localStorage.getItem("user"))
     }
   }
 
   componentDidMount() {
     const { id } = this.props.match.params;
     this.props.handleFetchAskDetail(id)
-    socket = io(ENDPOINT);
-    socket.emit('join', { message: 'Hello babe' }, (error) => {
+
+    socket = io(ENDPOINT, {transports: ['websocket']});
+    socket.emit('join', { askID: id }, (error) => {
       if (error) {
         console.log(error);
       }
@@ -103,14 +105,14 @@ export class StudentComposePage extends React.Component {
   }
 
   handleSendMessage = () => {
-    const { message, ask, comments } = this.state;
+    const { message, ask, comments , user} = this.state;
     //add to messages state first to render to UI
     //emit to server with userInfo and message to save to DB
     //if error show warning, if not do nothing
 
     if(message) {
       const newComment = {
-        "userID": ask.student._id,
+        "userID": user.profile,
         "ask": ask._id,
         "message": message,
         "dateCreated": this.getCurrentDate(),
@@ -120,11 +122,11 @@ export class StudentComposePage extends React.Component {
       this.setState({
         comments: [...comments, newComment]
       });
-  
-      socket.emit('send message', { message: message, user: ask.student, askID: ask._id }, (error) => {
-        if (error) {
-          console.log(error);
-        }
+      
+      console.log(newComment)
+
+      socket.emit('send message', { message: message, user: user, askID: ask._id }, () => {
+        this.setState({ message: '' });
       })
     }
 
@@ -170,7 +172,7 @@ export class StudentComposePage extends React.Component {
           <Col span={19} className="compose-information">
             <Layout>
               <Header className="compose-header">
-                <Link to="/ask">
+                <Link to="/tutor">
                   <Icon type="arrow-left" />
                 </Link>
               </Header>

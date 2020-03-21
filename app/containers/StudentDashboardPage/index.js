@@ -74,7 +74,7 @@ export class StudentDashboardPage extends React.Component {
   }
 
   handleGoToCourse = (url) => {
-    window.location = `https://${url}`;
+    window.open(url, '_blank')
   }
 
   render() {

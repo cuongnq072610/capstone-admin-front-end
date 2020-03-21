@@ -15,15 +15,15 @@ const GET_RECENT_HIGHLIGHT = "/getRecentHighlight";
 const DELETE_HIGHLIGHT_BY_ID = "/deletehighlightbyid";
 const GET_HIGHLIGHT_BY_FOLDER = "/getHighlightByCourse";
 const GET_HIGHLIGHT_BY_COLOR = '/getHighlightByColor';
+const GET_SEARCH_HIGHLIGHT = '/searchHighlight';
 
 const GET_RECENT_NOTE = "/getRecentNote";
 const GET_NOTE_BY_ID = "/getnotebyid";
 const UPDATE_NOTE_BY_ID = "/updatenotebyid";
 const DELETE_NOTE_BY_ID = "/deletenotebyid";
 const GET_NOTE_BY_FOLDER = "/getNoteByCourse";
+const GET_SEARCH_NOTE = '/searchNote';
 
-const GET_ALL_FOLDER = "/allfolderbystudentid/5e6a7eddb42dae46b2c25a01";
-const CREATE_NEW_FOLDER = '/createfolder';
 const GET_ALL_ASK = "/allaskofstudent";
 const GET_ASK_BY_ID = "/getaskbyid";
 const GET_ALL_ASK_TEACHER = '/allaskofteacher';
@@ -54,14 +54,14 @@ export {
     DELETE_HIGHLIGHT_BY_ID,
     GET_HIGHLIGHT_BY_FOLDER,
     GET_HIGHLIGHT_BY_COLOR,
+    GET_SEARCH_HIGHLIGHT,
     //NOTE
     GET_RECENT_NOTE,
     GET_NOTE_BY_ID,
     UPDATE_NOTE_BY_ID,
     DELETE_NOTE_BY_ID,
-    GET_ALL_FOLDER,
-    CREATE_NEW_FOLDER,
     GET_NOTE_BY_FOLDER,
+    GET_SEARCH_NOTE,
     //ASK
     GET_ALL_ASK,
     GET_ASK_BY_ID,

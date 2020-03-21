@@ -1,0 +1,56 @@
+@import '../../utils/variables.scss';
+
+.tab-info {
+    &-highlight {
+        width: 300px;
+        height: 50px;
+        padding: 10px;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        background-color: $primary_green;
+        color: $primary_black;
+        border-radius: 20px;
+    }
+
+    &-note {
+        width: 300px;
+        height: 50px;
+        padding: 10px;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        background-color: $primary_white;
+        border: 1px solid $primary_yellow;
+        color: $primary_black;
+        border-radius: 20px;
+    }
+}
+
+.tab-folder {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    p {
+        margin: 0 0 0 10px;
+    }
+}
+
+.tab-icon {
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    background-size: cover;
+}
+
+.icon-highlight {
+    background-image: url(assets/highlight_active.svg);
+}
+
+.icon-note {
+    background-image: url(assets/note_active.svg);
+}
+
+.icon-course {
+    background-image: url(assets/note.svg);
+}

@@ -21,7 +21,7 @@ import messages from './messages';
 import Note from './Note';
 import history from '../../utils/history';
 import WrappedSearchBar from '../../components/SearchBar';
-import { Row, Layout, Col, Icon, Button, Input, Spin } from 'antd';
+import { Row, Layout, Col, Icon, Button, Spin } from 'antd';
 import { loadNote, loadDeleteNote, loadStudentCourses } from './actions';
 import Masonry from 'masonry-layout'
 const { Content, Header } = Layout;
@@ -120,7 +120,7 @@ export class NotePage extends React.Component {
 
   navigateDetailFolder = (folder) => {
     history.push({
-      pathname: `/folder/${folder.courseCode}`,
+      pathname: `/note/folder/${folder.courseCode}`,
       state: {
         folder
       }
@@ -142,6 +142,10 @@ export class NotePage extends React.Component {
         isShowFolder: !prevState.isShowFolder
       }
     })
+  }
+
+  handleSyncNote = () => {
+    this.props.handleLoadNote();
   }
 
   render() {
@@ -166,7 +170,10 @@ export class NotePage extends React.Component {
                 paddingLeft: '0px',
               }}
             >
-              <p className="note-page-name">Notes</p>
+              <div className='note-page-name-wrapper'>
+                <p className="note-page-name">Notes</p>
+                <Button className='btn-sync' onClick={this.handleSyncNote}><span className='sync-icon'></span></Button>
+              </div>
               <WrappedSearchBar
                 message="Please enter your note's name"
                 placeholder="I want to find my notes"

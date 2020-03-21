@@ -5,14 +5,17 @@
  */
 
 import { fromJS } from 'immutable';
-import { 
-  DEFAULT_ACTION, 
-  LOAD_NOTES_BY_FOLDER, 
-  LOAD_NOTES_BY_FOLDER_SUCCESS, 
+import {
+  DEFAULT_ACTION,
+  LOAD_NOTES_BY_FOLDER,
+  LOAD_NOTES_BY_FOLDER_SUCCESS,
   LOAD_NOTES_BY_FOLDER_FAILURE,
   DELETE_NOTE,
   DELETE_NOTE_FAILURE,
   DELETE_NOTE_SUCCESS,
+  SEARCH_NOTE,
+  SEARCH_FAILURE_NOTE,
+  SEARCH_SUCCESS_NOTE,
 } from './constants';
 
 export const initialState = fromJS({
@@ -39,6 +42,12 @@ function noteFolderPageReducer(state = initialState, action) {
       return state.set("isLoadingDelete", false).set("message", action.payload);
     case DELETE_NOTE_FAILURE:
       return state.set("isLoadingDelete", false).set("error", action.payload);
+    case SEARCH_NOTE:
+      return state.set('isLoading', true);
+    case SEARCH_SUCCESS_NOTE:
+      return state.set('notes', fromJS(action.payload)).set('isLoading', false);
+    case SEARCH_FAILURE_NOTE:
+      return state.set('errors', action.payload).set('isLoading', false);
     default:
       return state;
   }

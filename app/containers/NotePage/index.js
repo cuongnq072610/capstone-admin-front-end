@@ -120,7 +120,7 @@ export class NotePage extends React.Component {
 
   navigateDetailFolder = (folder) => {
     history.push({
-      pathname: `/folder/${folder.courseCode}`,
+      pathname: `/note/folder/${folder.courseCode}`,
       state: {
         folder
       }

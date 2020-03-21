@@ -51,7 +51,7 @@ export class StudentAskPage extends React.Component {
     return (
       <div>
         <Helmet>
-          <title>StudentAskPage</title>
+          <title>TeachertAskPage</title>
           <meta name="description" content="Description of StudentAskPage" />
         </Helmet>
         <Row>
@@ -73,7 +73,7 @@ export class StudentAskPage extends React.Component {
                     onRow={(record, rowIndex) => {
                       return {
                         onClick: e => this.props.history.push({
-                          pathname: `/ask/compose/${record._id}`,
+                          pathname: `/tutor/compose/${record._id}`,
                         })
                       }
                     }}

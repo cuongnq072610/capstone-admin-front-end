@@ -24,28 +24,6 @@ import ReactQuill from 'react-quill';
 import { loadNoteDetail, loadSaveNote, loadDeleteNote } from './actions';
 const { Header, Content } = Layout;
 
-const mockDataFolder = [
-  {
-    id: 1,
-    name: "Web development",
-  },
-  {
-    id: 2,
-    name: "Digital Marketing",
-  },
-  {
-    id: 3,
-    name: "Budgeting",
-  },
-  {
-    id: 4,
-    name: "Economy",
-  },
-  {
-    id: 5,
-    name: "Marketting",
-  },
-]
 /* eslint-disable react/prefer-stateless-function */
 export class NoteDetailPage extends React.Component {
   constructor(props) {
@@ -239,19 +217,6 @@ export class NoteDetailPage extends React.Component {
                     }
                   </span>
                 </Button>
-              </div>
-              <div className="note-detail-side-tag">
-                <p>Tags</p>
-                <Input
-                  placeholder="Searh or add new tag"
-                  prefix={<Icon type="search" style={{ color: "#ffc143" }} onClick={() => { }} />}
-                  onChange={this.onChangeText}
-                  // onPressEnter={this.onHandleSubmit}
-                  className="tag-search"
-                />
-                {
-                  mockDataFolder.map((folder, index) => this.renderFolder(folder, index))
-                }
               </div>
             </Content>
           </Layout>

@@ -24,7 +24,7 @@ import Note from './Note';
 import { Link } from 'react-router-dom';
 import Masonry from 'masonry-layout'
 import './index.scss';
-import { loadNotesByFolder, loadDeleteNote } from './actions';
+import { loadNotesByFolder, loadDeleteNote, searchNote } from './actions';
 
 const { Header, Content } = Layout;
 
@@ -121,6 +121,15 @@ export class NoteFolderPage extends React.Component {
     this.props.handleDeleteNote(id)
   }
 
+  handleSearch = (key) => {
+    this.props.fetchSearchNote(key);
+  }
+
+  handleClear = () => {
+    const { folder } = this.state;
+    this.props.handleFetchNoteByCourse(folder._id);
+  }
+
   render() {
     const { folder, notes, isShow, deleteMessage } = this.state;
     const { isLoading, isLoadingDelete } = this.props.noteFolderPage;
@@ -153,6 +162,8 @@ export class NoteFolderPage extends React.Component {
               message="Please enter your note's name"
               placeholder="I want to find my notes"
               type="note"
+              handleSearch={this.handleSearch}
+              handleClear={this.handleClear}
             />
           </Header>
           <Content>
@@ -219,6 +230,7 @@ export class NoteFolderPage extends React.Component {
 NoteFolderPage.propTypes = {
   handleFetchNoteByCourse: PropTypes.func.isRequired,
   handleDeleteNote: PropTypes.func.isRequired,
+  fetchSearchNote: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -229,6 +241,7 @@ function mapDispatchToProps(dispatch) {
   return {
     handleFetchNoteByCourse: (courseId) => { dispatch(loadNotesByFolder(courseId)) },
     handleDeleteNote: (id) => { dispatch(loadDeleteNote(id)) },
+    fetchSearchNote: (key) => { dispatch(searchNote(key)) },
   };
 }
 

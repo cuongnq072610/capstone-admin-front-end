@@ -4,7 +4,7 @@
  *
  */
 
-import { DEFAULT_ACTION, LOAD__HIGHLIGHT_BY_FOLDER, DELETE_HIGHLIGHT, FILTER_HIGHLIGHT } from './constants';
+import { DEFAULT_ACTION, LOAD__HIGHLIGHT_BY_FOLDER, DELETE_HIGHLIGHT, FILTER_HIGHLIGHT, SEARCH_HIGHLIGHT } from './constants';
 
 export function defaultAction() {
   return {
@@ -31,5 +31,12 @@ export function loadFilterHighlight(color, courseId) {
     type: FILTER_HIGHLIGHT,
     color,
     courseId,
+  }
+}
+
+export function searchHighlight(key) {
+  return {
+    type: SEARCH_HIGHLIGHT,
+    key,
   }
 }

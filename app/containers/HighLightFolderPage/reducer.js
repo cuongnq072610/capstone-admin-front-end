@@ -16,6 +16,9 @@ import {
   FILTER_HIGHLIGHT,
   FILTER_HIGHLIGHT_FAILURE,
   FILTER_HIGHLIGHT_SUCCESS,
+  SEARCH_HIGHLIGHT,
+  SEARCH_FAILURE_HIGHLIGHT,
+  SEARCH_SUCCESS_HIGHLIGHT,
 } from './constants';
 
 export const initialState = fromJS({
@@ -48,6 +51,12 @@ function highLightFolderPageReducer(state = initialState, action) {
       return state.set("isLoading", false).set("highlights", fromJS(action.payload));
     case FILTER_HIGHLIGHT_FAILURE:
       return state.set("isLoading", false).set("error", action.payload);
+    case SEARCH_HIGHLIGHT:
+      return state.set('isLoading', true);
+    case SEARCH_SUCCESS_HIGHLIGHT:
+      return state.set('highlights', fromJS(action.payload)).set('isLoading', false);
+    case SEARCH_FAILURE_HIGHLIGHT:
+      return state.set('errors', action.payload).set('isLoading', false);
     default:
       return state;
   }

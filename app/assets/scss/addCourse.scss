@@ -95,31 +95,12 @@
       }
     }
 
-    .teacherWrapper {
-      margin-left: 12px;
-      .teacher {
-        align-items: center;
-        margin-bottom: 24px;
-        img {
-          width: 28px;
-          height: 28px;
-          border-radius: 50%;
-          margin-right: 15px;
+    .iconAdd {
+      svg {
+        path {
+          fill: red; 
         }
-  
-        h3 {
-          font-size: 14px;
-          color: #616161;
-          margin: 0;
-          margin-bottom: 3px;
-        }
-        p {
-          font-size: 10px;
-          color: #616161;
-          margin: 0;
-        }
-    }
-    
+      }
     }
 }
 

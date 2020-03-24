@@ -2,6 +2,11 @@
   "name": "react-boilerplate",
   "version": "3.7.0",
   "description": "A highly scalable, offline-first foundation with the best DX and a focus on performance and best practices",
+  "proxy": {
+    "/auth": {
+      "target": "http://localhost:5000"
+    }
+  },
   "repository": {
     "type": "git",
     "url": "git://github.com/react-boilerplate/react-boilerplate.git"
@@ -33,6 +38,7 @@
     "generate": "plop --plopfile internals/generators/index.js",
     "lint": "npm run lint:js",
     "lint:css": "stylelint './app/**/*.js'",
+    "lint:eslint:fix": "eslint --ignore-path .gitignore --ignore-pattern internals/scripts --fix",
     "pretest": "npm run test:clean && npm run lint",
     "test:clean": "rimraf ./coverage",
     "test": "cross-env NODE_ENV=test jest --coverage",
@@ -47,6 +53,7 @@
   "dependencies": {
     "@babel/polyfill": "7.0.0",
     "antd": "^3.26.7",
+    "axios": "^0.19.2",
     "chalk": "2.4.1",
     "compression": "1.7.3",
     "connected-react-router": "4.5.0",
@@ -60,13 +67,15 @@
     "invariant": "2.2.4",
     "ip": "1.1.5",
     "loadable-components": "2.2.3",
-    "lodash": "4.17.11",
+    "lodash": "^4.17.15",
+    "masonry-layout": "^4.2.2",
     "minimist": "1.2.0",
     "prop-types": "15.6.2",
     "react": "16.6.0",
     "react-dom": "16.6.0",
     "react-helmet": "5.2.0",
     "react-intl": "2.7.2",
+    "react-quill": "^1.3.3",
     "react-redux": "5.0.7",
     "react-router-dom": "4.3.1",
     "redux": "4.0.1",
@@ -125,7 +134,7 @@
     "lint-staged": "7.3.0",
     "ngrok": "3.1.0",
     "node-plop": "0.16.0",
-    "node-sass": "^4.13.0",
+    "node-sass": "^4.13.1",
     "null-loader": "0.1.1",
     "offline-plugin": "5.0.5",
     "plop": "2.1.0",

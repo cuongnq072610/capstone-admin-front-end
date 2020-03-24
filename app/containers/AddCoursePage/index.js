@@ -4,12 +4,13 @@
  *
  */
 import { Link } from 'react-router-dom';
-import '../../assets/css/addCourse.css';
-import { Select, Layout, Row, Col, Input, Icon, Form, Button, Tag } from 'antd';
+import './addCourse.scss';
+import { Select, Layout, Row, Col, Input, Icon, Form, Button, Spin } from 'antd';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
+import { isEmpty as _isEmpty, uniq as _isUniq } from 'lodash';
 import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
@@ -19,73 +20,176 @@ import makeSelectAddCoursePage from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
+import SearchTeacher from '../../components/SearchTeacher';
+import history from '../../utils/history';
+import { addCourse, updateCourse } from './actions';
+import { isRequired } from '../../utils/validation';
+
 /* eslint-disable react/prefer-stateless-function */
 import Teacher from './teacher';
 
-const { Search, TextArea,Option } = Input;
+const { TextArea } = Input;
 
-const { Header, Content, Sider } = Layout;
-function handleChange(value) {}
-export class AddCoursePage extends React.PureComponent {
+const { Header, Content } = Layout;
 
+export class AddCoursePage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      skill: '',
-      skills: [],
-      teacher : [
-        {
-          avaUrl: '../../assets/image/avatar (1).png',
-          name: 'LamPT',
-          email: 'lampt@fe.edu.vn'
-        },
-        {
-          avaUrl: '../../assets/image/avatar (2).png',
-          name: 'PhuongLH7',
-          email: 'lampt@fe.edu.vn'
-        },
-        {
-          avaUrl: '../../assets/image/avatar (3).png',
-          name: 'MaiVTT',
-          email: 'lampt@fe.edu.vn'
-        }
-      ]
+      course: {
+        courseName: '',
+        courseCode: '',
+        departments: [],
+        shortDes: '',
+        fullDes: '',
+        courseURL: '',
+        teachers: [],
+      },
+      type: '',
+      isShow: false,
+      invalidField: [],
+      errMess: [],
     };
   }
 
-  handleClick = e => {
+  componentDidMount() {
+    const { state } = history.location;
+    if (state) {
+      if (state.course) {
+        this.setState({
+          course: state.course,
+          type: state.type
+        })
+      } else {
+        this.setState({
+          type: state.type
+        })
+      }
+    }
+  };
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.addCoursePage.isDone !== this.props.addCoursePage.isDone && this.props.addCoursePage.isDone === true) {
+      this.props.history.push({
+        pathname: '/course',
+        state: {
+          isDone: true
+        }
+      })
+    }
+    if (prevProps.addCoursePage.errors !== this.props.addCoursePage.errors) {
+      this.setState({
+        isShow: true
+      }, () => {
+        setTimeout(() => {
+          this.setState({
+            isShow: false
+          })
+        }, 5000)
+      })
+    }
+  }
+
+  getValidation = () => {
+    const { courseName, courseCode, departments, shortDes, courseURL } = this.state.course;
+    const errors = {
+      ...isRequired([
+        { name: 'courseName', value: courseName },
+        { name: 'courseCode', value: courseCode },
+        { name: 'departments', value: departments },
+        { name: 'shortDes', value: shortDes },
+        { name: 'courseURL', value: courseURL },
+      ])
+    }
+    return errors
+  }
+
+  //handle change for Select Department
+  handleChangeSelect = (value) => {
+    this.setState({
+      course: {
+        ...this.state.course,
+        departments: value
+      }
+    })
+  }
+
+  handleSubmit = (e) => {
+    
     e.preventDefault();
-    let newArr = [];
-    newArr = [...this.state.skills, this.state.skill];
+    const errors = this.getValidation();
+    if (!_isEmpty(errors)) {
+      this.setState({
+        invalidField: Object.keys(errors),
+        errMess: _isUniq(Object.values(errors)),
+        isShow: true,
+      }, () => {
+        setTimeout(() => {
+          this.setState({
+            isShow: false
+          })
+        }, 5000)
+      })
+    } else {
+      this.setState({
+        invalidField: [],
+        errMess: [],
+      });
+      const { course, type } = this.state;
+      const formatCourse = {
+        ...course,
+        teachers: course.teachers.map(teacher => teacher._id)
+      }
+      console.log(formatCourse)
+      if (type === 'add') {
+        this.props.handleAddCourse(formatCourse)
+      } else if (type === 'update') {
+        this.props.handleUpdateCourse(formatCourse)
+      }
+    }
+  }
+
+  handleChange = (e) => {
     this.setState({
-      skill: '',
-      skills: newArr,
-    });
-  };
-
-  onChangeValue = e => {
-    this.setState({
-      skill: e.target.value,
-    });
-  };
-
-  btnAddSkill = () => (
-    <Button
-      style={{ border: 'none', height: '30px', paddingBottom: '10px' }}
-      htmlType="submit"
-    >
-      <Icon type="plus" style={{ color: 'rgba(0,0,0,.25)' }} />
-    </Button>
-  );
-
-  handleClose = removedSkill => {
-    const newArr = this.state.skills.filter(item => item !== removedSkill);
-    console.log(newArr);
-    this.setState({ skills: newArr });
-  };
+      course: {
+        ...this.state.course,
+        [e.target.id]: e.target.value
+      }
+    })
+  }
 
   render() {
-    const { skill, skills } = this.state;
+    const { course, type, isShow, errMess } = this.state;
+    const { courseName, courseCode, departments, shortDes, fullDes, courseURL } = course;
+    const { isLoading, errors } = this.props.addCoursePage;
+    const { Option } = Select;
+    const departmentOption = [{
+      id: 1,
+      value: 'Computer Science',
+      name: 'Computer Science'
+    },
+    {
+      id: 2,
+      value: 'Business',
+      name: 'Business'
+    },
+    {
+      id: 3,
+      value: 'Finance',
+      name: 'Finance'
+    },
+    {
+      id: 4,
+      value: 'Graphic Design',
+      name: 'Graphic Design'
+    }]
+
+    const children = [];
+    //pushing Option component into children
+    departmentOption.map(item => {
+      children.push(<Option key={item.id} value={item.value}>{item.name}</Option>)
+    })
+    const antIcon = <Icon type="loading" style={{ fontSize: 24, color: '#fff', marginRight: '10px' }} spin />;
     return (
       <Row className="addCourse">
         <Helmet>
@@ -95,7 +199,7 @@ export class AddCoursePage extends React.PureComponent {
         <Col span={19}>
           <Layout>
             <Header className="header">
-              <Link to="/">
+              <Link to="/course">
                 <Icon type="arrow-left" />
               </Link>
             </Header>
@@ -103,8 +207,11 @@ export class AddCoursePage extends React.PureComponent {
               <Form>
                 <input
                   className="courseName"
+                  id="courseName"
                   type="text"
                   placeholder="Give your course a name"
+                  value={courseName}
+                  onChange={this.handleChange}
                 />
                 <Row className="row">
                   <Col className="courseCode " span={12}>
@@ -114,7 +221,10 @@ export class AddCoursePage extends React.PureComponent {
                     </label>
                     <Input
                       className="belowLabel "
+                      id="courseCode"
                       prefix={<Icon type="user" />}
+                      value={courseCode}
+                      onChange={this.handleChange}
                     />
                   </Col>
                   <Col span={12}>
@@ -124,9 +234,13 @@ export class AddCoursePage extends React.PureComponent {
                     </label>
                     <Select
                       className="belowLabel"
-                      prefix={<Icon type="unordered-list" />}
+                      mode="multiple"
+                      style={{ width: '100%' }}
+                      placeholder="Please select"
+                      onChange={this.handleChangeSelect}
+                      value={departments}
                     >
-                      
+                      {children}
                     </Select>
                   </Col>
                 </Row>
@@ -135,74 +249,71 @@ export class AddCoursePage extends React.PureComponent {
                     Short Description
                     <span>*</span>
                   </label>
-                  <TextArea className="belowLabel" rows={2} />
+                  <TextArea className="belowLabel" rows={2} id="shortDes"
+                    value={shortDes}
+                    onChange={this.handleChange}
+                  />
                 </Row>
                 <Row>
                   <label>Full Description</label>
-                  <TextArea className="belowLabel" rows={4} />
+                  <TextArea className="belowLabel" rows={4} id="fullDes"
+                    value={fullDes}
+                    onChange={this.handleChange}
+                  />
                 </Row>
                 <Row className="row">
                   <Col span={12}>
-                    <label>Skills learnt in this course</label>
+                    <label>Course URL<span>*</span></label>
                     <Input
-                      suffix={this.btnAddSkill(this.handleClick)}
-                      prefix={<Icon type="tool" />}
-                      onChange={this.onChangeValue}
+                      className="belowLabel"
+                      id="courseURL"
+                      prefix={<Icon type="user" />}
+                      value={courseURL}
+                      onChange={this.handleChange}
                     />
-                    <div className="tag">
-                      {skills.map((item, index) => (
-                        <Tag
-                          color="purple"
-                          key={index}
-                          closable
-                          onClose={e => {
-                            e.preventDefault();
-                            this.handleClose(item);
-                          }}
-                        >
-                          {item}
-                        </Tag>
-                      ))}
-                    </div>
                   </Col>
                 </Row>
+                <Button className="addBtn" type="primary" onClick={this.handleSubmit}>
+                  {
+                    isLoading ?
+                      <Spin indicator={antIcon} /> :
+                      type === 'update' ?
+                        <span style={{ marginTop: '2px' }}>Update Course</span> :
+                        <span style={{ marginTop: '2px' }}>Add Course</span>
+                  }
+                  <Icon type="plus" />
+                </Button>
               </Form>
-
-              <Button className="addBtn" type="primary">
-                Add course
-                <Icon type="plus" />
-              </Button>
+              <div className={isShow ? 'notification-show' : 'notification'}>
+                {
+                  errMess && errMess.length > 0 &&
+                  <div className='noti-content-error'>
+                    <span className='icon-noti deny-icon'></span>
+                    <p>{errMess}</p>
+                  </div>
+                }
+                {
+                  errors && errors.length > 0 &&
+                  <div className='noti-content-error'>
+                    <span className='icon-noti deny-icon'></span>
+                    <p>{errors}</p>
+                  </div>
+                }
+              </div>
             </Content>
           </Layout>
         </Col>
         <Col className="addTeacher" span={5}>
-          <h1>Teachers</h1>
-          <Search
-            placeholder="Search for or add teachers"
-            onSearch={value => console.log(value)}
-          />
-          <p>3 teacher</p>
-          <Teacher teacher={this.state.teacher}/>
+          <SearchTeacher course={course} type={type} />
         </Col>
-        {/* <FormattedMessage {...messages.header} /> */}
       </Row>
     );
   }
 }
 
-function getBase64(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = error => reject(error);
-  });
-}
-function onSelect(value) {
-  console.log('onSelect', value);
-}
 AddCoursePage.propTypes = {
-  dispatch: PropTypes.func.isRequired,
+  handleAddCourse: PropTypes.func.isRequired,
+  handleUpdateCourse: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -211,7 +322,8 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
-    dispatch,
+    handleAddCourse: (course) => { dispatch(addCourse(course)) },
+    handleUpdateCourse: (course) => { dispatch(updateCourse(course)) },
   };
 }
 

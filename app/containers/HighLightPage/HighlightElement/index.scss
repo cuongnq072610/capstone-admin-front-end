@@ -1,0 +1,69 @@
+@import "../../../utils/variables.scss";
+
+.highlight-wrapper {
+    max-width: 450px;
+    height: fit-content;
+    width: fit-content;
+    flex-wrap: wrap;
+    flex-basis: auto;
+    padding: 16px;
+    margin-bottom: 20px;
+    position: relative;
+
+    .highlight-delete {
+        width: 28px;
+        height: 28px;
+        border-radius: 14px;
+        background-color: red;
+        display: none;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        top: -10px;
+        right: -15px;
+
+        .highlight-delete-icon {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            background-size: cover;
+            background-image: url(../assets/delete.svg);
+        }
+    }
+
+    &:hover {
+        .highlight-delete {
+            display: flex;
+        }
+    }
+
+    .highlight {
+        background-image: none; //duplicate hightclass in menu bar but i'm just too lazy to think of another name
+        p {
+            margin: 0;
+        }
+    }
+}
+
+.background {
+    &-red {
+        background-color: $highlight_red;
+        border: 1px solid $highlight_red;
+    }
+    &-green {
+        background-color: $highlight_green;
+        border: 1px solid $highlight_green;
+    }
+    &-blue {
+        background-color: $highlight_blue;
+        border: 1px solid $highlight_blue;
+    }
+    &-yellow {
+        background-color: $highlight_yellow;
+        border: 1px solid $highlight_yellow;
+    }
+    &-orange {
+        background-color: $highlight_orange;
+        border: 1px solid $highlight_orange;
+    }
+}

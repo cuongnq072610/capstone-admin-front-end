@@ -1,0 +1,132 @@
+@import "../../utils/variables.scss";
+
+.login-page {
+    .login-wrapper {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        height: 100vh;
+
+        .login-logo {
+            height: 33px;
+            margin: 80px 0;
+        }
+
+        .login-title {
+            color: #212121;
+            font-family: Roboto;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .login-field {
+            width: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            .btn-login-google {
+                width: 100%;
+                height: 39px;
+                border-radius: 5px;
+                border: 1px solid $primary_blue;
+                background-color: $primary_white;
+                color: $primary_blue;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: bold;
+
+                .google-logo {
+                    display: inline-block;
+                    width: 15px;
+                    height: 15px;
+                    background-size: cover;
+                    background-image: url(assets/google_logo.png);
+                    margin-right: 10px;
+                }
+            }
+
+            p {
+                margin: 20px 0;
+            }
+
+            .login-input-field {
+                .login-input {
+                    width: 100%;
+                    height: 39px;
+                    border-radius: 5px;
+                    background-color: #f2f7ff;
+                    border: none;
+                    margin: 11px 0;
+
+                    &::placeholder {
+                        color: $primary_blue;
+                        font-weight: 500;
+                        font-family: Roboto;
+                    }
+                }
+
+                .login-input-pass input {
+                    width: 100%;
+                    height: 39px;
+                    border-radius: 5px;
+                    background-color: #f2f7ff;
+                    border: none;
+                    margin: 11px 0;
+
+                    &::placeholder {
+                        color: $primary_blue;
+                        font-weight: 500;
+                        font-family: Roboto;
+                    }
+                }
+
+                .login-input-footer {
+                    display: flex;
+                    justify-content: space-between;
+
+                    button {
+                        width: 45%;
+                    }
+
+                    .btn-signin {
+                        border-radius: 5px;
+                        background-color: $primary_blue;
+                        color: $primary_white;
+                        font-family: Roboto;
+                        font-size: 14px;
+                        font-weight: 500;
+                    }
+
+                    .btn-forgot {
+                        border: none;
+                        color: $primary_blue;
+                        font-family: Roboto;
+                        font-size: 14px;
+                        font-weight: 500;
+                    }
+                }
+            }
+        }
+
+        .login-policy {
+            margin-top: 80px;
+
+            p {
+                color: #616161;
+                font-family: Roboto;
+                font-weight: 400;
+                font-size: 10px;
+                margin: 0;
+            }
+        }
+    }
+
+    .login-side {
+        background-color: $primary_green;
+        height: 100vh;
+    }
+}

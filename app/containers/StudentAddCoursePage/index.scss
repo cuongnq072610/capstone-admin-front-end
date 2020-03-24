@@ -1,0 +1,130 @@
+@import "../../utils/variables.scss";
+
+.addcourse-page {
+  padding: 20px 20px 0 20px;
+
+  .header-wrapper {
+    background-color: white;
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      .header-back {
+        display: flex;
+        align-items: center;
+      }
+
+      i {
+        font-size: 20px;
+        color: $primary_blue;
+      }
+
+      .p {
+        font-size: 28px;
+        text-align: center;
+        margin: 10px 30px;
+        color: $primary_blue;
+      }
+    }
+
+    .search-course {
+      background-color: $secondary_blue;
+      margin-top: 10px;
+      width: 908px;
+      height: 38px;
+      border-radius: 5px;
+
+      input {
+        border: none;
+        background-color: $secondary_blue;
+
+        &::placeholder {
+          color: $primary_blue;
+          opacity: 1;
+        }
+      }
+    }
+  }
+
+  .content-table {
+    margin-top: 10px;
+
+    .chosen {
+      .chosen-header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+
+        .update-field {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          .text {
+            &-success {
+              margin-bottom: 0;
+              color: green;
+              margin-right: 10px;
+            }
+            &-fail {
+              margin-bottom: 0;
+              color: red;
+              margin-right: 10px;
+            }
+          }
+          .btn-update-course {
+            background-color: $primary_blue;
+            color: $primary_white;
+            border: none;
+
+            &:hover {
+              background-color: $primary_white;
+              border: 1px solid $primary_blue;
+              color: $primary_blue;
+            }
+          }
+        }
+      }
+
+    }
+
+    .table-wrapper {
+
+      //overide ANT table style 
+      .ant-empty-normal {
+        margin: 0;
+      }
+
+      //disable pagination
+      .ant-table-pagination.ant-pagination {
+        display: none;
+      }
+
+      .table-content {
+        background-color: $secondary_blue;
+        font-size: 16px;
+        color: #616161;
+
+        thead th {
+          background-color: white;
+          color: $secondary_grey;
+        }
+
+        tbody td {
+          cursor: pointer;
+          padding: 12px 16px;
+          color: #212121;
+        }
+      }
+
+      .others {
+        background-color: white;
+      }
+
+      .no-data {
+        padding-left: 20px;
+      }
+    }
+  }
+}

@@ -108,7 +108,7 @@ export class NoteFolderPage extends React.Component {
       state: {
         note: note,
         folder,
-        from: `/folder/${folder.courseCode}`,
+        from: `/note/folder/${folder.courseCode}`,
       }
     })
   }

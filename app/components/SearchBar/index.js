@@ -49,6 +49,8 @@ class SearchBar extends React.PureComponent {
         return "#1593e6";
       case "highlight":
         return "#40a887";
+      case "department":
+        return "#4b36de";
       default:
         break;
     }
@@ -66,6 +68,8 @@ class SearchBar extends React.PureComponent {
         return "askTheme";
       case "highlight":
         return "highlightTheme";
+      case "department":
+        return "departmentTheme";
       default:
         break;
     }

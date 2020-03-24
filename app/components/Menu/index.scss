@@ -71,7 +71,7 @@
 .menu-icon {
     display: inline-block;
     width: 29px;
-    height: 25px;
+    height: 29px;
     background-size: cover;
 }
 
@@ -133,4 +133,12 @@
         height: 30px;
         border-radius: 15px;
     }
+}
+
+.department {
+    background-image: url("assets/department.svg");
+}
+
+.department-active {
+    background-image: url("assets/department_active.svg");
 }

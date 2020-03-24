@@ -52,16 +52,24 @@ export class LoginPage extends React.Component {
       const parseToken = parseJwt(token);
       const user = JSON.stringify(parseToken.user);
       localStorage.setItem('user', user);
-      switch (JSON.parse(user).role) {
-        case 'student':
-          history.push('/student');
-          break;
-        case 'teacher':
-          history.push('/tutor');
-          break;
-        default:
-          break;
-      }
+      this.navigateRightPage(JSON.parse(user).role);
+    }
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user) {
+      this.navigateRightPage(user.role);
+    }
+  }
+
+  navigateRightPage = (role) => {
+    switch (role) {
+      case 'student':
+        history.push('/student');
+        break;
+      case 'teacher':
+        history.push('/tutor');
+        break;
+      default:
+        break;
     }
   }
 

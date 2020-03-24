@@ -22,13 +22,13 @@ import saga from './saga';
 import messages from './messages';
 import SearchTeacher from '../../components/SearchTeacher';
 import history from '../../utils/history';
-import { addCourse, updateCourse } from './actions';
+import { addCourse, updateCourse, loadDepartment } from './actions';
 import { isRequired } from '../../utils/validation';
 
 /* eslint-disable react/prefer-stateless-function */
 
 const { TextArea } = Input;
-
+const { Option } = Select;
 const { Header, Content } = Layout;
 
 export class AddCoursePage extends React.Component {
@@ -48,10 +48,12 @@ export class AddCoursePage extends React.Component {
       isShow: false,
       invalidField: [],
       errMess: [],
+      departmentOption: []
     };
   }
 
   componentDidMount() {
+    this.props.handleFetchDepartment();
     const { state } = history.location;
     if (state) {
       if (state.course) {
@@ -87,6 +89,11 @@ export class AddCoursePage extends React.Component {
         }, 5000)
       })
     }
+    if (prevProps.addCoursePage.departments !== this.props.addCoursePage.departments) {
+      this.setState({
+        departmentOption: this.props.addCoursePage.departments,
+      })
+    }
   }
 
   getValidation = () => {
@@ -114,7 +121,7 @@ export class AddCoursePage extends React.Component {
   }
 
   handleSubmit = (e) => {
-    
+
     e.preventDefault();
     const errors = this.getValidation();
     if (!_isEmpty(errors)) {
@@ -158,36 +165,10 @@ export class AddCoursePage extends React.Component {
   }
 
   render() {
-    const { course, type, isShow, errMess } = this.state;
+    const { course, type, isShow, errMess, departmentOption } = this.state;
     const { courseName, courseCode, departments, shortDes, fullDes, courseURL } = course;
-    const { isLoading, errors } = this.props.addCoursePage;
-    const { Option } = Select;
-    const departmentOption = [{
-      id: 1,
-      value: 'Computer Science',
-      name: 'Computer Science'
-    },
-    {
-      id: 2,
-      value: 'Business',
-      name: 'Business'
-    },
-    {
-      id: 3,
-      value: 'Finance',
-      name: 'Finance'
-    },
-    {
-      id: 4,
-      value: 'Graphic Design',
-      name: 'Graphic Design'
-    }]
+    const { isLoading, errors, isLoadingDepartment } = this.props.addCoursePage;
 
-    const children = [];
-    //pushing Option component into children
-    departmentOption.map(item => {
-      children.push(<Option key={item.id} value={item.value}>{item.name}</Option>)
-    })
     const antIcon = <Icon type="loading" style={{ fontSize: 24, color: '#fff', marginRight: '10px' }} spin />;
     return (
       <Row className="addCourse">
@@ -239,7 +220,11 @@ export class AddCoursePage extends React.Component {
                       onChange={this.handleChangeSelect}
                       value={departments}
                     >
-                      {children}
+                      {
+                        isLoadingDepartment ?
+                          <Option key="1" value=""><Spin indicator={antIcon} /></Option> :
+                          departmentOption.map(item => <Option key={item.id} value={item.description}>{item.name}</Option>)
+                      }
                     </Select>
                   </Col>
                 </Row>
@@ -323,6 +308,7 @@ function mapDispatchToProps(dispatch) {
   return {
     handleAddCourse: (course) => { dispatch(addCourse(course)) },
     handleUpdateCourse: (course) => { dispatch(updateCourse(course)) },
+    handleFetchDepartment: () => { dispatch(loadDepartment()) },
   };
 }
 

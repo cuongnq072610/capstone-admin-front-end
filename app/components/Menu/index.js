@@ -15,8 +15,8 @@ import { AdminMenu, StudentMenu, TeacherMenu } from './constant';
 class SideMenu extends React.PureComponent {
   renderLogo = (pathname) => {
     switch (pathname) {
+      case "department":
       case "tutor":
-        return LogoBlue;
       case "dashboard":
         return LogoBlue;
       case "course":

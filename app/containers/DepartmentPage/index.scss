@@ -1,0 +1,185 @@
+@import "../../utils/variables.scss";
+
+.department-page {
+    .department-page-name-wrapper {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+
+        .department-page-name {
+            color: $primary_darkblue;
+            font-family: Roboto;
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: 0.28px;
+            margin: 0;
+            padding-right: 20px;
+        }
+    }
+
+    .department-side {
+        width: max-width;
+        height: 100vh;
+        box-shadow: 2px 0px 12px $primary_darkblue;
+        padding-left: 24px;
+        padding-right: 16px;
+        padding-top: 30px;
+
+        .filter-side {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+
+            p {
+                margin-bottom: 0;
+                margin-right: 10px;
+            }
+        }
+
+        .info-side {
+            .info-back {
+                border: none;
+                padding-left: 0;
+            }
+
+            .department-tile {
+                color: $primary_darkblue;
+                font-family: Roboto;
+                font-size: 24px;
+                font-weight: 500;
+                margin: 30px 0;
+            }
+
+            .info-finish {
+                width: 100px;
+                height: 38px;
+                box-shadow: 0 3px 6px rgba(75, 54, 222, 0.3);
+                border-radius: 5px;
+                background-color: $primary_darkblue;
+                color: $primary_white;
+                font-family: Roboto;
+                font-size: 14px;
+                font-weight: 400;
+                letter-spacing: 0.14px;
+                line-height: 17px;
+                display: flex;
+                justify-content: space-around;
+                margin: 30px 0;
+
+                .icon-done-mark {
+                    display: inline-block;
+                    width: 16px;
+                    height: 16px;
+                    background-size: cover;
+                    background-image: url(assets/done-mark.svg);
+                }
+            }
+
+            .courses {
+                margin: 30px 0px;
+
+                .course-head {
+                    display: flex;
+                    align-items: center;
+                    margin-bottom: 10px;
+
+                    .course-icon {
+                        display: inline-block;
+                        width: 18px;
+                        height: 18px;
+                        background-size: cover;
+                        background-image: url(assets/course.svg);
+                    }
+
+                    .course-title {
+                        font-size: 18px;
+                        color: $primary_purple;
+                        font-weight: 500;
+                        margin-left: 8px;
+                        margin-bottom: 0px;
+                    }
+                }
+
+                .course-name {
+                    background-color: $secondary_purple;
+                    margin: 10px 0px;
+                    padding: 10px;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    width: 80%;
+                    height: 40px;
+                    border: none;
+
+                    p {
+                        margin: 0;
+                        color: $primary_black;
+                    }
+
+                }
+
+            }
+
+            .info-delete {
+                width: 181px;
+                height: 38px;
+                box-shadow: 0 3px 6px rgba(244, 67, 54, 0.3);
+                border-radius: 5px;
+                background-color: #f44336;
+                color: $primary_white;
+                font-family: Roboto;
+                font-size: 14px;
+                font-weight: 400;
+                letter-spacing: 0.14px;
+                line-height: 17px;
+                display: flex;
+                justify-content: space-around;
+
+                .icon-delete {
+                    display: inline-block;
+                    width: 18px;
+                    height: 18px;
+                    background-size: cover;
+                    background-image: url(assets/delete.svg);
+                }
+            }
+        }
+    }
+
+}
+
+.ant-table-wrapper {
+    margin: 8px 50px 8px 8px;
+
+    td {
+        font-size: 15px;
+    }
+
+    .ant-table-thead>tr>th {
+        background-color: $primary_white;
+        color: #616161;
+    }
+
+    .ant-table-thead>tr>th .ant-table-column-sorter .ant-table-column-sorter-inner {
+        margin-top: 0px;
+    }
+
+    .ant-table-row {
+        cursor: pointer;
+        color: #212121;
+
+        &:hover {
+            background-color: $secondary_darkblue;
+        }
+    }
+
+    .ant-table-pagination.ant-pagination {
+        float: none;
+        display: flex;
+        justify-content: center;
+    }
+
+    .active-row {
+        background-color: $secondary_darkblue;
+    }
+}

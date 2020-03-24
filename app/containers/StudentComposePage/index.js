@@ -23,10 +23,11 @@ import QuestionSide from './QuestionsSide';
 import './compose.scss';
 import TextArea from 'antd/lib/input/TextArea';
 import AskAndAnswerField from './Question';
+import { API_ENDPOINT_WS } from '../../constants/apis';
 
 //socket
 import { loadAskDetail } from './actions';
-const ENDPOINT = 'ws://localhost:5000';
+// const ENDPOINT = 'ws://localhost:5000';
 
 /* eslint-disable react/prefer-stateless-function */
 
@@ -45,9 +46,10 @@ export class StudentComposePage extends React.Component {
 
   }
 
-  ws = new WebSocket(ENDPOINT)
+  ws = new WebSocket(API_ENDPOINT_WS)
 
   componentDidMount() {
+    console.log(API_ENDPOINT_WS)
     const { id } = this.props.match.params;
     this.props.handleFetchAskDetail(id);
 

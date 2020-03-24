@@ -19,11 +19,10 @@ import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
 import './index.scss';
-import { Layout, Col, Row, Table, Select, Icon, Button } from 'antd';
+import { Layout, Col, Row, Table, Icon, Button, Input } from 'antd';
 import WrappedSearchBar from '../../components/SearchBar';
 import columns from './tableCols';
 const { Header, Content } = Layout;
-const { Option } = Select;
 
 const mockData = [
   {
@@ -49,10 +48,10 @@ export class DepartmentPage extends React.Component {
     super(props);
     this.state = {
       departments: [],
-      sortType: 'timeCreate',
       isOpen: false,
       selectedRow: "",
       selectedDepartmnent: {},
+      newDepartment: "",
     }
   }
 
@@ -85,14 +84,22 @@ export class DepartmentPage extends React.Component {
     })
   }
 
-  onChangeSortType = (value) => {
+  onHandleChangeInput = (e) => {
     this.setState({
-      sortType: value
+      newDepartment: e.target.value,
     })
   }
 
+  onHandleAddDepartment = (e) => {
+    e.preventDefault();
+    const { newDepartment } = this.state;
+    console.log(newDepartment)
+    // load again departments here 
+    // clear input here
+  }
+
   render() {
-    const { departments, sortType, selectedRow, isOpen, selectedDepartmnent } = this.state;
+    const { departments, selectedRow, isOpen, selectedDepartmnent, newDepartment } = this.state;
     return (
       <Row className='department-page'>
         <Helmet>
@@ -168,19 +175,23 @@ export class DepartmentPage extends React.Component {
                         } */}
                     </div>
                   </div>
-                  <div style={{ display: 'flex', justifyContent: 'flex-end', margin: "30px 0"}}>
+                  <div style={{ display: 'flex', justifyContent: 'flex-end', margin: "30px 0" }}>
                     <Button className="info-delete">Delete Departments <span className="icon-delete"></span></Button>
                   </div>
                 </div>
                 :
                 <div className='filter-side'>
-                  <Icon type="arrow-down" style={{ fontSize: '20px', color: "#212121", fontWeight: 600, marginRight: '5px' }} />
-                  <p>Sort By</p>
-                  <Select defaultValue={sortType} style={{ width: 'max-content' }} onChange={this.onChangeSortType}>
-                    <Option value="timeCreate">Time create</Option>
-                    <Option value="alphabetical">Alphabetical</Option>
-                    <Option value="numberOfSubjects">Number Of Subjects</Option>
-                  </Select>
+                  <form onSubmit={this.onHandleAddDepartment}>
+                    <Input
+                      placeholder="Add Department"
+                      className="add-department"
+                      onChange={this.onHandleChangeInput}
+                      value={newDepartment ? newDepartment : ""}
+                    />
+                    <div style={{ display: 'flex', justifyContent: 'flex-end', margin: "30px 0" }}>
+                      <Button className="department-add-btn" onClick={this.onHandleAddDepartment}>Add Departments <Icon type="plus" style={{ fontSize: '25px', color: "#fff", fontWeight: 600 }} /></Button>
+                    </div>
+                  </form>
                 </div>
             }
           </div>

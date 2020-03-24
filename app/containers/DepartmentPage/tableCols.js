@@ -11,8 +11,8 @@ const colunms = [
     {
         title: "ACTIVE SUBJECTS",
         dataIndex: "activeSubject",
-        sorter: (a, b) => a.activeSubject < b.activeSubject,
-        sortDirections: ['descend'],
+        sorter: (a, b) => a.activeSubject - b.activeSubject,
+        sortDirections: ['descend', 'ascend'],
         render: (text) => <span>{`${text} subjects`}</span>,
     },
 ];

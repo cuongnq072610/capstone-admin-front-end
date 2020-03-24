@@ -8,7 +8,12 @@ const updateCourseApi = (url, body) => {
     return axiosService.put(url, body);
 }
 
+const fetchDepartment = (url) => {
+    return axiosService.get(url);
+  }
+
 export {
     addCourseApi,
     updateCourseApi,
+    fetchDepartment,
 }

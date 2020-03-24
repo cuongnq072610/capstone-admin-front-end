@@ -26,13 +26,39 @@
         padding-top: 30px;
 
         .filter-side {
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
+            .add-department {
+                border: none;
+                height: 29px;
+                color: $primary_darkblue;
+                font-family: Roboto;
+                font-size: 24px;
+                font-weight: 500;
 
-            p {
-                margin-bottom: 0;
-                margin-right: 10px;
+                &::placeholder {
+                    color: $primary_darkblue;
+                    font-family: Roboto;
+                    font-size: 24px;
+                    font-weight: 500;
+                    opacity: 0.4;
+
+                }
+            }
+
+            .department-add-btn {
+                width: 181px;
+                height: 38px;
+                box-shadow: 0 3px 6px rgba(75, 54, 222, 0.3);
+                border-radius: 5px;
+                background-color: $primary_darkblue;
+                color: $primary_white;
+                font-family: Roboto;
+                font-size: 14px;
+                font-weight: 400;
+                letter-spacing: 0.14px;
+                line-height: 17px;
+                display: flex;
+                justify-content: space-around;
+                align-items: center;
             }
         }
 
@@ -158,10 +184,6 @@
     .ant-table-thead>tr>th {
         background-color: $primary_white;
         color: #616161;
-    }
-
-    .ant-table-thead>tr>th .ant-table-column-sorter .ant-table-column-sorter-inner {
-        margin-top: 0px;
     }
 
     .ant-table-row {

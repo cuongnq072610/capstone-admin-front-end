@@ -26,6 +26,7 @@ import { addCourse, updateCourse, loadDepartment } from './actions';
 import { isRequired } from '../../utils/validation';
 
 /* eslint-disable react/prefer-stateless-function */
+import Teacher from './teacher';
 
 const { TextArea } = Input;
 const { Option } = Select;

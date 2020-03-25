@@ -11,7 +11,7 @@ import { Helmet } from 'react-helmet';
 import { Switch, Route } from 'react-router-dom';
 import { Layout } from 'antd';
 import 'antd/dist/antd.css';
-
+import '../../assets/css/app.css'
 import HomePage from 'containers/HomePage/Loadable';
 import AddCoursePage from 'containers/AddCoursePage/Loadable';
 import AddTeacherPage from 'containers/AddTeacherPage/Loadable';

@@ -23,12 +23,11 @@ import QuestionSide from './QuestionsSide';
 import './compose.scss';
 import TextArea from 'antd/lib/input/TextArea';
 import AskAndAnswerField from './Question';
+import { API_ENDPOINT_WS } from '../../constants/apis';
 
 //socket
-import io from 'socket.io-client';
 import { loadAskDetail } from './actions';
-let socket;
-const ENDPOINT = 'http://localhost:5000';
+// const ENDPOINT = 'ws://localhost:5000';
 
 /* eslint-disable react/prefer-stateless-function */
 
@@ -42,25 +41,44 @@ export class StudentComposePage extends React.Component {
       ask: {},
       message: '',
       comments: [],
-      user: JSON.parse(localStorage.getItem("user"))
+      user: JSON.parse(localStorage.getItem("user")),
     }
+
   }
 
+  ws = new WebSocket(API_ENDPOINT_WS)
+
   componentDidMount() {
+    console.log(API_ENDPOINT_WS)
     const { id } = this.props.match.params;
     this.props.handleFetchAskDetail(id);
 
-    socket = io(ENDPOINT, {transports: ['websocket']});
-    socket.emit('join', { askID: id }, (error) => {
-      console.log('emit join connection')
-      if (error) {
-        console.log(error);
-      }
-    })
+    this.ws.onopen = () => {
+      // on connecting, do nothing but log it to the console
+      console.log('connected')
+    }
 
-    socket.on('hello', (data) => {
-      console.log(data);
-    })
+    this.ws.onmessage = evt => {
+      const { comments} = this.state;
+      // on receiving a message, add it to the list of messages
+      const comment = JSON.parse(evt.data)
+      // this.addMessage(message)
+
+      if(comment) {
+        console.log(comment.comment)
+        this.setState({
+          comments: [...comments, comment.comment]
+        });
+      }
+    }
+ 
+    this.ws.onclose = () => {
+      console.log('disconnected')
+      // automatically try to reconnect on connection loss
+      this.setState({
+        ws: new WebSocket(URL),
+      })
+    }
   };
 
   componentDidUpdate(prevProps) {
@@ -125,11 +143,7 @@ export class StudentComposePage extends React.Component {
         comments: [...comments, newComment]
       });
   
-      socket.emit('send message', { message: message, user: user, askID: ask._id }, (error) => {
-        if (error) {
-          console.log(error);
-        }
-      })
+      this.ws.send(JSON.stringify({message, user, askID: ask._id}));
     }
 
     

@@ -23,12 +23,11 @@ import QuestionSide from './QuestionsSide';
 import './compose.scss';
 import TextArea from 'antd/lib/input/TextArea';
 import AskAndAnswerField from './Question';
+import { API_ENDPOINT_WS } from '../../constants/apis';
 
 //socket
-import io from 'socket.io-client';
 import { loadAskDetail } from './actions';
-let socket;
-const ENDPOINT = 'http://localhost:5000';
+// const ENDPOINT = 'ws://localhost:5000';
 
 /* eslint-disable react/prefer-stateless-function */
 
@@ -46,20 +45,40 @@ export class StudentComposePage extends React.Component {
     }
   }
 
+  ws = new WebSocket(API_ENDPOINT_WS)
+
   componentDidMount() {
     const { id } = this.props.match.params;
     this.props.handleFetchAskDetail(id)
 
-    socket = io(ENDPOINT, {transports: ['websocket']});
-    socket.emit('join', { askID: id }, (error) => {
-      if (error) {
-        console.log(error);
-      }
-    })
+    this.ws.onopen = () => {
+      // on connecting, do nothing but log it to the console
+      console.log('connected')
+    }
 
-    socket.on('hello', (data) => {
-      console.log(data);
-    })
+    this.ws.onmessage = evt => {
+      const { comments} = this.state;
+      // on receiving a message, add it to the list of messages
+      const comment = JSON.parse(evt.data)
+      // this.addMessage(message)
+
+      if(comment) {
+        console.log(comment.comment)
+        this.setState({
+          comments: [...comments, comment.comment]
+        });
+      }
+
+    }
+ 
+    this.ws.onclose = () => {
+      console.log('disconnected')
+      // automatically try to reconnect on connection loss
+      this.setState({
+        ws: new WebSocket(URL),
+      })
+    }
+
   };
 
   componentDidUpdate(prevProps) {
@@ -123,11 +142,9 @@ export class StudentComposePage extends React.Component {
         comments: [...comments, newComment]
       });
       
-      console.log(newComment)
+      this.ws.send(JSON.stringify({message, user, askID: ask._id}));
 
-      socket.emit('send message', { message: message, user: user, askID: ask._id }, () => {
-        this.setState({ message: '' });
-      })
+
     }
 
     

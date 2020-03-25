@@ -22,7 +22,7 @@ import './index.scss';
 import { Layout, Col, Row, Table, Icon, Button, Input, Spin } from 'antd';
 import WrappedSearchBar from '../../components/SearchBar';
 import columns from './tableCols';
-import { loadDepartment, createDepartment, deleteDepartment } from './actions';
+import { loadDepartment, createDepartment, deleteDepartment, updateDepartment } from './actions';
 const { Header, Content } = Layout;
 
 const mockData = [
@@ -63,7 +63,10 @@ export class DepartmentPage extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.departmentPage.departments !== this.props.departmentPage.departments) {
+    if (prevProps.departmentPage.departments !== this.props.departmentPage.departments &&
+      prevProps.departmentPage.isLoadingDepartment !== this.props.departmentPage.isLoadingDepartment &&
+      this.props.departmentPage.isLoadingDepartment === false
+    ) {
       const departmentFomat = this.props.departmentPage.departments.map((department, index) => {
         return {
           ...department,
@@ -82,7 +85,26 @@ export class DepartmentPage extends React.Component {
         isShow: true,
         isOpen: false,
         selectedDepartmnent: {},
-        selectedRow: {}
+        selectedRow: {},
+        newDepartment: "",
+      }, () => {
+        this.timer1 = setTimeout(() => {
+          this.setState({
+            isShow: false
+          })
+        }, 3000)
+      })
+      this.props.handleLoadDepartment();
+    }
+
+    if (prevProps.departmentPage.isLoadingUpdate !== this.props.departmentPage.isLoadingUpdate && this.props.departmentPage.isLoadingUpdate === false) {
+      // show modal success
+      this.setState({
+        isShow: true,
+        isOpen: false,
+        selectedDepartmnent: {},
+        selectedRow: {},
+        newDepartment: "",
       }, () => {
         this.timer1 = setTimeout(() => {
           this.setState({
@@ -122,6 +144,7 @@ export class DepartmentPage extends React.Component {
       selectedDepartmnent: department,
       selectedRow: index,
       error: "",
+      newDepartment: department.name
     })
   }
 
@@ -131,6 +154,7 @@ export class DepartmentPage extends React.Component {
       selectedDepartmnent: {},
       selectedRow: {},
       error: "",
+      newDepartment: "",
     })
   }
 
@@ -164,9 +188,19 @@ export class DepartmentPage extends React.Component {
     this.props.handleDeleteDepartment(selectedDepartmnent._id);
   }
 
+  onHandleUpdate = () => {
+    const { selectedDepartmnent, newDepartment } = this.state;
+    const object = {
+      name: newDepartment,
+      description: newDepartment,
+    }
+    console.log(object)
+    this.props.handleUpdateDepartment(object, selectedDepartmnent._id);
+  }
+
   render() {
     const { departments, selectedRow, isOpen, selectedDepartmnent, newDepartment, isShow, error } = this.state;
-    const { isLoadingDepartment, isLoadingDelete, isLoadingCreate } = this.props.departmentPage;
+    const { isLoadingDepartment, isLoadingDelete, isLoadingCreate, message, isLoadingUpdate } = this.props.departmentPage;
     const antIcon = <Icon type="loading" style={{ fontSize: 24, color: '#fff', marginRight: '10px' }} spin />;
     return (
       <Row className='department-page'>
@@ -174,28 +208,28 @@ export class DepartmentPage extends React.Component {
           <title>DepartmentPage</title>
           <meta name="description" content="Description of DepartmentPage" />
         </Helmet>
+        <Header
+          style={{
+            backgroundColor: '#fff',
+            display: 'flex',
+            justifyContent: "space-between",
+            alignItems: "center",
+            height: '100px',
+            paddingLeft: '0px',
+          }}
+        >
+          <div className='department-page-name-wrapper'>
+            <p className="department-page-name">Departments</p>
+          </div>
+          <WrappedSearchBar
+            message="Please enter your department's name"
+            placeholder="I want to find my departments"
+            type="department"
+          // handleSearch={this.handleSearch}
+          // handleClear={this.handleClear}
+          />
+        </Header>
         <Col span={19}>
-          <Header
-            style={{
-              backgroundColor: '#fff',
-              display: 'flex',
-              justifyContent: "space-between",
-              alignItems: "center",
-              height: '100px',
-              paddingLeft: '0px',
-            }}
-          >
-            <div className='department-page-name-wrapper'>
-              <p className="department-page-name">Departments</p>
-            </div>
-            <WrappedSearchBar
-              message="Please enter your department's name"
-              placeholder="I want to find my departments"
-              type="department"
-            // handleSearch={this.handleSearch}
-            // handleClear={this.handleClear}
-            />
-          </Header>
           <Content>
             <Table
               columns={columns}
@@ -214,7 +248,7 @@ export class DepartmentPage extends React.Component {
             <div className={isShow ? 'notification-show' : 'notification'}>
               <div className='noti-content-success'>
                 <span className='icon-noti accept-icon '></span>
-                <p style={{ fontSize: '14px' }}>Delete Successfully</p>
+                <p style={{ fontSize: '14px' }}>{message}</p>
               </div>
             </div>
           </Content>
@@ -227,10 +261,26 @@ export class DepartmentPage extends React.Component {
                   <Button onClick={this.onToggleBack} className='info-back'>
                     <Icon type="arrow-left" style={{ fontSize: '25px', color: "#4b36de", fontWeight: 600 }} />
                   </Button>
-                  <p className="department-tile">
-                    {selectedDepartmnent.name}
-                  </p>
-                  <Button className='info-finish'>Finish <span className='icon-done-mark'></span></Button>
+                  <Input
+                    placeholder="Add Department"
+                    className="department-tile"
+                    onChange={this.onHandleChangeInput}
+                    value={newDepartment}
+                  />
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <Button className='info-finish' onClick={this.onHandleUpdate}>{
+                      isLoadingUpdate ?
+                        <Spin indicator={antIcon} /> :
+                        <span>Update <span className='edit-mark'></span></span>
+                    }</Button>
+                    <Button className="info-delete" onClick={this.onHandleDelete}>
+                      {
+                        isLoadingDelete ?
+                          <Spin indicator={antIcon} />
+                          : <span>Delete <span className="icon-delete"></span></span>
+                      }
+                    </Button>
+                  </div>
                   <div className="courses">
                     <div className="course-head">
                       <span className="course-icon"></span>
@@ -238,49 +288,42 @@ export class DepartmentPage extends React.Component {
                     </div>
                     <div>
                       <p>{`Currently tutoring ${selectedDepartmnent.activeSubject} courses`}</p>
-                      {
-                        selectedDepartmnent.courses.map((course, index) => {
-                          return (
-                            <div className="course-name" key={index}>
-                              <p>{course.courseCode} - {course.courseName}</p>
-                            </div>
-                          )
-                        })
-                      }
+                      <div className='course-wrapper'>
+                        {
+                          selectedDepartmnent.courses.map((course, index) => {
+                            return (
+                              <div className="course-name" key={index}>
+                                <p className="course-code">{course.courseCode}</p>
+                                <p className="course-fullname">{course.courseName}</p>
+                              </div>
+                            )
+                          })
+                        }
+                      </div>
                     </div>
                   </div>
-                  <div style={{ display: 'flex', justifyContent: 'flex-end', margin: "30px 0" }}>
-                    <Button className="info-delete" onClick={this.onHandleDelete}>
-                      {
-                        isLoadingDelete ?
-                          <Spin indicator={antIcon} />
-                          : <span>Delete Departments <span className="icon-delete"></span></span>
-                      }
-                    </Button>
-                  </div>
+
                 </div>
                 :
                 <div className='filter-side'>
-                  <form onSubmit={this.onHandleAddDepartment}>
-                    <Input
-                      placeholder="Add Department"
-                      className="add-department"
-                      onChange={this.onHandleChangeInput}
-                      value={newDepartment ? newDepartment : ""}
-                    />
-                    {
-                      error && <div style={{ marginTop: '20px' }}><span style={{ color: 'red' }}>{error}</span></div>
-                    }
-                    <div style={{ display: 'flex', justifyContent: 'flex-end', margin: "30px 0" }}>
-                      <Button className="department-add-btn" onClick={this.onHandleAddDepartment}>
-                        {
-                          isLoadingCreate ?
-                            <Spin indicator={antIcon} /> :
-                            <span>Add Departments <Icon type="plus" style={{ fontSize: '25px', color: "#fff", fontWeight: 600 }} /></span>
-                        }
-                      </Button>
-                    </div>
-                  </form>
+                  <Input
+                    placeholder="Add Department"
+                    className="add-department"
+                    onChange={this.onHandleChangeInput}
+                    value={newDepartment ? newDepartment : ""}
+                  />
+                  {
+                    error && <div style={{ marginTop: '20px' }}><span style={{ color: 'red' }}>{error}</span></div>
+                  }
+                  <div style={{ display: 'flex', justifyContent: 'flex-end', margin: "30px 0" }}>
+                    <Button className="department-add-btn" onClick={this.onHandleAddDepartment}>
+                      {
+                        isLoadingCreate ?
+                          <Spin indicator={antIcon} /> :
+                          <span>Add Departments <Icon type="plus" style={{ fontSize: '25px', color: "#fff", fontWeight: 600 }} /></span>
+                      }
+                    </Button>
+                  </div>
                 </div>
             }
           </div>
@@ -294,6 +337,7 @@ DepartmentPage.propTypes = {
   handleLoadDepartment: PropTypes.func.isRequired,
   handleDeleteDepartment: PropTypes.func.isRequired,
   handleCreateDepartment: PropTypes.func.isRequired,
+  handleUpdateDepartment: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -305,6 +349,7 @@ function mapDispatchToProps(dispatch) {
     handleLoadDepartment: () => { dispatch(loadDepartment()) },
     handleDeleteDepartment: (id) => { dispatch(deleteDepartment(id)) },
     handleCreateDepartment: (department) => { dispatch(createDepartment(department)) },
+    handleUpdateDepartment: (department, id) => { dispatch(updateDepartment(department, id)) },
   };
 }
 

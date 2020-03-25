@@ -35,6 +35,7 @@ const GET_ALL_ASK_TEACHER = '/allaskofteacher';
 const GET_ALL_DEPARTMENT = '/allDepartment';
 const CREATE_DEPARTMENT = '/createDepartment';
 const DELETE_DEPARTMENT = '/deleteDepartment';
+const UPDATE_DEPARTMENT = '/updateDepartment';
 
 const GET_STUDENT_INFO = '/getstudentbyid';
 const UPDATE_STUDENT_COURSE = '/updatestudentcourse';
@@ -82,6 +83,8 @@ export {
     GET_STUDENT_STATISTIC,
     //USER
     LOGIN_API,
+    //DEPARTMENT
     CREATE_DEPARTMENT,
     DELETE_DEPARTMENT,
+    UPDATE_DEPARTMENT
 }

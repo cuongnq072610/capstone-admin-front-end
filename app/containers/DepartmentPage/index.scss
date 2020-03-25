@@ -20,7 +20,7 @@
     .notification {
         position: absolute;
         left: 0px;
-        top: 90vh;
+        top: 70vh;
         opacity: 0;
         transition: opacity 1s ease-in-out;
     }
@@ -28,7 +28,7 @@
     .notification-show {
         position: absolute;
         left: 0px;
-        top: 90vh;
+        top: 70vh;
         opacity: 1;
         transition: opacity 1s ease-in-out;
     }
@@ -62,11 +62,10 @@
 
     .department-side {
         width: max-width;
-        height: 100vh;
-        box-shadow: 2px 0px 12px $primary_darkblue;
+        height: 87vh;
         padding-left: 24px;
         padding-right: 16px;
-        padding-top: 30px;
+        padding-top: 16px;
 
         .filter-side {
             .add-department {
@@ -112,15 +111,18 @@
             }
 
             .department-tile {
+                border: none;
+                height: 29px;
                 color: $primary_darkblue;
                 font-family: Roboto;
                 font-size: 24px;
                 font-weight: 500;
                 margin: 30px 0;
+                padding-left: 0;
             }
 
             .info-finish {
-                width: 100px;
+                width: 45%;
                 height: 38px;
                 box-shadow: 0 3px 6px rgba(75, 54, 222, 0.3);
                 border-radius: 5px;
@@ -133,14 +135,14 @@
                 line-height: 17px;
                 display: flex;
                 justify-content: space-around;
-                margin: 30px 0;
 
-                .icon-done-mark {
+                .edit-mark {
                     display: inline-block;
                     width: 16px;
                     height: 16px;
                     background-size: cover;
-                    background-image: url(assets/done-mark.svg);
+                    background-image: url(assets/edit.svg);
+                    margin-left: 10px;
                 }
             }
 
@@ -169,28 +171,47 @@
                     }
                 }
 
-                .course-name {
-                    background-color: $secondary_purple;
-                    margin: 10px 0px;
-                    padding: 10px;
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    width: 100%;
-                    height: 50px;
-                    border: none;
+                .course-wrapper {
+                    height: 45vh;
+                    overflow: auto;
+                    .course-name {
+                        background-color: $tertiary_purple;
+                        margin: 10px 0px;
+                        padding: 10px;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: flex-start;
+                        align-items: flex-start;
+                        width: 100%;
+                        height: 70px;
+                        border: 1px solid $secondary_purple;
+                        border-radius: 5px;
+                        p {
+                            margin: 0;
+                            color: $primary_black;
+                        }
 
-                    p {
-                        margin: 0;
-                        color: $primary_black;
+                        .course-code {
+                            color: $primary_purple;
+                            font-family: Roboto;
+                            font-size: 16px;
+                            font-weight: 400;
+                            text-transform: uppercase;
+                        }
+
+                        .course-fullname {
+                            color: #212121;
+                            font-family: Roboto;
+                            font-size: 12px;
+                            font-weight: 400;
+                        }
                     }
-
                 }
 
             }
 
             .info-delete {
-                width: 181px;
+                width: 45%;
                 height: 38px;
                 box-shadow: 0 3px 6px rgba(244, 67, 54, 0.3);
                 border-radius: 5px;
@@ -203,6 +224,7 @@
                 line-height: 17px;
                 display: flex;
                 justify-content: space-around;
+                align-items: center;
 
                 .icon-delete {
                     display: inline-block;
@@ -210,6 +232,7 @@
                     height: 18px;
                     background-size: cover;
                     background-image: url(assets/delete.svg);
+                    margin-left: 10px;
                 }
             }
         }

@@ -12,8 +12,13 @@ const deleteOldDepartment = (url) => {
   return axiosService.delete(url);
 }
 
+const updateNewDepartment = (url, body) => {
+  return axiosService.put(url, body);
+}
+
 export {
   fetchDepartment,
   createNewDepartment,
   deleteOldDepartment,
+  updateNewDepartment,
 }

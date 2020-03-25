@@ -3,7 +3,7 @@ import React from 'react';
 const colunms = [
     {
         title: "TITLE",
-        dataIndex: "title",
+        dataIndex: "name",
         sorter: (a, b) => a.title < b.title,
         sortDirections: ['descend'],
         render: text => <span style={{ color: '#212121', fontWeight: 600 }}>{text}</span>,

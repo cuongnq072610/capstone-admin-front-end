@@ -5,14 +5,17 @@
  */
 
 import { fromJS } from 'immutable';
-import { 
-  DEFAULT_ACTION, 
-  LOAD_DEPARTMENT, 
-  LOAD_SUCCESS_DEPARTMENT, 
+import {
+  DEFAULT_ACTION,
+  LOAD_DEPARTMENT,
+  LOAD_SUCCESS_DEPARTMENT,
   LOAD_FAILURE_DEPARTMENT,
   LOAD_CREATE_DEPARTMENT,
   LOAD_CREATE_FAILURE_DEPARTMENT,
-  LOAD_CREATE_SUCCESS_DEPARTMENT 
+  LOAD_CREATE_SUCCESS_DEPARTMENT,
+  LOAD_DELETE_DEPARTMENT,
+  LOAD_DELETE_SUCCESS_DEPARTMENT,
+  LOAD_DELETE_FAILURE_DEPARTMENT
 } from './constants';
 
 export const initialState = fromJS({
@@ -20,6 +23,7 @@ export const initialState = fromJS({
   isLoadingDepartment: false,
   errors: {},
   isLoadingCreate: false,
+  isLoadingDelete: false,
   message: {}
 });
 
@@ -39,6 +43,12 @@ function departmentPageReducer(state = initialState, action) {
       return state.set('message', fromJS(action.payload)).set('isLoadingCreate', false);
     case LOAD_CREATE_FAILURE_DEPARTMENT:
       return state.set('errors', action.payload).set('isLoadingCreate', false);
+    case LOAD_DELETE_DEPARTMENT:
+      return state.set('isLoadingDelete', true);
+    case LOAD_DELETE_SUCCESS_DEPARTMENT:
+      return state.set('message', fromJS(action.payload)).set('isLoadingDelete', false);
+    case LOAD_DELETE_FAILURE_DEPARTMENT:
+      return state.set('errors', action.payload).set('isLoadingDelete', false);
     default:
       return state;
   }

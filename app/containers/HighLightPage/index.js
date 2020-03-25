@@ -38,7 +38,7 @@ export class HighLightPage extends React.Component {
       folders: [],
       windowHeight: window.innerHeight,
       isShowFolder: true,
-      courses: [],
+      folders: [],
     }
   }
 
@@ -62,9 +62,9 @@ export class HighLightPage extends React.Component {
         highlights: this.props.highLightPage.highlights,
       });
     }
-    if (prevProps.highLightPage.courses !== this.props.highLightPage.courses) {
+    if (prevProps.highLightPage.folders !== this.props.highLightPage.folders) {
       this.setState({
-        courses: this.props.highLightPage.courses,
+        folders: this.props.highLightPage.folders,
       })
     }
     if (prevProps.highLightPage.isLoadingDelete !== this.props.highLightPage.isLoadingDelete
@@ -129,7 +129,7 @@ export class HighLightPage extends React.Component {
   }
 
   render() {
-    const { highlights, courses, isShowFolder, isShow, deleteMessage } = this.state;
+    const { highlights, folders, isShowFolder, isShow, deleteMessage } = this.state;
     const { isLoading, isLoadingCourse, isLoadingDelete } = this.props.highLightPage;
     const antIcon = <Icon type="loading" style={{ fontSize: 24, color: '#40a887', marginRight: '10px' }} spin />;
     return (
@@ -171,8 +171,8 @@ export class HighLightPage extends React.Component {
                     {
                       isLoadingCourse ?
                         <Spin indicator={antIcon} /> :
-                        courses.length > 0 ?
-                          courses.map((folder, index) => {
+                        folders.length > 0 ?
+                          folders.map((folder, index) => {
                             return (
                               <Button className='grid-item folder-highlight' key={index} onClick={() => this.navigateDetailFolder(folder)}>
                                 <span className='folder-highlight-icon'></span>

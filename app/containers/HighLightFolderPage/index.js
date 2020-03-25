@@ -41,6 +41,7 @@ export class HighLightFolderPage extends React.Component {
 
   componentDidMount() {
     const { folder } = this.props.history.location.state;
+    console.log(folder)
     this.setState({
       folder,
     })

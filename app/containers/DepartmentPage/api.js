@@ -5,10 +5,20 @@ const fetchDepartment = (url) => {
 }
 
 const createNewDepartment = (url, body) => {
-    return axiosService.post(url, body);
+  return axiosService.post(url, body);
+}
+
+const deleteOldDepartment = (url) => {
+  return axiosService.delete(url);
+}
+
+const updateNewDepartment = (url, body) => {
+  return axiosService.put(url, body);
 }
 
 export {
-    fetchDepartment,
-    createNewDepartment,
+  fetchDepartment,
+  createNewDepartment,
+  deleteOldDepartment,
+  updateNewDepartment,
 }

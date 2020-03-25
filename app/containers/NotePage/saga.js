@@ -6,12 +6,12 @@ import {
   DELETE_NOTE_FAILURE,
   DELETE_NOTE_SUCCESS,
   DELETE_NOTE,
-  LOAD_COURSE,
-  LOAD_SUCCESS_COURSE,
-  LOAD_FAILURE_COURSE,
+  LOAD_FOLDER,
+  LOAD_SUCCESS_FOLDER,
+  LOAD_FAILURE_FOLDER,
 } from './constants';
 import { fetchRecentNote, deleteNote, fetchStudentCourses } from './api';
-import { API_ENDPOINT, GET_RECENT_NOTE, DELETE_NOTE_BY_ID, GET_STUDENT_INFO } from '../../constants/apis';
+import { API_ENDPOINT, GET_RECENT_NOTE, DELETE_NOTE_BY_ID, GET_STUDENT_INFO, GET_NOTE_FOLDER } from '../../constants/apis';
 
 function* loadNote() {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -47,15 +47,15 @@ function* loadDeleteNote(action) {
 function* loadCourse(action) {
   const { id } = action;
   try {
-    let response = yield call(fetchStudentCourses, `${API_ENDPOINT}${GET_STUDENT_INFO}/${id}`);
+    let response = yield call(fetchStudentCourses, `${API_ENDPOINT}${GET_NOTE_FOLDER}/${id}`);
     if (response.data) {
-      let courses = response.data.courses.map(course => course);
-      yield put({ type: LOAD_SUCCESS_COURSE, payload: courses })
+      let courses = response.data.map(course => course);
+      yield put({ type: LOAD_SUCCESS_FOLDER, payload: courses })
     } else {
-      yield put({ type: LOAD_FAILURE_COURSE, payload: "NO DATA" })
+      yield put({ type: LOAD_FAILURE_FOLDER, payload: "NO DATA" })
     }
   } catch (error) {
-    yield put({ type: LOAD_FAILURE_COURSE, payload: error });
+    yield put({ type: LOAD_FAILURE_FOLDER, payload: error });
   }
 }
 
@@ -64,6 +64,6 @@ export default function* notePageSaga() {
   yield all([
     takeLatest(LOAD_NOTE, loadNote),
     takeLatest(DELETE_NOTE, loadDeleteNote),
-    takeLatest(LOAD_COURSE, loadCourse),
+    takeLatest(LOAD_FOLDER, loadCourse),
   ])
 }

@@ -37,7 +37,7 @@ export class NotePage extends React.Component {
       isShow: false,
       deleteMessage: "",
       isShowFolder: true,
-      courses: [],
+      folders: [],
     }
   }
 
@@ -82,9 +82,9 @@ export class NotePage extends React.Component {
         notes: this.props.notePage.notes,
       })
     }
-    if (prevProps.notePage.courses !== this.props.notePage.courses) {
+    if (prevProps.notePage.folders !== this.props.notePage.folders) {
       this.setState({
-        courses: this.props.notePage.courses,
+        folders: this.props.notePage.folders,
       })
     }
     if (prevProps.notePage.isLoadingDelete !== this.props.notePage.isLoadingDelete && this.props.notePage.isLoadingDelete === false) {
@@ -149,7 +149,7 @@ export class NotePage extends React.Component {
   }
 
   render() {
-    const { notes, isShow, deleteMessage, isShowFolder, courses } = this.state;
+    const { notes, isShow, deleteMessage, isShowFolder, folders } = this.state;
     const { isLoadingNote, isLoadingDelete, isLoadingCourse } = this.props.notePage;
     const antIcon = <Icon type="loading" style={{ fontSize: 24, color: '#ffc143', marginRight: '10px' }} spin />;
     return (
@@ -191,8 +191,8 @@ export class NotePage extends React.Component {
                     {
                       isLoadingCourse ?
                         <Spin indicator={antIcon} /> :
-                        courses.length > 0 ?
-                          courses.map((course, index) => {
+                        folders.length > 0 ?
+                        folders.map((course, index) => {
                             return (
                               <Button className='grid-item folder-note' key={index} onClick={() => this.navigateDetailFolder(course)}>
                                 <span className='folder-note-icon'></span>

@@ -3,15 +3,15 @@ import {
   LOAD_HIGHLIGHT, 
   LOAD_HIGHLIGHT_FAILURE, 
   LOAD_HIGHLIGHT_SUCCESS,
-  LOAD_COURSE, 
-  LOAD_FAILURE_COURSE, 
-  LOAD_SUCCESS_COURSE, 
+  LOAD_FOLDER, 
+  LOAD_FAILURE_FOLDER, 
+  LOAD_SUCCESS_FOLDER, 
   DELETE_HIGHLIGHT, 
   DELETE_HIGHLIGHT_FAILURE, 
   DELETE_HIGHLIGHT_SUCCESS,
 } from './constants';
 import { fetchHighlight, fetchStudentCourses, deleteHighlight } from './api';
-import { API_ENDPOINT, GET_STUDENT_INFO, GET_RECENT_HIGHLIGHT, DELETE_HIGHLIGHT_BY_ID } from '../../constants/apis';
+import { API_ENDPOINT, GET_STUDENT_INFO, GET_RECENT_HIGHLIGHT, DELETE_HIGHLIGHT_BY_ID, GET_HIGHLIGHT_FOLDER } from '../../constants/apis';
 
 function* getAllHighlight() {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -33,15 +33,15 @@ function* getAllHighlight() {
 function* loadCourse(action) {
   const { id } = action;
   try {
-    let response = yield call(fetchStudentCourses, `${API_ENDPOINT}${GET_STUDENT_INFO}/${id}`);
+    let response = yield call(fetchStudentCourses, `${API_ENDPOINT}${GET_HIGHLIGHT_FOLDER}/${id}`);
     if (response.data) {
-      let courses = response.data.courses.map(course => course);
-      yield put({ type: LOAD_SUCCESS_COURSE, payload: courses })
+      let courses = response.data.map(course => course);
+      yield put({ type: LOAD_SUCCESS_FOLDER, payload: courses })
     } else {
-      yield put({ type: LOAD_FAILURE_COURSE, payload: "NO DATA" })
+      yield put({ type: LOAD_FAILURE_FOLDER, payload: "NO DATA" })
     }
   } catch (error) {
-    yield put({ type: LOAD_FAILURE_COURSE, payload: error });
+    yield put({ type: LOAD_FAILURE_FOLDER, payload: error });
   }
 }
 
@@ -63,7 +63,7 @@ function* loadDeleteHighlight(action) {
 export default function* highLightPageSaga() {
   yield all([
     takeLatest(LOAD_HIGHLIGHT, getAllHighlight),
-    takeLatest(LOAD_COURSE, loadCourse),
+    takeLatest(LOAD_FOLDER, loadCourse),
     takeLatest(DELETE_HIGHLIGHT, loadDeleteHighlight),
   ])
 }

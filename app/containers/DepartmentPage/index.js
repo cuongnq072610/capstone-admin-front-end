@@ -140,22 +140,21 @@ export class DepartmentPage extends React.Component {
     })
   }
 
-  onHandleAddDepartment = () => {
+  onHandleAddDepartment = (e) => {
+    e.preventDefault();
     const { newDepartment } = this.state;
     if (newDepartment !== "") {
-      const department = {
-        "name": newDepartment,
-        "description": newDepartment,
+      const object = {
+        name: newDepartment,
+        description: newDepartment,
       }
-      this.props.handleCreateDepartment(department);
-      // clear input here
+      this.props.handleCreateDepartment(object);
       this.setState({
-        newDepartment: "",
-        error: "",
+        newDepartment: ''
       })
     } else {
       this.setState({
-        error: "Please fill name of the new department",
+        error: "Please fill the name of department",
       })
     }
   }
@@ -262,24 +261,26 @@ export class DepartmentPage extends React.Component {
                 </div>
                 :
                 <div className='filter-side'>
-                  <Input
-                    placeholder="Add Department"
-                    className="add-department"
-                    onChange={this.onHandleChangeInput}
-                    value={newDepartment ? newDepartment : ""}
-                  />
-                  {
-                    error && <div style={{ marginTop: '20px' }}><span style={{ color: 'red' }}>{error}</span></div>
-                  }
-                  <div style={{ display: 'flex', justifyContent: 'flex-end', margin: "30px 0" }}>
-                    <Button className="department-add-btn" onClick={this.onHandleAddDepartment}>
-                      {
-                        isLoadingCreate ?
-                          <Spin indicator={antIcon} /> :
-                          <span>Add Departments <Icon type="plus" style={{ fontSize: '25px', color: "#fff", fontWeight: 600 }} /></span>
-                      }
-                    </Button>
-                  </div>
+                  <form onSubmit={this.onHandleAddDepartment}>
+                    <Input
+                      placeholder="Add Department"
+                      className="add-department"
+                      onChange={this.onHandleChangeInput}
+                      value={newDepartment ? newDepartment : ""}
+                    />
+                    {
+                      error && <div style={{ marginTop: '20px' }}><span style={{ color: 'red' }}>{error}</span></div>
+                    }
+                    <div style={{ display: 'flex', justifyContent: 'flex-end', margin: "30px 0" }}>
+                      <Button className="department-add-btn" onClick={this.onHandleAddDepartment}>
+                        {
+                          isLoadingCreate ?
+                            <Spin indicator={antIcon} /> :
+                            <span>Add Departments <Icon type="plus" style={{ fontSize: '25px', color: "#fff", fontWeight: 600 }} /></span>
+                        }
+                      </Button>
+                    </div>
+                  </form>
                 </div>
             }
           </div>
@@ -291,8 +292,8 @@ export class DepartmentPage extends React.Component {
 
 DepartmentPage.propTypes = {
   handleLoadDepartment: PropTypes.func.isRequired,
-  handleCreateDepartment: PropTypes.func.isRequired,
   handleDeleteDepartment: PropTypes.func.isRequired,
+  handleCreateDepartment: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -302,8 +303,8 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch) {
   return {
     handleLoadDepartment: () => { dispatch(loadDepartment()) },
-    handleCreateDepartment: (department) => { dispatch(createDepartment(department)) },
     handleDeleteDepartment: (id) => { dispatch(deleteDepartment(id)) },
+    handleCreateDepartment: (department) => { dispatch(createDepartment(department)) },
   };
 }
 

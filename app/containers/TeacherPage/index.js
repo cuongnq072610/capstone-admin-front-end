@@ -71,38 +71,6 @@ export class TeacherPage extends React.Component {
         })
     }
 
-    checkDepartment = (departments, checkDepartments) => {
-        const nameCheckDepartments = checkDepartments.map(department => department.name);
-        // check exist in course departments
-        const checkExisted = (department) => departments.indexOf(department) >= 0
-        //  tests whether all elements in the array pass the test 
-        return nameCheckDepartments.every(checkExisted);
-    }
-
-    checkTeacherHaveCourse = (teacher, departments) => {
-        // check course of teacher have the dearptments of filter
-        const teacherExistHaveCourse = teacher.courses.filter((course, index) => {
-            return this.checkDepartment(course.departments, departments) === true;
-        })
-        return teacherExistHaveCourse;
-    }
-
-    filterByDepartment = (departments) => {
-        const { baseTeachers } = this.state;
-        if (!departments || departments.length === 0) {
-            this.onResetFilter();
-        } else {
-            const filterTeacher = baseTeachers.filter((teacher, index) => {
-                if (this.checkTeacherHaveCourse(teacher, departments).length > 0) {
-                    return teacher;
-                }
-            })
-            this.setState({
-                teachers: filterTeacher
-            })
-        }
-    }
-
     filterByActive = (activeType) => {
         const { baseTeachers } = this.state;
         switch (activeType) {

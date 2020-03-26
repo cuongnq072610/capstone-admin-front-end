@@ -64,7 +64,7 @@ export class HomePage extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.homePage !== this.props.homePage) {
+    if (prevProps.homePage.courses !== this.props.homePage.courses && prevProps.homePage.departments !== this.props.homePage.departments) {
       const { courses, departments } = this.props.homePage;
       const newCourses = courses.map((course, index) => {
         return {
@@ -127,13 +127,14 @@ export class HomePage extends React.Component {
           <title>HomePage</title>
           <meta name="description" content="Description of HomePage" />
         </Helmet>
-        <Col span={19}>
+        <Col>
           <Layout>
             <Header
               style={{
                 backgroundColor: '#fff',
                 display: 'flex',
-                justifyContent: 'center',
+                justifyContent: 'flex-end',
+                alignItems: 'center',
                 height: '100px',
               }}
             >
@@ -143,6 +144,12 @@ export class HomePage extends React.Component {
                 type="home"
                 handleSearch={this.handleSearch}
                 handleClear={this.handleClear}
+              />
+              <Filter
+                departments={departments}
+                onFilter={this.filterByDepartment}
+                onReset={this.onResetFilter}
+                type={'home'}
               />
             </Header>
             <Content>
@@ -176,14 +183,6 @@ export class HomePage extends React.Component {
               </div>
             </Content>
           </Layout>
-        </Col>
-        <Col span={5}>
-          <Filter
-            departments={departments}
-            onFilter={this.filterByDepartment}
-            onReset={this.onResetFilter}
-            type={'home'}
-          />
 
         </Col>
         <div className={isShow ? 'notification-home-show-course' : 'notification-home-course'}>

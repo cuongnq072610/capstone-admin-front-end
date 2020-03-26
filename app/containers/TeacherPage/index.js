@@ -47,11 +47,10 @@ export class TeacherPage extends React.Component {
 
     componentDidMount() {
         this.props.fetchTeacher();
-        this.props.handleFetchDepartment();
     }
 
     componentDidUpdate(prevProps) {
-        if (prevProps.teacherPage !== this.props.teacherPage) {
+        if (prevProps.teacherPage.teachers !== this.props.teacherPage.teachers) {
             const { teachers, departments } = this.props.teacherPage;
 
             const fomatTeachers = teachers.map((teacher, index) => {
@@ -104,6 +103,26 @@ export class TeacherPage extends React.Component {
         }
     }
 
+    filterByActive = (activeType) => {
+        const { baseTeachers } = this.state;
+        switch (activeType) {
+            case "active":
+                const filterTeachersActive = baseTeachers.filter(teacher => teacher.isActive === true);
+                this.setState({
+                    teachers: filterTeachersActive,
+                })
+                break;
+            case "inactive":
+                const filterTeachersInactive = baseTeachers.filter(teacher => teacher.isActive === false);
+                this.setState({
+                    teachers: filterTeachersInactive,
+                })
+                break;
+            default:
+                break;
+        }
+    }
+
     onToggleInfo = (teacher, index) => {
         this.setState({
             toggleInfo: true,
@@ -134,20 +153,21 @@ export class TeacherPage extends React.Component {
 
     render() {
         const { departments, teachers, toggleInfo, selectedTeacher, selectedRow } = this.state;
-        const { isLoading } = this.props.teacherPage;
+        const { isLoading, isLoadingUpdate } = this.props.teacherPage;
         return (
             <Row>
                 <Helmet>
                     <title>Teacher Page</title>
                     <meta name="description" content="Description of TeacherPage" />
                 </Helmet>
-                <Col span={19} >
-                    <Layout className="teacher-page">
+                <Col span={toggleInfo ? 19 : 24}>
+                    <Layout className={toggleInfo ? "teacher-page" : ""} >
                         <Header
                             style={{
                                 backgroundColor: '#fff',
                                 display: 'flex',
-                                justifyContent: 'center',
+                                justifyContent: 'flex-end',
+                                alignItems: 'center',
                                 height: '100px',
                             }}
                         >
@@ -157,6 +177,12 @@ export class TeacherPage extends React.Component {
                                 type="teacher"
                                 handleSearch={this.handleSearch}
                                 handleClear={this.handleClear}
+                            />
+                            <Filter
+                                departments={departments}
+                                onReset={this.onResetFilter}
+                                onFilter={this.filterByActive}
+                                type="teacher"
                             />
                         </Header>
                         <Content>
@@ -179,28 +205,23 @@ export class TeacherPage extends React.Component {
                         </Content>
                     </Layout>
                 </Col>
-                <Col span={5}>
-                    {
-                        toggleInfo === false ?
-                            <Filter
-                                departments={departments}
-                                onReset={this.onResetFilter}
-                                onFilter={this.filterByDepartment}
-                                type="teacher" I
-                            /> : <TeacherInfo
-                                teacherInfo={selectedTeacher}
-                                onBack={this.onToggleBack}
-                                onActive={this.onToggleActive}
-                            />
-                    }
-                </Col>
+                {
+                    toggleInfo &&
+                    <Col span={5}>
+                        <TeacherInfo
+                            teacherInfo={selectedTeacher}
+                            onBack={this.onToggleBack}
+                            onActive={this.onToggleActive}
+                            isLoading={isLoadingUpdate}
+                        />
+                    </Col>
+                }
             </Row>
         );
     }
 }
 
 TeacherPage.propTypes = {
-    handleFetchDepartment: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -212,7 +233,6 @@ function mapDispatchToProps(dispatch) {
         fetchTeacher: () => { dispatch(loadTeacher()) },
         fetchSearchTeacher: (key) => { dispatch(searchTeacher(key)) },
         toggleActiveTeacher: (id, data) => { dispatch(updateActiveTeacher(id, data)) },
-        handleFetchDepartment: () => { dispatch(loadDepartment()) },
     };
 }
 

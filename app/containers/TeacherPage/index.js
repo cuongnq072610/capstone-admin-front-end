@@ -30,10 +30,6 @@ import { loadTeacher, searchTeacher, updateActiveTeacher, loadDepartment } from 
 
 const { Content, Header } = Layout;
 
-const mockData2 = [
-    "Business", "Communication Business", "Communication", "Finance", "Graphic Design"
-];
-
 /* eslint-disable react/prefer-stateless-function */
 export class TeacherPage extends React.Component {
     constructor(props) {
@@ -77,7 +73,19 @@ export class TeacherPage extends React.Component {
     }
 
     checkDepartment = (departments, checkDepartments) => {
-        return checkDepartments.some(department => departments.indexOf(department) >= 0);
+        const nameCheckDepartments = checkDepartments.map(department => department.name);
+        // check exist in course departments
+        const checkExisted = (department) => departments.indexOf(department) >= 0
+        //  tests whether all elements in the array pass the test 
+        return nameCheckDepartments.every(checkExisted);
+    }
+
+    checkTeacherHaveCourse = (teacher, departments) => {
+        // check course of teacher have the dearptments of filter
+        const teacherExistHaveCourse = teacher.courses.filter((course, index) => {
+            return this.checkDepartment(course.departments, departments) === true;
+        })
+        return teacherExistHaveCourse;
     }
 
     filterByDepartment = (departments) => {
@@ -86,7 +94,9 @@ export class TeacherPage extends React.Component {
             this.onResetFilter();
         } else {
             const filterTeacher = baseTeachers.filter((teacher, index) => {
-                return this.checkDepartment(teacher.departments, departments) === true;
+                if (this.checkTeacherHaveCourse(teacher, departments).length > 0) {
+                    return teacher;
+                }
             })
             this.setState({
                 teachers: filterTeacher
@@ -125,7 +135,6 @@ export class TeacherPage extends React.Component {
     render() {
         const { departments, teachers, toggleInfo, selectedTeacher, selectedRow } = this.state;
         const { isLoading } = this.props.teacherPage;
-        console.log(teachers)
         return (
             <Row>
                 <Helmet>

@@ -89,7 +89,11 @@ export class HomePage extends React.Component {
   }
 
   checkDepartment = (departments, checkDepartments) => {
-    return checkDepartments.some(department => departments.indexOf(department) >= 0);
+    const nameCheckDepartments = checkDepartments.map(department => department.name);
+    // check exist in course departments
+    const checkExisted = (department) => departments.indexOf(department) >= 0
+    //  tests whether all elements in the array pass the test 
+    return nameCheckDepartments.every(checkExisted);
   }
 
   filterByDepartment = (departments) => {
@@ -208,7 +212,7 @@ function mapDispatchToProps(dispatch) {
   return {
     fetchCourse: () => { dispatch(loadCourse()) },
     fetchSearchCourse: (key) => { dispatch(searchCourse(key)) },
-    handleFetchDepartment: () => {dispatch(loadDepartment())},
+    handleFetchDepartment: () => { dispatch(loadDepartment()) },
   };
 }
 

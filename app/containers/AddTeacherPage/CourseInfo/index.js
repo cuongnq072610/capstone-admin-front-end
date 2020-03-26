@@ -22,7 +22,7 @@ const CourseInfo = (props) => {
                         <p>{course.courseCode}</p>
                     </div>
                 </div>
-                <div className="department">
+                <div className="department-wrapper">
                     <span>DEPARTMENT</span>
                     {
                         course.departments.map((item, index) => <div className='department-content' key={index}><Icon type="unordered-list" /><p>{item}</p></div>)

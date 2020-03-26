@@ -105,7 +105,7 @@ class TeacherInfo extends React.Component {
                 </Header>
                 <div className="title">
                     <img src={teacherInfo.avatar} className="avatar" alt="avatar" />
-                    <p className="teacher-name">{teacherInfo.teacherName}</p>
+                    <p className="teacher-name">{teacherInfo.name}</p>
                     <p className="teacher-mail">{teacherInfo.email}</p>
                 </div>
                 <div className="active-teacher">
@@ -153,16 +153,18 @@ class TeacherInfo extends React.Component {
                         teacherInfo.isActive ?
                             <Fragment>
                                 <p>{`Currently tutoring ${teacherInfo.courses.length} courses`}</p>
-                                {
-                                    teacherInfo.courses.map((course, index) => {
-                                        return (
-                                            <Button className="course-name" key={index} onClick={() => { }}>
-                                                <p>{course.courseName}</p>
-                                                <span className="delete-icon"></span>
-                                            </Button>
-                                        )
-                                    })
-                                }
+                                <div className='course-wrapper'>
+                                    {
+                                        teacherInfo.courses.map((course, index) => {
+                                            return (
+                                                <div className="course-name" key={index}>
+                                                    <p className='course-code'>{course.courseCode}</p>
+                                                    <p className='course-fullname'>{course.courseName}</p>
+                                                </div>
+                                            )
+                                        })
+                                    }
+                                </div>
                             </Fragment> : <p>Currently inactive</p>
                     }
                 </div>

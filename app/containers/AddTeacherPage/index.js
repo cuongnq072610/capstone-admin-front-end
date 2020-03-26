@@ -22,15 +22,12 @@ import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
 import CourseInfo from './CourseInfo';
-import { loadTeacher } from './actions';
+import { loadTeacher, searchTeacher } from './actions';
+import WrappedSearchBar from '../../components/SearchBar';
 import columns from './tableCol';
 
 const { Content } = Layout;
 /* eslint-disable react/prefer-stateless-function */
-
-const mockData2 = [
-  "Business", "Communication Business", "Communication", "Finance", "Graphic Design"
-];
 
 export class AddTeacherPage extends React.Component {
   constructor(props) {
@@ -42,6 +39,7 @@ export class AddTeacherPage extends React.Component {
       selectedTeacher: {},
       selectedRow: "",
       chosenTeachers: [],
+      isShowFolder: true
     }
   }
 
@@ -74,12 +72,10 @@ export class AddTeacherPage extends React.Component {
         var checkFormatTeachers = formatTeachers.filter(teacher => course.teachers.map(teacher => teacher._id).indexOf(teacher._id) === -1)
         this.setState({
           teachers: checkFormatTeachers,
-          departments: mockData2,
           baseTeachers: formatTeachers,
         })
       } else {
         this.setState({
-          departments: mockData2,
           teachers: formatTeachers,
           baseTeachers: formatTeachers,
         })
@@ -130,14 +126,31 @@ export class AddTeacherPage extends React.Component {
         course: {
           ...history.location.state.course,
           teachers: chosenTeachers
-        }, 
+        },
         type: history.location.state.type,
       }
     })
   }
 
+  handleSearch = (key) => {
+    this.props.fetchSearchTeacher(key)
+  }
+
+  handleClear = () => {
+    this.props.fetchTeacher();
+  }
+
+  handleShowFolder = () => {
+    this.setState(prevState => {
+      return {
+        ...prevState,
+        isShowFolder: !prevState.isShowFolder
+      }
+    })
+  }
+
   render() {
-    const { teachers, chosenTeachers } = this.state;
+    const { teachers, chosenTeachers, isShowFolder } = this.state;
     const { course } = this.props.history.location.state;
     const { isLoading } = this.props.addTeacherPage;
     return (
@@ -156,27 +169,39 @@ export class AddTeacherPage extends React.Component {
                   </Button>
                   <p className="p"><b>Add Teachers</b></p>
                 </div>
+                <WrappedSearchBar
+                  message="Please enter your teacher's name"
+                  placeholder="I want to find teachers"
+                  type="home"
+                  handleSearch={this.handleSearch}
+                  handleClear={this.handleClear}
+                />
               </div>
               <Content>
                 <Row className="content-table">
                   <div className="chosen">
-                    <h3 className="chosen-teacher" >{this.state.chosenTeachers.length} CHOSEN TUTORS <Icon type="up" /></h3>
-                    {chosenTeachers && chosenTeachers.length > 0 ?
-                      <Table className="table-content"
-                        columns={columns.columnToRemove}
-                        dataSource={chosenTeachers}
-                        onRow={(record, rowIndex) => {
-                          return {
-                            onClick: e => this.removeTeacher(record, rowIndex)
-                          }
-                        }}
-                      />
-                      :
-                      <p>No data</p>
+                    <Button className='chosen-title-btn' onClick={this.handleShowFolder}>
+                      <h3 className="chosen-teacher" >{this.state.chosenTeachers.length} CHOSEN TUTORS</h3>
+                      {isShowFolder ? <Icon type="down" style={{ color: '#111' }} /> : <Icon type="up" style={{ color: '#111' }} />}
+                    </Button>
+                    {
+                      isShowFolder ?
+                        chosenTeachers && chosenTeachers.length > 0 ?
+                          <Table className="table-content"
+                            columns={columns.columnToRemove}
+                            dataSource={chosenTeachers}
+                            onRow={(record, rowIndex) => {
+                              return {
+                                onClick: e => this.removeTeacher(record, rowIndex)
+                              }
+                            }}
+                          />
+                          : <p>No data</p>
+                        : ""
                     }
                   </div>
                   <div className="chosen-other">
-                    <h3 className="chosen-other-teacher">OTHERS <Icon type="up" /></h3>
+                    <h3 className="chosen-other-teacher">OTHERS</h3>
                     <Table className="table-content-non"
                       columns={columns.columnToAdd}
                       dataSource={teachers}
@@ -193,7 +218,7 @@ export class AddTeacherPage extends React.Component {
             </Layout>
           </Col>
           <Col span={5}>
-            <CourseInfo course={course}/>
+            <CourseInfo course={course} />
           </Col>
         </Row>
       </div>
@@ -211,7 +236,8 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
-    fetchTeacher: () => { dispatch(loadTeacher()) }
+    fetchTeacher: () => { dispatch(loadTeacher()) },
+    fetchSearchTeacher: (key) => { dispatch(searchTeacher(key)) },
   };
 }
 

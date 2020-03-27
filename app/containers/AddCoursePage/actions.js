@@ -4,7 +4,7 @@
  *
  */
 
-import { DEFAULT_ACTION, ADD_COURSE, UPDATE_COURSE, LOAD_DEPARTMENT } from './constants';
+import { DEFAULT_ACTION, ADD_COURSE, UPDATE_COURSE, LOAD_DEPARTMENT, DELETE_COURSE } from './constants';
 
 export function defaultAction() {
   return {
@@ -30,4 +30,11 @@ export function loadDepartment() {
   return {
     type: LOAD_DEPARTMENT,
   }
+}
+
+export function deleteCourse(id) {
+  return {
+    type: DELETE_COURSE,
+    id,
+  };
 }

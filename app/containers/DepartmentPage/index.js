@@ -198,6 +198,13 @@ export class DepartmentPage extends React.Component {
     this.props.handleUpdateDepartment(object, selectedDepartmnent._id);
   }
 
+  onHandleNavigateCourseDetail = (course) => {
+    this.props.history.push({
+      pathname: '/course/addcourse',
+      state: { course: course, type: 'update', from: "/department" }
+    })
+  }
+
   render() {
     const { departments, selectedRow, isOpen, selectedDepartmnent, newDepartment, isShow, error } = this.state;
     const { isLoadingDepartment, isLoadingDelete, isLoadingCreate, message, isLoadingUpdate } = this.props.departmentPage;
@@ -215,12 +222,9 @@ export class DepartmentPage extends React.Component {
             justifyContent: "space-between",
             alignItems: "center",
             height: '100px',
-            paddingLeft: '0px',
           }}
         >
-          <div className='department-page-name-wrapper'>
-            <p className="department-page-name">Departments</p>
-          </div>
+          <p className="department-page-name">Departments</p>
           <WrappedSearchBar
             message="Please enter your department's name"
             placeholder="I want to find my departments"
@@ -292,10 +296,10 @@ export class DepartmentPage extends React.Component {
                         {
                           selectedDepartmnent.courses.map((course, index) => {
                             return (
-                              <div className="course-name" key={index}>
+                              <Button className="course-name" key={index} onClick={() => this.onHandleNavigateCourseDetail(course)}>
                                 <p className="course-code">{course.courseCode}</p>
                                 <p className="course-fullname">{course.courseName}</p>
-                              </div>
+                              </Button>
                             )
                           })
                         }

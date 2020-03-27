@@ -1,20 +1,16 @@
 @import "../../utils/variables.scss";
 
 .department-page {
-    .department-page-name-wrapper {
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
 
-        .department-page-name {
-            color: $primary_darkblue;
-            font-family: Roboto;
-            font-size: 28px;
-            font-weight: 700;
-            letter-spacing: 0.28px;
-            margin: 0;
-            padding-right: 20px;
-        }
+
+    .department-page-name {
+        color: $primary_darkblue;
+        font-family: Roboto;
+        font-size: 28px;
+        font-weight: 700;
+        letter-spacing: 0.28px;
+        margin: 0;
+        padding-right: 20px;
     }
 
     .notification {
@@ -174,6 +170,7 @@
                 .course-wrapper {
                     height: 45vh;
                     overflow: auto;
+
                     .course-name {
                         background-color: $tertiary_purple;
                         margin: 10px 0px;
@@ -186,6 +183,7 @@
                         height: 70px;
                         border: 1px solid $secondary_purple;
                         border-radius: 5px;
+
                         p {
                             margin: 0;
                             color: $primary_black;

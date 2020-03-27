@@ -8,10 +8,13 @@ import {
   UPDATE_COURSE_FAILURE,
   LOAD_SUCCESS_DEPARTMENT,
   LOAD_FAILURE_DEPARTMENT,
-  LOAD_DEPARTMENT
+  LOAD_DEPARTMENT,
+  DELETE_COURSE_SUCCESS,
+  DELETE_COURSE_FAILURE,
+  DELETE_COURSE,
 } from './constants';
-import { addCourseApi, updateCourseApi, fetchDepartment } from './api';
-import { API_ENDPOINT, CREATE_COURSE, UPDATE_COURSES, GET_ALL_DEPARTMENT } from '../../constants/apis';
+import { addCourseApi, updateCourseApi, fetchDepartment, deleteCourseApi } from './api';
+import { API_ENDPOINT, CREATE_COURSE, UPDATE_COURSES, GET_ALL_DEPARTMENT, DELETE_COURSES } from '../../constants/apis';
 
 function* addCourse(action) {
   try {
@@ -56,6 +59,19 @@ function* loadDepartment() {
   }
 }
 
+function* deleteCourse(action) {
+  try {
+    const response = yield call(deleteCourseApi, `${API_ENDPOINT}${DELETE_COURSES}/${action.id}`)
+    if (response.data.success) {
+      yield put({ type: DELETE_COURSE_SUCCESS, payload: response.data.message })
+    } else if (response.data.error) {
+      yield put({ type: DELETE_COURSE_FAILURE, payload: response.data.error })
+    }
+  } catch (error) {
+    yield put({ type: DELETE_COURSE_FAILURE, payload: { msg: error } })
+  }
+}
+
 // Individual exports for testing
 export default function* addCoursePageSaga() {
   // See example in containers/HomePage/saga.js
@@ -63,5 +79,6 @@ export default function* addCoursePageSaga() {
     takeLatest(ADD_COURSE, addCourse),
     takeLatest(UPDATE_COURSE, updateCourse),
     takeLatest(LOAD_DEPARTMENT, loadDepartment),
+    takeLatest(DELETE_COURSE, deleteCourse),
   ]);
 }

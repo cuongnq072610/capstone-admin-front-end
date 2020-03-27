@@ -133,24 +133,27 @@ export class HomePage extends React.Component {
               style={{
                 backgroundColor: '#fff',
                 display: 'flex',
-                justifyContent: 'flex-end',
+                justifyContent: 'space-between',
                 alignItems: 'center',
                 height: '100px',
               }}
             >
-              <WrappedSearchBar
-                message="Please enter your course name"
-                placeholder="I want to find my course"
-                type="home"
-                handleSearch={this.handleSearch}
-                handleClear={this.handleClear}
-              />
-              <Filter
-                departments={departments}
-                onFilter={this.filterByDepartment}
-                onReset={this.onResetFilter}
-                type={'home'}
-              />
+              <p className='course-page-name'>Courses</p>
+              <div className="search-filter-side">
+                <WrappedSearchBar
+                  message="Please enter your course name"
+                  placeholder="I want to find my course"
+                  type="home"
+                  handleSearch={this.handleSearch}
+                  handleClear={this.handleClear}
+                />
+                <Filter
+                  departments={departments}
+                  onFilter={this.filterByDepartment}
+                  onReset={this.onResetFilter}
+                  type={'home'}
+                />
+              </div>
             </Header>
             <Content>
               <Row>
@@ -162,7 +165,7 @@ export class HomePage extends React.Component {
                     return {
                       onClick: e => history.push({
                         pathname: '/course/addcourse',
-                        state: { course: record, type: 'update' }
+                        state: { course: record, type: 'update', from: "/course" }
                       })
                     }
                   }}
@@ -176,7 +179,8 @@ export class HomePage extends React.Component {
               <div className="float" onClick={() => history.push({
                 pathname: "/course/addcourse",
                 state: {
-                  type: 'add'
+                  type: 'add',
+                  from: '/course'
                 }
               })}>
                 <Icon type="plus" className="my-float" />

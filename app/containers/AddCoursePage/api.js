@@ -12,8 +12,13 @@ const fetchDepartment = (url) => {
     return axiosService.get(url);
   }
 
+const deleteCourseApi = (url) => {
+    return axiosService.delete(url);
+}
+
 export {
     addCourseApi,
     updateCourseApi,
     fetchDepartment,
+    deleteCourseApi,
 }

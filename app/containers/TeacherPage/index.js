@@ -134,24 +134,27 @@ export class TeacherPage extends React.Component {
                             style={{
                                 backgroundColor: '#fff',
                                 display: 'flex',
-                                justifyContent: 'flex-end',
+                                justifyContent: 'space-between',
                                 alignItems: 'center',
                                 height: '100px',
                             }}
                         >
-                            <WrappedSearchBar
-                                message="Please enter your teacher's name"
-                                placeholder="I want to find teachers"
-                                type="teacher"
-                                handleSearch={this.handleSearch}
-                                handleClear={this.handleClear}
-                            />
-                            <Filter
-                                departments={departments}
-                                onReset={this.onResetFilter}
-                                onFilter={this.filterByActive}
-                                type="teacher"
-                            />
+                            <p className='teacher-page-name'>Teachers</p>
+                            <div className="search-filter-side">
+                                <WrappedSearchBar
+                                    message="Please enter your teacher's name"
+                                    placeholder="I want to find teachers"
+                                    type="teacher"
+                                    handleSearch={this.handleSearch}
+                                    handleClear={this.handleClear}
+                                />
+                                <Filter
+                                    departments={departments}
+                                    onReset={this.onResetFilter}
+                                    onFilter={this.filterByActive}
+                                    type="teacher"
+                                />
+                            </div>
                         </Header>
                         <Content>
                             <Row>

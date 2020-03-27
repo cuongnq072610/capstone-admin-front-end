@@ -18,5 +18,9 @@ export const LOAD_DEPARTMENT = 'app/AddCoursePage/LOAD_DEPARTMENT';
 export const LOAD_SUCCESS_DEPARTMENT = 'app/AddCoursePage/LOAD_SUCCESS_DEPARTMENT';
 export const LOAD_FAILURE_DEPARTMENT = 'app/AddCoursePage/LOAD_FAILURE_DEPARTMENT';
 
+export const DELETE_COURSE = 'app/AddCoursePage/DELETE_COURSE';
+export const DELETE_COURSE_SUCCESS = 'app/AddCoursePage/DELETE_COURSE_SUCCESS';
+export const DELETE_COURSE_FAILURE = 'app/AddCoursePage/DELETE_COURSE_FAILURE';
+
 
 

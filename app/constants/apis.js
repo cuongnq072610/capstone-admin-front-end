@@ -36,6 +36,7 @@ const GET_ALL_DEPARTMENT = '/allDepartment';
 const CREATE_DEPARTMENT = '/createDepartment';
 const DELETE_DEPARTMENT = '/deleteDepartment';
 const UPDATE_DEPARTMENT = '/updateDepartment';
+const SEARCH_DEPARTMENTS = '/searchDepartment';
 
 const GET_STUDENT_INFO = '/getstudentbyid';
 const UPDATE_STUDENT_COURSE = '/updatestudentcourse';
@@ -88,6 +89,7 @@ export {
     CREATE_DEPARTMENT,
     DELETE_DEPARTMENT,
     UPDATE_DEPARTMENT,
+    SEARCH_DEPARTMENTS,
     //ADMIN
     GET_ADMIN_STATISTIC
 }

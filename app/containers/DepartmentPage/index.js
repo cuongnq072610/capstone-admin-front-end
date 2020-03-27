@@ -22,26 +22,8 @@ import './index.scss';
 import { Layout, Col, Row, Table, Icon, Button, Input, Spin } from 'antd';
 import WrappedSearchBar from '../../components/SearchBar';
 import columns from './tableCols';
-import { loadDepartment, createDepartment, deleteDepartment, updateDepartment } from './actions';
+import { loadDepartment, createDepartment, deleteDepartment, updateDepartment, searchDepartment } from './actions';
 const { Header, Content } = Layout;
-
-const mockData = [
-  {
-    id: 1,
-    title: "Computer Science",
-    activeCourse: [{}, {}, {}, {}, {}],
-  },
-  {
-    id: 2,
-    title: "Communication",
-    activeCourse: [{}, {}, {}],
-  },
-  {
-    id: 3,
-    title: "Business",
-    activeCourse: [{}, {}, {}, {}],
-  },
-]
 
 /* eslint-disable react/prefer-stateless-function */
 export class DepartmentPage extends React.Component {
@@ -63,10 +45,7 @@ export class DepartmentPage extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.departmentPage.departments !== this.props.departmentPage.departments &&
-      prevProps.departmentPage.isLoadingDepartment !== this.props.departmentPage.isLoadingDepartment &&
-      this.props.departmentPage.isLoadingDepartment === false
-    ) {
+    if (prevProps.departmentPage.departments !== this.props.departmentPage.departments) {
       const departmentFomat = this.props.departmentPage.departments.map((department, index) => {
         return {
           ...department,
@@ -205,6 +184,14 @@ export class DepartmentPage extends React.Component {
     })
   }
 
+  handleSearch = (key) => {
+    this.props.handleSearchDepartment(key)
+  }
+
+  handleClear = () => {
+    this.props.handleLoadDepartment();
+  }
+
   render() {
     const { departments, selectedRow, isOpen, selectedDepartmnent, newDepartment, isShow, error } = this.state;
     const { isLoadingDepartment, isLoadingDelete, isLoadingCreate, message, isLoadingUpdate } = this.props.departmentPage;
@@ -229,8 +216,8 @@ export class DepartmentPage extends React.Component {
             message="Please enter your department's name"
             placeholder="I want to find my departments"
             type="department"
-          // handleSearch={this.handleSearch}
-          // handleClear={this.handleClear}
+            handleSearch={this.handleSearch}
+            handleClear={this.handleClear}
           />
         </Header>
         <Col span={19}>
@@ -342,6 +329,7 @@ DepartmentPage.propTypes = {
   handleDeleteDepartment: PropTypes.func.isRequired,
   handleCreateDepartment: PropTypes.func.isRequired,
   handleUpdateDepartment: PropTypes.func.isRequired,
+  handleSearchDepartment: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -354,6 +342,7 @@ function mapDispatchToProps(dispatch) {
     handleDeleteDepartment: (id) => { dispatch(deleteDepartment(id)) },
     handleCreateDepartment: (department) => { dispatch(createDepartment(department)) },
     handleUpdateDepartment: (department, id) => { dispatch(updateDepartment(department, id)) },
+    handleSearchDepartment: (key) => { dispatch(searchDepartment(key)) },
   };
 }
 

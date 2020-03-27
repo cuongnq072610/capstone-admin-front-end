@@ -4,7 +4,7 @@
  *
  */
 
-import { DEFAULT_ACTION, LOAD_DEPARTMENT, LOAD_CREATE_DEPARTMENT, LOAD_DELETE_DEPARTMENT, LOAD_UPDATE_DEPARTMENT } from './constants';
+import { DEFAULT_ACTION, LOAD_DEPARTMENT, LOAD_CREATE_DEPARTMENT, LOAD_DELETE_DEPARTMENT, LOAD_UPDATE_DEPARTMENT, SEARCH_DEPARTMENT } from './constants';
 
 export function defaultAction() {
   return {
@@ -38,5 +38,12 @@ export function updateDepartment(department, id) {
     type: LOAD_UPDATE_DEPARTMENT,
     department,
     id
+  }
+}
+
+export function searchDepartment(key) {
+  return {
+    type: SEARCH_DEPARTMENT,
+    key,
   }
 }

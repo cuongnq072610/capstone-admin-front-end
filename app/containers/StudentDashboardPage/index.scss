@@ -2,48 +2,47 @@
 
 .student-dashboard-page {
     padding: 28px 20px;
-    h1 {
-        text-align: center;
-        color: $primary_blue;
-        margin-bottom: 20px;
-    }
-    .card {
-        // max-height: 150px;
-        padding: 18px 20px 0 20px;
-        color: #fff;
-        display: flex;
-        flex-direction: column;
-        &__info {
-            &--note-icon {
-                font-size: 25px;
+
+
+    .card-wrapper {
+        padding: 0 60px;
+        .card { 
+            // max-height: 150px;
+            padding: 5px 20px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-radius: 5px;
+            &__info {
+                font-size: 24px;
                 font-weight: 600;
-                background: url('./assets/note.svg') no-repeat;
-                padding-left: 45px;
+                &--note-icon {
+                    background: url('./assets/note.svg') no-repeat;
+                    background-position: left;
+                    padding-left: 45px;
+                }
+
+                &--highlight-icon {
+                    background: url('./assets/highlight.svg') no-repeat;
+                    background-position: left;
+                    padding-left: 45px;
+                }
+
+
+                &--ask-icon {
+                    background: url('./assets/ask.svg') no-repeat;
+                    background-position: left;
+                    padding-left: 45px;
+                }
             }
 
-            &--highlight-icon {
-                font-size: 25px;
-                font-weight: 600;
-                background: url('./assets/highlight.svg') no-repeat;
-                padding-left: 45px;
-            }
-
-
-            &--ask-icon {
-                font-size: 25px;
-                font-weight: 600;
-                background: url('./assets/ask.svg') no-repeat;
-                padding-left: 45px;
+            .number {
+                font-size: 32px;
             }
         }
-
-        .number {
-            font-size: 80px;
-            font-weight: 100;
-            height: 110px;
-            align-self: flex-end;
-        }
     }
+
     
     .bg-yellow {
         background-color: $primary_yellow;
@@ -59,10 +58,13 @@
 
     .courses-info-wrapper {
         margin-top: 40px;
+
+        
         .course-header {
             display: flex;
             justify-content: space-between;
             padding-top: 5px;
+
             .btn-close {
                 height: fit-content;
                 border-radius: 15px;
@@ -77,6 +79,7 @@
             .course-info-header {
                 display: flex;
                 justify-content: space-between;
+                margin-bottom: 20px;
                 .table-title {
                     color: $primary_purple;
                     font-size: 22px;
@@ -89,20 +92,31 @@
                     }
                 }
     
-                .addBtn {
-                    color: $primary_purple;
-                    height: 35px;
-                    float: right;
-                    border: none;
-                    i {
-                        position: relative;
-                        top: -2px;
-                        font-size: 20px;
+                .search-bar {
+                    display: flex;
+                    align-items: center;
+                    .search {
+                        width: 100% !important;
+                        margin-right: 10px;
                     }
-                    
-                    &:hover {
-                        background-color: $primary_purple;
-                        color: #fff;
+
+                    .addBtn {
+                        color: $primary_purple;
+                        height: 35px;
+                        width: 35px;
+                        border: none;
+                        border-radius: 50%;
+                        i {
+                            position: relative;
+                            top: -2px;
+                            left: -7px;
+                            font-size: 20px;
+                        }
+                        
+                        &:hover {
+                            background-color: $primary_purple;
+                            color: #fff;
+                        }
                     }
                 }
             }
@@ -155,10 +169,24 @@
                     float: right;
                 }
             }
+
             
+        }
 
-            .course-detail {
+        .hello-user {
+            margin-top: 80px;
+            height: 300px;
+            background: url('./assets/ScenePlants.png') no-repeat;
+            opacity: .9;
+            background-size: 50%;
+            background-position: center;
+            background-position-y: 35px;
 
+            h1 {
+                font-size: 24px;
+                text-align: center;
+                color: $primary_blue;
+                margin-bottom: 20px;
             }
         }
         

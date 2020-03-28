@@ -2,15 +2,21 @@
 
 .search {
     width: 500px;
-    height: 54px;
-    margin: 20px 0px;
+    height: 37px;
+    // margin: 20px 0px;
 
     input {
-        height: 50px;
+        height: 37px;
         border-radius: 5px;
         padding-left: 20px;
         font-size: 15px;
         box-shadow: 0 3px 6px rgba(255, 255, 255, 0.25);
+
+        
+    }
+
+    i {
+        font-size: 16px !important;
     }
 
     .homeTheme>input {
@@ -19,6 +25,7 @@
         color: $primary_purple;
 
         &::placeholder {
+            font-size: 14px;
             color: $primary_purple;
         }
     }
@@ -29,6 +36,7 @@
         color: $primary_brown;
 
         &::placeholder {
+            font-size: 14px;
             color: $primary_brown;
         }
     }
@@ -39,6 +47,7 @@
         color: $primary_yellow;
 
         &::placeholder {
+            font-size: 14px;
             color: $primary_yellow;
         }
     }
@@ -49,6 +58,7 @@
         color: $primary_blue;
 
         &::placeholder {
+            font-size: 14px;
             color: $primary_blue;
         }
     }
@@ -59,6 +69,7 @@
         color: $primary_green;
 
         &::placeholder {
+            font-size: 14px;
             color: $primary_green;
         }
     }
@@ -69,6 +80,7 @@
         color: $primary_darkblue;
 
         &::placeholder {
+            font-size: 14px;
             color: $primary_darkblue;
         }
     }

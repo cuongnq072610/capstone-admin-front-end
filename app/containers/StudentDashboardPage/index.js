@@ -12,6 +12,7 @@ import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { Row, Table, Col, Button, Icon, Layout, Spin } from 'antd';
+import WrappedSearchBar from '../../components/SearchBar';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
@@ -95,8 +96,7 @@ export class StudentDashboardPage extends React.Component {
             content="Description of StudentDashboardPage"
           />
         </Helmet>
-        <h1>Hi {user.name}. Let's get our day started!</h1>
-        <Row gutter={24}>
+        <Row className="card-wrapper" gutter={24}>
           <Col span={8}>
             <div className="card bg-yellow">
               <div className="card__info">
@@ -132,15 +132,29 @@ export class StudentDashboardPage extends React.Component {
                 </svg>
                 Courses
               </div>
-              <Button className="addBtn" onClick={e => this.props.history.push({
-                pathname: "/student/addcourse",
-                state: {
-                  stuCourses: courses,
-                }
-              })}>
-                <Icon type="plus" />
-                Add course
-              </Button>
+            <div className="search-bar">
+                
+                <WrappedSearchBar
+                  message="Please enter your note's name"
+                  placeholder="Search for courses"
+                  type="home"
+                  // handleSearch={this.handleSearch}
+                  // handleClear={this.handleClear}
+                />
+                <Button className="addBtn" onClick={e => this.props.history.push({
+                  pathname: "/student/addcourse",
+                  state: {
+                    stuCourses: courses,
+                  }
+                })}>
+                  <Icon type="plus" />
+                  
+                </Button>
+                
+            </div>
+              
+              
+              
 
             </div>
             <Table
@@ -158,32 +172,38 @@ export class StudentDashboardPage extends React.Component {
             />
           </Col>
 
-          <Col span={12} className="course-detail-wrapper">
+          <Col span={12} >
             {
-              displayCourse._id &&
-              <div>
-                <div className='course-header'>
-                  <p className="course-code">{displayCourse.courseCode}</p>
-                  <button className='btn-close' onClick={this.handleCloseCourseInfo}>X</button>
+              displayCourse._id ? (
+                <div className="course-detail-wrapper">
+                  <div className='course-header'>
+                    <p className="course-code">{displayCourse.courseCode}</p>
+                    <button className='btn-close' onClick={this.handleCloseCourseInfo}>X</button>
+                  </div>
+                  <h2>{displayCourse.courseName}</h2>
+                  <Button className="btn btn--go" onClick={() => this.handleGoToCourse(displayCourse.courseURL)}>
+                    Go to course
+                    <Icon type="arrow-right" />
+                  </Button>
+                  <div className="course-detail">
+                    <h3>DEPARTMENT</h3>
+                    <p>{fomatDepartment(displayCourse.departments)}</p>
+                    <h3>SHORT DESCRIPTION</h3>
+                    <p>{displayCourse.shortDes}</p>
+                    <h3>FULL DESCRIPTION</h3>
+                    <p>{displayCourse.fullDes}</p>
+                  </div>
+                  <Button className="btn btn--exit" type="danger" onClick={this.handleSubmit}>
+                    Exit course
+                    <Icon type="logout" />
+                  </Button>
                 </div>
-                <h2>{displayCourse.courseName}</h2>
-                <Button className="btn btn--go" onClick={() => this.handleGoToCourse(displayCourse.courseURL)}>
-                  Go to course
-                  <Icon type="arrow-right" />
-                </Button>
-                <div className="course-detail">
-                  <h3>DEPARTMENT</h3>
-                  <p>{fomatDepartment(displayCourse.departments)}</p>
-                  <h3>SHORT DESCRIPTION</h3>
-                  <p>{displayCourse.shortDes}</p>
-                  <h3>FULL DESCRIPTION</h3>
-                  <p>{displayCourse.fullDes}</p>
+              ) :
+              (
+                <div className="hello-user">
+                  <h1>Hi {user.name}. How are you today?</h1>
                 </div>
-                <Button className="btn btn--exit" type="danger" onClick={this.handleSubmit}>
-                  Exit course
-                  <Icon type="logout" />
-                </Button>
-              </div>
+              )
             }
           </Col>
         </Row>

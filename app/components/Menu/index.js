@@ -95,7 +95,6 @@ class SideMenu extends React.PureComponent {
           theme="light"
           defaultSelectedKeys={['1']}
           mode="vertical"
-          style={{ border: 'none' }}
         >
           {
             this.renderMenu()

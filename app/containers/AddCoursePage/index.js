@@ -63,12 +63,12 @@ export class AddCoursePage extends React.Component {
         this.setState({
           course: state.course,
           type: state.type,
-          from: state.from,
+          from: state.from ? state.from : '/course',
         })
       } else {
         this.setState({
           type: state.type,
-          from: state.from,
+          from: state.from ? state.from : '/course',
         })
       }
     }
@@ -311,7 +311,7 @@ export class AddCoursePage extends React.Component {
           </Layout>
         </Col>
         <Col className="addTeacher" span={5}>
-          <SearchTeacher course={course} type={type} />
+          <SearchTeacher course={course} type={type} courseFrom={from} />
         </Col>
       </Row>
     );

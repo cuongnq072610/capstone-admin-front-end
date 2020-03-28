@@ -125,9 +125,10 @@ export class AddTeacherPage extends React.Component {
       state: {
         course: {
           ...history.location.state.course,
-          teachers: chosenTeachers
+          teachers: chosenTeachers,
         },
         type: history.location.state.type,
+        from: history.location.state.from,
       }
     })
   }

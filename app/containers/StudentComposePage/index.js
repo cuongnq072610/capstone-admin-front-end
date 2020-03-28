@@ -88,6 +88,7 @@ export class StudentComposePage extends React.Component {
         teacher: this.props.studentComposePage.ask.teacher,
         comments: this.props.studentComposePage.ask.comments
       })
+
     }
   }
 
@@ -127,7 +128,6 @@ export class StudentComposePage extends React.Component {
     //add to messages state first to render to UI
     //emit to server with userInfo and message to save to DB
     //if error show warning, if not do nothing
-
     if(message) {
       const newComment = {
         "userID": user.profile,
@@ -136,8 +136,8 @@ export class StudentComposePage extends React.Component {
         "dateCreated": this.getCurrentDate(),
         "__v": 0
       }
-
-  
+      console.log(ask)
+      console.log(newComment)
       this.setState({
         comments: [...comments, newComment]
       });

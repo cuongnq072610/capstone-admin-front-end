@@ -7,16 +7,40 @@
   .ask-page-header {
     background-color: #fff;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    align-items: center;
     height: 100px;
+    padding-left: 0;
 
-
+    .ask-page-name {
+      color: $primary_blue;
+      font-family: Roboto;
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: 0.28px;
+      margin: 0;
+      padding-right: 20px;
+    }
   }
 
   .ask-page-content {
     .ask-table {
-      padding: 40px 0px;
       cursor: pointer;
+
+      thead th {
+        padding: 10px;
+        background-color: #fff;
+        color: $secondary_grey;
+      }
+
+      tbody {
+
+        td {
+          cursor: pointer;
+          padding: 10px;
+          color: $primary_black;
+        }
+      }
     }
 
     .float {

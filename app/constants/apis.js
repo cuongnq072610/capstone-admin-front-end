@@ -1,5 +1,5 @@
-// const API_ENDPOINT = "https://capstonebackendapi.herokuapp.com";
-const API_ENDPOINT = "http://localhost:5000";
+const API_ENDPOINT = "https://capstonebackendapi.herokuapp.com";
+// const API_ENDPOINT = "http://localhost:5000";
 // const API_ENDPOINT_WS = "ws://localhost:5000";
 const API_ENDPOINT_WS = "ws://capstonebackendapi.herokuapp.com";
 
@@ -29,7 +29,7 @@ const GET_SEARCH_NOTE = '/searchNote';
 const GET_NOTE_FOLDER = '/getFolderByStudentID';
 
 const GET_ALL_ASK = "/allaskofstudent";
-const GET_ASK_BY_ID = "/getaskbyid";
+const GET_ASK_BY_ID = "/getAsk";
 const GET_ALL_ASK_TEACHER = '/allaskofteacher';
 
 const GET_ALL_DEPARTMENT = '/allDepartment';

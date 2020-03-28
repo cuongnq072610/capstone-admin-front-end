@@ -67,19 +67,25 @@ export class AddTeacherPage extends React.Component {
           key: `${index}`
         }
       })
+
+      this.setState({
+        teachers: formatTeachers,
+        baseTeachers: formatTeachers
+      })
+
       // check duplicate teacher
-      if (course.teachers && course.teachers.length > 0) {
-        var checkFormatTeachers = formatTeachers.filter(teacher => course.teachers.map(teacher => teacher._id).indexOf(teacher._id) === -1)
-        this.setState({
-          teachers: checkFormatTeachers,
-          baseTeachers: formatTeachers,
-        })
-      } else {
-        this.setState({
-          teachers: formatTeachers,
-          baseTeachers: formatTeachers,
-        })
-      }
+      // if (course.teachers && course.teachers.length > 0) {
+      //   var checkFormatTeachers = formatTeachers.filter(teacher => course.teachers.map(teacher => teacher._id).indexOf(teacher._id) === -1)
+      //   this.setState({
+      //     teachers: checkFormatTeachers,
+      //     baseTeachers: formatTeachers,
+      //   })
+      // } else {
+      //   this.setState({
+      //     teachers: formatTeachers,
+      //     baseTeachers: formatTeachers,
+      //   })
+      // }
     }
   }
 
@@ -165,7 +171,7 @@ export class AddTeacherPage extends React.Component {
             <title>AddTeacherPage</title>
             <meta name="description" content="Description of AddTeacherPage" />
           </Helmet>
-          <Col span={24} style={{ padding: '28px 0px 28px 50px' }}>
+          <Col span={24}>
             <Layout>
               <div className="header">
                 <div className="header-back">

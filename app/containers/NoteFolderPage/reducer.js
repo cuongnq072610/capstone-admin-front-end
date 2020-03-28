@@ -24,6 +24,7 @@ export const initialState = fromJS({
   error: {},
   isLoadingDelete: false,
   message: {},
+  searchNotes: [],
 });
 
 function noteFolderPageReducer(state = initialState, action) {
@@ -45,7 +46,7 @@ function noteFolderPageReducer(state = initialState, action) {
     case SEARCH_NOTE:
       return state.set('isLoading', true);
     case SEARCH_SUCCESS_NOTE:
-      return state.set('notes', fromJS(action.payload)).set('isLoading', false);
+      return state.set('searchNotes', fromJS(action.payload)).set('isLoading', false);
     case SEARCH_FAILURE_NOTE:
       return state.set('errors', action.payload).set('isLoading', false);
     default:

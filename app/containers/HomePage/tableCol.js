@@ -11,7 +11,7 @@ const colunms = [
     {
         title: "CODE",
         dataIndex: "courseCode",
-        sorter: (a, b) => a.courseId < b.courseId,
+        sorter: (a, b) => a.courseCode < b.courseCode,
         sortDirections: ['descend'],
         render: text => <span style={{ color: '#9c4aee', fontWeight: 600 }}>{text}</span>,
     },

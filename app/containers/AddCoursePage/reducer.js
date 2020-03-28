@@ -5,13 +5,30 @@
  */
 
 import { fromJS } from 'immutable';
-import { DEFAULT_ACTION, ADD_COURSE, ADD_COURSE_SUCCESS, ADD_COURSE_FAILURE, UPDATE_COURSE, UPDATE_COURSE_SUCCESS, UPDATE_COURSE_FAILURE } from './constants';
+import {
+  DEFAULT_ACTION,
+  ADD_COURSE,
+  ADD_COURSE_SUCCESS,
+  ADD_COURSE_FAILURE,
+  UPDATE_COURSE,
+  UPDATE_COURSE_SUCCESS,
+  UPDATE_COURSE_FAILURE,
+  LOAD_DEPARTMENT,
+  LOAD_SUCCESS_DEPARTMENT,
+  LOAD_FAILURE_DEPARTMENT,
+  DELETE_COURSE,
+  DELETE_COURSE_FAILURE,
+  DELETE_COURSE_SUCCESS,
+} from './constants';
 
 export const initialState = fromJS({
   errors: "",
   isLoading: false,
+  isLoadingDelete: false,
   message: "",
   isDone: false,
+  departments: [],
+  isLoadingDepartment: false,
 });
 
 function addCoursePageReducer(state = initialState, action) {
@@ -30,6 +47,18 @@ function addCoursePageReducer(state = initialState, action) {
       return state.set('isLoading', false).set("message", action.payload).set("isDone", true);
     case UPDATE_COURSE_FAILURE:
       return state.set('isLoading', false).set("errors", action.payload).set("isDone", false);
+    case LOAD_DEPARTMENT:
+      return state.set('isLoadingDepartment', true);
+    case LOAD_SUCCESS_DEPARTMENT:
+      return state.set('departments', fromJS(action.payload)).set('isLoadingDepartment', false);
+    case LOAD_FAILURE_DEPARTMENT:
+      return state.set('errors', action.payload).set('isLoadingDepartment', false);
+    case DELETE_COURSE:
+      return state.set('isLoadingDelete', true).set("isDone", false).set("errors", "");
+    case DELETE_COURSE_SUCCESS:
+      return state.set('isLoadingDelete', false).set("message", action.payload).set("isDone", true);
+    case DELETE_COURSE_FAILURE:
+      return state.set('isLoadingDelete', false).set("errors", action.payload).set("isDone", false);
     default:
       return state;
   }

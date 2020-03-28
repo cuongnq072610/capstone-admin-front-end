@@ -16,14 +16,14 @@ class SearchTeacher extends React.PureComponent {
   renderTeacher = (teacher, index) => {
     return (
       <div className='teacher-field' key={index}>
-        <img src={teacher.avatar} style={{ width: '30px', height: '30px' }} />
+        <img src={teacher.avatar} />
         <p className='teacher-name'>{teacher.name}</p>
       </div>
     )
   }
 
   render() {
-    const { course, type } = this.props;
+    const { course, type, courseFrom } = this.props;
     return (
       <Layout className="wrap">
         <Header>Teachers</Header>
@@ -42,6 +42,7 @@ class SearchTeacher extends React.PureComponent {
               state: {
                 course: course,
                 type: type,
+                from: courseFrom
               }
             })}
           >

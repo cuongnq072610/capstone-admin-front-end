@@ -1,8 +1,7 @@
 @import './variable.scss';
 
-body {
-  background-color: white;
-}
+
+
 .addCourse {
     padding: 28px 20px;
 
@@ -82,7 +81,7 @@ body {
         &::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
           color: $purple; 
           opacity: 1; /* Firefox */
-        }
+        } 
       }
 
       i {

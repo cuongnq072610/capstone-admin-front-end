@@ -15,8 +15,8 @@ import { AdminMenu, StudentMenu, TeacherMenu } from './constant';
 class SideMenu extends React.PureComponent {
   renderLogo = (pathname) => {
     switch (pathname) {
+      case "department":
       case "tutor":
-        return LogoBlue;
       case "dashboard":
         return LogoBlue;
       case "course":
@@ -95,7 +95,6 @@ class SideMenu extends React.PureComponent {
           theme="light"
           defaultSelectedKeys={['1']}
           mode="vertical"
-          style={{ border: 'none' }}
         >
           {
             this.renderMenu()
@@ -105,7 +104,6 @@ class SideMenu extends React.PureComponent {
               <Button className='btn-logout'>
                 <img
                   src={avatar}
-                  alt="User Logo"
                 />
               </Button>
             </Popover>

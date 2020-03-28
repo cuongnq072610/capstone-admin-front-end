@@ -10,10 +10,14 @@ export const LOAD_HIGHLIGHT = 'app/HighLightPage/LOAD_HIGHLIGHT';
 export const LOAD_HIGHLIGHT_SUCCESS = 'app/HighLightPage/LOAD_HIGHLIGHT_SUCCESS';
 export const LOAD_HIGHLIGHT_FAILURE = 'app/HighLightPage/LOAD_HIGHLIGHT_FAILURE';
 
-export const LOAD_COURSE = 'app/HighLightPage/LOAD_COURSE';
-export const LOAD_SUCCESS_COURSE = 'app/HighLightPage/LOAD_SUCCESS_COURSE';
-export const LOAD_FAILURE_COURSE = 'app/HighLightPage/LOAD_SUCCESS_COURSE';
+export const LOAD_FOLDER = 'app/HighLightPage/LOAD_FOLDER';
+export const LOAD_SUCCESS_FOLDER = 'app/HighLightPage/LOAD_SUCCESS_FOLDER';
+export const LOAD_FAILURE_FOLDER = 'app/HighLightPage/LOAD_SUCCESS_FOLDER';
 
 export const DELETE_HIGHLIGHT = 'app/HighLightPage/DELETE_HIGHLIGHT';
 export const DELETE_HIGHLIGHT_SUCCESS = 'app/HighLightPage/DELETE_HIGHLIGHT_SUCCESS';
 export const DELETE_HIGHLIGHT_FAILURE = 'app/HighLightPage/DELETE_HIGHLIGHT_FAILURE';
+
+export const SEARCH_HIGHLIGHT = 'app/HighLightPage/SEARCH_HIGHLIGHT';
+export const SEARCH_SUCCESS_HIGHLIGHT = 'app/HighLightPage/SEARCH_SUCCESS_HIGHLIGHT';
+export const SEARCH_FAILURE_HIGHLIGHT = 'app/HighLightPage/SEARCH_FAILURE_HIGHLIGHT';

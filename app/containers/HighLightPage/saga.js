@@ -3,15 +3,18 @@ import {
   LOAD_HIGHLIGHT, 
   LOAD_HIGHLIGHT_FAILURE, 
   LOAD_HIGHLIGHT_SUCCESS,
-  LOAD_COURSE, 
-  LOAD_FAILURE_COURSE, 
-  LOAD_SUCCESS_COURSE, 
+  LOAD_FOLDER, 
+  LOAD_FAILURE_FOLDER, 
+  LOAD_SUCCESS_FOLDER, 
   DELETE_HIGHLIGHT, 
   DELETE_HIGHLIGHT_FAILURE, 
   DELETE_HIGHLIGHT_SUCCESS,
+  SEARCH_HIGHLIGHT,
+  SEARCH_FAILURE_HIGHLIGHT,
+  SEARCH_SUCCESS_HIGHLIGHT,
 } from './constants';
 import { fetchHighlight, fetchStudentCourses, deleteHighlight } from './api';
-import { API_ENDPOINT, GET_STUDENT_INFO, GET_RECENT_HIGHLIGHT, DELETE_HIGHLIGHT_BY_ID } from '../../constants/apis';
+import { API_ENDPOINT, GET_SEARCH_HIGHLIGHT, GET_RECENT_HIGHLIGHT, DELETE_HIGHLIGHT_BY_ID, GET_HIGHLIGHT_FOLDER } from '../../constants/apis';
 
 function* getAllHighlight() {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -33,15 +36,15 @@ function* getAllHighlight() {
 function* loadCourse(action) {
   const { id } = action;
   try {
-    let response = yield call(fetchStudentCourses, `${API_ENDPOINT}${GET_STUDENT_INFO}/${id}`);
+    let response = yield call(fetchStudentCourses, `${API_ENDPOINT}${GET_HIGHLIGHT_FOLDER}/${id}`);
     if (response.data) {
-      let courses = response.data.courses.map(course => course);
-      yield put({ type: LOAD_SUCCESS_COURSE, payload: courses })
+      let courses = response.data.map(course => course);
+      yield put({ type: LOAD_SUCCESS_FOLDER, payload: courses })
     } else {
-      yield put({ type: LOAD_FAILURE_COURSE, payload: "NO DATA" })
+      yield put({ type: LOAD_FAILURE_FOLDER, payload: "NO DATA" })
     }
   } catch (error) {
-    yield put({ type: LOAD_FAILURE_COURSE, payload: error });
+    yield put({ type: LOAD_FAILURE_FOLDER, payload: error });
   }
 }
 
@@ -59,11 +62,30 @@ function* loadDeleteHighlight(action) {
   }
 }
 
+function* fetchSearchHighlight(action) {
+  const { key } = action;
+  const user = JSON.parse(localStorage.getItem("user"));
+  try {
+    const response = yield call(fetchHighlight, `${API_ENDPOINT}${GET_SEARCH_HIGHLIGHT}/${user.profile}/all/${key}`);
+    if (response.data) {
+      let highlightData = response.data.map((item, index) => {
+        return item
+      })
+      yield put({ type: SEARCH_SUCCESS_HIGHLIGHT, payload: highlightData })
+    } else {
+      yield put({ type: SEARCH_FAILURE_HIGHLIGHT, payload: "NO DATA" })
+    }
+  } catch (error) {
+    yield put({ type: SEARCH_FAILURE_HIGHLIGHT, payload: error });
+  }
+}
+
 // Individual exports for testing
 export default function* highLightPageSaga() {
   yield all([
     takeLatest(LOAD_HIGHLIGHT, getAllHighlight),
-    takeLatest(LOAD_COURSE, loadCourse),
+    takeLatest(LOAD_FOLDER, loadCourse),
     takeLatest(DELETE_HIGHLIGHT, loadDeleteHighlight),
+    takeLatest(SEARCH_HIGHLIGHT, fetchSearchHighlight),
   ])
 }

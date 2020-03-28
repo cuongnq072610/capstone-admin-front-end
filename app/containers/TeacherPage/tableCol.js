@@ -9,7 +9,7 @@ const colunms = [
     {
         title: "TEACHER",
         dataIndex: "name",
-        sorter: (a, b) => a.teacher < b.teacher,
+        sorter: (a, b) => a.name < b.name,
         sortDirections: ['descend'],
         render: text => <span style={{ color: '#b9754e', fontWeight: 600 }}>{text}</span>,
     },

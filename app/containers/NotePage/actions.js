@@ -4,7 +4,7 @@
  *
  */
 
-import { DEFAULT_ACTION, LOAD_NOTE, DELETE_NOTE, LOAD_COURSE } from './constants';
+import { DEFAULT_ACTION, LOAD_NOTE, DELETE_NOTE, LOAD_FOLDER, SEARCH_NOTE } from './constants';
 
 export function defaultAction() {
   return {
@@ -27,7 +27,14 @@ export function loadDeleteNote(id) {
 
 export function loadStudentCourses(id) {
   return {
-    type: LOAD_COURSE,
+    type: LOAD_FOLDER,
     id
+  }
+}
+
+export function searchNote(key) {
+  return {
+    type: SEARCH_NOTE,
+    key,
   }
 }

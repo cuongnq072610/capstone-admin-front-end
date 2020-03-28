@@ -1,6 +1,7 @@
 import React from 'react';
 import { Icon, Tooltip } from 'antd';
 
+
 const fomatDepartment = (departments) => {
     return departments.map((item, index) => {
         return index !== departments.length - 1 ? item + " - " : item
@@ -14,7 +15,7 @@ const colunms = {
             dataIndex: "courseCode",
             sorter: (a, b) => a.teacher < b.teacher,
             sortDirections: ['descend'],
-            render: text => <span style={{ color: '#1593e6', fontWeight: 600 }}>{text}</span>,
+            render: text => <span style={{ color: '#9C4AEE', fontWeight: 600 }}>{text}</span>,
         },
         {
             title: "COURSE TITLE",
@@ -64,13 +65,13 @@ const colunms = {
             title: "ACTIVE TUTORS",
             dataIndex: "teachers",
             render: record => <span>{record.length} teachers</span>,
-            width: 100
+            width: 130
 
         },
         {
             render: (record) => <button onClick={() => { }}>
                 <Icon type="plus" className="icon-plus"
-                    style={{ padding: '3px 5px', color: '#1593e6', float: 'right', width: '16px', height: '16px' }} />
+                    style={{ padding: '3px 5px', color: '#9C4AEE', float: 'right', width: '16px', height: '16px' }} />
             </button>,
             width: 10
         }
@@ -131,7 +132,7 @@ const colunms = {
             title: "ACTIVE TUTORS",
             dataIndex: "teachers",
             render: record => <span>{record.length} teachers</span>,
-            width: 100
+            width: 150
 
         },
         {

@@ -6,6 +6,12 @@ const AdminMenu = [
         'exact': true,
     },
     {
+        "name": "department",
+        "title": "Department",
+        "path": "/department",
+        'exact': true,
+    },
+    {
         "name": "course",
         "title": "Course",
         "path": "/course",

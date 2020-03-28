@@ -1,0 +1,27 @@
+/*
+ *
+ * DepartmentPage constants
+ *
+ */
+
+export const DEFAULT_ACTION = 'app/DepartmentPage/DEFAULT_ACTION';
+
+export const LOAD_DEPARTMENT = 'app/DepartmentPage/LOAD_DEPARTMENT';
+export const LOAD_SUCCESS_DEPARTMENT = 'app/DepartmentPage/LOAD_SUCCESS_DEPARTMENT';
+export const LOAD_FAILURE_DEPARTMENT = 'app/DepartmentPage/LOAD_FAILURE_DEPARTMENT';
+
+export const LOAD_CREATE_DEPARTMENT = 'app/DepartmentPage/LOAD_CREATE_DEPARTMENT';
+export const LOAD_CREATE_SUCCESS_DEPARTMENT = 'app/DepartmentPage/LOAD_CREATE_SUCCESS_DEPARTMENT';
+export const LOAD_CREATE_FAILURE_DEPARTMENT = 'app/DepartmentPage/LOAD_CREATE_FAILURE_DEPARTMENT';
+
+export const LOAD_DELETE_DEPARTMENT = 'app/DepartmentPage/LOAD_DELETE_DEPARTMENT';
+export const LOAD_DELETE_SUCCESS_DEPARTMENT = 'app/DepartmentPage/LOAD_DELETE_SUCCESS_DEPARTMENT';
+export const LOAD_DELETE_FAILURE_DEPARTMENT = 'app/DepartmentPage/LOAD_DELETE_FAILURE_DEPARTMENT';
+
+export const LOAD_UPDATE_DEPARTMENT = 'app/DepartmentPage/LOAD_UPDATE_DEPARTMENT';
+export const LOAD_UPDATE_SUCCESS_DEPARTMENT = 'app/DepartmentPage/LOAD_UPDATE_SUCCESS_DEPARTMENT';
+export const LOAD_UPDATE_FAILURE_DEPARTMENT = 'app/DepartmentPage/LOAD_UPDATE_FAILURE_DEPARTMENT';
+
+export const SEARCH_DEPARTMENT = 'app/DepartmentPage/SEARCH_DEPARTMENT';
+export const SEARCH_SUCCESS_DEPARTMENT = 'app/DepartmentPage/SEARCH_SUCCESS_DEPARTMENT';
+export const SEARCH_FAILURE_DEPARTMENT = 'app/DepartmentPage/SEARCH_FAILURE_DEPARTMENT';

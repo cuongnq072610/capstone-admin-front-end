@@ -55,17 +55,45 @@ body {
       margin-top: 16px;
     }
 
-    .addBtn {
-      height: 38px;
-      margin-top: 24px;
-      float: right;
-      background-color: $primary_purple;
-      border: none;
+    .form-footer {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
 
-      i {
-        position: relative;
-        top: -1px;
-        font-size: 20px;
+      .addBtn {
+        height: 38px;
+        margin-top: 24px;
+        background-color: $primary_purple;
+        border: none;
+        margin-left: 20px;
+        display: flex;
+        align-items: center;
+
+        i {
+          position: relative;
+          top: -1px;
+          font-size: 20px;
+        }
+      }
+
+      .deleteBtn {
+        height: 38px;
+        margin-top: 24px;
+        background-color: red;
+        border: none;
+        color: $primary_white;
+        display: flex;
+        align-items: center;
+
+        .icon-delete {
+          display: inline-block;
+          width: 18px;
+          height: 18px;
+          background-size: cover;
+          background-image: url(assets/delete.svg);
+          margin-left: 10px;
+        }
+
       }
     }
   }

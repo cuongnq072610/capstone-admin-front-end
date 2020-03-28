@@ -22,13 +22,15 @@ import saga from './saga';
 import messages from './messages';
 import SearchTeacher from '../../components/SearchTeacher';
 import history from '../../utils/history';
-import { addCourse, updateCourse } from './actions';
+import { addCourse, updateCourse, loadDepartment, deleteCourse } from './actions';
 import { isRequired } from '../../utils/validation';
 
 /* eslint-disable react/prefer-stateless-function */
+import Teacher from './teacher';
+import { Fragment } from 'react';
 
 const { TextArea } = Input;
-
+const { Option } = Select;
 const { Header, Content } = Layout;
 
 export class AddCoursePage extends React.Component {
@@ -48,26 +50,32 @@ export class AddCoursePage extends React.Component {
       isShow: false,
       invalidField: [],
       errMess: [],
+      departmentOption: [],
+      from: "",
     };
   }
 
   componentDidMount() {
+    this.props.handleFetchDepartment();
     const { state } = history.location;
     if (state) {
       if (state.course) {
         this.setState({
           course: state.course,
-          type: state.type
+          type: state.type,
+          from: state.from ? state.from : '/course',
         })
       } else {
         this.setState({
-          type: state.type
+          type: state.type,
+          from: state.from ? state.from : '/course',
         })
       }
     }
   };
 
   componentDidUpdate(prevProps) {
+    
     if (prevProps.addCoursePage.isDone !== this.props.addCoursePage.isDone && this.props.addCoursePage.isDone === true) {
       this.props.history.push({
         pathname: '/course',
@@ -85,6 +93,11 @@ export class AddCoursePage extends React.Component {
             isShow: false
           })
         }, 5000)
+      })
+    }
+    if (prevProps.addCoursePage.departments !== this.props.addCoursePage.departments) {
+      this.setState({
+        departmentOption: this.props.addCoursePage.departments,
       })
     }
   }
@@ -114,7 +127,7 @@ export class AddCoursePage extends React.Component {
   }
 
   handleSubmit = (e) => {
-    
+
     e.preventDefault();
     const errors = this.getValidation();
     if (!_isEmpty(errors)) {
@@ -139,13 +152,17 @@ export class AddCoursePage extends React.Component {
         ...course,
         teachers: course.teachers.map(teacher => teacher._id)
       }
-      console.log(formatCourse)
       if (type === 'add') {
         this.props.handleAddCourse(formatCourse)
       } else if (type === 'update') {
         this.props.handleUpdateCourse(formatCourse)
       }
     }
+  }
+
+  onHandleDelete = () => {
+    const { course } = this.state;
+    this.props.handleDeleteCourse(course._id);
   }
 
   handleChange = (e) => {
@@ -158,36 +175,10 @@ export class AddCoursePage extends React.Component {
   }
 
   render() {
-    const { course, type, isShow, errMess } = this.state;
+    const { course, type, isShow, errMess, departmentOption, from } = this.state;
     const { courseName, courseCode, departments, shortDes, fullDes, courseURL } = course;
-    const { isLoading, errors } = this.props.addCoursePage;
-    const { Option } = Select;
-    const departmentOption = [{
-      id: 1,
-      value: 'Computer Science',
-      name: 'Computer Science'
-    },
-    {
-      id: 2,
-      value: 'Business',
-      name: 'Business'
-    },
-    {
-      id: 3,
-      value: 'Finance',
-      name: 'Finance'
-    },
-    {
-      id: 4,
-      value: 'Graphic Design',
-      name: 'Graphic Design'
-    }]
+    const { isLoading, errors, isLoadingDepartment, isLoadingDelete } = this.props.addCoursePage;
 
-    const children = [];
-    //pushing Option component into children
-    departmentOption.map(item => {
-      children.push(<Option key={item.id} value={item.value}>{item.name}</Option>)
-    })
     const antIcon = <Icon type="loading" style={{ fontSize: 24, color: '#fff', marginRight: '10px' }} spin />;
     return (
       <Row className="addCourse">
@@ -198,7 +189,7 @@ export class AddCoursePage extends React.Component {
         <Col span={19}>
           <Layout>
             <Header className="header">
-              <Link to="/course">
+              <Link to={from}>
                 <Icon type="arrow-left" />
               </Link>
             </Header>
@@ -239,7 +230,11 @@ export class AddCoursePage extends React.Component {
                       onChange={this.handleChangeSelect}
                       value={departments}
                     >
-                      {children}
+                      {
+                        isLoadingDepartment ?
+                          <Option key="1" value=""><Spin indicator={antIcon} /></Option> :
+                          departmentOption.map(item => <Option key={item.id} value={item.description}>{item.name}</Option>)
+                      }
                     </Select>
                   </Col>
                 </Row>
@@ -272,16 +267,30 @@ export class AddCoursePage extends React.Component {
                     />
                   </Col>
                 </Row>
-                <Button className="addBtn" type="primary" onClick={this.handleSubmit}>
+                <Row className='form-footer'>
                   {
-                    isLoading ?
-                      <Spin indicator={antIcon} /> :
-                      type === 'update' ?
-                        <span style={{ marginTop: '2px' }}>Update Course</span> :
-                        <span style={{ marginTop: '2px' }}>Add Course</span>
+                    type === 'update' &&
+                    <Button className='deleteBtn' type="primary" onClick={this.onHandleDelete}>
+                      {
+                        isLoadingDelete ?
+                          <Spin indicator={antIcon} /> :
+                          <span>Delete Course</span>
+
+                      }
+                      <span className="icon-delete"></span>
+                    </Button>
                   }
-                  <Icon type="plus" />
-                </Button>
+                  <Button className="addBtn" type="primary" onClick={this.handleSubmit}>
+                    {
+                      isLoading ?
+                        <Spin indicator={antIcon} /> :
+                        type === 'update' ?
+                          <span style={{ marginTop: '2px' }}>Update Course</span> :
+                          <span style={{ marginTop: '2px' }}>Add Course</span>
+                    }
+                    <Icon type="plus" />
+                  </Button>
+                </Row>
               </Form>
               <div className={isShow ? 'notification-show' : 'notification'}>
                 {
@@ -303,7 +312,7 @@ export class AddCoursePage extends React.Component {
           </Layout>
         </Col>
         <Col className="addTeacher" span={5}>
-          <SearchTeacher course={course} type={type} />
+          <SearchTeacher course={course} type={type} courseFrom={from} />
         </Col>
       </Row>
     );
@@ -313,6 +322,7 @@ export class AddCoursePage extends React.Component {
 AddCoursePage.propTypes = {
   handleAddCourse: PropTypes.func.isRequired,
   handleUpdateCourse: PropTypes.func.isRequired,
+  handleDeleteCourse: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -323,6 +333,8 @@ function mapDispatchToProps(dispatch) {
   return {
     handleAddCourse: (course) => { dispatch(addCourse(course)) },
     handleUpdateCourse: (course) => { dispatch(updateCourse(course)) },
+    handleFetchDepartment: () => { dispatch(loadDepartment()) },
+    handleDeleteCourse: (id) => { dispatch(deleteCourse(id)) },
   };
 }
 

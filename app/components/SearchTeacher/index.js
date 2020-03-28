@@ -23,7 +23,7 @@ class SearchTeacher extends React.PureComponent {
   }
 
   render() {
-    const { course, type } = this.props;
+    const { course, type, courseFrom } = this.props;
     return (
       <Layout className="wrap">
         <Header>Teachers</Header>
@@ -42,6 +42,7 @@ class SearchTeacher extends React.PureComponent {
               state: {
                 course: course,
                 type: type,
+                from: courseFrom
               }
             })}
           >

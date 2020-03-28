@@ -92,8 +92,7 @@ export class StudentComposePage extends React.Component {
   }
 
   componentWillUnmount() {
-    socket.emit('disconect');
-    socket.off();
+
   }
 
   onToggleShow = () => {

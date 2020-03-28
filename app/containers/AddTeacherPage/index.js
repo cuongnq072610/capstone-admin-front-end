@@ -23,6 +23,7 @@ import saga from './saga';
 import messages from './messages';
 import CourseInfo from './CourseInfo';
 import { loadTeacher } from './actions';
+import WrappedSearchBar from '../../components/SearchBar';
 import columns from './tableCol';
 
 const { Content } = Layout;
@@ -147,18 +148,27 @@ export class AddTeacherPage extends React.Component {
             <title>AddTeacherPage</title>
             <meta name="description" content="Description of AddTeacherPage" />
           </Helmet>
-          <Col span={19} style={{ padding: '28px 0px 28px 50px' }}>
+          <Col span={24} style={{ padding: '28px 0px 28px 50px' }}>
             <Layout>
               <div className="header">
-                <div className="header1">
+                <div className="header-back">
                   <Button style={{ border: 'none' }} onClick={this.navigateAddCourse}>
                     <Icon type="arrow-left" />
                   </Button>
                   <p className="p"><b>Add Teachers</b></p>
                 </div>
+
+                <WrappedSearchBar
+                  message="Please enter your course name"
+                  placeholder="I want to find my course"
+                  type="teacher"
+                  handleSearch={this.handleSearch}
+                  handleClear={this.handleClear}
+                />
               </div>
               <Content>
                 <Row className="content-table">
+                {/*}
                   <div className="chosen">
                     <h3 className="chosen-teacher" >{this.state.chosenTeachers.length} CHOSEN TUTORS <Icon type="up" /></h3>
                     {chosenTeachers && chosenTeachers.length > 0 ?
@@ -175,26 +185,57 @@ export class AddTeacherPage extends React.Component {
                       <p>No data</p>
                     }
                   </div>
-                  <div className="chosen-other">
-                    <h3 className="chosen-other-teacher">OTHERS <Icon type="up" /></h3>
-                    <Table className="table-content-non"
-                      columns={columns.columnToAdd}
-                      dataSource={teachers}
-                      onRow={(record, rowIndex) => {
-                        return {
-                          onClick: e => this.addTeacher(record, rowIndex)
-                        }
-                      }}
-                      loading={isLoading}
-                    />
-                  </div>
+                  */}
+                  <Col span={18}>
+                    <div className="table-wrapper">
+                      <Table className="table-content"
+                        columns={columns.columnToAdd}
+                        dataSource={teachers}
+                        onRow={(record, rowIndex) => {
+                          return {
+                            onClick: e => this.addTeacher(record, rowIndex)
+                          }
+                        }}
+                        loading={isLoading}
+                      />
+                    </div>
+                    </Col>
+
+                    <Col span={6}>
+                      <div className="chosen">
+                        <p className="chosen-title"> 0{this.state.chosenTeachers.length} SELECTED COURSES </p>
+                        <div className="courses">
+                          
+                          {
+                            chosenTeachers.map((teacher, index) => {
+                              return ( 
+                                <div key={index} className="course-item">
+                                  <svg id="exit" data-name="exit" onClick={() => this.removeCourse(teacher)} xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+                                    <g>
+                                      <path id="Path_132" data-name="Path 132" d="M14.222,0H1.778A1.777,1.777,0,0,0,0,1.778V5.333H1.778V1.778H14.222V14.222H1.778V10.667H0v3.556A1.777,1.777,0,0,0,1.778,16H14.222A1.777,1.777,0,0,0,16,14.222V1.778A1.777,1.777,0,0,0,14.222,0Z" fill="#f44336"/>
+                                      <path id="Path_133" data-name="Path 133" d="M6.3,92.964l1.258,1.258L12,89.777,7.556,85.333,6.3,86.591l2.3,2.3H0v1.778H8.6Z" transform="translate(0 -81.777)" fill="#f44336"/>
+                                    </g>
+                                  </svg>
+                                  <span className="course-code">{teacher.name}</span>
+                                  <span className="course-name">{teacher.email}</span>
+                                </div>
+                              )
+                            
+                            })
+                          }
+                            
+                        </div>
+                      </div>
+                  </Col>
                 </Row>
               </Content>
             </Layout>
           </Col>
+          {/*
           <Col span={5}>
             <CourseInfo course={course}/>
           </Col>
+          */}
         </Row>
       </div>
     );

@@ -9,9 +9,12 @@ import {
   LOAD_FOLDER,
   LOAD_SUCCESS_FOLDER,
   LOAD_FAILURE_FOLDER,
+  SEARCH_FAILURE_NOTE,
+  SEARCH_NOTE,
+  SEARCH_SUCCESS_NOTE,
 } from './constants';
 import { fetchRecentNote, deleteNote, fetchStudentCourses } from './api';
-import { API_ENDPOINT, GET_RECENT_NOTE, DELETE_NOTE_BY_ID, GET_STUDENT_INFO, GET_NOTE_FOLDER } from '../../constants/apis';
+import { API_ENDPOINT, GET_RECENT_NOTE, DELETE_NOTE_BY_ID, GET_NOTE_FOLDER, GET_SEARCH_NOTE } from '../../constants/apis';
 
 function* loadNote() {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -59,11 +62,30 @@ function* loadCourse(action) {
   }
 }
 
+function* fetchSearchNote(action) {
+  const { key } = action;
+  const user = JSON.parse(localStorage.getItem("user"));
+  try {
+    const response = yield call(fetchRecentNote, `${API_ENDPOINT}${GET_SEARCH_NOTE}/${user.profile}/all/${key}`);
+    if (response.data) {
+      let noteData = response.data.map((item, index) => {
+        return item
+      })
+      yield put({ type: SEARCH_SUCCESS_NOTE, payload: noteData })
+    } else {
+      yield put({ type: SEARCH_FAILURE_NOTE, payload: "NO DATA" })
+    }
+  } catch (error) {
+    yield put({ type: SEARCH_FAILURE_NOTE, payload: error });
+  }
+}
+
 // Individual exports for testing
 export default function* notePageSaga() {
   yield all([
     takeLatest(LOAD_NOTE, loadNote),
     takeLatest(DELETE_NOTE, loadDeleteNote),
     takeLatest(LOAD_FOLDER, loadCourse),
+    takeLatest(SEARCH_NOTE, fetchSearchNote),
   ])
 }

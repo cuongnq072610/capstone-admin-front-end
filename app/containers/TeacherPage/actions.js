@@ -4,7 +4,7 @@
  *
  */
 
-import { DEFAULT_ACTION, LOAD_TEACHER, SEARCH_TEACHER, UPDATE_TEACHER, LOAD_DEPARTMENT } from './constants';
+import { DEFAULT_ACTION, LOAD_TEACHER, SEARCH_TEACHER, UPDATE_TEACHER } from './constants';
 
 export function defaultAction() {
   return {
@@ -30,11 +30,5 @@ export function updateActiveTeacher(teacherId, data) {
     type: UPDATE_TEACHER,
     teacherId,
     data
-  }
-}
-
-export function loadDepartment() {
-  return {
-    type: LOAD_DEPARTMENT,
   }
 }

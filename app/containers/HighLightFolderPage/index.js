@@ -41,7 +41,6 @@ export class HighLightFolderPage extends React.Component {
 
   componentDidMount() {
     const { folder } = this.props.history.location.state;
-    console.log(folder)
     this.setState({
       folder,
     })
@@ -104,11 +103,18 @@ export class HighLightFolderPage extends React.Component {
   }
 
   handleSearch = (key) => {
-    this.props.fetchSearchHighlight(key);
+    const { folder } = this.state;
+    this.setState({
+      isSearching: true
+    })
+    this.props.fetchSearchHighlight(key, folder._id);
   }
 
   handleClear = () => {
     const { folder } = this.state;
+    this.setState({
+      isSearching: false
+    })
     this.props.handleFetchHighlightByCourse(folder._id);
   }
 
@@ -148,31 +154,31 @@ export class HighLightFolderPage extends React.Component {
             content="Description of HighLightFolderPage"
           />
         </Helmet>
+        <Header
+          style={{
+            backgroundColor: '#fff',
+            display: 'flex',
+            justifyContent: "space-between",
+            alignItems: "center",
+            height: '100px',
+            paddingLeft: '0px',
+          }}
+        >
+          <div className="highlight-folder-page-header">
+            <Link to="/highlight">
+              <Icon type="arrow-left" style={{ fontSize: '20px', color: '#53DBB1', marginBottom: '25px', marginRight: '10px' }} />
+            </Link>
+            <p className="highlight-page-name">{this.renderFolderNoteName(folder.courseName, folder.courseCode)}</p>
+          </div>
+          <WrappedSearchBar
+            message="Please enter your note's name"
+            placeholder="I want to find my highlights"
+            type="highlight"
+            handleSearch={this.handleSearch}
+            handleClear={this.handleClear}
+          />
+        </Header>
         <Col span={19}>
-          <Header
-            style={{
-              backgroundColor: '#fff',
-              display: 'flex',
-              justifyContent: "space-between",
-              alignItems: "center",
-              height: '100px',
-              paddingLeft: '0px',
-            }}
-          >
-            <div className="highlight-folder-page-header">
-              <Link to="/highlight">
-                <Icon type="arrow-left" style={{ fontSize: '20px', color: '#53DBB1', marginBottom: '25px', marginRight: '10px' }} />
-              </Link>
-              <p className="highlight-page-name">{this.renderFolderNoteName(folder.courseName, folder.courseCode)}</p>
-            </div>
-            <WrappedSearchBar
-              message="Please enter your note's name"
-              placeholder="I want to find my highlights"
-              type="highlight"
-              handleSearch={this.handleSearch}
-              handleClear={this.handleClear}
-            />
-          </Header>
           <Content>
             {
               isLoading ?
@@ -201,9 +207,6 @@ export class HighLightFolderPage extends React.Component {
         </Col>
         <Col span={5} className="highlight-side-wrapper" style={{ 'height': windowHeight - 10 }}>
           <Layout className="highlight-side">
-            <Header className="filter-head">
-              Filter
-            </Header>
             <Content>
               <div className="sort">
                 <p>SORT BY</p>
@@ -240,7 +243,7 @@ function mapDispatchToProps(dispatch) {
     handleFetchHighlightByCourse: (courseId) => { dispatch(loadHighlightByFolder(courseId)) },
     handleDeleteHighlight: (id) => { dispatch(loadDeleteHighlight(id)) },
     handleFetchHighlightByColor: (color, courseId) => { dispatch(loadFilterHighlight(color, courseId)) },
-    fetchSearchHighlight: (key) => { dispatch(searchHighlight(key)) },
+    fetchSearchHighlight: (key, id) => { dispatch(searchHighlight(key, id)) },
   };
 }
 

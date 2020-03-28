@@ -1,8 +1,85 @@
 @import "../../utils/variables.scss";
 
+.filter-wrap-btn {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 5px;
+    margin-left: 10px;
+    border-radius: 25px;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.filter-home-btn {
+    background-color: $tertiary_purple;
+
+    .filter-wrap-btn-icon {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        background-size: cover;
+    }
+
+    .filter-wrap-btn-icon-course {
+        background-image: url(assets/filter_course.svg);
+    }
+
+    .filter-wrap-btn-icon-ask {
+        background-image: url(assets/filter_ask.svg);
+    }
+}
+
+.filter-teacher-btn {
+    background-color: $secondary_brown;
+
+    .filter-wrap-btn-icon {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        background-size: cover;
+    }
+
+    .filter-wrap-btn-icon-teacher {
+        background-image: url(assets/filter_teacher.svg);
+    }
+
+}
+
+.filter-active {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 250px;
+
+    .icon-filter-active {
+        display: inline-block;
+        width: 15px;
+        height: 15px;
+        background-size: cover;
+        background-image: url(assets/visibility-on.svg);
+    }
+
+    p {
+        margin-bottom: 0;
+    }
+
+    .filter-active-btn {
+        border: none;
+
+        &-chosen {
+            background-color: $secondary_brown;
+            color: #212121;
+        }
+    }
+}
+
 .wrap {
     margin-top: 10px;
     padding: 0px 20px;
+
     .ant-layout-header {
         font-size: 30px;
         display: flex;
@@ -46,11 +123,12 @@
         justify-content: flex-start;
         flex-direction: row;
         align-items: center;
-        margin: 30px 0px 30px 0px;
+        margin: 15px 0;
         color: $primary_black;
         border: none;
         box-shadow: none;
         padding-left: 0px;
+
         span {
             margin-left: 10px;
         }
@@ -74,16 +152,6 @@
 
         .check-icon {
             background-image: url(assets/done.svg);
-        }
-    }
-
-    .categoryTeacherTheme {
-        &:hover {
-            color: $primary_brown;
-        }
-
-        .check-icon {
-            background-image: url(assets/done2.svg);
         }
     }
 }

@@ -34,9 +34,10 @@ export function loadFilterHighlight(color, courseId) {
   }
 }
 
-export function searchHighlight(key) {
+export function searchHighlight(key, id) {
   return {
     type: SEARCH_HIGHLIGHT,
     key,
+    id,
   }
 }

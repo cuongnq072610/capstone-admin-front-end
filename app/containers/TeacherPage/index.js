@@ -47,11 +47,10 @@ export class TeacherPage extends React.Component {
 
     componentDidMount() {
         this.props.fetchTeacher();
-        this.props.handleFetchDepartment();
     }
 
     componentDidUpdate(prevProps) {
-        if (prevProps.teacherPage !== this.props.teacherPage) {
+        if (prevProps.teacherPage.teachers !== this.props.teacherPage.teachers) {
             const { teachers, departments } = this.props.teacherPage;
 
             const fomatTeachers = teachers.map((teacher, index) => {
@@ -72,35 +71,23 @@ export class TeacherPage extends React.Component {
         })
     }
 
-    checkDepartment = (departments, checkDepartments) => {
-        const nameCheckDepartments = checkDepartments.map(department => department.name);
-        // check exist in course departments
-        const checkExisted = (department) => departments.indexOf(department) >= 0
-        //  tests whether all elements in the array pass the test 
-        return nameCheckDepartments.every(checkExisted);
-    }
-
-    checkTeacherHaveCourse = (teacher, departments) => {
-        // check course of teacher have the dearptments of filter
-        const teacherExistHaveCourse = teacher.courses.filter((course, index) => {
-            return this.checkDepartment(course.departments, departments) === true;
-        })
-        return teacherExistHaveCourse;
-    }
-
-    filterByDepartment = (departments) => {
+    filterByActive = (activeType) => {
         const { baseTeachers } = this.state;
-        if (!departments || departments.length === 0) {
-            this.onResetFilter();
-        } else {
-            const filterTeacher = baseTeachers.filter((teacher, index) => {
-                if (this.checkTeacherHaveCourse(teacher, departments).length > 0) {
-                    return teacher;
-                }
-            })
-            this.setState({
-                teachers: filterTeacher
-            })
+        switch (activeType) {
+            case "active":
+                const filterTeachersActive = baseTeachers.filter(teacher => teacher.isActive === true);
+                this.setState({
+                    teachers: filterTeachersActive,
+                })
+                break;
+            case "inactive":
+                const filterTeachersInactive = baseTeachers.filter(teacher => teacher.isActive === false);
+                this.setState({
+                    teachers: filterTeachersInactive,
+                })
+                break;
+            default:
+                break;
         }
     }
 
@@ -134,30 +121,40 @@ export class TeacherPage extends React.Component {
 
     render() {
         const { departments, teachers, toggleInfo, selectedTeacher, selectedRow } = this.state;
-        const { isLoading } = this.props.teacherPage;
+        const { isLoading, isLoadingUpdate } = this.props.teacherPage;
         return (
             <Row>
                 <Helmet>
                     <title>Teacher Page</title>
                     <meta name="description" content="Description of TeacherPage" />
                 </Helmet>
-                <Col span={19} >
-                    <Layout className="teacher-page">
+                <Col span={toggleInfo ? 19 : 24}>
+                    <Layout className={toggleInfo ? "teacher-page" : ""} >
                         <Header
                             style={{
                                 backgroundColor: '#fff',
                                 display: 'flex',
-                                justifyContent: 'center',
+                                justifyContent: 'space-between',
+                                alignItems: 'center',
                                 height: '100px',
                             }}
                         >
-                            <WrappedSearchBar
-                                message="Please enter your teacher's name"
-                                placeholder="I want to find teachers"
-                                type="teacher"
-                                handleSearch={this.handleSearch}
-                                handleClear={this.handleClear}
-                            />
+                            <p className='teacher-page-name'>Teachers</p>
+                            <div className="search-filter-side">
+                                <WrappedSearchBar
+                                    message="Please enter your teacher's name"
+                                    placeholder="I want to find teachers"
+                                    type="teacher"
+                                    handleSearch={this.handleSearch}
+                                    handleClear={this.handleClear}
+                                />
+                                <Filter
+                                    departments={departments}
+                                    onReset={this.onResetFilter}
+                                    onFilter={this.filterByActive}
+                                    type="teacher"
+                                />
+                            </div>
                         </Header>
                         <Content>
                             <Row>
@@ -179,28 +176,23 @@ export class TeacherPage extends React.Component {
                         </Content>
                     </Layout>
                 </Col>
-                <Col span={5}>
-                    {
-                        toggleInfo === false ?
-                            <Filter
-                                departments={departments}
-                                onReset={this.onResetFilter}
-                                onFilter={this.filterByDepartment}
-                                type="teacher" I
-                            /> : <TeacherInfo
-                                teacherInfo={selectedTeacher}
-                                onBack={this.onToggleBack}
-                                onActive={this.onToggleActive}
-                            />
-                    }
-                </Col>
+                {
+                    toggleInfo &&
+                    <Col span={5}>
+                        <TeacherInfo
+                            teacherInfo={selectedTeacher}
+                            onBack={this.onToggleBack}
+                            onActive={this.onToggleActive}
+                            isLoading={isLoadingUpdate}
+                        />
+                    </Col>
+                }
             </Row>
         );
     }
 }
 
 TeacherPage.propTypes = {
-    handleFetchDepartment: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -212,7 +204,6 @@ function mapDispatchToProps(dispatch) {
         fetchTeacher: () => { dispatch(loadTeacher()) },
         fetchSearchTeacher: (key) => { dispatch(searchTeacher(key)) },
         toggleActiveTeacher: (id, data) => { dispatch(updateActiveTeacher(id, data)) },
-        handleFetchDepartment: () => { dispatch(loadDepartment()) },
     };
 }
 

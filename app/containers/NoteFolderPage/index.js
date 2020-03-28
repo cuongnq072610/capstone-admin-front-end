@@ -36,11 +36,12 @@ export class NoteFolderPage extends React.Component {
         folder: {},
         notes: [],
         isShow: false,
+        isSearching: false,
+        searchNotes: [],
       }
   }
   componentDidMount() {
     const { folder } = this.props.history.location.state;
-    console.log(folder)
     this.setState({
       folder,
     })
@@ -80,6 +81,11 @@ export class NoteFolderPage extends React.Component {
     if (prevProps.noteFolderPage.notes !== this.props.noteFolderPage.notes) {
       this.setState({
         notes: this.props.noteFolderPage.notes,
+      })
+    }
+    if (prevProps.noteFolderPage.searchNotes !== this.props.noteFolderPage.searchNotes) {
+      this.setState({
+        searchNotes: this.props.noteFolderPage.searchNotes,
       })
     }
     if (prevProps.noteFolderPage.isLoadingDelete !== this.props.noteFolderPage.isLoadingDelete && this.props.noteFolderPage.isLoadingDelete === false) {
@@ -123,16 +129,23 @@ export class NoteFolderPage extends React.Component {
   }
 
   handleSearch = (key) => {
-    this.props.fetchSearchNote(key);
+    const { folder } = this.state;
+    this.setState({
+      isSearching: true,
+    })
+    this.props.fetchSearchNote(key, folder._id);
   }
 
   handleClear = () => {
     const { folder } = this.state;
+    this.setState({
+      isSearching: false,
+    })
     this.props.handleFetchNoteByCourse(folder._id);
   }
 
   render() {
-    const { folder, notes, isShow, deleteMessage } = this.state;
+    const { folder, notes, isShow, deleteMessage, isSearching, searchNotes } = this.state;
     const { isLoading, isLoadingDelete } = this.props.noteFolderPage;
     const antIcon = <Icon type="loading" style={{ fontSize: 24, color: '#ffc143', marginRight: '10px' }} spin />;
 
@@ -169,51 +182,66 @@ export class NoteFolderPage extends React.Component {
           </Header>
           <Content>
             {
-              isLoading ?
-                <Spin indicator={antIcon} /> :
-                notes.length > 0 ?
-                  <Fragment>
-                    <div className="note-wrap">
-                      <p className="note-type">Pinned</p>
-                      <div className="grid note-container" >
-                        {
-                          notes.map((note, index) => {
-                            if (note.isPinned) {
-                              return (
-                                <Note
-                                  key={index}
-                                  note={note}
-                                  navigateDetail={() => this.navigateDetail(note)}
-                                  deleteNote={this.handleDeleteNote}
-                                  isLoading={isLoadingDelete}
-                                />
-                              )
-                            }
-                          })
-                        }
+              isSearching ?
+                isLoading ?
+                  <Spin indicator={antIcon} /> :
+                  searchNotes.length > 0 ?
+                    notes.map((note, index) => {
+                      return <Note
+                        key={index}
+                        note={note}
+                        navigateDetail={() => this.navigateDetail(note)}
+                        deleteNote={this.handleDeleteNote}
+                        isLoading={isLoadingDelete}
+                      />
+                    })
+                    : <span style={{ color: "#8c8a82" }}>You don't have any notes</span>
+                :
+                isLoading ?
+                  <Spin indicator={antIcon} /> :
+                  notes.length > 0 ?
+                    <Fragment>
+                      <div className="note-wrap">
+                        <p className="note-type">Pinned</p>
+                        <div className="grid note-container" >
+                          {
+                            notes.map((note, index) => {
+                              if (note.isPinned) {
+                                return (
+                                  <Note
+                                    key={index}
+                                    note={note}
+                                    navigateDetail={() => this.navigateDetail(note)}
+                                    deleteNote={this.handleDeleteNote}
+                                    isLoading={isLoadingDelete}
+                                  />
+                                )
+                              }
+                            })
+                          }
+                        </div>
                       </div>
-                    </div>
-                    <div className="note-wrap">
-                      <p className="note-type">Other</p>
-                      <div className="grid note-container" >
-                        {
-                          notes.map((note, index) => {
-                            if (!note.isPinned) {
-                              return (
-                                <Note
-                                  key={index}
-                                  note={note}
-                                  navigateDetail={() => this.navigateDetail(note)}
-                                  deleteNote={this.handleDeleteNote}
-                                  isLoading={isLoadingDelete}
-                                />
-                              )
-                            }
-                          })
-                        }
+                      <div className="note-wrap">
+                        <p className="note-type">Other</p>
+                        <div className="grid note-container" >
+                          {
+                            notes.map((note, index) => {
+                              if (!note.isPinned) {
+                                return (
+                                  <Note
+                                    key={index}
+                                    note={note}
+                                    navigateDetail={() => this.navigateDetail(note)}
+                                    deleteNote={this.handleDeleteNote}
+                                    isLoading={isLoadingDelete}
+                                  />
+                                )
+                              }
+                            })
+                          }
+                        </div>
                       </div>
-                    </div>
-                  </Fragment> : <span style={{ color: "#8c8a82" }}>You don't have any notes</span>
+                    </Fragment> : <span style={{ color: "#8c8a82" }}>You don't have any notes</span>
             }
             <div className={isShow ? 'notification-show' : 'notification'}>
               <div className='noti-content-success'>
@@ -242,7 +270,7 @@ function mapDispatchToProps(dispatch) {
   return {
     handleFetchNoteByCourse: (courseId) => { dispatch(loadNotesByFolder(courseId)) },
     handleDeleteNote: (id) => { dispatch(loadDeleteNote(id)) },
-    fetchSearchNote: (key) => { dispatch(searchNote(key)) },
+    fetchSearchNote: (key, id) => { dispatch(searchNote(key, id)) },
   };
 }
 

@@ -4,7 +4,7 @@
  *
  */
 
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
@@ -23,7 +23,7 @@ import HighLightElement from './HighlightElement';
 import { Row, Layout, Col, Icon, Button, Input, Spin } from 'antd';
 import "./index.scss";
 import Masonry from 'masonry-layout'
-import { loadHighlight, loadStudentCourses, loadDeleteHighlight } from './actions';
+import { loadHighlight, loadStudentCourses, loadDeleteHighlight, searchHighlight } from './actions';
 const { Header, Content } = Layout;
 
 /* eslint-disable react/prefer-stateless-function */
@@ -39,6 +39,8 @@ export class HighLightPage extends React.Component {
       windowHeight: window.innerHeight,
       isShowFolder: true,
       folders: [],
+      isSearching: false,
+      searchHighlight: [],
     }
   }
 
@@ -60,6 +62,11 @@ export class HighLightPage extends React.Component {
     if (prevProps.highLightPage.highlights !== this.props.highLightPage.highlights) {
       this.setState({
         highlights: this.props.highLightPage.highlights,
+      });
+    }
+    if (prevProps.highLightPage.searchHighlight !== this.props.highLightPage.searchHighlight) {
+      this.setState({
+        searchHighlight: this.props.highLightPage.searchHighlight,
       });
     }
     if (prevProps.highLightPage.folders !== this.props.highLightPage.folders) {
@@ -119,6 +126,28 @@ export class HighLightPage extends React.Component {
     })
   }
 
+  handleSearch = (key) => {
+    this.setState(prevState => {
+      return {
+        ...prevState,
+        isSearching: true
+      }
+    })
+    this.props.fetchSearchHighlight(key);
+  }
+
+  handleClear = () => {
+    this.setState(prevState => {
+      return {
+        ...prevState,
+        isSearching: false
+      }
+    }, () => {
+      this.props.handleFetchHighlights();
+      const user = JSON.parse(localStorage.getItem("user"));
+      this.props.handleLoadCourse(user.profile);
+    })
+  }
 
   handleDeleteHighlight = (id) => {
     this.props.handleDeleteHighlight(id);
@@ -129,7 +158,7 @@ export class HighLightPage extends React.Component {
   }
 
   render() {
-    const { highlights, folders, isShowFolder, isShow, deleteMessage } = this.state;
+    const { highlights, folders, isShowFolder, isShow, deleteMessage, isSearching, searchHighlight } = this.state;
     const { isLoading, isLoadingCourse, isLoadingDelete } = this.props.highLightPage;
     const antIcon = <Icon type="loading" style={{ fontSize: 24, color: '#40a887', marginRight: '10px' }} spin />;
     return (
@@ -152,62 +181,84 @@ export class HighLightPage extends React.Component {
             >
               <div className='highlight-page-name-wrapper'>
                 <p className="highlight-page-name">HighLights</p>
-                <Button className='btn-sync' onClick={this.handleSyncHighlight}><span className='sync-icon'></span></Button>
+                {!isSearching && <Button className='btn-sync' onClick={this.handleSyncHighlight}><span className='sync-icon'></span></Button>}
               </div>
               <WrappedSearchBar
                 message="Please enter your note's name"
                 placeholder="I want to find my highlights"
                 type="highlight"
+                handleSearch={this.handleSearch}
+                handleClear={this.handleClear}
               />
             </Header>
             <Content>
-              <div className='highlight-folder'>
-                <Button className='highlight-folder-title' onClick={this.handleShowFolder}>
-                  <p>Folders</p>{isShowFolder ? <Icon type="down" style={{ color: '#111' }} /> : <Icon type="up" style={{ color: '#111' }} />}
-                </Button>
-                {
-                  isShowFolder &&
-                  <div className='grid folder-container'>
-                    {
-                      isLoadingCourse ?
-                        <Spin indicator={antIcon} /> :
-                        folders.length > 0 ?
-                          folders.map((folder, index) => {
-                            return (
-                              <Button className='grid-item folder-highlight' key={index} onClick={() => this.navigateDetailFolder(folder)}>
-                                <span className='folder-highlight-icon'></span>
-                                <p className='folder-highlight-name'>{this.renderFolderNoteName(folder.courseName, folder.courseCode)}</p>
-                              </Button>
-                            )
-                          }) : <span style={{ color: "#8c8a82" }}>You don't join any courses</span>
-                    }
-                  </div>
-                }
-              </div>
-              <p className="highlight-type">Recent Highlights</p>
               {
-                isLoading ?
-                  <Spin indicator={antIcon} /> :
-                  <div className="highLights grid" >
+                isSearching ?
+                  isLoading ?
+                    <Spin indicator={antIcon} /> :
+                    <div className="highLights grid" >
+                      {
+                        searchHighlight.length > 0 ?
+                          searchHighlight.map(highlight => {
+                            return <HighLightElement
+                              key={highlight.id}
+                              highlight={highlight}
+                              deleteHighlight={this.handleDeleteHighlight}
+                              isLoading={isLoadingDelete}
+                            />
+                          }) : <span style={{ color: "#8c8a82" }}>You don't have any highlights</span>
+                      }
+                    </div> :
+                  <div>
+                    <div className='highlight-folder'>
+                      <Button className='highlight-folder-title' onClick={this.handleShowFolder}>
+                        <p>Folders</p>{isShowFolder ? <Icon type="down" style={{ color: '#111' }} /> : <Icon type="up" style={{ color: '#111' }} />}
+                      </Button>
+                      {
+                        isShowFolder &&
+                        <div className='grid folder-container'>
+                          {
+                            isLoadingCourse ?
+                              <Spin indicator={antIcon} /> :
+                              folders.length > 0 ?
+                                folders.map((folder, index) => {
+                                  return (
+                                    <Button className='grid-item folder-highlight' key={index} onClick={() => this.navigateDetailFolder(folder)}>
+                                      <span className='folder-highlight-icon'></span>
+                                      <p className='folder-highlight-name'>{this.renderFolderNoteName(folder.courseName, folder.courseCode)}</p>
+                                    </Button>
+                                  )
+                                }) : <span style={{ color: "#8c8a82" }}>You don't have any folders</span>
+                          }
+                        </div>
+                      }
+                    </div>
+                    <p className="highlight-type">Recent Highlights</p>
                     {
-                      highlights.length > 0 ?
-                        highlights.map(highlight => {
-                          return <HighLightElement
-                            key={highlight.id}
-                            highlight={highlight}
-                            deleteHighlight={this.handleDeleteHighlight}
-                            isLoading={isLoadingDelete}
-                          />
-                        }) : <span style={{ color: "#8c8a82" }}>You don't have any highlights</span>
+                      isLoading ?
+                        <Spin indicator={antIcon} /> :
+                        <div className="highLights grid" >
+                          {
+                            highlights.length > 0 ?
+                              highlights.map(highlight => {
+                                return <HighLightElement
+                                  key={highlight.id}
+                                  highlight={highlight}
+                                  deleteHighlight={this.handleDeleteHighlight}
+                                  isLoading={isLoadingDelete}
+                                />
+                              }) : <span style={{ color: "#8c8a82" }}>You don't have any highlights</span>
+                          }
+                        </div>
                     }
+                    <div className={isShow ? 'notification-show' : 'notification'}>
+                      <div className='noti-content-success'>
+                        <span className='icon-noti accept-icon '></span>
+                        <p style={{ fontSize: '14px' }}>{deleteMessage}</p>
+                      </div>
+                    </div>
                   </div>
               }
-              <div className={isShow ? 'notification-show' : 'notification'}>
-                <div className='noti-content-success'>
-                  <span className='icon-noti accept-icon '></span>
-                  <p style={{ fontSize: '14px' }}>{deleteMessage}</p>
-                </div>
-              </div>
             </Content>
           </Layout>
         </Col>
@@ -220,6 +271,7 @@ HighLightPage.propTypes = {
   handleFetchHighlights: PropTypes.func.isRequired,
   handleLoadCourse: PropTypes.func.isRequired,
   handleDeleteHighlight: PropTypes.func.isRequired,
+  fetchSearchHighlight: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -231,6 +283,7 @@ function mapDispatchToProps(dispatch) {
     handleFetchHighlights: () => { dispatch(loadHighlight()) },
     handleLoadCourse: (id) => { dispatch(loadStudentCourses(id)) },
     handleDeleteHighlight: (id) => { dispatch(loadDeleteHighlight(id)) },
+    fetchSearchHighlight: (key) => { dispatch(searchHighlight(key)) },
   };
 }
 

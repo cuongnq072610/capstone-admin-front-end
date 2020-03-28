@@ -58,6 +58,9 @@ export class StudentAskPage extends React.Component {
           <Col span={19}>
             <Layout className="ask-page">
               <Header className="ask-page-header">
+                <div className='ask-page-name-wrapper'>
+                  <p className="ask-page-name">Asks</p>
+                </div>
                 <WrappedSearchBar className="ask-page-search"
                   message="Please enter your course name"
                   placeholder="I want to find my course"

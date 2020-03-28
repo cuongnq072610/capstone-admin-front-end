@@ -64,12 +64,12 @@ export class StudentComposePage extends React.Component {
       const comment = JSON.parse(evt.data)
       // this.addMessage(message)
 
-      if(comment) {
-        console.log(comment.comment)
-        this.setState({
-          comments: [...comments, comment.comment]
-        });
-      }
+      // if(comment) {
+      //   console.log(comment.comment)
+      //   this.setState({
+      //     comments: [...comments, comment.comment]
+      //   });
+      // }
     }
  
     this.ws.onclose = () => {

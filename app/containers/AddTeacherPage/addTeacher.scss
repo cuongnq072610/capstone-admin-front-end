@@ -6,8 +6,9 @@
   .header {
     background-color: white;
     display: flex;
-    align-items: center;
     justify-content: space-between;
+    align-items: center;
+    padding-right: 10px;
 
     .header-back {
       display: flex;
@@ -48,6 +49,27 @@
 
 .content-table {
   margin-top: 10px;
+  .chosen-title-btn {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    border: none;
+    padding-left: 0;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    box-shadow: none;
+
+    h3 {
+        font-family: Roboto;
+        font-size: 16px;
+        font-weight: 400;
+        letter-spacing: 1.6px;
+        line-height: 17px;
+        text-transform: uppercase;
+        margin-bottom: 0;
+        margin-right: 10px;
+    }
+}
 
   .chosen {
     margin-top: 10px;

@@ -4,7 +4,7 @@ const colunms = [
     {
         title: "TITLE",
         dataIndex: "name",
-        sorter: (a, b) => a.title < b.title,
+        sorter: (a, b) => a.name < b.name,
         sortDirections: ['descend'],
         render: text => <span style={{ color: '#212121', fontWeight: 600 }}>{text}</span>,
     },

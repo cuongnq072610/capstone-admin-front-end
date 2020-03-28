@@ -20,10 +20,50 @@ import saga from './saga';
 import messages from './messages';
 import "./index.scss";
 import Box from './box/box';
+import { loadAdminStatistic } from './actions';
 
 /* eslint-disable react/prefer-stateless-function */
-export class DashboardPage extends React.Component {
+export class DashboardPage extends React.PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      statistic: {}
+    }
+  }
+
+  componentDidMount() {
+    this.props.handleFetchAdminStatistic();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.dashboardPage.statistic !== this.props.dashboardPage.statistic) {
+      const { statistic } = this.props.dashboardPage;
+      this.setState({
+        statistic,
+      })
+    }
+  }
+
+  handleNavigate = (type) => {
+    switch (type) {
+      case 'course':
+        this.props.history.push({
+          pathname: '/course',
+        })
+        break;
+      case 'teacher':
+        this.props.history.push({
+          pathname: '/teacher',
+        })
+        break;
+      default:
+        break;
+    }
+  }
+
   render() {
+    const { statistic } = this.state;
+    const { isLoadingStatistic } = this.props.dashboardPage
     return (
       <div>
         <Helmet>
@@ -35,8 +75,8 @@ export class DashboardPage extends React.Component {
             <p className="dashboard-title"><FormattedMessage {...messages.header} /></p>
           </div>
           <div className="dashboard-box">
-            <Box name="Course" />
-            <Box name="Teacher" />
+            <Box name="Course" onNavigate={() => this.handleNavigate('course')} isLoading={isLoadingStatistic} statistic={statistic}/>
+            <Box name="Teacher" onNavigate={() => this.handleNavigate('teacher')} isLoading={isLoadingStatistic} statistic={statistic}/>
           </div>
           <div className="dashboard-content">
             <div className="dashboard-des">
@@ -56,7 +96,7 @@ export class DashboardPage extends React.Component {
 }
 
 DashboardPage.propTypes = {
-  dispatch: PropTypes.func.isRequired,
+  handleFetchAdminStatistic: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -65,7 +105,7 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
-    dispatch,
+    handleFetchAdminStatistic: () => { dispatch(loadAdminStatistic()) },
   };
 }
 

@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { Layout, Switch, Icon, Button, Progress } from 'antd';
+import { Layout, Switch, Icon, Button, Progress, Spin } from 'antd';
 import "./index.scss";
 const { Header } = Layout;
 
@@ -9,13 +9,15 @@ class TeacherInfo extends React.Component {
         this.state = {
             isShowModal: false,
             isActive: true,
+            courses: []
         }
     }
 
     componentDidMount() {
         const { teacherInfo } = this.props;
         this.setState({
-            isActive: teacherInfo.isActive
+            isActive: teacherInfo.isActive,
+            courses: teacherInfo.courses,
         })
     }
 
@@ -23,6 +25,14 @@ class TeacherInfo extends React.Component {
         if (prevProps.teacherInfo !== this.props.teacherInfo) {
             this.setState({
                 isActive: this.props.teacherInfo.isActive
+            })
+        }
+        if (prevProps.isLoading !== this.props.isLoading && this.props.isLoading === false && this.state.isShowModal === true) {
+            this.setState((prevState) => {
+                return {
+                    ...prevState,
+                    courses: this.props.teacherInfo.courses
+                }
             })
         }
     }
@@ -73,13 +83,21 @@ class TeacherInfo extends React.Component {
 
     renderModal = () => {
         const { isShowModal } = this.state;
+        const { isLoading } = this.props;
+        const antIcon = <Icon type="loading" style={{ fontSize: 24, color: '#fff', marginRight: '10px' }} spin />;
         return (
             <div className="modal" style={!isShowModal ? { display: "none" } : {}}>
                 <p className="title">Deactivate this tutor ? </p>
                 <p className="content">This action will remove all courses this tutor is in charge</p>
                 <div className="modal-bottom">
                     <Button className="cancel" onClick={this.handleCancel}>Cancel</Button>
-                    <Button className="deactivate" onClick={this.handleDeactivate}>Deactivate</Button>
+                    <Button className="deactivate" onClick={this.handleDeactivate}>
+                        {
+                            isLoading ?
+                                <Spin indicator={antIcon} /> :
+                                <span>Deactive</span>
+                        }
+                    </Button>
                 </div>
             </div>
         )
@@ -95,7 +113,9 @@ class TeacherInfo extends React.Component {
     }
 
     render() {
-        const { teacherInfo, onBack } = this.props;
+        const { teacherInfo, onBack, isLoading } = this.props;
+        const { courses, isActive } = this.state;
+        const antIcon = <Icon type="loading" style={{ fontSize: 24, color: '#b9754e', marginRight: '10px' }} spin />;
         return (
             <Layout className="teacher-info">
                 <Header className="teacher-info-header">
@@ -105,11 +125,12 @@ class TeacherInfo extends React.Component {
                 </Header>
                 <div className="title">
                     <img src={teacherInfo.avatar} className="avatar" alt="avatar" />
-                    <p className="teacher-name">{teacherInfo.teacherName}</p>
+                    <p className="teacher-name">{teacherInfo.name}</p>
                     <p className="teacher-mail">{teacherInfo.email}</p>
                 </div>
                 <div className="active-teacher">
                     <p className="active-title">Active</p>
+                    {isLoading && <Spin indicator={antIcon} />}
                     <Switch
                         checkedChildren={<span className="active-icon active" />}
                         unCheckedChildren={<span className="active-icon inactive" />}
@@ -150,20 +171,24 @@ class TeacherInfo extends React.Component {
                         <p className="course-title">Courses</p>
                     </div>
                     {
-                        teacherInfo.isActive ?
-                            <Fragment>
-                                <p>{`Currently tutoring ${teacherInfo.courses.length} courses`}</p>
-                                {
-                                    teacherInfo.courses.map((course, index) => {
-                                        return (
-                                            <Button className="course-name" key={index} onClick={() => { }}>
-                                                <p>{course.courseName}</p>
-                                                <span className="delete-icon"></span>
-                                            </Button>
-                                        )
-                                    })
-                                }
-                            </Fragment> : <p>Currently inactive</p>
+                        isLoading ?
+                            <Spin indicator={antIcon} /> :
+                            isActive ?
+                                <Fragment>
+                                    <p>{`Currently tutoring ${courses.length} courses`}</p>
+                                    <div className='course-wrapper'>
+                                        {
+                                            courses.map((course, index) => {
+                                                return (
+                                                    <div className="course-name" key={index}>
+                                                        <p className='course-code'>{course.courseCode}</p>
+                                                        <p className='course-fullname'>{course.courseName}</p>
+                                                    </div>
+                                                )
+                                            })
+                                        }
+                                    </div>
+                                </Fragment> : <p>Currently inactive</p>
                     }
                 </div>
             </Layout>

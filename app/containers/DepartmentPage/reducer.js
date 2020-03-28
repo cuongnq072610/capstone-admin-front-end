@@ -18,7 +18,10 @@ import {
   LOAD_DELETE_FAILURE_DEPARTMENT,
   LOAD_UPDATE_DEPARTMENT,
   LOAD_UPDATE_FAILURE_DEPARTMENT,
-  LOAD_UPDATE_SUCCESS_DEPARTMENT
+  LOAD_UPDATE_SUCCESS_DEPARTMENT,
+  SEARCH_DEPARTMENT,
+  SEARCH_FAILURE_DEPARTMENT,
+  SEARCH_SUCCESS_DEPARTMENT,
 } from './constants';
 
 export const initialState = fromJS({
@@ -59,6 +62,12 @@ function departmentPageReducer(state = initialState, action) {
       return state.set("isLoadingUpdate", false).set('message', fromJS(action.payload));
     case LOAD_UPDATE_FAILURE_DEPARTMENT:
       return state.set("isLoadingUpdate", false).set('errors', action.payload);
+    case SEARCH_DEPARTMENT:
+      return state.set('isLoadingDepartment', true);
+    case SEARCH_SUCCESS_DEPARTMENT:
+      return state.set('departments', fromJS(action.payload)).set('isLoadingDepartment', false);
+    case SEARCH_FAILURE_DEPARTMENT:
+      return state.set('errors', action.payload).set('isLoadingDepartment', false);
     default:
       return state;
   }

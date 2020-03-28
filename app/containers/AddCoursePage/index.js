@@ -22,11 +22,12 @@ import saga from './saga';
 import messages from './messages';
 import SearchTeacher from '../../components/SearchTeacher';
 import history from '../../utils/history';
-import { addCourse, updateCourse, loadDepartment } from './actions';
+import { addCourse, updateCourse, loadDepartment, deleteCourse } from './actions';
 import { isRequired } from '../../utils/validation';
 
 /* eslint-disable react/prefer-stateless-function */
 import Teacher from './teacher';
+import { Fragment } from 'react';
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -49,7 +50,8 @@ export class AddCoursePage extends React.Component {
       isShow: false,
       invalidField: [],
       errMess: [],
-      departmentOption: []
+      departmentOption: [],
+      from: "",
     };
   }
 
@@ -60,11 +62,13 @@ export class AddCoursePage extends React.Component {
       if (state.course) {
         this.setState({
           course: state.course,
-          type: state.type
+          type: state.type,
+          from: state.from,
         })
       } else {
         this.setState({
-          type: state.type
+          type: state.type,
+          from: state.from,
         })
       }
     }
@@ -147,13 +151,17 @@ export class AddCoursePage extends React.Component {
         ...course,
         teachers: course.teachers.map(teacher => teacher._id)
       }
-      console.log(formatCourse)
       if (type === 'add') {
         this.props.handleAddCourse(formatCourse)
       } else if (type === 'update') {
         this.props.handleUpdateCourse(formatCourse)
       }
     }
+  }
+
+  onHandleDelete = () => {
+    const { course } = this.state;
+    this.props.handleDeleteCourse(course._id);
   }
 
   handleChange = (e) => {
@@ -166,9 +174,9 @@ export class AddCoursePage extends React.Component {
   }
 
   render() {
-    const { course, type, isShow, errMess, departmentOption } = this.state;
+    const { course, type, isShow, errMess, departmentOption, from } = this.state;
     const { courseName, courseCode, departments, shortDes, fullDes, courseURL } = course;
-    const { isLoading, errors, isLoadingDepartment } = this.props.addCoursePage;
+    const { isLoading, errors, isLoadingDepartment, isLoadingDelete } = this.props.addCoursePage;
 
     const antIcon = <Icon type="loading" style={{ fontSize: 24, color: '#fff', marginRight: '10px' }} spin />;
     return (
@@ -180,7 +188,7 @@ export class AddCoursePage extends React.Component {
         <Col span={19}>
           <Layout>
             <Header className="header">
-              <Link to="/course">
+              <Link to={from}>
                 <Icon type="arrow-left" />
               </Link>
             </Header>
@@ -258,16 +266,30 @@ export class AddCoursePage extends React.Component {
                     />
                   </Col>
                 </Row>
-                <Button className="addBtn" type="primary" onClick={this.handleSubmit}>
+                <Row className='form-footer'>
                   {
-                    isLoading ?
-                      <Spin indicator={antIcon} /> :
-                      type === 'update' ?
-                        <span style={{ marginTop: '2px' }}>Update Course</span> :
-                        <span style={{ marginTop: '2px' }}>Add Course</span>
+                    type === 'update' &&
+                    <Button className='deleteBtn' type="primary" onClick={this.onHandleDelete}>
+                      {
+                        isLoadingDelete ?
+                          <Spin indicator={antIcon} /> :
+                          <span>Delete Course</span>
+
+                      }
+                      <span className="icon-delete"></span>
+                    </Button>
                   }
-                  <Icon type="plus" />
-                </Button>
+                  <Button className="addBtn" type="primary" onClick={this.handleSubmit}>
+                    {
+                      isLoading ?
+                        <Spin indicator={antIcon} /> :
+                        type === 'update' ?
+                          <span style={{ marginTop: '2px' }}>Update Course</span> :
+                          <span style={{ marginTop: '2px' }}>Add Course</span>
+                    }
+                    <Icon type="plus" />
+                  </Button>
+                </Row>
               </Form>
               <div className={isShow ? 'notification-show' : 'notification'}>
                 {
@@ -299,6 +321,7 @@ export class AddCoursePage extends React.Component {
 AddCoursePage.propTypes = {
   handleAddCourse: PropTypes.func.isRequired,
   handleUpdateCourse: PropTypes.func.isRequired,
+  handleDeleteCourse: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -310,6 +333,7 @@ function mapDispatchToProps(dispatch) {
     handleAddCourse: (course) => { dispatch(addCourse(course)) },
     handleUpdateCourse: (course) => { dispatch(updateCourse(course)) },
     handleFetchDepartment: () => { dispatch(loadDepartment()) },
+    handleDeleteCourse: (id) => { dispatch(deleteCourse(id)) },
   };
 }
 

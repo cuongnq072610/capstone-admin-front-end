@@ -26,9 +26,10 @@ export function loadDeleteNote(id) {
   }
 }
 
-export function searchNote(key) {
+export function searchNote(key, id) {
   return {
     type: SEARCH_NOTE,
     key,
+    id,
   }
 }

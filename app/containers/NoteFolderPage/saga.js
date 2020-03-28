@@ -14,10 +14,9 @@ import { fetchNoteByFolder, deleteNote } from './api';
 import { API_ENDPOINT, GET_NOTE_BY_FOLDER, DELETE_NOTE_BY_ID, GET_SEARCH_NOTE } from '../../constants/apis';
 
 function* loadNoteByFolder(action) {
-  const user = JSON.parse(localStorage.getItem("user"));
   const { courseId } = action;
   try {
-    let response = yield call(fetchNoteByFolder, `${API_ENDPOINT}${GET_NOTE_BY_FOLDER}/${user.profile}/${courseId}`);
+    let response = yield call(fetchNoteByFolder, `${API_ENDPOINT}${GET_NOTE_BY_FOLDER}/${courseId}`);
     if (response.data) {
       let noteData = response.data.map((item, index) => {
         return item
@@ -46,10 +45,10 @@ function* loadDeleteNote(action) {
 }
 
 function* fetchSearchNote(action) {
-  const { key } = action;
+  const { key, id } = action;
   const user = JSON.parse(localStorage.getItem("user"));
   try {
-    const response = yield call(fetchNoteByFolder, `${API_ENDPOINT}${GET_SEARCH_NOTE}/${user.profile}/${key}`);
+    const response = yield call(fetchNoteByFolder, `${API_ENDPOINT}${GET_SEARCH_NOTE}/${user.profile}/${id}/${key}`);
     if (response.data) {
       let noteData = response.data.map((item, index) => {
         return item

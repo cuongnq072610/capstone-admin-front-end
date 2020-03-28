@@ -14,13 +14,17 @@ import {
   LOAD_FAILURE_FOLDER,
   LOAD_SUCCESS_FOLDER,
   DELETE_HIGHLIGHT,
-  DELETE_HIGHLIGHT_FAILURE, 
+  DELETE_HIGHLIGHT_FAILURE,
   DELETE_HIGHLIGHT_SUCCESS,
+  SEARCH_FAILURE_HIGHLIGHT,
+  SEARCH_HIGHLIGHT,
+  SEARCH_SUCCESS_HIGHLIGHT
 } from './constants';
 
 export const initialState = fromJS({
   isLoading: false,
   highlights: [],
+  searchHighlight: [],
   errors: [],
   folders: [],
   isLoadingCourse: false,
@@ -50,6 +54,12 @@ function highLightPageReducer(state = initialState, action) {
       return state.set("isLoadingDelete", false).set("message", action.payload);
     case DELETE_HIGHLIGHT_FAILURE:
       return state.set("isLoadingDelete", false).set("error", action.payload);
+    case SEARCH_HIGHLIGHT:
+      return state.set('isLoading', true);
+    case SEARCH_SUCCESS_HIGHLIGHT:
+      return state.set('searchHighlight', fromJS(action.payload)).set('isLoading', false);
+    case SEARCH_FAILURE_HIGHLIGHT:
+      return state.set('errors', action.payload).set('isLoading', false);
     default:
       return state;
   }

@@ -23,10 +23,9 @@ import {
 import { fetchHighlightByFolder, deleteHighlight, fetchHighlightByColor } from './api';
 
 function* loadHighlightByFolder(action) {
-  const user = JSON.parse(localStorage.getItem("user"));
   const { courseId } = action;
   try {
-    let response = yield call(fetchHighlightByFolder, `${API_ENDPOINT}${GET_HIGHLIGHT_BY_FOLDER}/${user.profile}/${courseId}`);
+    let response = yield call(fetchHighlightByFolder, `${API_ENDPOINT}${GET_HIGHLIGHT_BY_FOLDER}/${courseId}`);
     if (response.data) {
       let highlightData = response.data.map((item, index) => {
         return item
@@ -73,10 +72,10 @@ function* filterByColor(action) {
 }
 
 function* fetchSearchHighlight(action) {
-  const { key } = action;
+  const { key, id } = action;
   const user = JSON.parse(localStorage.getItem("user"));
   try {
-    const response = yield call(fetchHighlightByFolder, `${API_ENDPOINT}${GET_SEARCH_HIGHLIGHT}/${user.profile}/${key}`);
+    const response = yield call(fetchHighlightByFolder, `${API_ENDPOINT}${GET_SEARCH_HIGHLIGHT}/${user.profile}/${id}/${key}`);
     if (response.data) {
       let highlightData = response.data.map((item, index) => {
         return item

@@ -105,7 +105,6 @@ class SideMenu extends React.PureComponent {
               <Button className='btn-logout'>
                 <img
                   src={avatar}
-                  alt="User Logo"
                 />
               </Button>
             </Popover>

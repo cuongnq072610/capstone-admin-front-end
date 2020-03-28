@@ -15,12 +15,12 @@ export default defineMessages({
   },
   title: {
     id: `${scope}.title`,
-    defaultMessage: `Be a wise teacher! And open your fucking mind up!`,
+    defaultMessage: `Of all the hard jobs around, one of the hardest is being a good teacher.`,
   },
   content: {
     id: `${scope}.content`,
-    defaultMessage: `Listen to your students, they know more than an old
-    creep shit bastard self-titled like you. You know nothing
-    about UX at all, stop giving them stupid advices.`,
+    defaultMessage: `A good teacher, like a good entertainer 
+    first must hold his audience's attention, 
+    then he can teach his lesson.`,
   },
 });

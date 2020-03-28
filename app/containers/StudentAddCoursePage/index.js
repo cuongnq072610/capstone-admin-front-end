@@ -97,7 +97,6 @@ export class StudentAddCoursePage extends React.Component {
     // })
 
     if(!chosenCourses.some((course) => {return course._id == courseOfRow._id})) {
-      console.log('true')
         //push course into chosen course list
         chosenCourses.push(courseOfRow);
 

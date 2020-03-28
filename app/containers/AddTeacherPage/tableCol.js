@@ -6,7 +6,7 @@ const colunms = {
         {
             dataIndex: "avatar",
             width: 50,
-            render: text => <img src={text} style={{ width: '30px', height: '30px' }} />
+            render: text => <img src={text} style={{ width: '30px', height: '30px' , borderRadius: '50%'}} />
         },
         {
             title: "TEACHER",

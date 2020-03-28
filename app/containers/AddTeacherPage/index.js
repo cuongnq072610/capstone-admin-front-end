@@ -87,17 +87,21 @@ export class AddTeacherPage extends React.Component {
     const { chosenTeachers, teachers } = this.state;
 
     //remove teacher about to be added from "Others Teacher" list 
-    const teacherLeft = teachers.filter((teacherCurrent) => {
-      return teacherCurrent.key != teacherOfRow.key
-    })
+    // const teacherLeft = teachers.filter((teacherCurrent) => {
+    //   return teacherCurrent.key != teacherOfRow.key
+    // })
 
-    //push teacher into chosen teacher list
-    chosenTeachers.push(teacherOfRow);
+    if(!chosenTeachers.some((teacher) => {return teacher._id == teacherOfRow._id})) {
+      //push teacher into chosen teacher list
+      chosenTeachers.push(teacherOfRow);
 
-    this.setState({
-      chosenTeachers: chosenTeachers,
-      teachers: teacherLeft
-    })
+      this.setState({
+        chosenTeachers: chosenTeachers
+        // teachers: teacherLeft
+      })
+    }
+
+
   }
 
   removeTeacher = (teacherOfRow, rowIndex) => {
@@ -109,11 +113,11 @@ export class AddTeacherPage extends React.Component {
     })
 
     //push teacher into Other Teachers list
-    teachers.push(teacherOfRow);
+    // teachers.push(teacherOfRow);
 
     this.setState({
       chosenTeachers: teacherLeft,
-      teachers: teachers
+      // teachers: teachers
     })
   }
 
@@ -172,7 +176,7 @@ export class AddTeacherPage extends React.Component {
                 <WrappedSearchBar
                   message="Please enter your teacher's name"
                   placeholder="I want to find teachers"
-                  type="teacher"
+                  type="home"
                   handleSearch={this.handleSearch}
                   handleClear={this.handleClear}
                 />
@@ -226,13 +230,16 @@ export class AddTeacherPage extends React.Component {
                             chosenTeachers.map((teacher, index) => {
                               return ( 
                                 <div key={index} className="course-item">
-                                  <svg id="exit" data-name="exit" onClick={() => this.removeCourse(teacher)} xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+                                  <svg id="exit" data-name="exit" onClick={() => this.removeTeacher(teacher)} xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
                                     <g>
                                       <path id="Path_132" data-name="Path 132" d="M14.222,0H1.778A1.777,1.777,0,0,0,0,1.778V5.333H1.778V1.778H14.222V14.222H1.778V10.667H0v3.556A1.777,1.777,0,0,0,1.778,16H14.222A1.777,1.777,0,0,0,16,14.222V1.778A1.777,1.777,0,0,0,14.222,0Z" fill="#f44336"/>
                                       <path id="Path_133" data-name="Path 133" d="M6.3,92.964l1.258,1.258L12,89.777,7.556,85.333,6.3,86.591l2.3,2.3H0v1.778H8.6Z" transform="translate(0 -81.777)" fill="#f44336"/>
                                     </g>
                                   </svg>
-                                  <span className="course-code">{teacher.name}</span>
+                                  <div className="course-code">
+                                  <img src={teacher.avatar} alt="avatar" />
+                                    <span >{teacher.name}</span>
+                                  </div>
                                   <span className="course-name">{teacher.email}</span>
                                 </div>
                               )

@@ -92,7 +92,15 @@
         }
 
         .course-code {
+          display: flex;
+          align-items: center;
           color: $primary_purple;
+          img {
+            width: 19px;
+            height: 19px;
+            border-radius: 50%;
+            margin-right: 8px;
+          }
         }
 
         svg {

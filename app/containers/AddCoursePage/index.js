@@ -75,6 +75,7 @@ export class AddCoursePage extends React.Component {
   };
 
   componentDidUpdate(prevProps) {
+    
     if (prevProps.addCoursePage.isDone !== this.props.addCoursePage.isDone && this.props.addCoursePage.isDone === true) {
       this.props.history.push({
         pathname: '/course',

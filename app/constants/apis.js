@@ -20,6 +20,7 @@ const GET_HIGHLIGHT_BY_FOLDER = "/getHighlightByFolderID";
 const GET_HIGHLIGHT_BY_COLOR = '/getHighlightByColor';
 const GET_SEARCH_HIGHLIGHT = '/searchHighlight';
 const GET_HIGHLIGHT_FOLDER = '/getFolderByStudentID';
+const DELETE_HIGHLIGHTS_BY_FOLDER = '/deleteHighlightByFolderID';
 
 const GET_RECENT_NOTE = "/getRecentNote";
 const GET_NOTE_BY_ID = "/getnotebyid";
@@ -28,10 +29,14 @@ const DELETE_NOTE_BY_ID = "/deletenotebyid";
 const GET_NOTE_BY_FOLDER = "/getNoteByFolderID";
 const GET_SEARCH_NOTE = '/searchNote';
 const GET_NOTE_FOLDER = '/getFolderByStudentID';
+const DELETE_NOTES_BY_FOLDER = "/deleteNoteByFolderID";
 
 const GET_ALL_ASK = "/allaskofstudent";
 const GET_ASK_BY_ID = "/getAsk";
 const GET_ALL_ASK_TEACHER = '/allaskofteacher';
+const CLOSE_ASK_API = '/closeAsk';
+const SEARCH_ASK_API = '/searchAsk';
+const CREATE_ASK_API = '/createask';
 
 const GET_ALL_DEPARTMENT = '/allDepartment';
 const CREATE_DEPARTMENT = '/createDepartment';
@@ -45,6 +50,7 @@ const GET_STUDENT_STATISTIC = '/getStudentStatistic';
 
 const LOGIN_API = '/login';
 const GET_ADMIN_STATISTIC = '/getStatisticNumber';
+const DELETE_FOLDER_API = '/deleteFolderByID';
 
 export {
     API_ENDPOINT,
@@ -67,6 +73,7 @@ export {
     GET_HIGHLIGHT_BY_COLOR,
     GET_SEARCH_HIGHLIGHT,
     GET_HIGHLIGHT_FOLDER,
+    DELETE_HIGHLIGHTS_BY_FOLDER,
     //NOTE
     GET_RECENT_NOTE,
     GET_NOTE_BY_ID,
@@ -75,11 +82,15 @@ export {
     GET_NOTE_BY_FOLDER,
     GET_SEARCH_NOTE,
     GET_NOTE_FOLDER,
+    DELETE_NOTES_BY_FOLDER,
     //ASK
     GET_ALL_ASK,
     GET_ASK_BY_ID,
     GET_ALL_DEPARTMENT,
     GET_ALL_ASK_TEACHER,
+    CLOSE_ASK_API,
+    SEARCH_ASK_API,
+    CREATE_ASK_API,
     //STUDENT
     GET_STUDENT_INFO,
     UPDATE_STUDENT_COURSE,
@@ -92,5 +103,7 @@ export {
     UPDATE_DEPARTMENT,
     SEARCH_DEPARTMENTS,
     //ADMIN
-    GET_ADMIN_STATISTIC
+    GET_ADMIN_STATISTIC,
+    //
+    DELETE_FOLDER_API,
 }

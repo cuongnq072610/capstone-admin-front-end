@@ -48,6 +48,26 @@ export class HighLightPage extends React.Component {
     this.props.handleFetchHighlights();
     const user = JSON.parse(localStorage.getItem("user"));
     this.props.handleLoadCourse(user.profile);
+
+    const message = localStorage.getItem("message");
+    //show delete navigate from detail page and folder page
+    if (message) {
+      // show modal success
+      this.setState({
+        isShow: true,
+        deleteMessage: message,
+      }, () => {
+        this.timer1 = setTimeout(() => {
+          this.setState({
+            isShow: false,
+          }, () => localStorage.removeItem("message"))
+        }, 3000)
+      })
+    }
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.timer1);
   }
 
   componentDidUpdate(prevProps) {

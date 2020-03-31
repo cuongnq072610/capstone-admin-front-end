@@ -18,14 +18,14 @@ import makeSelectHighLightFolderPage from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
-import { Layout, Col, Row, Icon, Button, Spin } from 'antd';
+import { Layout, Col, Row, Icon, Button, Spin, Popover } from 'antd';
 import Masonry from 'masonry-layout'
 import WrappedSearchBar from '../../components/SearchBar';
 import HighLightElement from './HighlightElement';
 import './index.scss';
 import { Link } from 'react-router-dom';
-import { loadHighlightByFolder, loadDeleteHighlight, loadFilterHighlight, searchHighlight } from './actions';
-const { Header, Content } = Layout;
+import { loadHighlightByFolder, loadDeleteHighlight, loadFilterHighlight, searchHighlight, loadDeleteHFolder, loadDeleteHighlightByFolder } from './actions';
+const { Header, Content, Footer } = Layout;
 
 /* eslint-disable react/prefer-stateless-function */
 export class HighLightFolderPage extends React.Component {
@@ -36,6 +36,7 @@ export class HighLightFolderPage extends React.Component {
       windowHeight: window.innerHeight,
       highlights: [],
       isShow: false,
+      clicked: false,
     }
   }
 
@@ -66,6 +67,7 @@ export class HighLightFolderPage extends React.Component {
         highlights: this.props.highLightFolderPage.highlights,
       })
     }
+    // delete 2light success
     if (prevProps.highLightFolderPage.isLoadingDelete !== this.props.highLightFolderPage.isLoadingDelete
       && this.props.highLightFolderPage.isLoadingDelete === false
     ) {
@@ -75,12 +77,20 @@ export class HighLightFolderPage extends React.Component {
       this.setState({
         isShow: true,
         deleteMessage: "Succesfully Delete",
+        clicked: false,
       }, () => {
         this.timer1 = setTimeout(() => {
           this.setState({
             isShow: false
           })
         }, 3000)
+      })
+    }
+    // delete folder success
+    if (prevProps.highLightFolderPage.isLoadingDeleteFolder !== this.props.highLightFolderPage.isLoadingDeleteFolder && this.props.highLightFolderPage.isLoadingDeleteFolder === false) {
+      localStorage.setItem("message", this.props.highLightFolderPage.message)
+      this.props.history.push({
+        pathname: '/highlight',
       })
     }
   }
@@ -118,8 +128,35 @@ export class HighLightFolderPage extends React.Component {
     this.props.handleFetchHighlightByCourse(folder._id);
   }
 
+  handleSyncHighlight = () => {
+    const { folder } = this.state;
+    this.props.handleFetchHighlightByCourse(folder._id);
+  }
+
+  handleClickChangePopover = visible => {
+    this.setState({
+      clicked: visible,
+    });
+  };
+
+  hide = () => {
+    this.setState({
+      clicked: false,
+    });
+  };
+
+  handleDeleteAllHighlight = () => {
+    const { folder } = this.state;
+    this.props.handleDeleteAllHighlights(folder._id);
+  }
+
+  handleDeleteFolder = () => {
+    const { folder } = this.state;
+    this.props.handleDeleteFolder(folder._id);
+  }
+
   render() {
-    const { folder, windowHeight, highlights, isShow, deleteMessage } = this.state;
+    const { folder, windowHeight, highlights, isShow, deleteMessage, clicked } = this.state;
     const { isLoading, isLoadingDelete } = this.props.highLightFolderPage;
     const buttonSort = [
       {
@@ -144,7 +181,17 @@ export class HighLightFolderPage extends React.Component {
       }
     ];
     const antIcon = <Icon type="loading" style={{ fontSize: 24, color: '#40a887', marginRight: '10px' }} spin />;
-
+    const contentPopover = (
+      <Layout>
+        <Content className='delete-modal-content'>
+          <p>Do you want to delete this folder</p>
+        </Content>
+        <Footer className='delete-modal-footer'>
+          <Button onClick={this.hide}>Cancel</Button>
+          <Button onClick={this.handleDeleteAllHighlight}>Delete</Button>
+        </Footer>
+      </Layout>
+    );
     return (
       <div className='highlight-folder-page'>
         <Helmet>
@@ -169,14 +216,26 @@ export class HighLightFolderPage extends React.Component {
               <Icon type="arrow-left" style={{ fontSize: '20px', color: '#53DBB1', marginBottom: '25px', marginRight: '10px' }} />
             </Link>
             <p className="highlight-page-name">{this.renderFolderNoteName(folder.courseName, folder.courseCode)}</p>
+            <Button className='btn-sync' onClick={this.handleSyncHighlight}><span className='sync-icon'></span></Button>
           </div>
-          <WrappedSearchBar
-            message="Please enter your note's name"
-            placeholder="I want to find my highlights"
-            type="highlight"
-            handleSearch={this.handleSearch}
-            handleClear={this.handleClear}
-          />
+          <div className='highlight-header-side'>
+            <WrappedSearchBar
+              message="Please enter your note's name"
+              placeholder="I want to find my highlights"
+              type="highlight"
+              handleSearch={this.handleSearch}
+              handleClear={this.handleClear}
+            />
+            <Popover
+              content={contentPopover}
+              placement="bottomRight"
+              trigger="click"
+              visible={clicked}
+              onVisibleChange={this.handleClickChangePopover}
+            >
+              <Button type='danger' className='btn-delete-folder'><span className="folder-delete-icon"></span></Button>
+            </Popover>
+          </div>
         </Header>
         <Col span={19}>
           <Content>
@@ -205,7 +264,7 @@ export class HighLightFolderPage extends React.Component {
             </div>
           </Content>
         </Col>
-        <Col span={5} className="highlight-side-wrapper" style={{ 'height': windowHeight - 10 }}>
+        <Col span={5} className="highlight-side-wrapper">
           <Layout className="highlight-side">
             <Content>
               <div className="sort">
@@ -232,6 +291,8 @@ HighLightFolderPage.propTypes = {
   handleDeleteHighlight: PropTypes.func.isRequired,
   handleFetchHighlightByColor: PropTypes.func.isRequired,
   fetchSearchHighlight: PropTypes.func.isRequired,
+  handleDeleteAllHighlights: PropTypes.func.isRequired,
+  handleDeleteFolder: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -244,6 +305,8 @@ function mapDispatchToProps(dispatch) {
     handleDeleteHighlight: (id) => { dispatch(loadDeleteHighlight(id)) },
     handleFetchHighlightByColor: (color, courseId) => { dispatch(loadFilterHighlight(color, courseId)) },
     fetchSearchHighlight: (key, id) => { dispatch(searchHighlight(key, id)) },
+    handleDeleteAllHighlights: (id) => { dispatch(loadDeleteHighlightByFolder(id)) },
+    handleDeleteFolder: (id) => { dispatch(loadDeleteHFolder(id)) },
   };
 }
 

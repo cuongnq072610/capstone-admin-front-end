@@ -26,7 +26,7 @@ import AskAndAnswerField from './Question';
 import { API_ENDPOINT_WS } from '../../constants/apis';
 
 //socket
-import { loadAskDetail } from './actions';
+import { loadAskDetail, closeAsk } from './actions';
 // const ENDPOINT = 'ws://localhost:5000';
 
 /* eslint-disable react/prefer-stateless-function */
@@ -42,6 +42,7 @@ export class StudentComposePage extends React.Component {
       message: '',
       comments: [],
       user: JSON.parse(localStorage.getItem("user")),
+      rate: '',
     }
 
   }
@@ -59,7 +60,7 @@ export class StudentComposePage extends React.Component {
     }
 
     this.ws.onmessage = evt => {
-      const { comments} = this.state;
+      const { comments } = this.state;
       // on receiving a message, add it to the list of messages
       const comment = JSON.parse(evt.data)
       // this.addMessage(message)
@@ -71,7 +72,7 @@ export class StudentComposePage extends React.Component {
       //   });
       // }
     }
- 
+
     this.ws.onclose = () => {
       console.log('disconnected')
       // automatically try to reconnect on connection loss
@@ -128,7 +129,7 @@ export class StudentComposePage extends React.Component {
     //add to messages state first to render to UI
     //emit to server with userInfo and message to save to DB
     //if error show warning, if not do nothing
-    if(message) {
+    if (message) {
       const newComment = {
         "userID": user.profile,
         "ask": ask._id,
@@ -141,11 +142,11 @@ export class StudentComposePage extends React.Component {
       this.setState({
         comments: [...comments, newComment]
       });
-  
-      this.ws.send(JSON.stringify({message, user, askID: ask._id}));
+
+      this.ws.send(JSON.stringify({ message, user, askID: ask._id }));
     }
 
-    
+
   }
 
   getCurrentDate() {
@@ -167,6 +168,18 @@ export class StudentComposePage extends React.Component {
     } else if (user2._id === id) {
       return user2
     }
+  }
+
+  handleChangeRate = value => {
+    this.setState({ rate: value });
+  };
+
+  handleCloseAsk = () => {
+    const { rate } = this.state;
+    console.log(rate)
+    // action in here
+    // const { id } = this.props.match.params;
+    // this.props.handleCloseAskDetail(id, rate);
   }
 
   render() {
@@ -208,7 +221,7 @@ export class StudentComposePage extends React.Component {
                           }) :
                           ''
                       }
-                      </div>
+                    </div>
                     {
                       !isClose &&
                       <div className={`reply ${showMe ? 'reply-show' : 'reply-hide'}`}>
@@ -251,6 +264,8 @@ export class StudentComposePage extends React.Component {
                 isDelete={isDelete}
                 handleDelete={this.handleDeleteQues}
                 teacher={teacher}
+                handleRate={this.handleChangeRate}
+                handleCloseAsk={this.handleCloseAsk}
               />
             }
           </Col>
@@ -262,6 +277,7 @@ export class StudentComposePage extends React.Component {
 
 StudentComposePage.propTypes = {
   handleFetchAskDetail: PropTypes.func.isRequired,
+  handleCloseAskDetail: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -271,6 +287,7 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch) {
   return {
     handleFetchAskDetail: (askId) => { dispatch(loadAskDetail(askId)) },
+    handleCloseAskDetail: (id, rate) => { dispatch(closeAsk(id, rate)) },
   };
 }
 

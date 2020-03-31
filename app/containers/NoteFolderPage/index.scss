@@ -14,6 +14,41 @@
             letter-spacing: 0.28px;
             margin: 0 10px
         }
+
+        .sync-icon {
+            display: inline-block;
+            width: 25px;
+            height: 25px;
+            background-size: cover;
+            background-image: url(assets/sync.png);
+        }
+
+        .btn-sync {
+            border: none;
+            box-shadow: none;
+            padding: 0;
+        }
+
+    }
+
+    .note-header-side {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .btn-delete-folder {
+            margin-left: 10px;
+            display: flex;
+            align-items: center;
+
+            .folder-delete-icon {
+                display: inline-block;
+                width: 16px;
+                height: 16px;
+                background-size: cover;
+                background-image: url(assets/delete.svg);
+            }
+        }
     }
 
     .notification {

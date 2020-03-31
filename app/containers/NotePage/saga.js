@@ -66,7 +66,7 @@ function* fetchSearchNote(action) {
   const { key } = action;
   const user = JSON.parse(localStorage.getItem("user"));
   try {
-    const response = yield call(fetchRecentNote, `${API_ENDPOINT}${GET_SEARCH_NOTE}/${user.profile}/all/${key}`);
+    const response = yield call(fetchRecentNote, `${API_ENDPOINT}${GET_SEARCH_NOTE}/?studentID=${user.profile}&folderID=all&text=${key}`);
     if (response.data) {
       let noteData = response.data.map((item, index) => {
         return item

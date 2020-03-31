@@ -20,7 +20,7 @@ import saga from './saga';
 import "./ask.scss";
 import columns from './tableCol';
 import FilterSearch from './FilterSearch';
-import { loadAsk } from './actions';
+import { loadAsk, searchAsk } from './actions';
 
 const { Content, Header } = Layout;
 
@@ -45,6 +45,14 @@ export class StudentAskPage extends React.Component {
     }
   }
 
+  handleSearch = (key) => {
+    this.props.handleSearchAsks(key);
+  }
+
+  handleClear = () => {
+    this.props.handleFetchAsks();
+  }
+
   render() {
     const { asks } = this.state;
     const { isLoading } = this.props.studentAskPage;
@@ -58,13 +66,16 @@ export class StudentAskPage extends React.Component {
           <Col span={19}>
             <Layout className="ask-page">
               <Header className="ask-page-header">
-              <div className='ask-page-name-wrapper'>
-                <p className="ask-page-name">Asks</p>
-              </div>
+                <div className='ask-page-name-wrapper'>
+                  <p className="ask-page-name">Asks</p>
+                </div>
                 <WrappedSearchBar className="ask-page-search"
                   message="Please enter your course name"
                   placeholder="I want to find my course"
-                  type="ask" />
+                  type="ask"
+                  handleSearch={this.handleSearch}
+                  handleClear={this.handleClear}
+                />
               </Header>
               <Content className="ask-page-content">
                 <Row>
@@ -100,6 +111,7 @@ export class StudentAskPage extends React.Component {
 
 StudentAskPage.propTypes = {
   handleFetchAsks: PropTypes.func.isRequired,
+  handleSearchAsks: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -109,6 +121,7 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch) {
   return {
     handleFetchAsks: () => { dispatch(loadAsk()) },
+    handleSearchAsks: (key) => { dispatch(searchAsk(key)) },
   };
 }
 

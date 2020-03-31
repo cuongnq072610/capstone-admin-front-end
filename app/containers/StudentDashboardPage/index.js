@@ -98,28 +98,28 @@ export class StudentDashboardPage extends React.Component {
         </Helmet>
         <Row className="card-wrapper" gutter={24}>
           <Col span={8}>
-            <div className="card bg-yellow">
+            <Button className="card bg-yellow" onClick={() => this.props.history.push('/note')}>
               <div className="card__info">
                 <span className="card__info--note-icon">Notes</span>
               </div>
               <span className="number">{isLoadingStatistic ? <Spin indicator={antIcon} /> : statistic.noteNumber}</span>
-            </div>
+            </Button>
           </Col>
           <Col span={8}>
-            <div className="card bg-green">
+            <Button className="card bg-green" onClick={() => this.props.history.push('/highlight')}>
               <div className="card__info">
                 <span className="card__info--highlight-icon">Highlights</span>
               </div>
               <span className="number">{isLoadingStatistic ? <Spin indicator={antIcon} /> : statistic.highlightNumber}</span>
-            </div>
+            </Button>
           </Col>
           <Col span={8}>
-            <div className="card bg-blue">
+            <Button className="card bg-blue" onClick={() => this.props.history.push('/ask')}>
               <div className="card__info">
                 <span className="card__info--ask-icon">Ask your tutors</span>
               </div>
               <span className="number">{isLoadingStatistic ? <Spin indicator={antIcon} /> : statistic.askNumber}</span>
-            </div>
+            </Button>
           </Col>
         </Row>
 
@@ -132,14 +132,14 @@ export class StudentDashboardPage extends React.Component {
                 </svg>
                 Courses
               </div>
-            <div className="search-bar">
-                
+              <div className="search-bar">
+
                 <WrappedSearchBar
                   message="Please enter your note's name"
                   placeholder="Search for courses"
                   type="home"
-                  // handleSearch={this.handleSearch}
-                  // handleClear={this.handleClear}
+                // handleSearch={this.handleSearch}
+                // handleClear={this.handleClear}
                 />
                 <Button className="addBtn" onClick={e => this.props.history.push({
                   pathname: "/student/addcourse",
@@ -148,14 +148,8 @@ export class StudentDashboardPage extends React.Component {
                   }
                 })}>
                   <Icon type="plus" />
-                  
                 </Button>
-                
-            </div>
-              
-              
-              
-
+              </div>
             </div>
             <Table
               key="_id"
@@ -199,11 +193,11 @@ export class StudentDashboardPage extends React.Component {
                   </Button>
                 </div>
               ) :
-              (
-                <div className="hello-user">
-                  <h1>Hi {user.name}. How are you today?</h1>
-                </div>
-              )
+                (
+                  <div className="hello-user">
+                    <h1>Hi {user.name}. How are you today?</h1>
+                  </div>
+                )
             }
           </Col>
         </Row>

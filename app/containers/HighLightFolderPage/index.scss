@@ -13,19 +13,54 @@
             font-size: 28px;
             font-weight: 700;
             letter-spacing: 0.28px;
-            margin: 0;
+            margin: 0 10px;
             overflow: hidden;
             white-space: nowrap;
             text-overflow: ellipsis;
+
+        }
+
+        .sync-icon {
+            display: inline-block;
+            width: 25px;
+            height: 25px;
+            background-size: cover;
+            background-image: url(assets/sync.png);
+        }
+
+        .btn-sync {
+            border: none;
+            box-shadow: none;
+            padding: 0;
+        }
+    }
+
+    .highlight-header-side {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .btn-delete-folder {
+            margin-left: 10px;
+            display: flex;
+            align-items: center;
+
+            .folder-delete-icon {
+                display: inline-block;
+                width: 16px;
+                height: 16px;
+                background-size: cover;
+                background-image: url(assets/delete.svg);
+            }
         }
     }
 
     .highlight-side-wrapper {
         position: absolute;
         right: 0;
+        height: 50vh;
 
         .highlight-side {
-            height: 100%;
             padding: 0px 30px;
             // -webkit-box-shadow: -3px 0px 6px 0px rgba(83,219,177,.5);
             // -moz-box-shadow: -3px 0px 6px 0px rgba(83,219,177,.5);
@@ -79,6 +114,7 @@
                     background-color: $primary_green;
                     color: $primary_white;
                     margin-top: 20px;
+
                     &:hover {
                         border: 1px solid $primary_green;
                         color: $primary_green;
@@ -92,7 +128,7 @@
     .notification {
         position: absolute;
         left: 0px;
-        top: 90vh;
+        top: 60vh;
         opacity: 0;
         transition: opacity 1s ease-in-out;
     }
@@ -100,7 +136,7 @@
     .notification-show {
         position: absolute;
         left: 0px;
-        top: 90vh;
+        top: 60vh;
         opacity: 1;
         transition: opacity 1s ease-in-out;
     }

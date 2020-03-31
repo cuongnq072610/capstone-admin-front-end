@@ -12,8 +12,13 @@ const fetchHighlightByColor = (url) => {
     return axiosService.get(url);
 }
 
+const deleteFolder = (url) => {
+    return axiosService.delete(url);
+}
+
 export {
     fetchHighlightByFolder,
     deleteHighlight,
     fetchHighlightByColor,
+    deleteFolder,
 }

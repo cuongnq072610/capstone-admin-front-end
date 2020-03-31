@@ -49,7 +49,7 @@ export class NotePage extends React.Component {
     this.props.handleLoadCourse(user.profile);
 
     const message = localStorage.getItem("message");
-    //show delete navigate from detail page
+    //show delete navigate from detail page and folder page
     if (message) {
       // show modal success
       this.setState({

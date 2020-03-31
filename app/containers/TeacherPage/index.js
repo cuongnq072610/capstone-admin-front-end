@@ -26,7 +26,7 @@ import columns from './tableCol';
 
 import "./index.scss";
 import TeacherInfo from './TeacherInfo';
-import { loadTeacher, searchTeacher, updateActiveTeacher, loadDepartment } from './actions';
+import { loadTeacher, searchTeacher, updateActiveTeacher, loadCourse } from './actions';
 
 const { Content, Header } = Layout;
 
@@ -36,30 +36,37 @@ export class TeacherPage extends React.Component {
         super(props);
         this.state = {
             search: "",
-            departments: [],
             teachers: [],
             baseTeachers: [],
             toggleInfo: false,
             selectedTeacher: {},
             selectedRow: "",
+            courses: [],
         }
     }
 
     componentDidMount() {
         this.props.fetchTeacher();
+        this.props.fetchCourse();
     }
 
     componentDidUpdate(prevProps) {
         if (prevProps.teacherPage.teachers !== this.props.teacherPage.teachers) {
-            const { teachers, departments } = this.props.teacherPage;
+            const { teachers } = this.props.teacherPage;
 
             const fomatTeachers = teachers.map((teacher, index) => {
                 return { ...teacher, key: `${index}` }
             })
             this.setState({
-                departments: departments,
                 teachers: fomatTeachers,
                 baseTeachers: fomatTeachers,
+            })
+        }
+        if (prevProps.teacherPage.courses !== this.props.teacherPage.courses) {
+            const { courses } = this.props.teacherPage;
+            const newCourses = courses.map(course => course.courseName)
+            this.setState({
+                courses: newCourses,
             })
         }
     }
@@ -91,6 +98,15 @@ export class TeacherPage extends React.Component {
         }
     }
 
+    filterByCourse = (course) => {
+        const { baseTeachers } = this.state;
+        const filterTeacher = baseTeachers.map(teacher => {
+            const courseNames = teacher.courses.map(course => course.courseName)
+            return courseNames.includes(course) ? teacher : "";
+        })
+        console.log(filterTeacher)
+    }
+
     onToggleInfo = (teacher, index) => {
         this.setState({
             toggleInfo: true,
@@ -120,7 +136,7 @@ export class TeacherPage extends React.Component {
     }
 
     render() {
-        const { departments, teachers, toggleInfo, selectedTeacher, selectedRow } = this.state;
+        const { courses, teachers, toggleInfo, selectedTeacher, selectedRow } = this.state;
         const { isLoading, isLoadingUpdate } = this.props.teacherPage;
         return (
             <Row>
@@ -149,9 +165,10 @@ export class TeacherPage extends React.Component {
                                     handleClear={this.handleClear}
                                 />
                                 <Filter
-                                    departments={departments}
+                                    courses={courses}
                                     onReset={this.onResetFilter}
                                     onFilter={this.filterByActive}
+                                    onFilterCourse={this.filterByCourse}
                                     type="teacher"
                                 />
                             </div>
@@ -204,6 +221,7 @@ function mapDispatchToProps(dispatch) {
         fetchTeacher: () => { dispatch(loadTeacher()) },
         fetchSearchTeacher: (key) => { dispatch(searchTeacher(key)) },
         toggleActiveTeacher: (id, data) => { dispatch(updateActiveTeacher(id, data)) },
+        fetchCourse: () => { dispatch(loadCourse()) },
     };
 }
 

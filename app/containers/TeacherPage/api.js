@@ -4,6 +4,10 @@ const fetchTeacher = (url) => {
     return axiosService.get(url)
 }
 
+const fetchCourse = (url) => {
+    return axiosService.get(url)
+}
+
 const updateTeacherApi = (url, body) => {
     return axiosService.put(url, body)
 }
@@ -11,4 +15,5 @@ const updateTeacherApi = (url, body) => {
 export {
     fetchTeacher,
     updateTeacherApi,
+    fetchCourse,
 }

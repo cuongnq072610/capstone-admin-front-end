@@ -75,7 +75,7 @@ export class AddCoursePage extends React.Component {
   };
 
   componentDidUpdate(prevProps) {
-    
+
     if (prevProps.addCoursePage.isDone !== this.props.addCoursePage.isDone && this.props.addCoursePage.isDone === true) {
       this.props.history.push({
         pathname: '/course',
@@ -152,6 +152,7 @@ export class AddCoursePage extends React.Component {
         ...course,
         teachers: course.teachers.map(teacher => teacher._id)
       }
+      console.log(formatCourse)
       if (type === 'add') {
         this.props.handleAddCourse(formatCourse)
       } else if (type === 'update') {

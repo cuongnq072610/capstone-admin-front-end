@@ -9,9 +9,12 @@ import {
   UPDATE_TEACHER,
   UPDATE_SUCCESS_TEACHER,
   UPDATE_FAILURE_TEACHER,
+  LOAD_SUCCESS_COURSE,
+  LOAD_FAILURE_COURSE,
+  LOAD_COURSE,
 } from './constants';
-import { API_ENDPOINT, ALL_TEACHER, SEARCH_TEACHERS, UPDATE_TEACHER_ACTIVE } from '../../constants/apis';
-import { fetchTeacher, updateTeacherApi } from './api';
+import { API_ENDPOINT, ALL_TEACHER, SEARCH_TEACHERS, UPDATE_TEACHER_ACTIVE, ALL_COURSE } from '../../constants/apis';
+import { fetchTeacher, updateTeacherApi, fetchCourse } from './api';
 
 function* LoadTeacher() {
   try {
@@ -58,6 +61,22 @@ function* updateActiveTeacher(action) {
   }
 }
 
+function* LoadCourse() {
+  try {
+    let response = yield call(fetchCourse, `${API_ENDPOINT}${ALL_COURSE}`)
+    if (response.data) {
+      let courseData = response.data.map((item, index) => {
+        return item
+      })
+      yield put({ type: LOAD_SUCCESS_COURSE, payload: courseData })
+    } else {
+      yield put({ type: LOAD_FAILURE_COURSE, payload: "NO DATA" })
+    }
+  } catch (err) {
+    yield put({ type: LOAD_FAILURE_COURSE, payload: err })
+  }
+}
+
 // Individual exports for testing
 export default function* teacherPageSaga() {
   // See example in containers/HomePage/saga.js
@@ -65,5 +84,6 @@ export default function* teacherPageSaga() {
     takeLatest(LOAD_TEACHER, LoadTeacher),
     takeLatest(SEARCH_TEACHER, fetchSearchTeacher),
     takeLatest(UPDATE_TEACHER, updateActiveTeacher),
+    takeLatest(LOAD_COURSE, LoadCourse),
   ])
 }

@@ -16,6 +16,9 @@ import {
   UPDATE_FAILURE_TEACHER,
   UPDATE_SUCCESS_TEACHER,
   UPDATE_TEACHER,
+  LOAD_COURSE,
+  LOAD_FAILURE_COURSE,
+  LOAD_SUCCESS_COURSE,
 } from './constants';
 
 export const initialState = fromJS({
@@ -24,7 +27,9 @@ export const initialState = fromJS({
   isLoadingUpdate: false,
   isLoading: false,
   errors: '',
-  message: ""
+  message: "",
+  courses: [],
+  isLoadingCourse: false,
 });
 
 function teacherPageReducer(state = initialState, action) {
@@ -49,6 +54,12 @@ function teacherPageReducer(state = initialState, action) {
       return state.set('message', fromJS(action.payload)).set("teachers", action.payloadTeachers).set("isLoadingUpdate", false);
     case UPDATE_FAILURE_TEACHER:
       return state.set('errors', action.payload).set("isLoadingUpdate", false);
+    case LOAD_COURSE:
+      return state.set('isLoading', true);
+    case LOAD_SUCCESS_COURSE:
+      return state.set('courses', fromJS(action.payload)).set('isLoading', false);
+    case LOAD_FAILURE_COURSE:
+      return state.set('errors', action.payload).set('isLoading', false);
     default:
       return state;
   }

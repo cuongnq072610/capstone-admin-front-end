@@ -188,7 +188,7 @@ export class HighLightFolderPage extends React.Component {
         </Content>
         <Footer className='delete-modal-footer'>
           <Button onClick={this.hide}>Cancel</Button>
-          <Button onClick={this.handleDeleteAllHighlight}>Delete</Button>
+          <Button onClick={this.handleDeleteFolder}>Delete</Button>
         </Footer>
       </Layout>
     );

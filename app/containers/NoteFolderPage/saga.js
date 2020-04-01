@@ -12,9 +12,6 @@ import {
   DELETE_FOLDER,
   DELETE_SUCCESS_FOLDER,
   DELETE_FAILURE_FOLDER,
-  DELETE_FAILURE_NOTE_BY_FOLDER,
-  DELETE_NOTE_BY_FOLDER,
-  DELETE_SUCCESS_NOTE_BY_FOLDER
 } from './constants';
 import { fetchNoteByFolder, deleteNote, deleteFolder } from './api';
 import {
@@ -22,7 +19,6 @@ import {
   GET_NOTE_BY_FOLDER,
   DELETE_NOTE_BY_ID,
   GET_SEARCH_NOTE,
-  DELETE_NOTES_BY_FOLDER,
   DELETE_FOLDER_API,
 } from '../../constants/apis';
 
@@ -75,20 +71,6 @@ function* fetchSearchNote(action) {
   }
 }
 
-function* loadDeleteAllNote(action) {
-  const { id } = action;
-  try {
-    const response = yield call(deleteNote, `${API_ENDPOINT}${DELETE_NOTES_BY_FOLDER}/${id}`);
-    if (response.data.success) {
-      yield put({ type: DELETE_SUCCESS_NOTE_BY_FOLDER, payload: response.data.success });
-    } else if (response.data.error) {
-      yield put({ type: DELETE_FAILURE_NOTE_BY_FOLDER, payload: response.data.error })
-    }
-  } catch (error) {
-    yield put({ type: DELETE_FAILURE_NOTE_BY_FOLDER, payload: error });
-  }
-}
-
 function* loadDeleteFolder(action) {
   const { id } = action;
   try {
@@ -109,7 +91,6 @@ export default function* noteFolderPageSaga() {
     takeLatest(LOAD_NOTES_BY_FOLDER, loadNoteByFolder),
     takeLatest(DELETE_NOTE, loadDeleteNote),
     takeLatest(SEARCH_NOTE, fetchSearchNote),
-    takeLatest(DELETE_NOTE_BY_FOLDER, loadDeleteAllNote),
     takeLatest(DELETE_FOLDER, loadDeleteFolder),
   ])
 }

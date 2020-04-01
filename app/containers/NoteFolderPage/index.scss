@@ -49,6 +49,7 @@
                 background-image: url(assets/delete.svg);
             }
         }
+
     }
 
     .notification {
@@ -92,5 +93,24 @@
 
     .accept-icon {
         background-image: url(assets/accept.svg);
+    }
+}
+
+#delete-popover {
+    width: 300px;
+
+    .ant-popover-title {
+        font-size: 18px;
+    }
+
+    #delete-modal {
+
+        .delete-modal-footer {
+            padding: 0;
+            background-color: $primary_white;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
     }
 }

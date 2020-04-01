@@ -145,11 +145,6 @@ export class HighLightFolderPage extends React.Component {
     });
   };
 
-  handleDeleteAllHighlight = () => {
-    const { folder } = this.state;
-    this.props.handleDeleteAllHighlights(folder._id);
-  }
-
   handleDeleteFolder = () => {
     const { folder } = this.state;
     this.props.handleDeleteFolder(folder._id);
@@ -157,7 +152,7 @@ export class HighLightFolderPage extends React.Component {
 
   render() {
     const { folder, windowHeight, highlights, isShow, deleteMessage, clicked } = this.state;
-    const { isLoading, isLoadingDelete } = this.props.highLightFolderPage;
+    const { isLoading, isLoadingDelete, isLoadingDeleteFolder } = this.props.highLightFolderPage;
     const buttonSort = [
       {
         id: 'greenSortButton',
@@ -182,13 +177,33 @@ export class HighLightFolderPage extends React.Component {
     ];
     const antIcon = <Icon type="loading" style={{ fontSize: 24, color: '#40a887', marginRight: '10px' }} spin />;
     const contentPopover = (
-      <Layout>
+      <Layout id='delete-modal'>
         <Content className='delete-modal-content'>
-          <p>Do you want to delete this folder</p>
+          {
+            folder.isStudying &&
+            <div>
+              {
+                highlights.length > 0 ?
+                  <p className="content-main">Because you are studying this course so you can only delete highlights in this folder</p>
+                  :
+                  <p className="content-main">You don't have any highlights</p>
+              }
+            </div>
+          }
         </Content>
         <Footer className='delete-modal-footer'>
-          <Button onClick={this.hide}>Cancel</Button>
-          <Button onClick={this.handleDeleteFolder}>Delete</Button>
+          <Button onClick={this.hide} className='modal-cancel-btn'>Cancel</Button>
+          <Button
+            onClick={this.handleDeleteFolder}
+            className='modal-delete-btn'
+            type='danger'
+            disabled={folder.isStudying ? highlights.length > 0 ? false : true : false}
+          >
+            {isLoadingDeleteFolder ?
+              <Spin indicator={antIcon} /> :
+              <span>Delete</span>
+            }
+          </Button>
         </Footer>
       </Layout>
     );
@@ -232,6 +247,8 @@ export class HighLightFolderPage extends React.Component {
               trigger="click"
               visible={clicked}
               onVisibleChange={this.handleClickChangePopover}
+              title="Do you want to delete this folder?"
+              id="delete-popover"
             >
               <Button type='danger' className='btn-delete-folder'><span className="folder-delete-icon"></span></Button>
             </Popover>
@@ -291,7 +308,6 @@ HighLightFolderPage.propTypes = {
   handleDeleteHighlight: PropTypes.func.isRequired,
   handleFetchHighlightByColor: PropTypes.func.isRequired,
   fetchSearchHighlight: PropTypes.func.isRequired,
-  handleDeleteAllHighlights: PropTypes.func.isRequired,
   handleDeleteFolder: PropTypes.func.isRequired,
 };
 
@@ -305,7 +321,6 @@ function mapDispatchToProps(dispatch) {
     handleDeleteHighlight: (id) => { dispatch(loadDeleteHighlight(id)) },
     handleFetchHighlightByColor: (color, courseId) => { dispatch(loadFilterHighlight(color, courseId)) },
     fetchSearchHighlight: (key, id) => { dispatch(searchHighlight(key, id)) },
-    handleDeleteAllHighlights: (id) => { dispatch(loadDeleteHighlightByFolder(id)) },
     handleDeleteFolder: (id) => { dispatch(loadDeleteHFolder(id)) },
   };
 }

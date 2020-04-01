@@ -19,9 +19,6 @@ import {
   DELETE_FAILURE_FOLDER,
   DELETE_FOLDER,
   DELETE_SUCCESS_FOLDER,
-  DELETE_FAILURE_NOTE_BY_FOLDER,
-  DELETE_NOTE_BY_FOLDER,
-  DELETE_SUCCESS_NOTE_BY_FOLDER
 } from './constants';
 
 export const initialState = fromJS({
@@ -62,12 +59,6 @@ function noteFolderPageReducer(state = initialState, action) {
       return state.set("isLoadingDeleteFolder", false).set("message", action.payload);
     case DELETE_FAILURE_FOLDER:
       return state.set("isLoadingDeleteFolder", false).set("error", action.payload);
-    case DELETE_NOTE_BY_FOLDER:
-      return state.set("isLoadingDelete", true);
-    case DELETE_SUCCESS_NOTE_BY_FOLDER:
-      return state.set("isLoadingDelete", false).set("message", action.payload);
-    case DELETE_FAILURE_NOTE_BY_FOLDER:
-      return state.set("isLoadingDelete", false).set("error", action.payload);
     default:
       return state;
   }

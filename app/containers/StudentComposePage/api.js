@@ -5,7 +5,7 @@ const fetchAskDetail = (url) => {
 }
 
 const closeAskDetail = (url) => {
-    return axiosService.put(url);
+    return axiosService.putWithoutBody(url);
 }
 
 export {

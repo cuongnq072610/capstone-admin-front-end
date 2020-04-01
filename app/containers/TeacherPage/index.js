@@ -100,11 +100,18 @@ export class TeacherPage extends React.Component {
 
     filterByCourse = (course) => {
         const { baseTeachers } = this.state;
-        const filterTeacher = baseTeachers.map(teacher => {
-            const courseNames = teacher.courses.map(course => course.courseName)
-            return courseNames.includes(course) ? teacher : "";
+        let filterTeacher = [];
+        baseTeachers.map(teacher => {
+            const courseNames = teacher.courses.map(course => course.courseName);
+            if (courseNames.includes(course)) {
+                filterTeacher = [...filterTeacher, teacher];
+            } else {
+                filterTeacher = filterTeacher;
+            }
         })
-        console.log(filterTeacher)
+        this.setState({
+            teachers: filterTeacher,
+        })
     }
 
     onToggleInfo = (teacher, index) => {

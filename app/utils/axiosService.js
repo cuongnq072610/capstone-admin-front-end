@@ -32,7 +32,7 @@ class AxiosService {
         return this.instance.put(url, body);
     }
 
-    put(url) {
+    putWithoutBody(url) {
         return this.instance.put(url);
     }
 

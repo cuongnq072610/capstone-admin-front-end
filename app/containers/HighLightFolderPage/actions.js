@@ -4,7 +4,7 @@
  *
  */
 
-import { DEFAULT_ACTION, LOAD__HIGHLIGHT_BY_FOLDER, DELETE_HIGHLIGHT, FILTER_HIGHLIGHT, SEARCH_HIGHLIGHT, DELETE_HIGHLIGHT_BY_FOLDER, DELETE_FOLDER } from './constants';
+import { DEFAULT_ACTION, LOAD__HIGHLIGHT_BY_FOLDER, DELETE_HIGHLIGHT, FILTER_HIGHLIGHT, SEARCH_HIGHLIGHT, DELETE_FOLDER } from './constants';
 
 export function defaultAction() {
   return {
@@ -38,13 +38,6 @@ export function searchHighlight(key, id) {
   return {
     type: SEARCH_HIGHLIGHT,
     key,
-    id,
-  }
-}
-
-export function loadDeleteHighlightByFolder(id) {
-  return {
-    type: DELETE_HIGHLIGHT_BY_FOLDER,
     id,
   }
 }

@@ -22,9 +22,6 @@ import {
   DELETE_FAILURE_FOLDER,
   DELETE_SUCCESS_FOLDER,
   DELETE_FOLDER,
-  DELETE_HIGHLIGHT_BY_FOLDER,
-  DELETE_FAILURE_HIGHLIGHT_BY_FOLDER,
-  DELETE_SUCCESS_HIGHLIGHT_BY_FOLDER,
 } from './constants';
 
 export const initialState = fromJS({
@@ -64,12 +61,6 @@ function highLightFolderPageReducer(state = initialState, action) {
       return state.set('highlights', fromJS(action.payload)).set('isLoading', false);
     case SEARCH_FAILURE_HIGHLIGHT:
       return state.set('errors', action.payload).set('isLoading', false);
-    case DELETE_HIGHLIGHT_BY_FOLDER:
-      return state.set("isLoadingDelete", true);
-    case DELETE_SUCCESS_HIGHLIGHT_BY_FOLDER:
-      return state.set("isLoadingDelete", false).set("message", action.payload);
-    case DELETE_FAILURE_HIGHLIGHT_BY_FOLDER:
-      return state.set("isLoadingDelete", false).set("error", action.payload);
     case DELETE_FOLDER:
       return state.set("isLoadingDeleteFolder", true);
     case DELETE_SUCCESS_FOLDER:

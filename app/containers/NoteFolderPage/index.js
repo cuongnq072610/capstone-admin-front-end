@@ -171,11 +171,6 @@ export class NoteFolderPage extends React.Component {
     });
   };
 
-  handleDeleteAllNotes = () => {
-    const { folder } = this.state;
-    this.props.handleDeleteAllNotes(folder._id);
-  }
-
   handleDeleteFolder = () => {
     const { folder } = this.state;
     this.props.handleDeleteFolder(folder._id);
@@ -183,17 +178,37 @@ export class NoteFolderPage extends React.Component {
 
   render() {
     const { folder, notes, isShow, deleteMessage, isSearching, searchNotes, clicked } = this.state;
-    const { isLoading, isLoadingDelete } = this.props.noteFolderPage;
+    const { isLoading, isLoadingDelete, isLoadingDeleteFolder } = this.props.noteFolderPage;
     const antIcon = <Icon type="loading" style={{ fontSize: 24, color: '#ffc143', marginRight: '10px' }} spin />;
 
     const contentPopover = (
-      <Layout>
+      <Layout id='delete-modal'>
         <Content className='delete-modal-content'>
-          <p>Do you want to delete this folder</p>
+          {
+            folder.isStudying &&
+            <div>
+              {
+                notes.length > 0 ?
+                  <p className="content-main">Because you are studying this course so you can only delete notes in this folder</p>
+                  :
+                  <p className="content-main">You don't have any notes</p>
+              }
+            </div>
+          }
         </Content>
         <Footer className='delete-modal-footer'>
-          <Button onClick={this.hide}>Cancel</Button>
-          <Button onClick={this.handleDeleteFolder}>Delete</Button>
+          <Button onClick={this.hide} className='modal-cancel-btn'>Cancel</Button>
+          <Button
+            onClick={this.handleDeleteFolder}
+            className='modal-delete-btn'
+            type='danger'
+            disabled={folder.isStudying ? notes.length > 0 ? false : true : false}
+          >
+            {isLoadingDeleteFolder ?
+              <Spin indicator={antIcon} /> :
+              <span>Delete</span>
+            }
+          </Button>
         </Footer>
       </Layout>
     );
@@ -236,6 +251,8 @@ export class NoteFolderPage extends React.Component {
                 trigger="click"
                 visible={clicked}
                 onVisibleChange={this.handleClickChangePopover}
+                title="Do you want to delete this folder?"
+                id="delete-popover"
               >
                 <Button type='danger' className='btn-delete-folder'><span className="folder-delete-icon"></span></Button>
               </Popover>
@@ -321,7 +338,6 @@ NoteFolderPage.propTypes = {
   handleFetchNoteByCourse: PropTypes.func.isRequired,
   handleDeleteNote: PropTypes.func.isRequired,
   fetchSearchNote: PropTypes.func.isRequired,
-  handleDeleteAllNotes: PropTypes.func.isRequired,
   handleDeleteFolder: PropTypes.func.isRequired,
 };
 
@@ -334,7 +350,6 @@ function mapDispatchToProps(dispatch) {
     handleFetchNoteByCourse: (courseId) => { dispatch(loadNotesByFolder(courseId)) },
     handleDeleteNote: (id) => { dispatch(loadDeleteNote(id)) },
     fetchSearchNote: (key, id) => { dispatch(searchNote(key, id)) },
-    handleDeleteAllNotes: (id) => { dispatch(loadDeleteNoteByFolderId(id)) },
     handleDeleteFolder: (id) => { dispatch(loadDeleteFolder(id)) },
   };
 }

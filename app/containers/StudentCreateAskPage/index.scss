@@ -1,23 +1,54 @@
 @import "../../utils/variables.scss";
 
+
+.ant-select-dropdown-menu-item {
+    .avatar {
+        border-radius: 50% !important;
+        width: 26px !important;
+        margin-right: 16px;
+    }
+}
+
 .create-ask {
     background-color: #fff;
     padding: 28px 40px 0px 20px;
 
+    
+
     .create-ask-header {
         padding: 0;
         background-color: white;
+        display: flex;
+        align-items: center;
 
         i {
             font-size: 20px;
             color: $primary_blue;
         }
+
+        .ask-page-name {
+            color: $primary_blue;
+            font-family: Roboto;
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: 0.28px;
+            margin: 0;
+            margin-left: 16px;
+            padding-right: 20px;
+          }
     }
 
     .create-ask-body {
         margin-top: 25px;
         padding: 0;
 
+        .label {
+            font-size: 16px;
+        }
+
+        .description {
+            margin-top: 30px;
+        }
         .input-ques-to {
             height: 30px;
             opacity: 0.4;
@@ -28,71 +59,18 @@
             padding-left: 0px;
         }
 
-        .tutor-field {
-            margin-top: 20px;
-
-            p {
-                color: #616161;
-                font-family: Roboto;
-                font-size: 16px;
-                font-weight: 400;
-            }
-
-            .tutor-all {
-                display: grid;
-                grid-template-columns: auto auto auto auto;
-                grid-column-gap: 50px;
-                grid-row-gap: 10px;
-                padding: 10px;
-                margin-bottom: 30px;
-                height: 100px;
-                overflow: auto;
-
-                .tutor-field-btn {
-                    display: flex;
-                    justify-content: flex-start;
-                    align-items: center;
-                    padding: 0;
-
-                    .tutor-avatar {
-                        width: 40px;
-                        height: 40px;
-                        margin-right: 20px;
-                    }
-
-                    .tutor-name {
-                        color: #626262;
-                        font-family: Roboto;
-                        font-size: 16px;
-                        font-weight: 500;
-                        padding: 0;
-                        margin: 0;
-                    }
-                }
-            }
-        }
-
-        .input-ques-title {
-            height: 40px;
-            opacity: 0.4;
-            color: #616161;
-            font-family: Roboto;
-            font-size: 32px;
-            font-weight: 400;
-            border: none;
-            padding-left: 0;
-            margin-bottom: 30px;
-        }
+        
 
         .input-ques-content {
+            margin-top: 16px;
             height: 200px;
 
             .ql-toolbar.ql-snow {
-                border: none;
+                border-radius: 5px;
             }
 
             .ql-container.ql-snow {
-                border: none;
+                border-radius: 0 0 5px 5px;
             }
         }
     }

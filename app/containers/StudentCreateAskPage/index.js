@@ -19,66 +19,78 @@ import makeSelectStudentCreateAskPage from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
-import { Row, Layout, Icon, Input, Spin } from 'antd';
+import { Select,Row, TextArea,Layout, Icon, Input, Spin, Col } from 'antd';
 import { Link } from 'react-router-dom';
 import './index.scss';
 
 const { Header, Content, Footer } = Layout;
-import avatar from '../../assets/png/man-1.png';
 
-const mockData = [
-  {
-    _id: 1,
-    name: 'Teacher A',
-    email: "teacherA@gmmail.com",
-  },
-  {
-    _id: 2,
-    name: 'Teacher B',
-    email: "teacherB@gmmail.com",
-  },
-  {
-    _id: 3,
-    name: 'Teacher C',
-    email: "teacherC@gmmail.com",
-  },
-  {
-    _id: 4,
-    name: 'Teacher D',
-    email: "teacherD@gmmail.com",
-  },
-  {
-    _id: 5,
-    name: 'Teacher E',
-    email: "teacherE@gmmail.com",
-  },
 
+const dataCourse = [
   {
-    _id: 6,
-    name: 'Teacher F',
-    email: "teacherF@gmmail.com",
+      "teachers": [],
+      "_id": "5e74a5a6818db100040e73a0",
+      "courseName": "Connecting to Computer Science",
+      "courseCode": "CSI101",
+      "courseURL": "https://computersciencewiki.org/index.php/Welcome",
+      "dateCreated": "Fri, 20 Mar 2020 11:14:46 GMT",
+      "__v": 0
   },
   {
-    _id: 7,
-    name: 'Teacher G',
-    email: "teacherG@gmmail.com",
+      "teachers": [
+          "5e73a2d1ce0f903b47c20b38"
+      ],
+      "_id": "5e7b7c4d3c1f1800048172b3",
+      "courseName": "Introduction to Databases",
+      "courseCode": "DBI202",
+      "courseURL": "https://www.tutorialspoint.com/dbms",
+      "dateCreated": "Wed, 25 Mar 2020 15:44:13 GMT",
+      "__v": 0
   },
   {
-    _id: 8,
-    name: 'Teacher H',
-    email: "teacherH@gmmail.com",
-  },
+      "teachers": [],
+      "_id": "5e749e80818db100040e739e",
+      "courseName": "Computer Organization and Architecture",
+      "courseCode": "CEA201",
+      "courseURL": "https://tutorialspoint.dev/computer-science/computer-organization-and-architecture",
+      "dateCreated": "Fri, 20 Mar 2020 10:44:16 GMT",
+      "__v": 0
+  }
+]
 
+const dataTeacher = [
   {
-    _id: 9,
-    name: 'Teacher I',
-    email: "teacherI@gmmail.com",
+    "_id": "5e73a2d1ce0f903b47c20b38",
+    "name": "DuongVT",
+    "email": "duongvt@fpt.edu.vn",
+    "gender": "male",
+    "avatar": "https://lh3.googleusercontent.com/a-/AOh14GghL_erp_D0JdZ4K5KVnrh25JgsaacorcYf_35m",
+    "isActive": true
   },
   {
-    _id: 10,
-    name: 'Teacher J',
-    email: "teacherJ@gmmail.com",
+    "_id": "5e73a2d1ce0f903b47c20",
+    "name": "DuongVT",
+    "email": "duongvt@fpt.edu.vn",
+    "gender": "male",
+    "avatar": "https://lh3.googleusercontent.com/a-/AOh14GghL_erp_D0JdZ4K5KVnrh25JgsaacorcYf_35m",
+    "isActive": true
   },
+  {
+    "_id": "5e73a2d1ce0f903b47c20b",
+    "name": "DuongVT",
+    "email": "duongvt@fpt.edu.vn",
+    "gender": "male",
+    "avatar": "https://lh3.googleusercontent.com/a-/AOh14GghL_erp_D0JdZ4K5KVnrh25JgsaacorcYf_35m",
+    "isActive": true
+  },
+  {
+    "_id": "5e73a2d1ce0f903b47c20b3",
+    "name": "DuongVT",
+    "email": "duongvt@fpt.edu.vn",
+    "gender": "male",
+    "avatar": "https://lh3.googleusercontent.com/a-/AOh14GghL_erp_D0JdZ4K5KVnrh25JgsaacorcYf_35m",
+    "isActive": true
+  }
 ]
 
 /* eslint-disable react/prefer-stateless-function */
@@ -91,7 +103,9 @@ export class StudentCreateAskPage extends React.Component {
         header: "",
         content: "",
       },
-      isShow: false
+      isShow: false,
+      course : "",
+      teacher: []
     }
   }
 
@@ -101,6 +115,12 @@ export class StudentCreateAskPage extends React.Component {
         ...this.state.question,
         [e.target.id]: e.target.value,
       }
+    })
+  }
+
+  handleChangeSelect = (value) => {
+    this.setState({
+      
     })
   }
 
@@ -120,12 +140,10 @@ export class StudentCreateAskPage extends React.Component {
   }
 
   render() {
-    const {
-      to, header, content
-    } = this.state.question;
-    const { isShow } = this.state;
-      console.log(isShow)
+    const {to, header, content } = this.state.question;
+    const { isShow, course,teacher } = this.state;
     const antIcon = <Icon type="loading" style={{ fontSize: 24, color: '#1593e6' }} spin />;
+
     const editorModule = {
       toolbar: [
         [{ 'font': [] }],
@@ -147,6 +165,7 @@ export class StudentCreateAskPage extends React.Component {
       'image', 'video'
     ]
 
+
     return (
       <div>
         <Helmet>
@@ -162,49 +181,50 @@ export class StudentCreateAskPage extends React.Component {
               <Link to="/ask">
                 <Icon type="arrow-left" />
               </Link>
+              <div className='ask-page-name-wrapper'>
+                <p className="ask-page-name">Ask your tutor</p>
+              </div>
             </Header>
             <Content className="create-ask-body">
-              <Input
-                id="to"
-                className="input-ques-to"
-                placeholder="To :"
-                value={to}
-                onChange={this.onHandleChange}
-              />
-              <div className="tutor-field">
-                <p>Your tutors:</p>
-                {/* <Spin indicator={antIcon}/> */}
-                <div className="tutor-all">
-                  {
-                    mockData.map((teacher, index) => {
-                      return (
-                        <button key={index} className="tutor-field-btn" onClick={() => this.onHandleChooseTutor(teacher)}>
-                          <img src={avatar} className="tutor-avatar" />
-                          <p className="tutor-name">{teacher.name}</p>
-                        </button>
-                      )
-                    })
-                  }
-                </div>
+              <Row gutter={25}>
+                <Col span={12}>
+                  <Select
+                    style={{ width: '100%' }}
+                    placeholder="Choose course"
+                    onChange={this.handleChangeSelect}
+                  >
+                    {
+                        dataCourse.map(item => <Option key={item._id} value={item._id}>{item.courseCode}{item.courseName}</Option>)
+                    }
+                  </Select>
+                </Col>
+                <Col span={12}>
+                    <Select
+                      style={{ width: '100%' }}
+                      placeholder="Choose teacher"
+                      onChange={this.handleChangeSelect}
+                      value={teacher}
+                    >
+                      {
+                          dataTeacher.map(item => <Option key={item._id} value={item._id}><img className="avatar" src={item.avatar} alt="avatar"/>{item.name}{item.email}</Option>)
+                      }
+                    </Select>
+                </Col>
+
+              </Row>
+              
+              <div className="description">
+                <label className="label">DESCRIPTION</label>
+                <ReactQuill
+                  theme="snow"
+                  bounds=".create-ask-body"
+                  placeholder="You can describe your problem here"
+                  modules={editorModule}
+                  formats={editorFomat}
+                  className="input-ques-content"
+                />
               </div>
-              <hr style={{ width: '40%', marginLeft: '0px', marginBottom: '30px' }}></hr>
-              <Input
-                id="header"
-                className="input-ques-title"
-                placeholder="What's your question?"
-                value={header}
-                onChange={this.onHandleChange}
-              />
-              <ReactQuill
-                theme="snow"
-                bounds=".create-ask-body"
-                placeholder="You can describe your problem here"
-                modules={editorModule}
-                formats={editorFomat}
-                className="input-ques-content"
-              // onChange
-              // value
-              />
+              
             </Content>
             <Footer className="create-ask-footer">
               <button className="btn-send" onClick={this.onHandleSend}>

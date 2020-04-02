@@ -179,24 +179,25 @@ export class StudentCreateAskPage extends React.Component {
               <Row gutter={25}>
                 <Col span={12}>
                   <Select
+                    className = "selectCourse"
                     style={{ width: '100%' }}
                     placeholder="Choose course"
                     onChange={this.handleChooseCourse}
                   >
                     {
-                      courses.length > 0 && courses.map(item => <Option key={item._id} value={item.courseName}>{item.courseCode} {item.courseName}</Option>)
+                      courses.length > 0 && courses.map(item => <Option key={item._id} value={item.courseName}><span className="courseCode">{item.courseCode} </span> {item.courseName}</Option>)
                     }
                   </Select>
                 </Col>
                 <Col span={12}>
                   <Select
+                    className = "selectTeacher"
                     style={{ width: '100%' }}
                     placeholder="Choose teacher"
-                    value={to}
                     onChange={this.handleChooseTeacher}
                   >
                     {
-                      showTeachers.length > 0 && showTeachers.map(item => <Option key={item._id} value={item._id}><img className="avatar" src={item.avatar} alt="avatar" />{item.name} {item.email}</Option>)
+                      showTeachers.length > 0 && showTeachers.map(item => <Option key={item._id} value={item._id}><img className="avatar" src={item.avatar} alt="avatar" /><span className="teacherName">{item.name}</span> {item.email}</Option>)
                     }
                   </Select>
                 </Col>

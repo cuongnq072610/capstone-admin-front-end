@@ -55,9 +55,6 @@ export class NoteDetailPage extends React.Component {
     }
     if (prevProps.noteDetailPage.isLoadingDelete !== this.props.noteDetailPage.isLoadingDelete && this.props.noteDetailPage.isLoadingDelete === false) {
       const { message } = this.props.noteDetailPage
-      // this.props.history.push({
-      //   pathname: '/note',
-      // })
       this.handleNavigateBack();
       localStorage.setItem("message", message)
     }
@@ -113,8 +110,8 @@ export class NoteDetailPage extends React.Component {
   }
 
   handleNavigateBack = () => {
-    const {from, folder} = this.props.history.location.state;
-    if(folder) {
+    const { from, folder } = this.props.history.location.state;
+    if (folder) {
       this.props.history.push({
         pathname: from,
         state: {
@@ -179,6 +176,7 @@ export class NoteDetailPage extends React.Component {
                       formats={editorFomat}
                       onChange={this.handleChange}
                       value={editorHtml}
+                      className="note-detail-area"
                     />
                   </div>
                 </div>

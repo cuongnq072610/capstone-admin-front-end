@@ -13,7 +13,7 @@
     background-color: #fff;
     padding: 28px 40px 0px 20px;
 
-    
+
 
     .create-ask-header {
         padding: 0;
@@ -35,7 +35,7 @@
             margin: 0;
             margin-left: 16px;
             padding-right: 20px;
-          }
+        }
     }
 
     .create-ask-body {
@@ -48,7 +48,21 @@
 
         .description {
             margin-top: 30px;
+
+            .input-ques-content {
+                margin-top: 16px;
+                height: 250px;
+
+                .ql-toolbar.ql-snow {
+                    border-radius: 5px;
+                }
+
+                .ql-container.ql-snow {
+                    border-radius: 0 0 5px 5px;
+                }
+            }
         }
+
         .input-ques-to {
             height: 30px;
             opacity: 0.4;
@@ -59,20 +73,14 @@
             padding-left: 0px;
         }
 
-        
+        .ask-ques {
+            margin-top: 30px;
 
-        .input-ques-content {
-            margin-top: 16px;
-            height: 200px;
-
-            .ql-toolbar.ql-snow {
-                border-radius: 5px;
-            }
-
-            .ql-container.ql-snow {
-                border-radius: 0 0 5px 5px;
+            .input-ask-ques {
+                margin-top: 16px;
             }
         }
+
     }
 
     .create-ask-footer {
@@ -152,5 +160,20 @@
         .deny-icon {
             background-image: url(assets/deny.svg);
         }
+    }
+}
+
+.input-ques-content {
+    p>img {
+        width: 500px;
+        height: 300px;
+    }
+}
+
+.ant-select-selection-selected-value {
+    img {
+        width: 24px;
+        border-radius: 12px;
+        margin-right: 20px;
     }
 }

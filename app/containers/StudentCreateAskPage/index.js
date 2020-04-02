@@ -10,7 +10,8 @@ import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
-import ReactQuill from 'react-quill';
+import ReactQuill, { Quill } from 'react-quill';
+import { ImageDrop } from 'quill-image-drop-module';
 import { compose } from 'redux';
 
 import injectSaga from 'utils/injectSaga';
@@ -19,79 +20,15 @@ import makeSelectStudentCreateAskPage from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
-import { Select,Row, TextArea,Layout, Icon, Input, Spin, Col } from 'antd';
+import { Select, Row, Layout, Icon, Input, Spin, Col } from 'antd';
 import { Link } from 'react-router-dom';
 import './index.scss';
+import { loadStudentInfo, loadTeacher } from './actions';
 
 const { Header, Content, Footer } = Layout;
-
-
-const dataCourse = [
-  {
-      "teachers": [],
-      "_id": "5e74a5a6818db100040e73a0",
-      "courseName": "Connecting to Computer Science",
-      "courseCode": "CSI101",
-      "courseURL": "https://computersciencewiki.org/index.php/Welcome",
-      "dateCreated": "Fri, 20 Mar 2020 11:14:46 GMT",
-      "__v": 0
-  },
-  {
-      "teachers": [
-          "5e73a2d1ce0f903b47c20b38"
-      ],
-      "_id": "5e7b7c4d3c1f1800048172b3",
-      "courseName": "Introduction to Databases",
-      "courseCode": "DBI202",
-      "courseURL": "https://www.tutorialspoint.com/dbms",
-      "dateCreated": "Wed, 25 Mar 2020 15:44:13 GMT",
-      "__v": 0
-  },
-  {
-      "teachers": [],
-      "_id": "5e749e80818db100040e739e",
-      "courseName": "Computer Organization and Architecture",
-      "courseCode": "CEA201",
-      "courseURL": "https://tutorialspoint.dev/computer-science/computer-organization-and-architecture",
-      "dateCreated": "Fri, 20 Mar 2020 10:44:16 GMT",
-      "__v": 0
-  }
-]
-
-const dataTeacher = [
-  {
-    "_id": "5e73a2d1ce0f903b47c20b38",
-    "name": "DuongVT",
-    "email": "duongvt@fpt.edu.vn",
-    "gender": "male",
-    "avatar": "https://lh3.googleusercontent.com/a-/AOh14GghL_erp_D0JdZ4K5KVnrh25JgsaacorcYf_35m",
-    "isActive": true
-  },
-  {
-    "_id": "5e73a2d1ce0f903b47c20",
-    "name": "DuongVT",
-    "email": "duongvt@fpt.edu.vn",
-    "gender": "male",
-    "avatar": "https://lh3.googleusercontent.com/a-/AOh14GghL_erp_D0JdZ4K5KVnrh25JgsaacorcYf_35m",
-    "isActive": true
-  },
-  {
-    "_id": "5e73a2d1ce0f903b47c20b",
-    "name": "DuongVT",
-    "email": "duongvt@fpt.edu.vn",
-    "gender": "male",
-    "avatar": "https://lh3.googleusercontent.com/a-/AOh14GghL_erp_D0JdZ4K5KVnrh25JgsaacorcYf_35m",
-    "isActive": true
-  },
-  {
-    "_id": "5e73a2d1ce0f903b47c20b3",
-    "name": "DuongVT",
-    "email": "duongvt@fpt.edu.vn",
-    "gender": "male",
-    "avatar": "https://lh3.googleusercontent.com/a-/AOh14GghL_erp_D0JdZ4K5KVnrh25JgsaacorcYf_35m",
-    "isActive": true
-  }
-]
+const { TextArea } = Input;
+const { Option } = Select;
+Quill.register('modules/imageDrop', ImageDrop);
 
 /* eslint-disable react/prefer-stateless-function */
 export class StudentCreateAskPage extends React.Component {
@@ -104,8 +41,28 @@ export class StudentCreateAskPage extends React.Component {
         content: "",
       },
       isShow: false,
-      course : "",
-      teacher: []
+      courses: [],
+      chosenCourse: "",
+      teachers: [],
+      showTeachers: [],
+    }
+  }
+
+  componentDidMount() {
+    this.props.handleFetchStudentCourses();
+    this.props.fetchTeacher();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.studentCreateAskPage.courses !== this.props.studentCreateAskPage.courses) {
+      this.setState({
+        courses: this.props.studentCreateAskPage.courses,
+      })
+    }
+    if (prevProps.studentCreateAskPage.teachers !== this.props.studentCreateAskPage.teachers) {
+      this.setState({
+        teachers: this.props.studentCreateAskPage.teachers,
+      })
     }
   }
 
@@ -118,30 +75,62 @@ export class StudentCreateAskPage extends React.Component {
     })
   }
 
-  handleChangeSelect = (value) => {
-    this.setState({
-      
-    })
-  }
-
-  onHandleChooseTutor = (teacher) => {
-    this.setState({
-      question: {
-        ...this.state.question,
-        to: teacher.email
-      }
-    })
-  }
-
   onHandleSend = () => {
+    console.log(this.state.question)
     this.setState({
       isShow: !this.state.isShow
     })
   }
 
+  getTeachersByCourse = (course) => {
+    const { teachers } = this.state;
+    let filterTeacher = [];
+    teachers.map(teacher => {
+      const courseNames = teacher.courses.map(course => course.courseName);
+      if (courseNames.includes(course)) {
+        filterTeacher = [...filterTeacher, teacher];
+      } else {
+        filterTeacher = filterTeacher;
+      }
+    })
+    this.setState({
+      showTeachers: filterTeacher,
+    })
+  }
+
+  handleChooseCourse = (value) => {
+    this.setState({
+      chosenCourse: value,
+      question: {
+        ...this.state.question,
+        to: "",
+      }
+    }, () => {
+      this.getTeachersByCourse(this.state.chosenCourse)
+    })
+  }
+
+  handleChooseTeacher = (value) => {
+    this.setState({
+      question: {
+        ...this.state.question,
+        to: value,
+      }
+    })
+  }
+
+  handleChangeDes = (html) => {
+    this.setState({
+      question: {
+        ...this.state.question,
+        content: html,
+      }
+    })
+  }
+
   render() {
-    const {to, header, content } = this.state.question;
-    const { isShow, course,teacher } = this.state;
+    const { to, header, content } = this.state.question;
+    const { isShow, courses, showTeachers } = this.state;
     const antIcon = <Icon type="loading" style={{ fontSize: 24, color: '#1593e6' }} spin />;
 
     const editorModule = {
@@ -150,19 +139,20 @@ export class StudentCreateAskPage extends React.Component {
         [{ size: [] }],
         ['bold', 'italic', 'underline', 'blockquote'],
         [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-        ['image', 'video'],
+        ['image'],
         ['clean']
       ],
       clipboard: {
         // toggle to add extra line breaks when pasting HTML:
         matchVisual: false,
-      }
+      },
+      imageDrop: true,
     };
     const editorFomat = [
       'header', 'font', 'size',
       'bold', 'italic', 'underline', 'strike', 'blockquote',
       'list', 'bullet', 'indent',
-      'image', 'video'
+      'image'
     ]
 
 
@@ -191,28 +181,37 @@ export class StudentCreateAskPage extends React.Component {
                   <Select
                     style={{ width: '100%' }}
                     placeholder="Choose course"
-                    onChange={this.handleChangeSelect}
+                    onChange={this.handleChooseCourse}
                   >
                     {
-                        dataCourse.map(item => <Option key={item._id} value={item._id}>{item.courseCode}{item.courseName}</Option>)
+                      courses.length > 0 && courses.map(item => <Option key={item._id} value={item.courseName}>{item.courseCode} {item.courseName}</Option>)
                     }
                   </Select>
                 </Col>
                 <Col span={12}>
-                    <Select
-                      style={{ width: '100%' }}
-                      placeholder="Choose teacher"
-                      onChange={this.handleChangeSelect}
-                      value={teacher}
-                    >
-                      {
-                          dataTeacher.map(item => <Option key={item._id} value={item._id}><img className="avatar" src={item.avatar} alt="avatar"/>{item.name}{item.email}</Option>)
-                      }
-                    </Select>
+                  <Select
+                    style={{ width: '100%' }}
+                    placeholder="Choose teacher"
+                    value={to}
+                    onChange={this.handleChooseTeacher}
+                  >
+                    {
+                      showTeachers.length > 0 && showTeachers.map(item => <Option key={item._id} value={item._id}><img className="avatar" src={item.avatar} alt="avatar" />{item.name} {item.email}</Option>)
+                    }
+                  </Select>
                 </Col>
 
               </Row>
-              
+
+              <div className="ask-ques">
+                <label className="label">WHAT'S YOUR QUESTION?</label>
+                <TextArea
+                  className="input-ask-ques"
+                  id="header"
+                  onChange={this.onHandleChange}
+                />
+              </div>
+
               <div className="description">
                 <label className="label">DESCRIPTION</label>
                 <ReactQuill
@@ -222,9 +221,10 @@ export class StudentCreateAskPage extends React.Component {
                   modules={editorModule}
                   formats={editorFomat}
                   className="input-ques-content"
+                  onChange={this.handleChangeDes}
                 />
               </div>
-              
+
             </Content>
             <Footer className="create-ask-footer">
               <button className="btn-send" onClick={this.onHandleSend}>
@@ -250,7 +250,7 @@ export class StudentCreateAskPage extends React.Component {
 }
 
 StudentCreateAskPage.propTypes = {
-  dispatch: PropTypes.func.isRequired,
+  handleFetchStudentCourses: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -259,7 +259,8 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
-    dispatch,
+    handleFetchStudentCourses: () => { dispatch(loadStudentInfo()) },
+    fetchTeacher: () => { dispatch(loadTeacher()) },
   };
 }
 

@@ -5,12 +5,12 @@
  */
 
 import React from 'react';
-import { Layout, Button, Popover } from 'antd';
+import { Layout, Button, Popover, Select } from 'antd';
 import "./index.scss";
-const { Header, Content } = Layout;
 import PropTypes from 'prop-types';
 // import styled from 'styled-components';
 
+const { Option } = Select;
 /* eslint-disable react/prefer-stateless-function */
 class Filter extends React.PureComponent {
   constructor(props) {
@@ -18,6 +18,7 @@ class Filter extends React.PureComponent {
     this.state = {
       chosenDepartments: [],
       activeType: "",
+      course: "",
     }
   }
 
@@ -54,22 +55,34 @@ class Filter extends React.PureComponent {
     this.props.onReset();
     this.setState({
       chosenDepartments: [],
-      activeType: ""
+      activeType: "",
+      course: "",
     })
   }
 
   handleChooseActiveType = (type) => {
     const { onFilter } = this.props;
     this.setState({
-      activeType: type
+      activeType: type,
+      course: "",
     }, () => {
       onFilter(this.state.activeType)
     })
   }
 
+  handleChooseCourse = (value) => {
+    const { onFilterCourse } = this.props;
+    this.setState({
+      activeType: "",
+      course: value,
+    }, () => {
+      onFilterCourse(this.state.course)
+    })
+  }
+
   render() {
-    const { activeType } = this.state;
-    const { departments, type } = this.props;
+    const { activeType, course } = this.state;
+    const { departments, type, courses } = this.props;
     const content = <Layout className="wrap">
       {
         type === "home" &&
@@ -84,12 +97,31 @@ class Filter extends React.PureComponent {
       }
       {
         type === 'teacher' &&
-        <div className="filter-active">
-          <span className="icon-filter-active"></span>
-          <p>Display:</p>
-          <Button onClick={() => this.handleChooseActiveType("active")} className={`filter-active-btn filter-active-btn-${activeType === 'active' && 'chosen'}`}>active</Button>
-          <Button onClick={() => this.handleChooseActiveType("inactive")} className={`filter-active-btn filter-active-btn-${activeType === 'inactive' && 'chosen'}`}>inactive</Button>
+        <div>
+          <div className="filter-active">
+            <span className="icon-filter-active"></span>
+            <p>Display:</p>
+            <Button onClick={() => this.handleChooseActiveType("active")} className={`filter-active-btn filter-active-btn-${activeType === 'active' && 'chosen'}`}>active</Button>
+            <Button onClick={() => this.handleChooseActiveType("inactive")} className={`filter-active-btn filter-active-btn-${activeType === 'inactive' && 'chosen'}`}>inactive</Button>
+          </div>
+          <div className='filter-course'>
+            <div className='filter-course-name'>
+              <span className="icon-filter-course"></span>
+              <p>Course:</p>
+            </div>
+            <Select
+              style={{ width: '100%' }}
+              placeholder="Please select"
+              onChange={this.handleChooseCourse}
+              value={course}
+            >
+              {
+                courses.map((item, index) => <Option key={index} value={item}>{item}</Option>)
+              }
+            </Select>
+          </div>
         </div>
+
       }
       <Button className={`clearBtn ${type === "home" ? "clearBtnHomeTheme" : "clearBtnTeacherTheme"}`} onClick={this.handleReset}>
         <span>Clear filter</span>

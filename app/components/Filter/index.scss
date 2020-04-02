@@ -53,6 +53,7 @@
     justify-content: space-between;
     align-items: center;
     width: 250px;
+    margin-bottom: 10px;
 
     .icon-filter-active {
         display: inline-block;
@@ -72,6 +73,30 @@
         &-chosen {
             background-color: $secondary_brown;
             color: #212121;
+        }
+    }
+}
+
+.filter-course {
+    margin-bottom: 10px;
+
+    .filter-course-name {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        margin-bottom: 10px;
+
+        .icon-filter-course {
+            display: inline-block;
+            width: 15px;
+            height: 15px;
+            background-size: cover;
+            background-image: url(assets/course.svg);
+            margin-right: 14px;
+        }
+
+        p {
+            margin-bottom: 0;
         }
     }
 }

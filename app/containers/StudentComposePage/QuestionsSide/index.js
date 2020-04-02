@@ -13,6 +13,8 @@ const QuestionSide = (props) => {
         isDelete,
         handleDelete,
         teacher,
+        handleRate,
+        handleCloseAsk,
     } = props;
     return (
         <Row>
@@ -45,7 +47,8 @@ const QuestionSide = (props) => {
                         isClosed &&
                         <div className="rate">
                             <span className="p">RATE TUTOR'S SUPPORT</span>
-                            <Rate allowClear defaultValue={2.5} className='rate-field' />
+                            <Rate allowClear defaultValue={2.5} className='rate-field' onChange={handleRate} /><br></br>
+                            <Button onClick={handleCloseAsk}>Done</Button>
                         </div>
                     }
                     <div className="settings">
@@ -68,7 +71,7 @@ const QuestionSide = (props) => {
                     </div>
                 </Content>
             </Layout>
-        </Row>
+        </Row >
     )
 
 }

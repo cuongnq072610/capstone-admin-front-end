@@ -17,3 +17,7 @@ export const SEARCH_FAILURE_TEACHER = 'app/TeacherPage/SEARCH_FAILURE_TEACHER';
 export const UPDATE_TEACHER = 'app/TeacherPage/UPDATE_TEACHER';
 export const UPDATE_SUCCESS_TEACHER = 'app/TeacherPage/UPDATE_SUCCESS_TEACHER';
 export const UPDATE_FAILURE_TEACHER = 'app/TeacherPage/UPDATE_FAILURE_TEACHER';
+
+export const LOAD_COURSE = 'app/TeacherPage/LOAD_COURSE';
+export const LOAD_SUCCESS_COURSE = 'app/TeacherPage/LOAD_SUCCESS_COURSE';
+export const LOAD_FAILURE_COURSE = 'app/TeacherPage/LOAD_FAILURE_COURSE';

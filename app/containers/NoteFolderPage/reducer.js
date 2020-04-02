@@ -16,6 +16,9 @@ import {
   SEARCH_NOTE,
   SEARCH_FAILURE_NOTE,
   SEARCH_SUCCESS_NOTE,
+  DELETE_FAILURE_FOLDER,
+  DELETE_FOLDER,
+  DELETE_SUCCESS_FOLDER,
 } from './constants';
 
 export const initialState = fromJS({
@@ -23,6 +26,7 @@ export const initialState = fromJS({
   isLoading: false,
   error: {},
   isLoadingDelete: false,
+  isLoadingDeleteFolder: false,
   message: {},
   searchNotes: [],
 });
@@ -49,6 +53,12 @@ function noteFolderPageReducer(state = initialState, action) {
       return state.set('searchNotes', fromJS(action.payload)).set('isLoading', false);
     case SEARCH_FAILURE_NOTE:
       return state.set('errors', action.payload).set('isLoading', false);
+    case DELETE_FOLDER:
+      return state.set("isLoadingDeleteFolder", true);
+    case DELETE_SUCCESS_FOLDER:
+      return state.set("isLoadingDeleteFolder", false).set("message", action.payload);
+    case DELETE_FAILURE_FOLDER:
+      return state.set("isLoadingDeleteFolder", false).set("error", action.payload);
     default:
       return state;
   }

@@ -21,6 +21,7 @@ import "./ask.scss";
 import columns from './tableCol';
 import FilterSearch from './FilterSearch';
 import { loadAsk, searchAsk } from './actions';
+import Filter from '../../components/Filter';
 
 const { Content, Header } = Layout;
 
@@ -30,6 +31,7 @@ export class StudentAskPage extends React.Component {
     super(props);
     this.state = {
       asks: [],
+      baseAsks: [],
     }
   }
 
@@ -40,7 +42,8 @@ export class StudentAskPage extends React.Component {
   componentDidUpdate(prevProps) {
     if (prevProps.studentAskPage.asks !== this.props.studentAskPage.asks) {
       this.setState({
-        asks: this.props.studentAskPage.asks
+        asks: this.props.studentAskPage.asks,
+        baseAsks: this.props.studentAskPage.asks,
       })
     }
   }
@@ -53,6 +56,44 @@ export class StudentAskPage extends React.Component {
     this.props.handleFetchAsks();
   }
 
+  onFilterByStatus = (status) => {
+    const { baseAsks } = this.state;
+    let filterAsks = [];
+    switch (status) {
+      case "opened":
+        filterAsks = baseAsks.filter(ask => ask.isClosed === false);
+        this.setState({
+          asks: filterAsks,
+        })
+        break;
+      case "closed":
+        filterAsks = baseAsks.filter(ask => ask.isClosed === true);
+        this.setState({
+          asks: filterAsks,
+        })
+        break;
+      case "seen":
+        filterAsks = baseAsks.filter(ask => ask.status === 'seen');
+        this.setState({
+          asks: filterAsks,
+        })
+        break;
+      case "unseen":
+        filterAsks = baseAsks.filter(ask => ask.status === 'new' || ask.status === 'replied');
+        this.setState({
+          asks: filterAsks,
+        })
+        break;
+      default:
+        break;
+    }
+  }
+
+  onResetFilter = () => {
+    this.setState({
+      asks: this.state.baseAsks,
+    })
+  }
 
   render() {
     const { asks } = this.state;
@@ -64,46 +105,48 @@ export class StudentAskPage extends React.Component {
           <meta name="description" content="Description of StudentAskPage" />
         </Helmet>
         <Row>
-          <Col span={19}>
-            <Layout className="ask-page">
-              <Header className="ask-page-header">
-                <div className='ask-page-name-wrapper'>
-                  <p className="ask-page-name">Asks</p>
-                </div>
+          <Layout className="ask-page">
+            <Header className="ask-page-header">
+              <div className='ask-page-name-wrapper'>
+                <p className="ask-page-name">Asks</p>
+              </div>
+              <div className='ask-page-header-side'>
                 <WrappedSearchBar className="ask-page-search"
-                  message="Please enter your course name"
-                  placeholder="I want to find my course"
+                  message="Please enter your question key"
+                  placeholder="I want to find my question"
                   type="ask"
                   handleSearch={this.handleSearch}
                   handleClear={this.handleClear}
                 />
-              </Header>
-              <Content className="ask-page-content">
-                <Row>
-                  <Table
-                    rowKey="_id"
-                    columns={columns}
-                    dataSource={asks}
-                    className="ask-table"
-                    onRow={(record, rowIndex) => {
-                      return {
-                        onClick: e => this.props.history.push({
-                          pathname: `/ask/compose/${record._id}`,
-                        })
-                      }
-                    }}
-                    loading={isLoading}
-                  />
-                </Row>
-                <div className="float" onClick={() => this.props.history.push("/ask/create")}>
-                  <Icon type="plus" className="my-float" />
-                </div>
-              </Content>
-            </Layout>
-          </Col>
-          <Col span={5}>
-            <FilterSearch />
-          </Col>
+                <Filter
+                  type="ask"
+                  onReset={this.onResetFilter}
+                  onFilter={this.onFilterByStatus}
+                />
+              </div>
+            </Header>
+            <Content className="ask-page-content">
+              <Row>
+                <Table
+                  rowKey="_id"
+                  columns={columns}
+                  dataSource={asks}
+                  className="ask-table"
+                  onRow={(record, rowIndex) => {
+                    return {
+                      onClick: e => this.props.history.push({
+                        pathname: `/ask/compose/${record._id}`,
+                      })
+                    }
+                  }}
+                  loading={isLoading}
+                />
+              </Row>
+              <div className="float" onClick={() => this.props.history.push("/ask/create")}>
+                <Icon type="plus" className="my-float" />
+              </div>
+            </Content>
+          </Layout>
         </Row>
       </div>
     );

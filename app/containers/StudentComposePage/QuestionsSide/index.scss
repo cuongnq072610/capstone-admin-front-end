@@ -48,10 +48,10 @@
             line-height: 17px;
           }
 
-          .tutor-mail {
+          .tutor-mail-side {
             color: #212121;
             font-family: Roboto;
-            font-size: 10px;
+            font-size: 15px;
             font-weight: 400;
             letter-spacing: 0.1px;
             line-height: 17px;
@@ -113,6 +113,12 @@
       .rate-field {
         margin-left: 20px;
         margin-bottom: 10px;
+      }
+
+      .rate-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
       }
     }
 

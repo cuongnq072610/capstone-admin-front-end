@@ -1,8 +1,7 @@
 @import "../../utils/variables.scss";
 
 .ask-page {
-  position: fixed;
-  width: 72%;
+  padding: 0 20px;
 
   .ask-page-header {
     background-color: #fff;
@@ -20,6 +19,12 @@
       letter-spacing: 0.28px;
       margin: 0;
       padding-right: 20px;
+    }
+
+    .ask-page-header-side {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
   }
 

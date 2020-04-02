@@ -33,11 +33,11 @@ const colunms = [
       return (
         <div className="ask-content">
           {
-            record.isReaded ?
+            record.status === 'seen' ?
               <span className="ask-icon ask-icon-read" ></span> :
               <span className="ask-icon ask-icon-unread" ></span>
           }
-          <p className={`ask-content-ques ${record.isReaded && "read"}`}>{text}</p>
+          <p className={`ask-content-ques ${(record.status === 'new' || record.status === 'replied') && "read"}`}>{text}</p>
         </div>
       )
     },
@@ -49,11 +49,12 @@ const colunms = [
     title: "Time",
     render: (text, record) => {
       return (
-          <p>{formatDate(text)}</p>
+        <p>{formatDate(text)}</p>
       )
     },
     dataIndex: "dateModified",
-    key: 'dateModified'
+    key: 'dateModified',
+    width: 200,
   },
 ];
 

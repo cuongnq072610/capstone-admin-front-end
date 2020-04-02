@@ -64,7 +64,7 @@ export class StudentCreateAskPage extends React.Component {
         teachers: this.props.studentCreateAskPage.teachers,
       })
     }
-    if (prevProps, studentCreateAskPage.isLoadingCreate !== this.props.studentCreateAskPage.isLoadingCreate && this.props.studentCreateAskPage.isLoadingCreate === false) {
+    if (prevProps.studentCreateAskPage.isLoadingCreate !== this.props.studentCreateAskPage.isLoadingCreate && this.props.studentCreateAskPage.isLoadingCreate === false) {
       this.props.history.push({
         pathname: '/ask'
       })

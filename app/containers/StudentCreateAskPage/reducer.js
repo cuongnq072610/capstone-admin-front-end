@@ -35,9 +35,9 @@ function studentCreateAskPageReducer(state = initialState, action) {
     case CREATE_ASK:
       return state.set("isLoadingCreate", true);
     case CREATE_ASK_SUCCESS:
-      return state.set("isLoadingCreate", false).set("message", ation.payload);
+      return state.set("isLoadingCreate", false).set("message", action.payload);
     case CREATE_ASK_FAILURE:
-      return state.set("isLoadingCreate", false).set("error", ation.payload);
+      return state.set("isLoadingCreate", false).set("error", action.payload);
     case LOAD_STUDENT_INFO:
       return state.set("isLoadingCourse", true);
     case LOAD_STUDENT_INFO_SUCCESS:

@@ -23,7 +23,7 @@ import messages from './messages';
 import { Select, Row, Layout, Icon, Input, Spin, Col } from 'antd';
 import { Link } from 'react-router-dom';
 import './index.scss';
-import { loadStudentInfo, loadTeacher } from './actions';
+import { loadStudentInfo, loadTeacher, createAsk } from './actions';
 
 const { Header, Content, Footer } = Layout;
 const { TextArea } = Input;
@@ -39,10 +39,10 @@ export class StudentCreateAskPage extends React.Component {
         to: "",
         header: "",
         content: "",
+        course: "",
       },
       isShow: false,
       courses: [],
-      chosenCourse: "",
       teachers: [],
       showTeachers: [],
     }
@@ -76,18 +76,25 @@ export class StudentCreateAskPage extends React.Component {
   }
 
   onHandleSend = () => {
-    console.log(this.state.question)
-    this.setState({
-      isShow: !this.state.isShow
-    })
+    const user = JSON.parse(localStorage.getItem("user"));
+    const { to, header, content, course } = this.state.question;
+    const askQuestion = {
+      "scannedContent": content,
+      "askContent": header,
+      "student": user.profile,
+      "teacher": to,
+      "courseID": course,
+      "url": ""
+    }
+    this.props.handleCreateAsk(askQuestion);
   }
 
   getTeachersByCourse = (course) => {
     const { teachers } = this.state;
     let filterTeacher = [];
     teachers.map(teacher => {
-      const courseNames = teacher.courses.map(course => course.courseName);
-      if (courseNames.includes(course)) {
+      const courseIds = teacher.courses.map(course => course._id);
+      if (courseIds.includes(course)) {
         filterTeacher = [...filterTeacher, teacher];
       } else {
         filterTeacher = filterTeacher;
@@ -100,13 +107,13 @@ export class StudentCreateAskPage extends React.Component {
 
   handleChooseCourse = (value) => {
     this.setState({
-      chosenCourse: value,
       question: {
         ...this.state.question,
         to: "",
+        course: value,
       }
     }, () => {
-      this.getTeachersByCourse(this.state.chosenCourse)
+      this.getTeachersByCourse(this.state.question.course)
     })
   }
 
@@ -184,7 +191,7 @@ export class StudentCreateAskPage extends React.Component {
                     onChange={this.handleChooseCourse}
                   >
                     {
-                      courses.length > 0 && courses.map(item => <Option key={item._id} value={item.courseName}>{item.courseCode} {item.courseName}</Option>)
+                      courses.length > 0 && courses.map(item => <Option key={item._id} value={item._id}>{item.courseCode} {item.courseName}</Option>)
                     }
                   </Select>
                 </Col>
@@ -251,6 +258,7 @@ export class StudentCreateAskPage extends React.Component {
 
 StudentCreateAskPage.propTypes = {
   handleFetchStudentCourses: PropTypes.func.isRequired,
+  handleCreateAsk: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -261,6 +269,7 @@ function mapDispatchToProps(dispatch) {
   return {
     handleFetchStudentCourses: () => { dispatch(loadStudentInfo()) },
     fetchTeacher: () => { dispatch(loadTeacher()) },
+    handleCreateAsk: (ask) => { dispatch(createAsk(ask)) }
   };
 }
 

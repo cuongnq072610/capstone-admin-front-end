@@ -20,9 +20,12 @@ import saga from './saga';
 import messages from './messages';
 import { Row, Col, Button, Icon, Input, Layout, Spin } from 'antd';
 import "./index.scss";
-import ReactQuill from 'react-quill';
+import ReactQuill, { Quill } from 'react-quill';
+import { ImageDrop } from 'quill-image-drop-module';
 import { loadNoteDetail, loadSaveNote, loadDeleteNote } from './actions';
 const { Header, Content } = Layout;
+Quill.register('modules/imageDrop', ImageDrop);
+
 
 /* eslint-disable react/prefer-stateless-function */
 export class NoteDetailPage extends React.Component {
@@ -140,7 +143,8 @@ export class NoteDetailPage extends React.Component {
       clipboard: {
         // toggle to add extra line breaks when pasting HTML:
         matchVisual: false,
-      }
+      },
+      imageDrop: true,
     };
     const editorFomat = [
       'header', 'font', 'size',

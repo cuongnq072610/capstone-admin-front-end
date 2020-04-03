@@ -27,6 +27,9 @@ import { API_ENDPOINT_WS } from '../../constants/apis';
 
 //socket
 import { loadAskDetail } from './actions';
+import ReactQuill, { Quill } from 'react-quill';
+import { ImageDrop } from 'quill-image-drop-module';
+Quill.register('modules/imageDrop', ImageDrop);
 // const ENDPOINT = 'ws://localhost:5000';
 
 /* eslint-disable react/prefer-stateless-function */
@@ -100,9 +103,8 @@ export class StudentComposePage extends React.Component {
     })
   }
 
-  handleChangeMessage = (event) => {
-    var message = event.target.value;
-    this.setState({ message: message });
+  handleChangeMessage = (html) => {
+    this.setState({ message: html });
   }
 
   handleSendMessage = () => {
@@ -122,6 +124,11 @@ export class StudentComposePage extends React.Component {
 
       this.setState({
         comments: [...comments, newComment]
+      }, () => {
+        // clear message after send
+        this.setState({
+          message: ""
+        })
       });
 
       this.ws.send(JSON.stringify({ message, user, askID: ask._id }));
@@ -158,6 +165,26 @@ export class StudentComposePage extends React.Component {
     const { Content, Header } = Layout;
     const antIcon = <Icon type="loading" style={{ fontSize: 24, color: '#1593e6', marginRight: '10px' }} spin />;
     const { isLoading } = this.props.studentComposePage;
+
+    const editorModule = {
+      toolbar: [
+        ['bold', 'italic', 'underline', 'blockquote'],
+        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+        ['image'],
+        ['clean']
+      ],
+      clipboard: {
+        // toggle to add extra line breaks when pasting HTML:
+        matchVisual: false,
+      },
+      imageDrop: true,
+    };
+    const editorFomat = [
+      'bold', 'italic', 'underline', 'strike', 'blockquote',
+      'list', 'bullet', 'indent',
+      'image'
+    ]
+
     return (
       <div>
         <Helmet>
@@ -199,7 +226,17 @@ export class StudentComposePage extends React.Component {
                         {
                           showMe ?
                             <div className="reply-field">
-                              <TextArea rows={6} className="reply-text" value={message} onChange={this.handleChangeMessage} />
+                              {/* <TextArea rows={6} className="reply-text" value={message} onChange={this.handleChangeMessage} /> */}
+                              <ReactQuill
+                                theme="bubble"
+                                bounds=".reply-show"
+                                placeholder="You can answer here"
+                                modules={editorModule}
+                                formats={editorFomat}
+                                className="reply-text"
+                                value={message}
+                                onChange={this.handleChangeMessage}
+                              />
                               <div className='reply-btn-field'>
                                 <button onClick={this.onToggleShow} className='reply-btn'>
                                   <span>Hide</span>

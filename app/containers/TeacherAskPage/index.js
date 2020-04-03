@@ -30,6 +30,7 @@ export class StudentAskPage extends React.Component {
     super(props);
     this.state = {
       asks: [],
+      baseAsks: [],
     }
   }
 
@@ -40,7 +41,8 @@ export class StudentAskPage extends React.Component {
   componentDidUpdate(prevProps) {
     if (prevProps.studentAskPage.asks !== this.props.studentAskPage.asks) {
       this.setState({
-        asks: this.props.studentAskPage.asks
+        asks: this.props.studentAskPage.asks,
+        baseAsks: this.props.studentAskPage.asks
       })
     }
   }

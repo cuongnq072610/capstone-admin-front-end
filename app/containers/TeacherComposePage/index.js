@@ -36,8 +36,6 @@ export class StudentComposePage extends React.Component {
     super()
     this.state = {
       showMe: true,
-      isClose: false,
-      isDelete: false,
       ask: {},
       message: '',
       comments: [],
@@ -57,7 +55,7 @@ export class StudentComposePage extends React.Component {
     }
 
     this.ws.onmessage = evt => {
-      const { comments} = this.state;
+      const { comments } = this.state;
       // on receiving a message, add it to the list of messages
       const comment = JSON.parse(evt.data)
       // this.addMessage(message)
@@ -70,7 +68,7 @@ export class StudentComposePage extends React.Component {
       // }
 
     }
- 
+
     this.ws.onclose = () => {
       console.log('disconnected')
       // automatically try to reconnect on connection loss
@@ -86,7 +84,8 @@ export class StudentComposePage extends React.Component {
       this.setState({
         ask: this.props.studentComposePage.ask,
         teacher: this.props.studentComposePage.ask.teacher,
-        comments: this.props.studentComposePage.ask.comments
+        comments: this.props.studentComposePage.ask.comments,
+        student: this.props.studentComposePage.ask.student,
       })
     }
   }
@@ -101,34 +100,18 @@ export class StudentComposePage extends React.Component {
     })
   }
 
-  onToggleClose = () => {
-    this.setState({
-      isClose: true,
-    })
-  }
-
-  onToggleDelete = () => {
-    this.setState({
-      isDelete: !this.state.isDelete,
-    })
-  }
-
-  handleDeleteQues = () => {
-    this.onToggleDelete();
-  }
-
   handleChangeMessage = (event) => {
     var message = event.target.value;
     this.setState({ message: message });
   }
 
   handleSendMessage = () => {
-    const { message, ask, comments , user} = this.state;
+    const { message, ask, comments, user } = this.state;
     //add to messages state first to render to UI
     //emit to server with userInfo and message to save to DB
     //if error show warning, if not do nothing
 
-    if(message) {
+    if (message) {
       const newComment = {
         "userID": user.profile,
         "ask": ask._id,
@@ -136,17 +119,17 @@ export class StudentComposePage extends React.Component {
         "dateCreated": this.getCurrentDate(),
         "__v": 0
       }
-  
+
       this.setState({
         comments: [...comments, newComment]
       });
-      
-      this.ws.send(JSON.stringify({message, user, askID: ask._id}));
+
+      this.ws.send(JSON.stringify({ message, user, askID: ask._id }));
 
 
     }
 
-    
+
   }
 
   getCurrentDate() {
@@ -171,7 +154,7 @@ export class StudentComposePage extends React.Component {
   }
 
   render() {
-    const { message, comments, showMe, isClose, isDelete, ask, teacher } = this.state;
+    const { message, comments, showMe, ask, teacher, student } = this.state;
     const { Content, Header } = Layout;
     const antIcon = <Icon type="loading" style={{ fontSize: 24, color: '#1593e6', marginRight: '10px' }} spin />;
     const { isLoading } = this.props.studentComposePage;
@@ -209,9 +192,9 @@ export class StudentComposePage extends React.Component {
                           }) :
                           ''
                       }
-                      </div>
+                    </div>
                     {
-                      !isClose &&
+                      !ask.isClosed &&
                       <div className={`reply ${showMe ? 'reply-show' : 'reply-hide'}`}>
                         {
                           showMe ?
@@ -246,12 +229,9 @@ export class StudentComposePage extends React.Component {
             {
               !isLoading && teacher &&
               <QuestionSide
-                toggleClose={this.onToggleClose}
-                isClosed={isClose}
-                toggleDelete={this.onToggleDelete}
-                isDelete={isDelete}
-                handleDelete={this.handleDeleteQues}
-                teacher={teacher}
+                isClosed={ask.isClosed}
+                student={student}
+                rate={ask.rating}
               />
             }
           </Col>

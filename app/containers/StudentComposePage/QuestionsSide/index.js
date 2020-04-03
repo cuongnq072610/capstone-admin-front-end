@@ -1,6 +1,5 @@
 import React from 'react';
 import { Layout, Button, Row, Rate, Spin, Icon } from 'antd';
-import avatar from '../../../assets/png/man-1.png';
 import "./index.scss";
 const { Header, Content } = Layout;
 
@@ -27,7 +26,7 @@ const QuestionSide = (props) => {
                     <div className="tutor">
                         <span className="p">TUTOR</span>
                         <div className='tutor-field'>
-                            <img src={avatar} className='tutor-avatar' />
+                            <img src={teacher.avatar} className='tutor-avatar' />
                             <div className='tutor-info'>
                                 <span className='tutor-name'>{teacher.teacherName}</span>
                                 <span className='tutor-mail-side'>{teacher.email}</span>

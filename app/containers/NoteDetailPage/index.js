@@ -20,9 +20,12 @@ import saga from './saga';
 import messages from './messages';
 import { Row, Col, Button, Icon, Input, Layout, Spin } from 'antd';
 import "./index.scss";
-import ReactQuill from 'react-quill';
+import ReactQuill, { Quill } from 'react-quill';
+import { ImageDrop } from 'quill-image-drop-module';
 import { loadNoteDetail, loadSaveNote, loadDeleteNote } from './actions';
 const { Header, Content } = Layout;
+Quill.register('modules/imageDrop', ImageDrop);
+
 
 /* eslint-disable react/prefer-stateless-function */
 export class NoteDetailPage extends React.Component {
@@ -55,9 +58,6 @@ export class NoteDetailPage extends React.Component {
     }
     if (prevProps.noteDetailPage.isLoadingDelete !== this.props.noteDetailPage.isLoadingDelete && this.props.noteDetailPage.isLoadingDelete === false) {
       const { message } = this.props.noteDetailPage
-      // this.props.history.push({
-      //   pathname: '/note',
-      // })
       this.handleNavigateBack();
       localStorage.setItem("message", message)
     }
@@ -113,8 +113,8 @@ export class NoteDetailPage extends React.Component {
   }
 
   handleNavigateBack = () => {
-    const {from, folder} = this.props.history.location.state;
-    if(folder) {
+    const { from, folder } = this.props.history.location.state;
+    if (folder) {
       this.props.history.push({
         pathname: from,
         state: {
@@ -143,7 +143,8 @@ export class NoteDetailPage extends React.Component {
       clipboard: {
         // toggle to add extra line breaks when pasting HTML:
         matchVisual: false,
-      }
+      },
+      imageDrop: true,
     };
     const editorFomat = [
       'header', 'font', 'size',
@@ -179,6 +180,7 @@ export class NoteDetailPage extends React.Component {
                       formats={editorFomat}
                       onChange={this.handleChange}
                       value={editorHtml}
+                      className="note-detail-area"
                     />
                   </div>
                 </div>

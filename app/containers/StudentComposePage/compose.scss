@@ -23,16 +23,10 @@
 
     .compose-body {
       height: calc(100vh - 110px);
+
       .commentWrapper {
-        max-height: calc(100vh - 310px);
+        max-height: calc(100vh - 350px);
         overflow: auto;
-      }
-      .compose-question {
-        font-size: 24px;
-        font-weight: 300;
-        color: $primary_black;
-        width: 100%;
-        margin-bottom: 25px;
       }
 
       .reply {
@@ -49,17 +43,25 @@
       }
 
       .reply-show {
-        // height: 158px;
+        height: 158px;
       }
 
       .reply-field {
         display: flex;
         justify-content: space-between;
-        // padding-top: 20px;
+        padding-top: 2px;
 
         .reply-text {
           resize: none;
           width: 85%;
+          height: 150px;
+          overflow: auto;
+          border-right: 1px solid $primary_grey;
+
+          p>img {
+            width: 300px;
+            height: 200px;
+          }
         }
 
         .reply-icon {
@@ -93,6 +95,7 @@
           display: flex;
           justify-content: space-around;
           cursor: pointer;
+          margin-top: 10px;
         }
 
         .reply-btn-field {
@@ -114,6 +117,60 @@
           }
         }
       }
+    }
+  }
+
+  .compose-question {
+    font-weight: 300;
+    color: $primary_black;
+    margin-bottom: 25px;
+    height: 90vh;
+
+    .notification {
+      position: absolute;
+      right: 0px;
+      bottom: 0px;
+      opacity: 0;
+      transition: bottom 1s, opacity .25s ease-in-out;
+    }
+
+    .notification-show {
+      position: absolute;
+      right: 0px;
+      bottom: 20px;
+      opacity: 1;
+      transition: bottom 1s, opacity .25s ease-in-out;
+    }
+
+    .noti-content-success {
+      width: 250px;
+      height: 50px;
+      background-color: honeydew;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      padding-left: 20px;
+
+      p {
+        padding: 0px;
+        margin-left: 20px;
+        margin-bottom: 0px;
+      }
+    }
+
+    .icon-noti {
+      display: inline-block;
+      width: 25px;
+      height: 25px;
+      background-size: cover;
+    }
+
+    .accept-icon {
+      background-image: url(assets/accept.svg);
+    }
+
+    .deny-icon {
+      background-image: url(assets/deny.svg);
     }
   }
 }

@@ -71,6 +71,7 @@
     "masonry-layout": "^4.2.2",
     "minimist": "1.2.0",
     "prop-types": "15.6.2",
+    "quill-image-drop-module": "^1.0.3",
     "react": "16.6.0",
     "react-dom": "16.6.0",
     "react-helmet": "5.2.0",

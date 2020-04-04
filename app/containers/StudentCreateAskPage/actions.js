@@ -4,7 +4,7 @@
  *
  */
 
-import { DEFAULT_ACTION, CREATE_ASK } from './constants';
+import { DEFAULT_ACTION, CREATE_ASK, LOAD_STUDENT_INFO, LOAD_TEACHER } from './constants';
 
 export function defaultAction() {
   return {
@@ -17,4 +17,16 @@ export function createAsk(ask) {
     type: CREATE_ASK,
     ask,
   }
+}
+
+export function loadStudentInfo() {
+  return {
+    type: LOAD_STUDENT_INFO,
+  }
+}
+
+export function loadTeacher() {
+  return {
+    type: LOAD_TEACHER,
+  };
 }

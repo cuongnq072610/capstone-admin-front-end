@@ -19,6 +19,7 @@ class Filter extends React.PureComponent {
       chosenDepartments: [],
       activeType: "",
       course: "",
+      status: "",
     }
   }
 
@@ -57,6 +58,7 @@ class Filter extends React.PureComponent {
       chosenDepartments: [],
       activeType: "",
       course: "",
+      status: "",
     })
   }
 
@@ -80,8 +82,17 @@ class Filter extends React.PureComponent {
     })
   }
 
+  handleChooseStatus = (value) => {
+    const { onFilter } = this.props;
+    this.setState({
+      status: value,
+    }, () => {
+      onFilter(this.state.status)
+    })
+  }
+
   render() {
-    const { activeType, course } = this.state;
+    const { activeType, course, status } = this.state;
     const { departments, type, courses } = this.props;
     const content = <Layout className="wrap">
       {
@@ -121,9 +132,19 @@ class Filter extends React.PureComponent {
             </Select>
           </div>
         </div>
-
       }
-      <Button className={`clearBtn ${type === "home" ? "clearBtnHomeTheme" : "clearBtnTeacherTheme"}`} onClick={this.handleReset}>
+      {
+        type === 'ask' &&
+        <div className="filter-status">
+          <span className="icon-filter-active"></span>
+          <p>Status:</p>
+          <Button onClick={() => this.handleChooseStatus("seen")} className={`filter-status-btn filter-status-btn-${status === 'seen' && 'chosen'}`}>Seen</Button>
+          <Button onClick={() => this.handleChooseStatus("unseen")} className={`filter-status-btn filter-status-btn-${status === 'unseen' && 'chosen'}`}>Unseen</Button>
+          <Button onClick={() => this.handleChooseStatus("opened")} className={`filter-status-btn filter-status-btn-${status === 'opened' && 'chosen'}`}>Opened</Button>
+          <Button onClick={() => this.handleChooseStatus("closed")} className={`filter-status-btn filter-status-btn-${status === 'closed' && 'chosen'}`}>Closed</Button>
+        </div>
+      }
+      <Button className={`clearBtn ${type === "home" ? "clearBtnHomeTheme" : type === 'teacher' ? "clearBtnTeacherTheme" : "clearBtnAskTheme"}`} onClick={this.handleReset}>
         <span>Clear filter</span>
       </Button>
     </Layout>;
@@ -133,8 +154,8 @@ class Filter extends React.PureComponent {
       trigger="click"
       content={content}
     >
-      <Button className={`filter-wrap-btn ${type === "home" ? "filter-home-btn" : type === 'teacher' ? "filter-teacher-btn" : ""}`}>
-        <span className={`filter-wrap-btn-icon ${type === "home" ? "filter-wrap-btn-icon-course" : type === 'teacher' ? "filter-wrap-btn-icon-teacher" : ""}`}></span>
+      <Button className={`filter-wrap-btn ${type === "home" ? "filter-home-btn" : type === 'teacher' ? "filter-teacher-btn" : "filter-ask-btn"}`}>
+        <span className={`filter-wrap-btn-icon ${type === "home" ? "filter-wrap-btn-icon-course" : type === 'teacher' ? "filter-wrap-btn-icon-teacher" : "filter-wrap-btn-icon-ask"}`}></span>
       </Button>
     </Popover>;
   }

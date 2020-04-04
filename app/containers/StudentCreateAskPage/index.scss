@@ -1,22 +1,106 @@
 @import "../../utils/variables.scss";
 
+
+.ant-select-dropdown-menu-item {
+    display: flex;
+    align-items: center;
+
+    .ant-empty {
+        margin: 0 auto;
+    }
+
+    .avatar {
+        border-radius: 50% !important;
+        width: 26px !important;
+        margin-right: 10px;
+    }
+
+    .courseCode {
+        color: $primary_purple;
+        font-weight: 600;
+        margin-right: 5px;
+    }
+
+    .teacherName {
+        font-weight: 600;
+        color: $primary_blue;
+        margin-right: 5px;
+    }
+}
+
 .create-ask {
     background-color: #fff;
     padding: 28px 40px 0px 20px;
 
+
+
     .create-ask-header {
         padding: 0;
         background-color: white;
+        display: flex;
+        align-items: center;
 
         i {
             font-size: 20px;
             color: $primary_blue;
+        }
+
+        .ask-page-name {
+            color: $primary_blue;
+            font-family: Roboto;
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: 0.28px;
+            margin: 0;
+            margin-left: 16px;
+            padding-right: 20px;
         }
     }
 
     .create-ask-body {
         margin-top: 25px;
         padding: 0;
+
+        .label {
+            font-size: 16px;
+        }
+
+        .selectCourse {
+            .ant-select-selection {
+                background: url('./assets/course.svg') no-repeat;
+                background-size: 16px;
+                background-position: left;
+                background-position-x: 12px;
+                padding-left: 30px;
+            }
+        }
+
+        .selectTeacher {
+            .ant-select-selection {
+                background: url('./assets/teacher.svg') no-repeat;
+                background-size: 16px;
+                background-position: left;
+                background-position-x: 12px;
+                padding-left: 30px;
+            }
+        }
+
+        .description {
+            margin-top: 30px;
+
+            .input-ques-content {
+                margin-top: 16px;
+                height: 250px;
+
+                .ql-toolbar.ql-snow {
+                    border-radius: 5px;
+                }
+
+                .ql-container.ql-snow {
+                    border-radius: 0 0 5px 5px;
+                }
+            }
+        }
 
         .input-ques-to {
             height: 30px;
@@ -28,73 +112,14 @@
             padding-left: 0px;
         }
 
-        .tutor-field {
-            margin-top: 20px;
+        .ask-ques {
+            margin-top: 30px;
 
-            p {
-                color: #616161;
-                font-family: Roboto;
-                font-size: 16px;
-                font-weight: 400;
-            }
-
-            .tutor-all {
-                display: grid;
-                grid-template-columns: auto auto auto auto;
-                grid-column-gap: 50px;
-                grid-row-gap: 10px;
-                padding: 10px;
-                margin-bottom: 30px;
-                height: 100px;
-                overflow: auto;
-
-                .tutor-field-btn {
-                    display: flex;
-                    justify-content: flex-start;
-                    align-items: center;
-                    padding: 0;
-
-                    .tutor-avatar {
-                        width: 40px;
-                        height: 40px;
-                        margin-right: 20px;
-                    }
-
-                    .tutor-name {
-                        color: #626262;
-                        font-family: Roboto;
-                        font-size: 16px;
-                        font-weight: 500;
-                        padding: 0;
-                        margin: 0;
-                    }
-                }
+            .input-ask-ques {
+                margin-top: 16px;
             }
         }
 
-        .input-ques-title {
-            height: 40px;
-            opacity: 0.4;
-            color: #616161;
-            font-family: Roboto;
-            font-size: 32px;
-            font-weight: 400;
-            border: none;
-            padding-left: 0;
-            margin-bottom: 30px;
-        }
-
-        .input-ques-content {
-            height: 200px;
-
-            .ql-toolbar.ql-snow {
-                border: none;
-            }
-
-            .ql-container.ql-snow {
-                border: none;
-            }
-        }
     }
 
     .create-ask-footer {
@@ -109,12 +134,14 @@
             width: 155px;
             height: 38px;
             box-shadow: 0 3px 6px rgba(72, 198, 255, 0.3);
+            color: #fff;
             border-radius: 5px;
             background-color: $primary_blue;
             font-size: 14px;
             display: flex;
             justify-content: center;
             align-items: center;
+            cursor: pointer;
 
             .btn-send-icon {
                 display: inline-block;
@@ -125,53 +152,20 @@
                 margin-left: 10px;
             }
         }
+    }
+}
 
-        .notification {
-            position: absolute;
-            left: 0px;
-            bottom: 0px;
-            opacity: 0;
-            transition: bottom 1s, opacity .25s ease-in-out;
-        }
+.input-ques-content {
+    p>img {
+        width: 500px;
+        height: 300px;
+    }
+}
 
-        .notification-show {
-            position: absolute;
-            left: 0px;
-            bottom: 20px;
-            opacity: 1;
-            transition: bottom 1s, opacity .25s ease-in-out;
-        }
-
-        .noti-content-error {
-            width: 300px;
-            height: 50px;
-            color: #fff;
-            background-color: #fa9d9d;
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            padding-left: 20px;
-
-            p {
-                padding: 0px;
-                margin-left: 20px;
-                margin-bottom: 0px;
-            }
-        }
-
-        .icon-noti {
-            display: inline-block;
-            width: 25px;
-            height: 25px;
-            background-size: cover;
-        }
-
-        .accept-icon {
-            background-image: url(assets/accept.svg);
-        }
-
-        .deny-icon {
-            background-image: url(assets/deny.svg);
-        }
+.ant-select-selection-selected-value {
+    img {
+        width: 24px;
+        border-radius: 12px;
+        margin-right: 20px;
     }
 }

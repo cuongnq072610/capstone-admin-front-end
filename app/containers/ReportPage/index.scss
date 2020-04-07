@@ -1,0 +1,26 @@
+@import "../../utils/variables.scss";
+    
+.report-page {
+
+    .report-page-header {
+        background-color: #fff;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 100px;
+        padding-left: 0;
+
+        .report-page-name {
+            color: $primary_blue;
+            font-family: Roboto;
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: 0.28px;
+            margin: 0;
+            padding-right: 20px;
+        }
+    }
+    
+
+
+}

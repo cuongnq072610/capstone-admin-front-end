@@ -34,6 +34,7 @@ import NoteFolderPage from 'containers/NoteFolderPage/Loadable';
 import HighLightFolderPage from 'containers/HighLightFolderPage/Loadable';
 import LoginPage from 'containers/LoginPage/Loadable';
 import DepartmentPage from 'containers/DepartmentPage/Loadable'
+import ReportPage from 'containers/ReportPage/Loadable';
 
 import GlobalStyle from '../../global-styles';
 
@@ -73,6 +74,7 @@ export default function App() {
         <PrivateRoute path='/course/addcourse' component={() => user && user.role === 'admin' ? <WrapperLayout component={AddCoursePage} role="admin" page="course" /> : <WrapperLayout component={NotFoundPage} />} />
         <PrivateRoute path='/course/addteacher' component={() => user && user.role === 'admin' ? <WrapperLayout component={AddTeacherPage} role="admin" page="course" /> : <WrapperLayout component={NotFoundPage} />} />
         <PrivateRoute path="/department" component={() => user && user.role === 'admin' ? <WrapperLayout component={DepartmentPage} role="admin" page="department"/> : <WrapperLayout component={NotFoundPage}/>} />
+        <PrivateRoute path="/report" component={() => user && user.role === 'admin' ? <WrapperLayout component={ReportPage} role="admin" page="department"/> : <WrapperLayout component={NotFoundPage}/>} />
         {/* NOT FOUND */}
         <Route path='' render={() => <WrapperLayout component={NotFoundPage} />} />
       </Switch>

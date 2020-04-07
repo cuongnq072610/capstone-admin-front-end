@@ -130,6 +130,22 @@
     background-image: url("assets/highlight_active.svg");
 }
 
+.department {
+    background-image: url("assets/department.svg");
+}
+
+.department-active {
+    background-image: url("assets/department_active.svg");
+}
+
+.report {
+    background-image: url("assets/department.svg");
+}
+
+.report-active {
+    background-image: url("assets/department_active.svg");
+}
+
 .btn-logout {
     border: none;
     width: 100%;
@@ -141,10 +157,3 @@
     }
 }
 
-.department {
-    background-image: url("assets/department.svg");
-}
-
-.department-active {
-    background-image: url("assets/department_active.svg");
-}

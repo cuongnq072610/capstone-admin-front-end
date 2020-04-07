@@ -203,13 +203,7 @@ export class DepartmentPage extends React.Component {
           <meta name="description" content="Description of DepartmentPage" />
         </Helmet>
         <Header
-          style={{
-            backgroundColor: '#fff',
-            display: 'flex',
-            justifyContent: "space-between",
-            alignItems: "center",
-            height: '100px',
-          }}
+          className="report-page-header"
         >
           <p className="department-page-name">Departments</p>
           <WrappedSearchBar

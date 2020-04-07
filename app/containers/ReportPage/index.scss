@@ -1,6 +1,13 @@
 @import "../../utils/variables.scss";
     
+.ant-calendar-input {
+    text-align: center;
+}
+.ant-calendar-range-middle {
+    padding: 0;
+}
 .report-page {
+    background-color: #fff;
 
     .report-page-header {
         background-color: #fff;
@@ -8,10 +15,10 @@
         justify-content: space-between;
         align-items: center;
         height: 100px;
-        padding-left: 0;
+        padding-left: 24px;
 
         .report-page-name {
-            color: $primary_blue;
+            color: $primary_orange;
             font-family: Roboto;
             font-size: 28px;
             font-weight: 700;
@@ -20,6 +27,29 @@
             padding-right: 20px;
         }
     }
+
+    .row-1 {
+        margin-bottom: 15px;
+    }
+
+    .generateBtn {
+        background-color: $primary_orange;
+        border: none;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        justify-content: center;
+
+        i {
+          position: relative;
+          top: -1px;
+          font-size: 20px;
+            
+          svg {
+              height: 16px;
+          }
+        }
+      }
     
 
 

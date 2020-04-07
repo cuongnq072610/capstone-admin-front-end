@@ -153,15 +153,7 @@ export class TeacherPage extends React.Component {
                 </Helmet>
                 <Col span={toggleInfo ? 19 : 24}>
                     <Layout className={toggleInfo ? "teacher-page" : ""} >
-                        <Header
-                            style={{
-                                backgroundColor: '#fff',
-                                display: 'flex',
-                                justifyContent: 'space-between',
-                                alignItems: 'center',
-                                height: '100px',
-                            }}
-                        >
+                        <Header className="report-page-header" >
                             <p className='teacher-page-name'>Teachers</p>
                             <div className="search-filter-side">
                                 <WrappedSearchBar

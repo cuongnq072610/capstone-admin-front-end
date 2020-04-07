@@ -162,6 +162,7 @@ export class StudentComposePage extends React.Component {
     }
     return today = dd + '/' + mm + '/' + yyyy;
   }
+  
   compareIDtoGetUser = (id, user1, user2) => {
     if (user1._id === id) {
       return user1
@@ -260,9 +261,9 @@ export class StudentComposePage extends React.Component {
               <QuestionSide
                 toggleClose={this.onToggleClose}
                 isClosed={isClose}
-                toggleDelete={this.onToggleDelete}
-                isDelete={isDelete}
-                handleDelete={this.handleDeleteQues}
+                // toggleDelete={this.onToggleDelete}
+                // isDelete={isDelete}
+                // handleDelete={this.handleDeleteQues}
                 teacher={teacher}
                 handleRate={this.handleChangeRate}
                 handleCloseAsk={this.handleCloseAsk}

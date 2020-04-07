@@ -35,7 +35,12 @@ const AskAndAnswerField = (props) => {
                 </div>
             </div>
             <div className='content-field'>
-                <p>{text ? text : comment.message}</p>
+                {
+                    text ?
+                    <div dangerouslySetInnerHTML={{ __html: text }}></div>
+                    :
+                    <div dangerouslySetInnerHTML={{ __html: comment.message }}></div>
+                }
             </div>
         </div>
         :

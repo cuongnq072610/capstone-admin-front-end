@@ -8,10 +8,10 @@ const { Header, Content } = Layout;
 const QuestionSide = (props) => {
     const {
         toggleClose,
-        toggleDelete,
         isClosed,
-        isDelete,
-        handleDelete,
+        // isDelete,
+        // toggleDelete,
+        // handleDelete,
         teacher,
         handleRate,
         handleCloseAsk,
@@ -51,6 +51,7 @@ const QuestionSide = (props) => {
                             <Button onClick={handleCloseAsk}>Done</Button>
                         </div>
                     }
+                    {/*
                     <div className="settings">
                         <span className="p">SETTINGS</span>
                         <Button className="settings-delete" size="small" onClick={toggleDelete}>
@@ -69,6 +70,7 @@ const QuestionSide = (props) => {
                             </div>
                         }
                     </div>
+                    */}
                 </Content>
             </Layout>
         </Row >

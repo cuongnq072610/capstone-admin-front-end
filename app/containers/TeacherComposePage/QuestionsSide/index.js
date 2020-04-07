@@ -48,6 +48,7 @@ const QuestionSide = (props) => {
                             <Rate allowClear defaultValue={2.5} className='rate-field' />
                         </div>
                     }
+                    {/*
                     <div className="settings">
                         <span className="p">SETTINGS</span>
                         <Button className="settings-delete" size="small" onClick={toggleDelete}>
@@ -66,6 +67,7 @@ const QuestionSide = (props) => {
                             </div>
                         }
                     </div>
+                    */}
                 </Content>
             </Layout>
         </Row>

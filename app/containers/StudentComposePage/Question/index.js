@@ -20,32 +20,32 @@ const Mail = styled.p`
 `;
 
 const AskAndAnswerField = (props) => {
-    const {user, text, comment, date} = props;
-    
+    const { user, text, comment, date } = props;
+
     return (
         user ?
-        <div className='ask-wrapper'>
-            <div className='user-field'>
-                <img src={avatar} className='user-avatar' />
-                <div className='user-info'>
-                    <div>
-                        <Name>{user.email}</Name>
-                        <Mail>{user.email}</Mail>
+            <div className='ask-wrapper'>
+                <div className='user-field'>
+                    <img src={user.avatar} className='user-avatar' />
+                    <div className='user-info'>
+                        <div>
+                            <Name>{user.email}</Name>
+                            <Mail>{user.email}</Mail>
+                        </div>
+                        <p>{date ? date : comment.dateCreated}</p>
                     </div>
-                    <p>{date ? date : comment.dateCreated}</p>
+                </div>
+                <div className='content-field'>
+                    {
+                        text ?
+                            <div dangerouslySetInnerHTML={{ __html: text }}></div>
+                            :
+                            <div dangerouslySetInnerHTML={{ __html: comment.message }}></div>
+                    }
                 </div>
             </div>
-            <div className='content-field'>
-                {
-                    text ?
-                    <div dangerouslySetInnerHTML={{ __html: text }}></div>
-                    :
-                    <div dangerouslySetInnerHTML={{ __html: comment.message }}></div>
-                }
-            </div>
-        </div>
-        :
-        ''
+            :
+            ''
     )
 }
 

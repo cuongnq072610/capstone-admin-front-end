@@ -141,9 +141,9 @@ export class StudentCreateAskPage extends React.Component {
   }
 
   render() {
-    const { to, header, content } = this.state.question;
     const { isShow, courses, showTeachers } = this.state;
-    const antIcon = <Icon type="loading" style={{ fontSize: 24, color: '#1593e6' }} spin />;
+    const { isLoadingCreate } = this.props.studentCreateAskPage;
+    const antIcon = <Icon type="loading" style={{ fontSize: 24, color: '#fff' }} spin />;
 
     const editorModule = {
       toolbar: [
@@ -191,7 +191,7 @@ export class StudentCreateAskPage extends React.Component {
               <Row gutter={25}>
                 <Col span={12}>
                   <Select
-                    className = "selectCourse"
+                    className="selectCourse"
                     style={{ width: '100%' }}
                     placeholder="Choose course"
                     onChange={this.handleChooseCourse}
@@ -203,7 +203,7 @@ export class StudentCreateAskPage extends React.Component {
                 </Col>
                 <Col span={12}>
                   <Select
-                    className = "selectTeacher"
+                    className="selectTeacher"
                     style={{ width: '100%' }}
                     placeholder="Choose teacher"
                     onChange={this.handleChooseTeacher}
@@ -241,19 +241,13 @@ export class StudentCreateAskPage extends React.Component {
             </Content>
             <Footer className="create-ask-footer">
               <button className="btn-send" onClick={this.onHandleSend}>
-                {/* <Spin indicator={antIcon}/> */}
-                Send Question
+                {
+                  isLoadingCreate ?
+                    <Spin indicator={antIcon} /> :
+                    <span>Send Question</span>
+                }
                 <span className="btn-send-icon"></span>
               </button>
-              <div className={isShow ? 'notification-show' : 'notification'}>
-                {/* {
-                  errMess && errMess.length > 0 && */}
-                <div className='noti-content-error'>
-                  <span className='icon-noti deny-icon'></span>
-                  <p>Wrong</p>
-                </div>
-                {/* } */}
-              </div>
             </Footer>
           </Layout>
         </Row>

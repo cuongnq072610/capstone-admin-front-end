@@ -1,6 +1,5 @@
 import React from 'react';
-import { Layout, Button, Row, Rate } from 'antd';
-import avatar from '../../../assets/png/man-1.png';
+import { Layout, Button, Row, Rate, Spin, Icon } from 'antd';
 import "./index.scss";
 const { Header, Content } = Layout;
 
@@ -9,13 +8,14 @@ const QuestionSide = (props) => {
     const {
         toggleClose,
         isClosed,
-        // isDelete,
-        // toggleDelete,
-        // handleDelete,
         teacher,
         handleRate,
         handleCloseAsk,
+        isLoadingClose,
+        rate,
+        isCloseToggle,
     } = props;
+    const antIcon = <Icon type="loading" style={{ fontSize: 24, color: '#1593e6', marginRight: '10px' }} spin />;
     return (
         <Row>
             <Layout className="questions-information">
@@ -26,17 +26,17 @@ const QuestionSide = (props) => {
                     <div className="tutor">
                         <span className="p">TUTOR</span>
                         <div className='tutor-field'>
-                            <img src={avatar} className='tutor-avatar' />
+                            <img src={teacher.avatar} className='tutor-avatar' />
                             <div className='tutor-info'>
                                 <span className='tutor-name'>{teacher.teacherName}</span>
-                                <span className='tutor-mail'>{teacher.email}</span>
+                                <span className='tutor-mail-side'>{teacher.email}</span>
                             </div>
                         </div>
                     </div>
                     <div className="session">
                         <span className="p">SESSION</span>
                         {
-                            isClosed ?
+                            isCloseToggle || isClosed ?
                                 <p className='p-close'><span className='session-close-icon'></span>Question is closed</p> :
                                 <Button className="session-close" size="small" onClick={toggleClose}>
                                     <p>Close this question</p>
@@ -44,33 +44,26 @@ const QuestionSide = (props) => {
                         }
                     </div>
                     {
-                        isClosed &&
-                        <div className="rate">
-                            <span className="p">RATE TUTOR'S SUPPORT</span>
-                            <Rate allowClear defaultValue={2.5} className='rate-field' onChange={handleRate} /><br></br>
-                            <Button onClick={handleCloseAsk}>Done</Button>
-                        </div>
+                        isCloseToggle || isClosed ?
+                            <div className="rate">
+                                <span className="p">RATE TUTOR'S SUPPORT</span>
+                                <Rate allowClear defaultValue={2.5} className='rate-field' onChange={handleRate} value={rate} disabled={isClosed} /><br></br>
+                                {
+                                    !isClosed &&
+                                    <div className='rate-footer'>
+                                        <Button onClick={handleCloseAsk}>
+                                            {
+                                                isLoadingClose ?
+                                                    <Spin indicator={antIcon} /> :
+                                                    <span>Done</span>
+                                            }
+                                        </Button>
+                                        <Button onClick={toggleClose} >Cancel</Button>
+                                    </div>
+                                }
+                            </div> : ""
                     }
-                    {/*
-                    <div className="settings">
-                        <span className="p">SETTINGS</span>
-                        <Button className="settings-delete" size="small" onClick={toggleDelete}>
-                            <p>Delete this question</p>
-                        </Button>
-                        {
-                            isDelete &&
-                            <div className="setting-modal">
-                                <div className="setting-modal-header">
-                                    <p>Do you want to delete this question</p>
-                                </div>
-                                <div className="setting-modal-footer">
-                                    <button className="setting-modal-yes" onClick={handleDelete}>Yes</button>
-                                    <button className="setting-modal-no" onClick={toggleDelete}>No</button>
-                                </div>
-                            </div>
-                        }
-                    </div>
-                    */}
+
                 </Content>
             </Layout>
         </Row >

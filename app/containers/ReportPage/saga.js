@@ -7,7 +7,7 @@ import {
   LOAD_FAILURE_TEACHER,
   LOAD_SUCCESS_TEACHER
 } from './constants';
-import {fetchCourse, fetchTeacher } from './api';
+import { fetchCourse, fetchTeacher } from './api';
 import { API_ENDPOINT, ALL_COURSE, ALL_TEACHER } from '../../constants/apis';
 
 function* loadCourses() {
@@ -23,7 +23,7 @@ function* loadCourses() {
   }
 }
 
-function* LoadTeacher() {
+function* LoadTeachers() {
   try {
     const response = yield call(fetchTeacher, `${API_ENDPOINT}${ALL_TEACHER}`);
     if (response.data) {
@@ -39,6 +39,8 @@ function* LoadTeacher() {
 
 // Individual exports for testing
 export default function* reportPageSaga() {
-  takeLatest(LOAD_COURSE, loadCourses),
-  takeLatest(LOAD_TEACHER, LoadTeacher)
+  yield all([
+    takeLatest(LOAD_COURSE, loadCourses),
+    takeLatest(LOAD_TEACHER, LoadTeachers)
+  ])
 }

@@ -5,6 +5,15 @@
     width: 72%;
 }
 
+.report-page-header {
+    background-color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100px;
+    padding-left: 24px;
+}
+
 .teacher-page-name {
     color: $primary_brown;
     font-family: Roboto;

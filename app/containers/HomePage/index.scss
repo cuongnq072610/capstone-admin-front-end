@@ -21,78 +21,90 @@
     }
 }
 
-.course-page-name {
-    color: $primary_purple;
-    font-family: Roboto;
-    font-size: 28px;
-    font-weight: 700;
-    letter-spacing: 0.28px;
-    margin: 0;
-    padding-right: 20px;
-}
+.homepage {
 
-.search-filter-side {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.ant-table-wrapper {
-    margin: 8px 50px 8px 8px;
-
-    td {
-        font-size: 15px;
+    .report-page-header {
+        background-color: #fff;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 100px;
+        padding-left: 24px;
     }
 
-    .ant-table-thead>tr>th {
-        background-color: $primary_white;
-        color: #616161;
+    .course-page-name {
+        color: $primary_purple;
+        font-family: Roboto;
+        font-size: 28px;
+        font-weight: 700;
+        letter-spacing: 0.28px;
+        margin: 0;
+        padding-right: 20px;
     }
 
-    .ant-table-thead>tr>th .ant-table-column-sorter .ant-table-column-sorter-inner {
-        margin-top: 0px;
-    }
-
-    .ant-table-row {
-        cursor: pointer;
-        color: #212121;
-    }
-
-    .ant-table-pagination.ant-pagination {
-        float: none;
+    .search-filter-side {
         display: flex;
         justify-content: center;
+        align-items: center;
     }
-}
 
-.noti-content-success-course {
-    width: 250px;
-    height: 50px;
-    background-color: honeydew;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    padding-left: 20px;
+    .ant-table-wrapper {
+        margin: 8px 50px 8px 8px;
 
-    p {
-        padding: 0px;
-        margin-left: 20px;
-        margin-bottom: 0px;
+        td {
+            font-size: 15px;
+        }
+
+        .ant-table-thead>tr>th {
+            background-color: $primary_white;
+            color: #616161;
+        }
+
+        .ant-table-thead>tr>th .ant-table-column-sorter .ant-table-column-sorter-inner {
+            margin-top: 0px;
+        }
+
+        .ant-table-row {
+            cursor: pointer;
+            color: #212121;
+        }
+
+        .ant-table-pagination.ant-pagination {
+            float: none;
+            display: flex;
+            justify-content: center;
+        }
     }
-}
 
-.notification-home-course {
-    position: fixed;
-    bottom: 0px;
-    right: 10px;
-    opacity: 0;
-    transition: bottom 1s, opacity .25s ease-in-out;
-}
+    .noti-content-success-course {
+        width: 250px;
+        height: 50px;
+        background-color: honeydew;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        padding-left: 20px;
 
-.notification-home-show-course {
-    position: fixed;
-    bottom: 50px;
-    right: 10px;
-    opacity: 1;
-    transition: bottom 1s, opacity .25s ease-in-out;
+        p {
+            padding: 0px;
+            margin-left: 20px;
+            margin-bottom: 0px;
+        }
+    }
+
+    .notification-home-course {
+        position: fixed;
+        bottom: 0px;
+        right: 10px;
+        opacity: 0;
+        transition: bottom 1s, opacity .25s ease-in-out;
+    }
+
+    .notification-home-show-course {
+        position: fixed;
+        bottom: 50px;
+        right: 10px;
+        opacity: 1;
+        transition: bottom 1s, opacity .25s ease-in-out;
+    }
 }

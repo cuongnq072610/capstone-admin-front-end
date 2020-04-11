@@ -23,6 +23,12 @@ const AdminMenu = [
         "path": "/teacher",
         'exact': false,
     },
+    {
+        "name": "report",
+        "title": "Report",
+        "path": "/report",
+        'exact': false,
+    }
 ];
 
 const StudentMenu = [

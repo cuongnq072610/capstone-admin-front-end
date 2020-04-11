@@ -27,9 +27,6 @@
         background-image: url(assets/filter_course.svg);
     }
 
-    .filter-wrap-btn-icon-ask {
-        background-image: url(assets/filter_ask.svg);
-    }
 }
 
 .filter-teacher-btn {
@@ -48,11 +45,28 @@
 
 }
 
+.filter-ask-btn {
+    background-color: $secondary_blue;
+
+    .filter-wrap-btn-icon {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        background-size: cover;
+    }
+
+    .filter-wrap-btn-icon-ask {
+        background-image: url(assets/filter_ask.svg);
+    }
+
+}
+
 .filter-active {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 250px;
+    margin-bottom: 10px;
 
     .icon-filter-active {
         display: inline-block;
@@ -71,6 +85,59 @@
 
         &-chosen {
             background-color: $secondary_brown;
+            color: #212121;
+        }
+    }
+}
+
+.filter-course {
+    margin-bottom: 10px;
+
+    .filter-course-name {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        margin-bottom: 10px;
+
+        .icon-filter-course {
+            display: inline-block;
+            width: 15px;
+            height: 15px;
+            background-size: cover;
+            background-image: url(assets/course.svg);
+            margin-right: 14px;
+        }
+
+        p {
+            margin-bottom: 0;
+        }
+    }
+}
+
+.filter-status {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 400px;
+    margin-bottom: 10px;
+
+    .icon-filter-active {
+        display: inline-block;
+        width: 15px;
+        height: 15px;
+        background-size: cover;
+        background-image: url(assets/visibility-on.svg);
+    }
+
+    p {
+        margin-bottom: 0;
+    }
+
+    .filter-status-btn {
+        border: none;
+
+        &-chosen {
+            background-color: $secondary_blue;
             color: #212121;
         }
     }
@@ -114,6 +181,17 @@
         &:hover {
             border: 1px solid $primary_brown;
             color: $primary_brown;
+            background-color: $primary_white;
+        }
+    }
+
+    .clearBtnAskTheme {
+        color: $primary_white;
+        background-color: $primary_blue;
+
+        &:hover {
+            border: 1px solid $primary_blue;
+            color: $primary_blue;
             background-color: $primary_white;
         }
     }

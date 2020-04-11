@@ -129,15 +129,7 @@ export class HomePage extends React.Component {
         </Helmet>
         <Col>
           <Layout>
-            <Header
-              style={{
-                backgroundColor: '#fff',
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                height: '100px',
-              }}
-            >
+            <Header className="report-page-header">
               <p className='course-page-name'>Courses</p>
               <div className="search-filter-side">
                 <WrappedSearchBar

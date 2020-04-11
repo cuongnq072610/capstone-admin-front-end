@@ -75,7 +75,7 @@ export class AddCoursePage extends React.Component {
   };
 
   componentDidUpdate(prevProps) {
-    
+
     if (prevProps.addCoursePage.isDone !== this.props.addCoursePage.isDone && this.props.addCoursePage.isDone === true) {
       this.props.history.push({
         pathname: '/course',
@@ -88,7 +88,7 @@ export class AddCoursePage extends React.Component {
       this.setState({
         isShow: true
       }, () => {
-        setTimeout(() => {
+        this.timer1 = setTimeout(() => {
           this.setState({
             isShow: false
           })
@@ -136,7 +136,7 @@ export class AddCoursePage extends React.Component {
         errMess: _isUniq(Object.values(errors)),
         isShow: true,
       }, () => {
-        setTimeout(() => {
+        this.timer2 = setTimeout(() => {
           this.setState({
             isShow: false
           })
@@ -152,12 +152,18 @@ export class AddCoursePage extends React.Component {
         ...course,
         teachers: course.teachers.map(teacher => teacher._id)
       }
+      console.log(formatCourse)
       if (type === 'add') {
         this.props.handleAddCourse(formatCourse)
       } else if (type === 'update') {
         this.props.handleUpdateCourse(formatCourse)
       }
     }
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.timer1);
+    clearTimeout(this.timer2);
   }
 
   onHandleDelete = () => {
@@ -233,7 +239,7 @@ export class AddCoursePage extends React.Component {
                       {
                         isLoadingDepartment ?
                           <Option key="1" value=""><Spin indicator={antIcon} /></Option> :
-                          departmentOption.map(item => <Option key={item.id} value={item.description}>{item.name}</Option>)
+                          departmentOption.map(item => <Option key={item._id} value={item.description}>{item.name}</Option>)
                       }
                     </Select>
                   </Col>

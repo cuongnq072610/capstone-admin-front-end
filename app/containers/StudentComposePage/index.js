@@ -26,7 +26,11 @@ import AskAndAnswerField from './Question';
 import { API_ENDPOINT_WS } from '../../constants/apis';
 
 //socket
-import { loadAskDetail } from './actions';
+import { loadAskDetail, closeAsk } from './actions';
+import ReactQuill, { Quill } from 'react-quill';
+import { ImageDrop } from 'quill-image-drop-module';
+Quill.register('modules/imageDrop', ImageDrop);
+
 // const ENDPOINT = 'ws://localhost:5000';
 
 /* eslint-disable react/prefer-stateless-function */
@@ -42,6 +46,9 @@ export class StudentComposePage extends React.Component {
       message: '',
       comments: [],
       user: JSON.parse(localStorage.getItem("user")),
+      rate: '',
+      isShow: false,
+      isCloseToggle: false,
     }
 
   }
@@ -59,7 +66,7 @@ export class StudentComposePage extends React.Component {
     }
 
     this.ws.onmessage = evt => {
-      const { comments} = this.state;
+      const { comments } = this.state;
       // on receiving a message, add it to the list of messages
       const comment = JSON.parse(evt.data)
       // this.addMessage(message)
@@ -71,7 +78,7 @@ export class StudentComposePage extends React.Component {
       //   });
       // }
     }
- 
+
     this.ws.onclose = () => {
       console.log('disconnected')
       // automatically try to reconnect on connection loss
@@ -82,18 +89,35 @@ export class StudentComposePage extends React.Component {
   };
 
   componentDidUpdate(prevProps) {
-    if (prevProps.studentComposePage.ask !== this.props.studentComposePage.ask) {
+    if (prevProps.studentComposePage.ask !== this.props.studentComposePage.ask &&
+      prevProps.studentComposePage.isLoading !== this.props.studentComposePage.isLoading && this.props.studentComposePage.isLoading === false
+    ) {
       this.setState({
         ask: this.props.studentComposePage.ask,
         teacher: this.props.studentComposePage.ask.teacher,
-        comments: this.props.studentComposePage.ask.comments
+        comments: this.props.studentComposePage.ask.comments,
+        isClose: this.props.studentComposePage.ask.isClosed,
+        rate: this.props.studentComposePage.ask.rating,
       })
+    }
 
+    if (prevProps.studentComposePage.isLoadingClose !== this.props.studentComposePage.isLoadingClose && this.props.studentComposePage.isLoadingClose === false) {
+      // show modal success
+      this.setState({
+        isShow: true,
+        isClose: true,
+      }, () => {
+        this.timer1 = setTimeout(() => {
+          this.setState({
+            isShow: false
+          })
+        }, 3000)
+      })
     }
   }
 
   componentWillUnmount() {
-
+    clearTimeout(this.timer1);
   }
 
   onToggleShow = () => {
@@ -104,23 +128,12 @@ export class StudentComposePage extends React.Component {
 
   onToggleClose = () => {
     this.setState({
-      isClose: true,
+      isCloseToggle: !this.state.isCloseToggle,
     })
   }
 
-  onToggleDelete = () => {
-    this.setState({
-      isDelete: !this.state.isDelete,
-    })
-  }
-
-  handleDeleteQues = () => {
-    this.onToggleDelete();
-  }
-
-  handleChangeMessage = (event) => {
-    var message = event.target.value;
-    this.setState({ message: message });
+  handleChangeMessage = (html) => {
+    this.setState({ message: html });
   }
 
   handleSendMessage = () => {
@@ -128,7 +141,7 @@ export class StudentComposePage extends React.Component {
     //add to messages state first to render to UI
     //emit to server with userInfo and message to save to DB
     //if error show warning, if not do nothing
-    if(message) {
+    if (message) {
       const newComment = {
         "userID": user.profile,
         "ask": ask._id,
@@ -140,12 +153,17 @@ export class StudentComposePage extends React.Component {
       console.log(newComment)
       this.setState({
         comments: [...comments, newComment]
+      }, () => {
+        // clear message after send
+        this.setState({
+          message: ""
+        })
       });
-  
-      this.ws.send(JSON.stringify({message, user, askID: ask._id}));
+
+      this.ws.send(JSON.stringify({ message, user, askID: ask._id }));
     }
 
-    
+
   }
 
   getCurrentDate() {
@@ -161,6 +179,7 @@ export class StudentComposePage extends React.Component {
     }
     return today = dd + '/' + mm + '/' + yyyy;
   }
+
   compareIDtoGetUser = (id, user1, user2) => {
     if (user1._id === id) {
       return user1
@@ -169,11 +188,42 @@ export class StudentComposePage extends React.Component {
     }
   }
 
+  handleChangeRate = value => {
+    this.setState({ rate: value });
+  };
+
+  handleCloseAsk = () => {
+    const { rate } = this.state;
+    // action in here
+    const { id } = this.props.match.params;
+    this.props.handleCloseAskDetail(id, rate);
+  }
+
   render() {
-    const { message, comments, showMe, isClose, isDelete, ask, teacher, user } = this.state;
+    const { message, comments, showMe, isClose, isShow, ask, teacher, rate, isCloseToggle } = this.state;
     const { Content, Header } = Layout;
     const antIcon = <Icon type="loading" style={{ fontSize: 24, color: '#1593e6', marginRight: '10px' }} spin />;
-    const { isLoading } = this.props.studentComposePage;
+    const { isLoading, isLoadingClose } = this.props.studentComposePage;
+
+    const editorModule = {
+      toolbar: [
+        ['bold', 'italic', 'underline', 'blockquote'],
+        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+        ['image'],
+        ['clean']
+      ],
+      clipboard: {
+        // toggle to add extra line breaks when pasting HTML:
+        matchVisual: false,
+      },
+      imageDrop: true,
+    };
+    const editorFomat = [
+      'bold', 'italic', 'underline', 'strike', 'blockquote',
+      'list', 'bullet', 'indent',
+      'image'
+    ]
+
     return (
       <div>
         <Helmet>
@@ -208,14 +258,23 @@ export class StudentComposePage extends React.Component {
                           }) :
                           ''
                       }
-                      </div>
+                    </div>
                     {
                       !isClose &&
                       <div className={`reply ${showMe ? 'reply-show' : 'reply-hide'}`}>
                         {
                           showMe ?
                             <div className="reply-field">
-                              <TextArea rows={6} className="reply-text" value={message} onChange={this.handleChangeMessage} />
+                              <ReactQuill
+                                theme="bubble"
+                                bounds=".reply-show"
+                                placeholder="You can answer here"
+                                modules={editorModule}
+                                formats={editorFomat}
+                                className="reply-text"
+                                value={message}
+                                onChange={this.handleChangeMessage}
+                              />
                               <div className='reply-btn-field'>
                                 <button onClick={this.onToggleShow} className='reply-btn'>
                                   <span>Hide</span>
@@ -247,12 +306,20 @@ export class StudentComposePage extends React.Component {
               <QuestionSide
                 toggleClose={this.onToggleClose}
                 isClosed={isClose}
-                toggleDelete={this.onToggleDelete}
-                isDelete={isDelete}
-                handleDelete={this.handleDeleteQues}
+                isCloseToggle={isCloseToggle}
                 teacher={teacher}
+                handleRate={this.handleChangeRate}
+                rate={rate}
+                handleCloseAsk={this.handleCloseAsk}
+                isLoadingClose={isLoadingClose}
               />
             }
+            <div className={isShow ? 'notification-show' : 'notification'}>
+              <div className='noti-content-success'>
+                <span className='icon-noti accept-icon'></span>
+                <p>This question has been closed</p>
+              </div>
+            </div>
           </Col>
         </Row>
       </div>
@@ -262,6 +329,7 @@ export class StudentComposePage extends React.Component {
 
 StudentComposePage.propTypes = {
   handleFetchAskDetail: PropTypes.func.isRequired,
+  handleCloseAskDetail: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -271,6 +339,7 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch) {
   return {
     handleFetchAskDetail: (askId) => { dispatch(loadAskDetail(askId)) },
+    handleCloseAskDetail: (id, rate) => { dispatch(closeAsk(id, rate)) },
   };
 }
 

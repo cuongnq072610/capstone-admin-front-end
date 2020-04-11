@@ -1,8 +1,7 @@
 @import "../../utils/variables.scss";
 
 .ask-page {
-  position: fixed;
-  width: 72%;
+  padding: 0 20px;
 
   .ask-page-header {
     background-color: #fff;
@@ -20,6 +19,12 @@
       letter-spacing: 0.28px;
       margin: 0;
       padding-right: 20px;
+    }
+
+    .ask-page-header-side {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
   }
 
@@ -48,7 +53,7 @@
       width: 60px;
       height: 60px;
       bottom: 50px;
-      right: 280px;
+      right: 100px;
       background-color: $primary_blue;
       color: #FFF;
       border-radius: 50px;
@@ -67,7 +72,8 @@
 }
 
 .ant-table-pagination.ant-pagination {
-  display: none;
+  left: 45%;
+  position: absolute;
 }
 
 .ask-icon {

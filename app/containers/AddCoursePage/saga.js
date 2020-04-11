@@ -31,6 +31,7 @@ function* addCourse(action) {
 }
 
 function* updateCourse(action) {
+  console.log(action.course)
   try {
     const response = yield call(updateCourseApi, `${API_ENDPOINT}${UPDATE_COURSES}/${action.course._id}`, action.course)
     if (response.data.success) {

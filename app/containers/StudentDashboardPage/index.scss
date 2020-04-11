@@ -7,7 +7,10 @@
     .card-wrapper {
         padding: 0 60px;
         .card { 
-            // max-height: 150px;
+            width: 100%;
+            height: 60px;
+            border: none;
+            box-shadow: none;
             padding: 5px 20px;
             color: #fff;
             display: flex;
@@ -15,7 +18,7 @@
             justify-content: space-between;
             border-radius: 5px;
             &__info {
-                font-size: 24px;
+                font-size: 3vmin;
                 font-weight: 600;
                 &--note-icon {
                     background: url('./assets/note.svg') no-repeat;
@@ -136,7 +139,7 @@
         }
         
         .course-detail-wrapper {
-            height: calc(100vh - 330px);
+            height: 80vh;
             overflow: auto;
             .course-code {
                 color: $primary_purple;

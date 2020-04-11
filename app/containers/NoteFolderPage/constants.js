@@ -17,3 +17,7 @@ export const DELETE_NOTE_FAILURE = 'app/NoteFolderPage/DELETE_NOTE_FAILURE';
 export const SEARCH_NOTE = 'app/NoteFolderPage/SEARCH_NOTE';
 export const SEARCH_SUCCESS_NOTE = 'app/NoteFolderPage/SEARCH_SUCCESS_NOTE';
 export const SEARCH_FAILURE_NOTE = 'app/NoteFolderPage/SEARCH_FAILURE_NOTE';
+
+export const DELETE_FOLDER = 'app/NoteFolderPage/DELETE_FOLDER';
+export const DELETE_SUCCESS_FOLDER = 'app/NoteFolderPage/DELETE_SUCCESS_FOLDER';
+export const DELETE_FAILURE_FOLDER = 'app/NoteFolderPage/DELETE_FAILURE_FOLDER';

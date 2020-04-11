@@ -18,15 +18,15 @@ import makeSelectNoteFolderPage from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
-import { Layout, Icon, Spin } from 'antd';
+import { Layout, Icon, Spin, Button, Popover } from 'antd';
 import WrappedSearchBar from '../../components/SearchBar';
 import Note from './Note';
 import { Link } from 'react-router-dom';
 import Masonry from 'masonry-layout'
 import './index.scss';
-import { loadNotesByFolder, loadDeleteNote, searchNote } from './actions';
+import { loadNotesByFolder, loadDeleteNote, searchNote, loadDeleteNoteByFolderId, loadDeleteFolder } from './actions';
 
-const { Header, Content } = Layout;
+const { Header, Content, Footer } = Layout;
 
 /* eslint-disable react/prefer-stateless-function */
 export class NoteFolderPage extends React.Component {
@@ -38,6 +38,7 @@ export class NoteFolderPage extends React.Component {
         isShow: false,
         isSearching: false,
         searchNotes: [],
+        clicked: false,
       }
   }
   componentDidMount() {
@@ -88,18 +89,27 @@ export class NoteFolderPage extends React.Component {
         searchNotes: this.props.noteFolderPage.searchNotes,
       })
     }
+    // delete note success
     if (prevProps.noteFolderPage.isLoadingDelete !== this.props.noteFolderPage.isLoadingDelete && this.props.noteFolderPage.isLoadingDelete === false) {
       this.props.handleFetchNoteByCourse(folder._id);
       // show modal success
       this.setState({
         isShow: true,
-        deleteMessage: "Succesfully Delete",
+        deleteMessage: this.props.noteFolderPage.message,
+        clicked: false,
       }, () => {
         this.timer1 = setTimeout(() => {
           this.setState({
             isShow: false
           })
         }, 3000)
+      })
+    }
+    // delete folder success
+    if (prevProps.noteFolderPage.isLoadingDeleteFolder !== this.props.noteFolderPage.isLoadingDeleteFolder && this.props.noteFolderPage.isLoadingDeleteFolder === false) {
+      localStorage.setItem("message", this.props.noteFolderPage.message)
+      this.props.history.push({
+        pathname: '/note',
       })
     }
   }
@@ -144,10 +154,64 @@ export class NoteFolderPage extends React.Component {
     this.props.handleFetchNoteByCourse(folder._id);
   }
 
+  handleSyncNote = () => {
+    const { folder } = this.state;
+    this.props.handleFetchNoteByCourse(folder._id);
+  }
+
+  handleClickChangePopover = visible => {
+    this.setState({
+      clicked: visible,
+    });
+  };
+
+  hide = () => {
+    this.setState({
+      clicked: false,
+    });
+  };
+
+  handleDeleteFolder = () => {
+    const { folder } = this.state;
+    this.props.handleDeleteFolder(folder._id);
+  }
+
   render() {
-    const { folder, notes, isShow, deleteMessage, isSearching, searchNotes } = this.state;
-    const { isLoading, isLoadingDelete } = this.props.noteFolderPage;
+    const { folder, notes, isShow, deleteMessage, isSearching, searchNotes, clicked } = this.state;
+    const { isLoading, isLoadingDelete, isLoadingDeleteFolder } = this.props.noteFolderPage;
     const antIcon = <Icon type="loading" style={{ fontSize: 24, color: '#ffc143', marginRight: '10px' }} spin />;
+
+    const contentPopover = (
+      <Layout id='delete-modal'>
+        <Content className='delete-modal-content'>
+          {
+            folder.isStudying &&
+            <div>
+              {
+                notes.length > 0 ?
+                  <p className="content-main">Because you are studying this course so you can only delete notes in this folder</p>
+                  :
+                  <p className="content-main">You don't have any notes</p>
+              }
+            </div>
+          }
+        </Content>
+        <Footer className='delete-modal-footer'>
+          <Button onClick={this.hide} className='modal-cancel-btn'>Cancel</Button>
+          <Button
+            onClick={this.handleDeleteFolder}
+            className='modal-delete-btn'
+            type='danger'
+            disabled={folder.isStudying ? notes.length > 0 ? false : true : false}
+          >
+            {isLoadingDeleteFolder ?
+              <Spin indicator={antIcon} /> :
+              <span>Delete</span>
+            }
+          </Button>
+        </Footer>
+      </Layout>
+    );
 
     return (
       <div>
@@ -171,14 +235,28 @@ export class NoteFolderPage extends React.Component {
                 <Icon type="arrow-left" style={{ fontSize: '20px', color: '#ffc143', marginBottom: '25px' }} />
               </Link>
               <p className="note-page-name">{this.renderFolderNoteName(folder.courseName, folder.courseCode)}</p>
+              <Button className='btn-sync' onClick={this.handleSyncNote}><span className='sync-icon'></span></Button>
             </div>
-            <WrappedSearchBar
-              message="Please enter your note's name"
-              placeholder="I want to find my notes"
-              type="note"
-              handleSearch={this.handleSearch}
-              handleClear={this.handleClear}
-            />
+            <div className='note-header-side'>
+              <WrappedSearchBar
+                message="Please enter your note's name"
+                placeholder="I want to find my notes"
+                type="note"
+                handleSearch={this.handleSearch}
+                handleClear={this.handleClear}
+              />
+              <Popover
+                content={contentPopover}
+                placement="bottomRight"
+                trigger="click"
+                visible={clicked}
+                onVisibleChange={this.handleClickChangePopover}
+                title="Do you want to delete this folder?"
+                id="delete-popover"
+              >
+                <Button type='danger' className='btn-delete-folder'><span className="folder-delete-icon"></span></Button>
+              </Popover>
+            </div>
           </Header>
           <Content>
             {
@@ -260,6 +338,7 @@ NoteFolderPage.propTypes = {
   handleFetchNoteByCourse: PropTypes.func.isRequired,
   handleDeleteNote: PropTypes.func.isRequired,
   fetchSearchNote: PropTypes.func.isRequired,
+  handleDeleteFolder: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -271,6 +350,7 @@ function mapDispatchToProps(dispatch) {
     handleFetchNoteByCourse: (courseId) => { dispatch(loadNotesByFolder(courseId)) },
     handleDeleteNote: (id) => { dispatch(loadDeleteNote(id)) },
     fetchSearchNote: (key, id) => { dispatch(searchNote(key, id)) },
+    handleDeleteFolder: (id) => { dispatch(loadDeleteFolder(id)) },
   };
 }
 

@@ -1,0 +1,131 @@
+@import "../../utils/variables.scss";
+
+.ant-calendar-input {
+    text-align: center;
+}
+
+.ant-calendar-range-middle {
+    padding: 0;
+}
+
+.report-page {
+    background-color: #fff;
+    padding-right: 20px;
+
+    .report-page-header {
+        background-color: #fff;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 100px;
+        padding-left: 24px;
+        padding-right: 0;
+
+        .report-page-name {
+            color: $primary_orange;
+            font-family: Roboto;
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: 0.28px;
+            margin: 0;
+            padding-right: 20px;
+        }
+
+        .report-page-btn {
+            .icon {
+                display: inline-block;
+                width: 12px;
+                height: 12px;
+                background-size: cover;
+                margin-left: 10px;
+            }
+
+            .report-btn {
+                margin: 0 10px;
+                color: $primary_orange;
+                border: none;
+                box-shadow: none;
+
+                span {
+                    font-weight: bold;
+                }
+            }
+
+            .ic-clear {
+                background-image: url(assets/close.svg);
+            }
+        }
+    }
+
+    .row-1 {
+        margin-bottom: 15px;
+    }
+
+    .generateBtn {
+        background-color: $primary_orange;
+        border: none;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        justify-content: center;
+
+        i {
+            position: relative;
+            top: -1px;
+            font-size: 20px;
+
+            svg {
+                height: 16px;
+            }
+        }
+    }
+
+}
+
+.ant-select-dropdown-menu-item {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    .teacherName {
+        font-weight: 700;
+        color: $primary_brown;
+        padding-right: 10px;
+    }
+
+    .avatar {
+        width: 20px;
+        height: 20px;
+        margin-right: 10px;
+    }
+
+    .courseCode {
+        font-weight: 700;
+        color: $primary_purple;
+        padding-right: 10px;
+    }
+}
+
+.ant-select-selection-selected-value {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    .teacherName {
+        font-weight: 700;
+        color: $primary_brown;
+        padding-right: 10px;
+    }
+
+    .avatar {
+        width: 20px;
+        height: 20px;
+        margin-right: 10px;
+    }
+
+    .courseCode {
+        font-weight: 700;
+        color: $primary_purple;
+        padding-right: 10px;
+    }
+}

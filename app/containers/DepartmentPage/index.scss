@@ -2,6 +2,14 @@
 
 .department-page {
 
+    .report-page-header {
+        background-color: #fff;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 100px;
+        padding-left: 24px;
+    }
 
     .department-page-name {
         color: $primary_darkblue;

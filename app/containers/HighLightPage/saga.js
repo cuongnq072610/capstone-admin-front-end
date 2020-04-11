@@ -66,7 +66,7 @@ function* fetchSearchHighlight(action) {
   const { key } = action;
   const user = JSON.parse(localStorage.getItem("user"));
   try {
-    const response = yield call(fetchHighlight, `${API_ENDPOINT}${GET_SEARCH_HIGHLIGHT}/${user.profile}/all/${key}`);
+    const response = yield call(fetchHighlight, `${API_ENDPOINT}${GET_SEARCH_HIGHLIGHT}/?studentID=${user.profile}&folderID=all&text=${key}`);
     if (response.data) {
       let highlightData = response.data.map((item, index) => {
         return item

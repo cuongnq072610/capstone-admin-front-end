@@ -224,15 +224,12 @@ export class ReportPage extends React.Component {
     for (let record = 0; record < re.length; record++) {
       A.push([re[record].name, re[record].mail, re[record].courseCode, re[record].numberOfAsks, re[record].numberOfOpenedAsks, re[record].numberOfClosedAsks, re[record].rating])
     }
-    console.log(A)
     // push to table in excel file
     for (let i = 0; i < A.length; i++) {
       csvRow.push(A[i].join(","))
     }
-    console.log(csvRow)
     // convert to csvString
     const csvString = csvRow.join("\n");
-    console.log(csvString)
     // create a link to download csv
     var a = document.createElement("a");
     a.href = "data:attachment/csv," + csvString;
@@ -322,7 +319,7 @@ export class ReportPage extends React.Component {
                 </Select>
               </Col>
             </Row>
-            <Row gutter={25} style={{ marginBottom: '10px' }}>
+            <Row gutter={25} style={{ marginBottom: '30px' }}>
               <Col span={12}>
                 <RangePicker style={{ width: '100%' }} onChange={this.handleChooseDate} disabled={isChooseDuration} value={dateRange || []} />
               </Col>

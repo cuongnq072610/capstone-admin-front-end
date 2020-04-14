@@ -14,3 +14,6 @@ export const LOAD_TEACHER = 'app/ReportPage/LOAD_TEACHER';
 export const LOAD_SUCCESS_TEACHER = 'app/ReportPage/LOAD_SUCCESS_TEACHER';
 export const LOAD_FAILURE_TEACHER = 'app/ReportPage/LOAD_FAILURE_TEACHER';
 
+export const LOAD_REPORT = 'app/ReportPage/LOAD_REPORT';
+export const LOAD_REPORT_SUCCESS = 'app/ReportPage/LOAD_REPORT_SUCCESS';
+export const LOAD_REPORT_FAILURE = 'app/ReportPage/LOAD_REPORT_FAILURE';

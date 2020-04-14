@@ -21,7 +21,7 @@ import messages from './messages';
 import { Select, Row, Layout, Icon, Spin, Col, DatePicker, Button, Table } from 'antd';
 import moment from 'moment';
 
-import { loadTeacher, loadCourse } from './actions';
+import { loadTeacher, loadCourse, loadReportData } from './actions';
 import "./index.scss";
 import tableColumns from './tableCols';
 
@@ -211,28 +211,39 @@ export class ReportPage extends React.Component {
 
   handleSubmit = () => {
     const { report } = this.state;
-    console.log(report)
+    console.log(report);
+    this.props.fetchReportData(report);
   }
 
   // export to CSV
   handleExportCsv = () => {
     let csvRow = [];
-    let A = [['TeacherName', "TeacherMail", 'CourseCode', 'NumbOfAsks', 'NumbOfOpenedAsks', 'NumbOfClosedAsks', 'Rating']];
+    let A = [['TeacherName', "TeacherMail", 'CourseCode', 'NumberOfAsks', 'NumberOfOpenedAsks', 'NumberOfClosedAsks', 'Rating']];
     let re = this.state.reportDatas;
     // push to 1 row in excel file
-    for (let record = 0; record < array.length; record++) {
-      A.push(re[record].name, re[record].mail, re[record].courseCode, re[record].numberOfAsks, re[record].numberOfOpenedAsks, re[record].numberOfClosedAsks, re[record].rating)
+    for (let record = 0; record < re.length; record++) {
+      A.push([re[record].name, re[record].mail, re[record].courseCode, re[record].numberOfAsks, re[record].numberOfOpenedAsks, re[record].numberOfClosedAsks, re[record].rating])
     }
+    console.log(A)
     // push to table in excel file
     for (let i = 0; i < A.length; i++) {
       csvRow.push(A[i].join(","))
     }
+    console.log(csvRow)
     // convert to csvString
-    const csvString = csvRow.join("%OA")
+    const csvString = csvRow.join("\n");
+    console.log(csvString)
+    // create a link to download csv
+    var a = document.createElement("a");
+    a.href = "data:attachment/csv," + csvString;
+    a.target = '_Blank';
+    a.download = "reportTeacher.csv";
+    document.body.appendChild(a);
+    a.click();
   }
 
   render() {
-    const { showCourses, showTeachers, report, isChooseDate, isChooseDuration, duration, dateRange } = this.state;
+    const { showCourses, showTeachers, report, isChooseDate, isChooseDuration, duration, dateRange, reportDatas } = this.state;
     const { isLoading } = this.props.reportPage;
     const antIcon = <Icon type="loading" style={{ fontSize: 24, color: '#fff', marginRight: '10px' }} spin />;
     const time = [
@@ -265,7 +276,7 @@ export class ReportPage extends React.Component {
               <p className="report-page-name">Report</p>
             </div>
             <div className='report-page-btn'>
-              <Button className='report-btn'>Export to CSV <span></span></Button>
+              <Button className='report-btn' onClick={this.handleExportCsv} disabled={(reportDatas && reportDatas.length > 0) ? false : true}>Export to CSV <span></span></Button>
               <Button className='report-btn' onClick={this.handleClear}>Clear filter <span className="icon ic-clear"></span></Button>
             </div>
           </Header>
@@ -359,7 +370,9 @@ export class ReportPage extends React.Component {
 }
 
 ReportPage.propTypes = {
-  fetchCourse: PropTypes.func.isRequired
+  fetchCourse: PropTypes.func.isRequired,
+  fetchTeacher: PropTypes.func.isRequired,
+  fetchReportData: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -369,7 +382,8 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch) {
   return {
     fetchCourse: () => { dispatch(loadCourse()) },
-    fetchTeacher: () => { dispatch(loadTeacher()) }
+    fetchTeacher: () => { dispatch(loadTeacher()) },
+    fetchReportData: (filter) => { dispatch(loadReportData(filter)) }
   };
 }
 

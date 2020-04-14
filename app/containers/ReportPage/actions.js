@@ -4,7 +4,7 @@
  *
  */
 
-import { DEFAULT_ACTION, LOAD_COURSE, LOAD_TEACHER } from './constants';
+import { DEFAULT_ACTION, LOAD_COURSE, LOAD_TEACHER, LOAD_REPORT } from './constants';
 
 export function defaultAction() {
   return {
@@ -22,4 +22,11 @@ export function loadTeacher() {
   return {
     type: LOAD_TEACHER
   };
+}
+
+export function loadReportData(filter) {
+  return {
+    type: LOAD_REPORT,
+    filter,
+  }
 }

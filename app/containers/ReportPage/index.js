@@ -229,18 +229,18 @@ export class ReportPage extends React.Component {
   // export to CSV
   handleExportCsv = () => {
     let csvRow = [];
-    let A = [['TeacherName', "TeacherMail", 'CourseCode', 'NumberOfAsks', 'Answered', 'Unanswered', 'Rating']];
+    let A = [['TeacherName', "TeacherMail", 'CourseCode', 'NumberOfAsks', 'Opened', 'Closed', 'Rating']];
     let report = this.state.reportDatas;
     let re = report.map(item => {
       return {
         ...item,
-        asks: item.answered + item.unanswered,
+        asks: item.open + item.closed,
         rating: item.rating ? item.rating : 0,
       }
     })
     // push to 1 row in excel file
     for (let record = 0; record < re.length; record++) {
-      A.push([re[record].teacherName, re[record].teacherEmail, re[record].courseCode, re[record].asks, re[record].answered, re[record].unanswered, re[record].rating])
+      A.push([re[record].teacherName, re[record].teacherEmail, re[record].courseCode, re[record].asks, re[record].open, re[record].closed, re[record].rating])
     }
     // push to table in excel file
     for (let i = 0; i < A.length; i++) {

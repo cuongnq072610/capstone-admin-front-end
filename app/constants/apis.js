@@ -47,6 +47,7 @@ const SEARCH_DEPARTMENTS = '/searchDepartment';
 const GET_STUDENT_INFO = '/getstudentbyid';
 const UPDATE_STUDENT_COURSE = '/updatestudentcourse';
 const GET_STUDENT_STATISTIC = '/getStudentStatistic';
+const EXIT_COURSE = '/exitCourse';
 
 const LOGIN_API = '/login';
 const GET_ADMIN_STATISTIC = '/getStatisticNumber';
@@ -108,4 +109,5 @@ export {
     //
     DELETE_FOLDER_API,
     GET_REPORT,
+    EXIT_COURSE,
 }

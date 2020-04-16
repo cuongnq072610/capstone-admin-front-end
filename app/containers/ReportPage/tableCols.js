@@ -23,18 +23,18 @@ const tableColumns = [
     {
         title: "NO. OF ASKS",
         width: 150,
-        render: (record) => <span>{record.answered + record.unanswered}</span>
+        render: (record) => <span>{record.open + record.closed}</span>
     },
     {
-        title: "NO. OF ANSWERED ASKS",
+        title: "NO. OF OPENED ASKS",
         width: 150,
-        dataIndex: "answered",
+        dataIndex: "open",
         render: (text) => <span>{text}</span>
     },
     {
-        title: "NO. OF UNANSWERED ASKS",
+        title: "NO. OF CLOSED ASKS",
         width: 150,
-        dataIndex: "unanswered",
+        dataIndex: "closed",
         render: (text) => <span>{text}</span>
     },
     {

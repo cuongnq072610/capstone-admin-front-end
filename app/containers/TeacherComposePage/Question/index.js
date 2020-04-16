@@ -2,6 +2,7 @@ import React from 'react';
 import avatar from '../../../assets/png/man-1.png';
 import styled from 'styled-components';
 import "./index.scss"
+import { Checkbox } from 'antd';
 
 const Name = styled.p`
     color: #212121;
@@ -20,28 +21,33 @@ const Mail = styled.p`
 `;
 
 const AskAndAnswerField = (props) => {
-    const { user, text, comment, date } = props;
+    const { user, text, comment, date, isPinned } = props;
     return (
         user ?
             <div className='ask-wrapper'>
-                <div className='user-field'>
-                    <img src={user.avatar} className='user-avatar' />
-                    <div className='user-info'>
-                        <div>
-                            <Name>{user.email}</Name>
-                            <Mail>{user.email}</Mail>
+                <div style={{ width: '97%' }}>
+                    <div className='user-field'>
+                        <img src={user.avatar} className='user-avatar' />
+                        <div className='user-info'>
+                            <div>
+                                <Name>{user.email}</Name>
+                                <Mail>{user.email}</Mail>
+                            </div>
+                            <div className="ask-side">
+                                <p className='ask-date'> {date ? date : comment.dateCreated}</p>
+                            </div>
                         </div>
-                        <p>{date ? date : comment.dateCreated}</p>
+                    </div>
+                    <div className='content-field'>
+                        {
+                            text ?
+                                <div dangerouslySetInnerHTML={{ __html: text }}></div>
+                                :
+                                <div dangerouslySetInnerHTML={{ __html: comment.message }}></div>
+                        }
                     </div>
                 </div>
-                <div className='content-field'>
-                    {
-                        text ?
-                            <div dangerouslySetInnerHTML={{ __html: text }}></div>
-                            :
-                            <div dangerouslySetInnerHTML={{ __html: comment.message }}></div>
-                    }
-                </div>
+                {(comment) && <Checkbox value={comment.id}></Checkbox>}
             </div>
             :
             ''

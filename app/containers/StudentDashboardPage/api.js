@@ -8,7 +8,12 @@ const fetchUserStatistic = (url) => {
     return axiosService.get(url);
 }
 
+const fetchExitCourse = (url) => {
+    return axiosService.putWithoutBody(url);
+}
+
 export {
     fetchUserInfo,
     fetchUserStatistic,
+    fetchExitCourse,
 }

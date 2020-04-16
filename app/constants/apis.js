@@ -51,6 +51,7 @@ const GET_STUDENT_STATISTIC = '/getStudentStatistic';
 const LOGIN_API = '/login';
 const GET_ADMIN_STATISTIC = '/getStatisticNumber';
 const DELETE_FOLDER_API = '/deleteFolderByID';
+const GET_REPORT = '/getReport';
 
 export {
     API_ENDPOINT,
@@ -106,4 +107,5 @@ export {
     GET_ADMIN_STATISTIC,
     //
     DELETE_FOLDER_API,
+    GET_REPORT,
 }

@@ -70,6 +70,17 @@ export class ReportPage extends React.Component {
         showTeachers: this.props.reportPage.teachers,
       })
     }
+    if (prevProps.reportPage.reports !== this.props.reportPage.reports) {
+      const fomatReport = this.props.reportPage.reports.map((item, index) => {
+        return {
+          ...item,
+          key: `${index}`,
+        }
+      })
+      this.setState({
+        reportDatas: fomatReport,
+      })
+    }
   }
 
   handleGetTeacherByCourse = (course) => {
@@ -211,18 +222,25 @@ export class ReportPage extends React.Component {
 
   handleSubmit = () => {
     const { report } = this.state;
-    console.log(report);
+    console.log(report)
     this.props.fetchReportData(report);
   }
 
   // export to CSV
   handleExportCsv = () => {
     let csvRow = [];
-    let A = [['TeacherName', "TeacherMail", 'CourseCode', 'NumberOfAsks', 'NumberOfOpenedAsks', 'NumberOfClosedAsks', 'Rating']];
-    let re = this.state.reportDatas;
+    let A = [['TeacherName', "TeacherMail", 'CourseCode', 'NumberOfAsks', 'Answered', 'Unanswered', 'Rating']];
+    let report = this.state.reportDatas;
+    let re = report.map(item => {
+      return {
+        ...item,
+        asks: item.answered + item.unanswered,
+        rating: item.rating ? item.rating : 0,
+      }
+    })
     // push to 1 row in excel file
     for (let record = 0; record < re.length; record++) {
-      A.push([re[record].name, re[record].mail, re[record].courseCode, re[record].numberOfAsks, re[record].numberOfOpenedAsks, re[record].numberOfClosedAsks, re[record].rating])
+      A.push([re[record].teacherName, re[record].teacherEmail, re[record].courseCode, re[record].asks, re[record].answered, re[record].unanswered, re[record].rating])
     }
     // push to table in excel file
     for (let i = 0; i < A.length; i++) {
@@ -241,7 +259,7 @@ export class ReportPage extends React.Component {
 
   render() {
     const { showCourses, showTeachers, report, isChooseDate, isChooseDuration, duration, dateRange, reportDatas } = this.state;
-    const { isLoading } = this.props.reportPage;
+    const { isLoadingReport } = this.props.reportPage;
     const antIcon = <Icon type="loading" style={{ fontSize: 24, color: '#fff', marginRight: '10px' }} spin />;
     const time = [
       {
@@ -346,7 +364,7 @@ export class ReportPage extends React.Component {
               <Col span={6}>
                 <Button className='generateBtn' type="primary" onClick={this.handleSubmit}>
                   {
-                    isLoading ?
+                    isLoadingReport ?
                       <Spin indicator={antIcon} /> :
                       <span>Generate report</span>
                   }
@@ -357,6 +375,9 @@ export class ReportPage extends React.Component {
             <Row>
               <Table
                 columns={tableColumns}
+                dataSource={reportDatas}
+                isLoading={isLoadingReport}
+                className='report-table'
               />
             </Row>
           </Content>

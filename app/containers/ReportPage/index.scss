@@ -80,6 +80,31 @@
         }
     }
 
+    .report-table {
+        .report-teacher-info {
+            .report-teacher-avatar {
+                width: 40px;
+                height: 40px;
+                margin-right: 10px;
+                border-radius: 20px;
+            }
+
+            .report-teacher-name {
+                color: $primary_brown;
+                font-size: 18px;
+                font-weight: 700;
+            }
+        }
+
+        .report-course-info {
+            .report-course-code {
+                color: $primary_purple;
+                font-size: 18px;
+                font-weight: 700;
+            }
+        }
+    }
+
 }
 
 .ant-select-dropdown-menu-item {

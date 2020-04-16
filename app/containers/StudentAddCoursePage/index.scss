@@ -19,23 +19,26 @@
 
       .header-right {
         display: flex;
-    
+
         .update-field {
           display: flex;
           align-items: center;
           margin-right: 10px;
+
           .text {
             &-success {
               margin-bottom: 0;
               color: green;
               margin-right: 10px;
             }
+
             &-fail {
               margin-bottom: 0;
               color: red;
               margin-right: 10px;
             }
           }
+
           .btn-update-course {
             background-color: $primary_purple;
             color: $primary_white;
@@ -50,7 +53,7 @@
         }
       }
 
-      
+
 
       i {
         font-size: 20px;
@@ -83,7 +86,7 @@
           margin-bottom: 12px;
           border: 1px solid $primary_purple;
           background: $tertiary_purple;
-          border-radius: 5px;       
+          border-radius: 5px;
 
           span {
             display: block;
@@ -101,17 +104,21 @@
         }
 
       }
-    
+
 
     }
 
     .chosen-other {
+
       //overide ANT table style 
       .ant-empty-normal {
         margin: 0;
       }
 
-      .ant-table-thead > tr.ant-table-row-hover:not(.ant-table-expanded-row):not(.ant-table-row-selected) > td, .ant-table-tbody > tr.ant-table-row-hover:not(.ant-table-expanded-row):not(.ant-table-row-selected) > td, .ant-table-thead > tr:hover:not(.ant-table-expanded-row):not(.ant-table-row-selected) > td, .ant-table-tbody > tr:hover:not(.ant-table-expanded-row):not(.ant-table-row-selected) > td {
+      .ant-table-thead>tr.ant-table-row-hover:not(.ant-table-expanded-row):not(.ant-table-row-selected)>td,
+      .ant-table-tbody>tr.ant-table-row-hover:not(.ant-table-expanded-row):not(.ant-table-row-selected)>td,
+      .ant-table-thead>tr:hover:not(.ant-table-expanded-row):not(.ant-table-row-selected)>td,
+      .ant-table-tbody>tr:hover:not(.ant-table-expanded-row):not(.ant-table-row-selected)>td {
         background: $tertiary_purple;
       }
 
@@ -126,6 +133,10 @@
         font-size: 16px;
         color: #616161;
         padding-right: 25px;
+
+        .active-row {
+          background: $tertiary_purple;
+        }
 
         thead th {
           padding: 12px;

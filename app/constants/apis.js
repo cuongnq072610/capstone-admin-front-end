@@ -47,10 +47,12 @@ const SEARCH_DEPARTMENTS = '/searchDepartment';
 const GET_STUDENT_INFO = '/getstudentbyid';
 const UPDATE_STUDENT_COURSE = '/updatestudentcourse';
 const GET_STUDENT_STATISTIC = '/getStudentStatistic';
+const EXIT_COURSE = '/exitCourse';
 
 const LOGIN_API = '/login';
 const GET_ADMIN_STATISTIC = '/getStatisticNumber';
 const DELETE_FOLDER_API = '/deleteFolderByID';
+const GET_REPORT = '/getReport';
 
 export {
     API_ENDPOINT,
@@ -106,4 +108,6 @@ export {
     GET_ADMIN_STATISTIC,
     //
     DELETE_FOLDER_API,
+    GET_REPORT,
+    EXIT_COURSE,
 }

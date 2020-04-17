@@ -49,6 +49,7 @@
 
 .content-table {
   margin-top: 10px;
+
   .chosen-title-btn {
     display: flex;
     justify-content: start;
@@ -60,16 +61,20 @@
     box-shadow: none;
 
     h3 {
-        font-family: Roboto;
-        font-size: 16px;
-        font-weight: 400;
-        letter-spacing: 1.6px;
-        line-height: 17px;
-        text-transform: uppercase;
-        margin-bottom: 0;
-        margin-right: 10px;
+      font-family: Roboto;
+      font-size: 16px;
+      font-weight: 400;
+      letter-spacing: 1.6px;
+      line-height: 17px;
+      text-transform: uppercase;
+      margin-bottom: 0;
+      margin-right: 10px;
     }
-}
+  }
+
+  .active-row {
+    background: $tertiary_purple;
+  }
 
   .chosen {
     margin-top: 10px;
@@ -85,7 +90,7 @@
         margin-bottom: 12px;
         border: 1px solid $primary_purple;
         background: $tertiary_purple;
-        border-radius: 5px;       
+        border-radius: 5px;
 
         span {
           display: block;
@@ -95,6 +100,7 @@
           display: flex;
           align-items: center;
           color: $primary_purple;
+
           img {
             width: 19px;
             height: 19px;
@@ -111,7 +117,7 @@
       }
 
     }
-  
+
 
   }
 
@@ -123,7 +129,10 @@
       margin: 0;
     }
 
-    .ant-table-thead > tr.ant-table-row-hover:not(.ant-table-expanded-row):not(.ant-table-row-selected) > td, .ant-table-tbody > tr.ant-table-row-hover:not(.ant-table-expanded-row):not(.ant-table-row-selected) > td, .ant-table-thead > tr:hover:not(.ant-table-expanded-row):not(.ant-table-row-selected) > td, .ant-table-tbody > tr:hover:not(.ant-table-expanded-row):not(.ant-table-row-selected) > td {
+    .ant-table-thead>tr.ant-table-row-hover:not(.ant-table-expanded-row):not(.ant-table-row-selected)>td,
+    .ant-table-tbody>tr.ant-table-row-hover:not(.ant-table-expanded-row):not(.ant-table-row-selected)>td,
+    .ant-table-thead>tr:hover:not(.ant-table-expanded-row):not(.ant-table-row-selected)>td,
+    .ant-table-tbody>tr:hover:not(.ant-table-expanded-row):not(.ant-table-row-selected)>td {
       background: $tertiary_purple;
     }
 
@@ -152,9 +161,9 @@
           padding: 10px;
           color: $primary_black;
         }
-        
-        
-        
+
+
+
       }
     }
 

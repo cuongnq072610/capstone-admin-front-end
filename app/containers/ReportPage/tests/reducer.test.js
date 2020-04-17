@@ -3,6 +3,6 @@ import reportPageReducer from '../reducer';
 
 describe('reportPageReducer', () => {
   it('returns the initial state', () => {
-    expect(reportPageReducer(undefined, {})).toEqual(fromJS({}));
+    expect(reportPageReducer(undefined, {})).toMatchSnapshot();
   });
 });

@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`homePageReducer returns the initial state 1`] = `
+Immutable.Map {
+  "courses": Immutable.List [],
+  "departments": Immutable.List [],
+  "isLoadingDepartment": false,
+  "isLoading": false,
+  "errors": Immutable.Map {},
+}
+`;

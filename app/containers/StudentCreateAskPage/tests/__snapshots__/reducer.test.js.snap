@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`studentCreateAskPageReducer returns the initial state 1`] = `
+Immutable.Map {
+  "isLoadingCreate": false,
+  "isLoadingCourse": false,
+  "isLoadingTeaher": false,
+  "message": "",
+  "error": "",
+  "courses": Immutable.List [],
+  "teachers": Immutable.List [],
+}
+`;

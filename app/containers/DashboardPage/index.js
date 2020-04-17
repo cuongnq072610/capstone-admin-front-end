@@ -75,8 +75,8 @@ export class DashboardPage extends React.PureComponent {
             <p className="dashboard-title"><FormattedMessage {...messages.header} /></p>
           </div>
           <div className="dashboard-box">
-            <Box name="Course" onNavigate={() => this.handleNavigate('course')} isLoading={isLoadingStatistic} statistic={statistic}/>
-            <Box name="Teacher" onNavigate={() => this.handleNavigate('teacher')} isLoading={isLoadingStatistic} statistic={statistic}/>
+            <Box name="Course" onNavigate={() => this.handleNavigate('course')} isLoading={isLoadingStatistic} statistic={statistic} />
+            <Box name="Teacher" onNavigate={() => this.handleNavigate('teacher')} isLoading={isLoadingStatistic} statistic={statistic} />
           </div>
           <div className="dashboard-content">
             <div className="dashboard-des">
@@ -103,7 +103,7 @@ const mapStateToProps = createStructuredSelector({
   dashboardPage: makeSelectDashboardPage(),
 });
 
-function mapDispatchToProps(dispatch) {
+export function mapDispatchToProps(dispatch) {
   return {
     handleFetchAdminStatistic: () => { dispatch(loadAdminStatistic()) },
   };

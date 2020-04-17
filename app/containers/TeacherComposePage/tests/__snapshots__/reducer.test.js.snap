@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`studentComposePageReducer returns the initial state 1`] = `
+Immutable.Map {
+  "isLoading": false,
+  "ask": Immutable.Map {},
+  "errors": Immutable.Map {},
+}
+`;

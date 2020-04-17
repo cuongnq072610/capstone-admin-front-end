@@ -61,6 +61,7 @@ const QuestionSide = (props) => {
                                         <Button onClick={toggleClose} >Cancel</Button>
                                     </div>
                                 }
+                                <Button type="primary">Re-open this question</Button>
                             </div> : ""
                     }
 

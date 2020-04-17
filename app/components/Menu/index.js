@@ -72,7 +72,7 @@ class SideMenu extends React.PureComponent {
 
   onHandleLogout = () => {
     localStorage.removeItem('user');
-    history.push('/');
+    window.location.href = "/";
   }
 
   render() {

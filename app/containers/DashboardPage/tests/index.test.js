@@ -3,7 +3,7 @@ import { mount, shallow } from 'enzyme';
 import { enzymeFind } from 'styled-components/test-utils';
 import makeSelectDashboardPage from '../selectors';
 
-import { DashboardPage, mapDispatchToProps } from '../index';
+import { DashboardPage } from '../index';
 import Box from '../box/box';
 
 describe('<DashboardPage />', () => {
@@ -19,11 +19,8 @@ describe('<DashboardPage />', () => {
   }
 
   beforeEach(() => {
-    const dispatch = jest.fn();
-    const result = mapDispatchToProps(dispatch);
     props = {
       dashboardPage: makeSelectDashboardPage(),
-      handleFetchAdminStatistic: result.handleFetchAdminStatistic,
     };
     mountedDashboardPage = undefined;
   });

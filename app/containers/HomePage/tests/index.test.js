@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow, mount } from 'enzyme';
 import { enzymeFind } from 'styled-components/test-utils';
 
-import { HomePage, mapDispatchToProps } from '../index';
+import { HomePage } from '../index';
 import makeSelectHomePage from '../selectors';
 import history from '../../../utils/history';
 import { Table } from 'antd';
@@ -22,13 +22,8 @@ describe('<HomePage />', () => {
   }
 
   beforeEach(() => {
-    const dispatch = jest.fn();
-    const result = mapDispatchToProps(dispatch);
     props = {
       homePage: makeSelectHomePage(),
-      fetchCourse: result.fetchCourse,
-      handleFetchDepartment: result.handleFetchDepartment,
-      fetchSearchCourse: result.fetchSearchCourse,
       history: history
     };
     mountedHomePage = undefined;

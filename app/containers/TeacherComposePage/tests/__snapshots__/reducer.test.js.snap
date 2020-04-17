@@ -3,7 +3,9 @@
 exports[`studentComposePageReducer returns the initial state 1`] = `
 Immutable.Map {
   "isLoading": false,
+  "isLoadingClose": false,
   "ask": Immutable.Map {},
   "errors": Immutable.Map {},
+  "message": "",
 }
 `;

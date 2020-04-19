@@ -1,0 +1,53 @@
+@import "../../utils/variables.scss";
+
+.not-found-page {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .not-found-wrapper {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        .not-found-logo {
+            width: 160px;
+            height: 160px;
+            margin-bottom: 50px;
+        }
+
+        .warning {
+            color: #212121;
+            font-family: Roboto;
+            letter-spacing: 0.32px;
+            line-height: 28px;
+        }
+
+        .box-warning {
+            margin-top: 100px;
+            width: 400px;
+            height: 64px;
+            border-radius: 5px;
+            background-color: #e6efff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            .note-logo {
+                width: 40px;
+                height: 40px;
+                margin-right: 10px;
+            }
+
+            .box-p {
+                color: #4c89eb;
+                font-family: Roboto;
+                font-size: 20px;
+                font-weight: 400;
+                margin: 0;
+            }
+        }
+    }
+}

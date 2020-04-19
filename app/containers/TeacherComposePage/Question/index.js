@@ -2,7 +2,7 @@ import React from 'react';
 import avatar from '../../../assets/png/man-1.png';
 import styled from 'styled-components';
 import "./index.scss"
-import { Checkbox } from 'antd';
+import { Radio } from 'antd';
 
 const Name = styled.p`
     color: #212121;
@@ -21,7 +21,7 @@ const Mail = styled.p`
 `;
 
 const AskAndAnswerField = (props) => {
-    const { user, text, comment, date, isPinned } = props;
+    const { user, text, comment, date, showRadio } = props;
     return (
         user ?
             <div className='ask-wrapper'>
@@ -47,7 +47,7 @@ const AskAndAnswerField = (props) => {
                         }
                     </div>
                 </div>
-                {(comment) && <Checkbox value={comment.id}></Checkbox>}
+                {(comment && showRadio) && <Radio value={comment.id}></Radio>}
             </div>
             :
             ''

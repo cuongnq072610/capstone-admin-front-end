@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`studentDashboardPageReducer returns the initial state 1`] = `
+Immutable.Map {
+  "user": Immutable.Map {},
+  "isLoading": false,
+  "isLoadingStatistic": false,
+  "errors": Immutable.Map {},
+  "statistic": Immutable.Map {},
+}
+`;

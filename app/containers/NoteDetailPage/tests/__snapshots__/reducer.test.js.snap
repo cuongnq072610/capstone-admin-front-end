@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`noteDetailPageReducer returns the initial state 1`] = `
+Immutable.Map {
+  "isLoading": false,
+  "isLoadingUpdate": false,
+  "isLoadingDelete": false,
+  "note": Immutable.Map {},
+  "error": Immutable.Map {},
+  "message": Immutable.Map {},
+}
+`;

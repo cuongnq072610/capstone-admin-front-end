@@ -22,6 +22,27 @@
       }
     }
 
+    .hello-user {
+      display: flex;
+      justify-content: center;
+      margin-top: 60px;
+      height: 600px;
+      background: url('../StudentDashboardPage/assets/ScenePlants.png') no-repeat;
+      opacity: .8;
+      background-size: 50%;
+      background-position: center;
+      background-position-y: 55px;
+
+      h1 {
+          font-size: 24px;
+          font-weight: 500;
+          max-width: 600px;
+          text-align: center;
+          color: $primary_blue;
+          margin-bottom: 20px;
+      }
+    }
+
     .question-detai {
       .question-description{
         margin-bottom: 25px;
@@ -72,6 +93,8 @@
 
     .question-wrapper {
       padding-left: 24px;
+      overflow: auto;
+      height: calc( 100vh - 100px);
       .question {
         padding: 10px 16px;
         background-color: $secondary_blue;

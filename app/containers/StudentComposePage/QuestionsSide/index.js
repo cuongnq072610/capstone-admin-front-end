@@ -15,6 +15,7 @@ const QuestionSide = (props) => {
         rate,
         isCloseToggle,
         onReopenAsk,
+        isLoadingOpen,
     } = props;
     const antIcon = <Icon type="loading" style={{ fontSize: 24, color: '#1593e6', marginRight: '10px' }} spin />;
     return (
@@ -63,7 +64,7 @@ const QuestionSide = (props) => {
                                         </div> :
                                         <Button type="primary" onClick={onReopenAsk}>
                                             {
-                                                isLoadingClose ?
+                                                isLoadingOpen ?
                                                     <Spin indicator={antIcon} /> :
                                                     <span>Re-open this question</span>
                                             }

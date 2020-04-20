@@ -11,7 +11,7 @@ import {
   REOPEN_ASK_DETAIL_SUCCESS,
 } from './constants';
 import { fetchAskDetail, updateAskDetail } from './api';
-import { API_ENDPOINT, GET_ASK_BY_ID, CLOSE_ASK_API } from '../../constants/apis';
+import { API_ENDPOINT, GET_ASK_BY_ID, CLOSE_ASK_API, REOPEN_ASK } from '../../constants/apis';
 
 function* loadAskDetail(action) {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -43,8 +43,9 @@ function* closeAsk(action) {
 
 function* reopenAsk(action) {
   const { askId } = action;
+  console.log(`${API_ENDPOINT}${REOPEN_ASK}/${askId}`)
   try {
-    let response = yield call(updateAskDetail, `${API_ENDPOINT}`);
+    let response = yield call(updateAskDetail, `${API_ENDPOINT}${REOPEN_ASK}/${askId}`);
     if (response.data.success) {
       yield put({ type: REOPEN_ASK_DETAIL_SUCCESS, payload: response.data.success });
     } else if (response.data.error) {

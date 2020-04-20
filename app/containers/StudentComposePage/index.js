@@ -114,6 +114,20 @@ export class StudentComposePage extends React.Component {
         }, 3000)
       })
     }
+
+    if (prevProps.studentComposePage.isLoadingOpen !== this.props.studentComposePage.isLoadingOpen && this.props.studentComposePage.isLoadingOpen === false) {
+      // show modal success
+      this.setState({
+        isShow: true,
+        isClose: false,
+      }, () => {
+        this.timer1 = setTimeout(() => {
+          this.setState({
+            isShow: false
+          })
+        }, 3000)
+      })
+    }
   }
 
   componentWillUnmount() {
@@ -209,7 +223,7 @@ export class StudentComposePage extends React.Component {
     const { message, comments, showMe, isClose, isShow, ask, teacher, rate, isCloseToggle } = this.state;
     const { Content, Header } = Layout;
     const antIcon = <Icon type="loading" style={{ fontSize: 24, color: '#1593e6', marginRight: '10px' }} spin />;
-    const { isLoading, isLoadingClose } = this.props.studentComposePage;
+    const { isLoading, isLoadingClose, messageRes, isLoadingOpen } = this.props.studentComposePage;
 
     const editorModule = {
       toolbar: [
@@ -318,13 +332,14 @@ export class StudentComposePage extends React.Component {
                 rate={rate}
                 handleCloseAsk={this.handleCloseAsk}
                 isLoadingClose={isLoadingClose}
+                isLoadingOpen={isLoadingOpen}
                 onReopenAsk={this.handleReopenAsk}
               />
             }
             <div className={isShow ? 'notification-show' : 'notification'}>
               <div className='noti-content-success'>
                 <span className='icon-noti accept-icon'></span>
-                <p>This question has been closed</p>
+                <p>{messageRes}</p>
               </div>
             </div>
           </Col>

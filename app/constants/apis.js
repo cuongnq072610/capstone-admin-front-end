@@ -37,6 +37,7 @@ const GET_ALL_ASK_TEACHER = '/allaskofteacher';
 const CLOSE_ASK_API = '/closeAsk';
 const SEARCH_ASK_API = '/searchAsk';
 const CREATE_ASK_API = '/createask';
+const REOPEN_ASK = '/openAsk';
 
 const GET_ALL_DEPARTMENT = '/allDepartment';
 const CREATE_DEPARTMENT = '/createDepartment';
@@ -93,6 +94,7 @@ export {
     CLOSE_ASK_API,
     SEARCH_ASK_API,
     CREATE_ASK_API,
+    REOPEN_ASK,
     //STUDENT
     GET_STUDENT_INFO,
     UPDATE_STUDENT_COURSE,

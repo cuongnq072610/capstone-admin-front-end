@@ -6,7 +6,6 @@ const { Header, Content } = Layout;
 
 const QuestionSide = (props) => {
     const {
-        isClosed,
         student,
         rate,
     } = props;
@@ -27,19 +26,16 @@ const QuestionSide = (props) => {
                             </div>
                         </div>
                     </div>
-                    {
-                        isClosed &&
-                        <div>
-                            <div className="session">
-                                <span className="p">SESSION</span>
-                                <p className='p-close'><span className='session-close-icon'></span>Question is closed</p>
-                            </div>
-                            <div className="rate">
-                                <span className="p">RATE TUTOR'S SUPPORT</span>
-                                <Rate allowClear defaultValue={2.5} className='rate-field' value={rate} disabled={isClosed} />
-                            </div>
+                    <div>
+                        <div className="session">
+                            <span className="p">SESSION</span>
+                            <p className='p-close'><span className='session-close-icon'></span>Question is closed</p>
                         </div>
-                    }
+                        <div className="rate">
+                            <span className="p">RATE TUTOR'S SUPPORT</span>
+                            <Rate allowClear defaultValue={2.5} className='rate-field' value={rate} disabled={true} />
+                        </div>
+                    </div>
                 </Content>
             </Layout>
         </Row>

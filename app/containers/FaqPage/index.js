@@ -21,6 +21,7 @@ import messages from './messages';
 import WrappedSearchBar from '../../components/SearchBar';
 import { Select, Row, Layout, Icon, Spin, Col, DatePicker, Button, Table } from 'antd';
 import './index.scss';
+import { loadFaq, loadSearchFaq } from './actions';
 
 const { Content, Header } = Layout;
 const dataFAQ = [
@@ -146,14 +147,14 @@ export class FaqPage extends React.Component {
   }
 
   checkUrlInString(s) {
-    var urlRE= new RegExp("([a-zA-Z0-9]+://)?([a-zA-Z0-9_]+:[a-zA-Z0-9_]+@)?([a-zA-Z0-9.-]+\\.[A-Za-z]{2,4})(:[0-9]+)?([^ ])+");
+    var urlRE = new RegExp("([a-zA-Z0-9]+://)?([a-zA-Z0-9_]+:[a-zA-Z0-9_]+@)?([a-zA-Z0-9.-]+\\.[A-Za-z]{2,4})(:[0-9]+)?([^ ])+");
     var matchString = s.match(urlRE);
-    
-    if(matchString) {
+
+    if (matchString) {
       let url = `<a href="${matchString[0]}" target="_blank"> ${matchString[0]} </a>`;
       let replaceString = s.replace(matchString[0], url);
       return replaceString; //return the url
-    }else {
+    } else {
       return s;
     }
   }
@@ -172,11 +173,11 @@ export class FaqPage extends React.Component {
               <p className="faq-page-name">FAQ</p>
             </div>
             <WrappedSearchBar className="faq-page-search"
-              message="Please enter your question key" 
+              message="Please enter your question key"
               placeholder="I want to find my question"
               type="ask"
-              // handleSearch={this.handleSearch}
-              // handleClear={this.handleClear}
+            // handleSearch={this.handleSearch}
+            // handleClear={this.handleClear}
             />
           </Header>
 
@@ -233,7 +234,8 @@ export class FaqPage extends React.Component {
 }
 
 FaqPage.propTypes = {
-  dispatch: PropTypes.func.isRequired,
+  handleFetchFaqData: PropTypes.func.isRequired,
+  handleFetchSearchFaq: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -242,7 +244,8 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
-    dispatch,
+    handleFetchFaqData: (page) => { dispatch(loadFaq(page)) },
+    handleFetchSearchFaq: (page, key) => { dispatch(loadSearchFaq(page, key)) },
   };
 }
 

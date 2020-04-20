@@ -26,7 +26,7 @@ import AskAndAnswerField from './Question';
 import { API_ENDPOINT_WS } from '../../constants/apis';
 
 //socket
-import { loadAskDetail } from './actions';
+import { loadAskDetail, closeAsk } from './actions';
 import ReactQuill, { Quill } from 'react-quill';
 import { ImageDrop } from 'quill-image-drop-module';
 Quill.register('modules/imageDrop', ImageDrop);
@@ -42,7 +42,9 @@ export class StudentComposePage extends React.Component {
       ask: {},
       message: '',
       comments: [],
-      user: JSON.parse(localStorage.getItem("user"))
+      user: JSON.parse(localStorage.getItem("user")),
+      showRadio: false,
+      isClosed: false,
     }
   }
 
@@ -89,6 +91,13 @@ export class StudentComposePage extends React.Component {
         teacher: this.props.studentComposePage.ask.teacher,
         comments: this.props.studentComposePage.ask.comments,
         student: this.props.studentComposePage.ask.student,
+        isClose: this.props.studentComposePage.ask.isClosed,
+      })
+    }
+    if (prevProps.studentComposePage.isLoadingClose !== this.props.studentComposePage.isLoadingClose && this.props.studentComposePage.isLoadingClose === false) {
+      // show modal success
+      this.setState({
+        isClose: true,
       })
     }
   }
@@ -100,6 +109,18 @@ export class StudentComposePage extends React.Component {
   onToggleShow = () => {
     this.setState({
       showMe: !this.state.showMe
+    })
+  }
+
+  onClickShowRadio = () => {
+    this.setState({
+      showRadio: true,
+    })
+  }
+
+  onClickCloseRadio = () => {
+    this.setState({
+      showRadio: false,
     })
   }
 
@@ -160,11 +181,17 @@ export class StudentComposePage extends React.Component {
     }
   }
 
+  handleCloseAsk = () => {
+    // action in here
+    const { id } = this.props.match.params;
+    this.props.handleCloseAskDetail(id);
+  }
+
   render() {
-    const { message, comments, showMe, ask, teacher, student } = this.state;
+    const { message, comments, showMe, ask, teacher, student, showRadio, isClose } = this.state;
     const { Content, Header } = Layout;
     const antIcon = <Icon type="loading" style={{ fontSize: 24, color: '#1593e6', marginRight: '10px' }} spin />;
-    const { isLoading } = this.props.studentComposePage;
+    const { isLoading, isLoadingClose } = this.props.studentComposePage;
 
     const editorModule = {
       toolbar: [
@@ -195,12 +222,31 @@ export class StudentComposePage extends React.Component {
           />
         </Helmet>
         <Row className='compose'>
-          <Col span={19} className="compose-information">
+          <Col span={isClose && 19} className="compose-information" style={!isClose && { marginRight: '40px' }}>
             <Layout>
               <Header className="compose-header">
                 <Link to="/tutor">
                   <Icon type="arrow-left" />
                 </Link>
+                {
+                  showRadio ?
+                    <div className="ask-action">
+                      <Button className='ask-action-cancel-pin' onClick={this.onClickCloseRadio}>Cancel pin this question <span className='icon ask-cancel-pin'></span></Button>
+                      <Button className='ask-action-pin'>Pin this question <span className='icon ask-pin'></span></Button>
+                    </div> :
+                    <div className="ask-action">
+                      <Button className='ask-action-pin' onClick={this.onClickShowRadio}>Pin this question <span className='icon ask-pin'></span></Button>
+                      {!isClose &&
+                        <Button className='ask-action-close' onClick={this.handleCloseAsk}>
+                          {
+                            isLoadingClose ?
+                              <Spin indicator={antIcon} /> :
+                              <span>Close this question <span className='icon ask-close'></span></span>
+                          }
+                        </Button>
+                      }
+                    </div>
+                }
               </Header>
               {
                 isLoading ?
@@ -215,13 +261,13 @@ export class StudentComposePage extends React.Component {
                       {
                         comments ?
                           comments.map((comment, index) => {
-                            return <AskAndAnswerField user={this.compareIDtoGetUser(comment.userID, ask.student, ask.teacher)} comment={comment} key={index} />
+                            return <AskAndAnswerField user={this.compareIDtoGetUser(comment.userID, ask.student, ask.teacher)} comment={comment} key={index} showRadio={showRadio} />
                           }) :
                           ''
                       }
                     </div>
                     {
-                      !ask.isClosed &&
+                      !isClose &&
                       <div className={`reply ${showMe ? 'reply-show' : 'reply-hide'}`}>
                         {
                           showMe ?
@@ -262,16 +308,18 @@ export class StudentComposePage extends React.Component {
               }
             </Layout>
           </Col>
-          <Col span={5} className="compose-question">
-            {
-              !isLoading && teacher &&
-              <QuestionSide
-                isClosed={ask.isClosed}
-                student={student}
-                rate={ask.rating}
-              />
-            }
-          </Col>
+          {
+            isClose &&
+            <Col span={5} className="compose-question">
+              {
+                (!isLoading && teacher) &&
+                <QuestionSide
+                  student={student}
+                  rate={ask.rating}
+                />
+              }
+            </Col>
+          }
         </Row>
       </div>
     );
@@ -280,6 +328,7 @@ export class StudentComposePage extends React.Component {
 
 StudentComposePage.propTypes = {
   handleFetchAskDetail: PropTypes.func.isRequired,
+  handleCloseAskDetail: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -289,6 +338,7 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch) {
   return {
     handleFetchAskDetail: (askId) => { dispatch(loadAskDetail(askId)) },
+    handleCloseAskDetail: (id) => { dispatch(closeAsk(id)) },
   };
 }
 

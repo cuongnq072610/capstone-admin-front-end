@@ -26,7 +26,7 @@ import AskAndAnswerField from './Question';
 import { API_ENDPOINT_WS } from '../../constants/apis';
 
 //socket
-import { loadAskDetail, closeAsk } from './actions';
+import { loadAskDetail, closeAsk, reopenAsk } from './actions';
 import ReactQuill, { Quill } from 'react-quill';
 import { ImageDrop } from 'quill-image-drop-module';
 Quill.register('modules/imageDrop', ImageDrop);
@@ -106,6 +106,20 @@ export class StudentComposePage extends React.Component {
       this.setState({
         isShow: true,
         isClose: true,
+      }, () => {
+        this.timer1 = setTimeout(() => {
+          this.setState({
+            isShow: false
+          })
+        }, 3000)
+      })
+    }
+
+    if (prevProps.studentComposePage.isLoadingOpen !== this.props.studentComposePage.isLoadingOpen && this.props.studentComposePage.isLoadingOpen === false) {
+      // show modal success
+      this.setState({
+        isShow: true,
+        isClose: false,
       }, () => {
         this.timer1 = setTimeout(() => {
           this.setState({
@@ -199,11 +213,17 @@ export class StudentComposePage extends React.Component {
     this.props.handleCloseAskDetail(id, rate);
   }
 
+  handleReopenAsk = () => {
+    // action in here
+    const { id } = this.props.match.params;
+    this.props.handleReopenAskDetail(id);
+  }
+
   render() {
     const { message, comments, showMe, isClose, isShow, ask, teacher, rate, isCloseToggle } = this.state;
     const { Content, Header } = Layout;
     const antIcon = <Icon type="loading" style={{ fontSize: 24, color: '#1593e6', marginRight: '10px' }} spin />;
-    const { isLoading, isLoadingClose } = this.props.studentComposePage;
+    const { isLoading, isLoadingClose, messageRes, isLoadingOpen } = this.props.studentComposePage;
 
     const editorModule = {
       toolbar: [
@@ -312,12 +332,14 @@ export class StudentComposePage extends React.Component {
                 rate={rate}
                 handleCloseAsk={this.handleCloseAsk}
                 isLoadingClose={isLoadingClose}
+                isLoadingOpen={isLoadingOpen}
+                onReopenAsk={this.handleReopenAsk}
               />
             }
             <div className={isShow ? 'notification-show' : 'notification'}>
               <div className='noti-content-success'>
                 <span className='icon-noti accept-icon'></span>
-                <p>This question has been closed</p>
+                <p>{messageRes}</p>
               </div>
             </div>
           </Col>
@@ -330,6 +352,7 @@ export class StudentComposePage extends React.Component {
 StudentComposePage.propTypes = {
   handleFetchAskDetail: PropTypes.func.isRequired,
   handleCloseAskDetail: PropTypes.func.isRequired,
+  handleReopenAskDetail: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -340,6 +363,7 @@ function mapDispatchToProps(dispatch) {
   return {
     handleFetchAskDetail: (askId) => { dispatch(loadAskDetail(askId)) },
     handleCloseAskDetail: (id, rate) => { dispatch(closeAsk(id, rate)) },
+    handleReopenAskDetail: (id) => { dispatch(reopenAsk(id)) },
   };
 }
 

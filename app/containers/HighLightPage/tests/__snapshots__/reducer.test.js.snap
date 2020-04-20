@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`highLightPageReducer returns the initial state 1`] = `
+Immutable.Map {
+  "isLoading": false,
+  "highlights": Immutable.List [],
+  "searchHighlight": Immutable.List [],
+  "errors": Immutable.List [],
+  "folders": Immutable.List [],
+  "isLoadingCourse": false,
+  "isLoadingDelete": false,
+  "message": Immutable.Map {},
+}
+`;

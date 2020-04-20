@@ -28,11 +28,6 @@ import { loadCourse, searchCourse, loadDepartment } from './actions';
 
 const { Content, Header } = Layout;
 
-const mockData2 = [
-  "Business", "Communication Business", "Communication", "Finance", "Graphic Design"
-];
-
-
 /* eslint-disable react/prefer-stateless-function */
 export class HomePage extends React.Component {
   constructor(props) {
@@ -203,7 +198,7 @@ const mapStateToProps = createStructuredSelector({
   homePage: makeSelectHomePage(),
 });
 
-function mapDispatchToProps(dispatch) {
+export function mapDispatchToProps(dispatch) {
   return {
     fetchCourse: () => { dispatch(loadCourse()) },
     fetchSearchCourse: (key) => { dispatch(searchCourse(key)) },

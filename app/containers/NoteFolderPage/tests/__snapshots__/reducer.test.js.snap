@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`noteFolderPageReducer returns the initial state 1`] = `
+Immutable.Map {
+  "notes": Immutable.List [],
+  "isLoading": false,
+  "error": Immutable.Map {},
+  "isLoadingDelete": false,
+  "isLoadingDeleteFolder": false,
+  "message": Immutable.Map {},
+  "searchNotes": Immutable.List [],
+}
+`;

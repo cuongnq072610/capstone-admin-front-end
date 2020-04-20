@@ -3,6 +3,6 @@ import notePageReducer from '../reducer';
 
 describe('notePageReducer', () => {
   it('returns the initial state', () => {
-    expect(notePageReducer(undefined, {})).toEqual(fromJS({}));
+    expect(notePageReducer(undefined, {})).toMatchSnapshot();
   });
 });

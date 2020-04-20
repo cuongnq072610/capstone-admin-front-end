@@ -24,19 +24,126 @@ import './index.scss';
 import { loadFaq, loadSearchFaq } from './actions';
 
 const { Content, Header } = Layout;
-
+const dataFAQ = [
+  {
+      "_id": "5e9d745b73c88a2c54b11136",
+      "number": 1,
+      "askID": "5e996098ac6d06000487e9b1",
+      "courseCode": "MLN101",
+      "teacherID": {
+          "rating": {
+              "star_1": -2,
+              "star_2": 0,
+              "star_3": -6,
+              "star_4": -3,
+              "star_5": -7
+          },
+          "courses": [
+              "5e74ef80e7179a17e219b9ee",
+              "5e6b1c0fa82351000474ce9a",
+              "5e7b7c4d3c1f1800048172b3"
+          ],
+          "_id": "5e73a2d1ce0f903b47c20b38",
+          "name": "DuongVT",
+          "email": "duongvt@fpt.edu.vn",
+          "gender": "male",
+          "avatar": "https://lh3.googleusercontent.com/a-/AOh14GghL_erp_D0JdZ4K5KVnrh25JgsaacorcYf_35m",
+          "isActive": true,
+          "__v": 0
+      },
+      "scannedContent": "<p>check demo close</p>",
+      "askContent": "This is Demo test for close from teacher",
+      "answer": "Answer 1",
+      "__v": 0
+  },
+  {
+      "_id": "5e9d777ca6adc04690687971",
+      "number": 2,
+      "askID": "5e9a7f972c777b000481a8a1",
+      "courseCode": "MLN101",
+      "teacherID": {
+          "rating": {
+              "star_1": -2,
+              "star_2": 0,
+              "star_3": -6,
+              "star_4": -3,
+              "star_5": -7
+          },
+          "courses": [
+              "5e74ef80e7179a17e219b9ee",
+              "5e6b1c0fa82351000474ce9a",
+              "5e7b7c4d3c1f1800048172b3"
+          ],
+          "_id": "5e73a2d1ce0f903b47c20b38",
+          "name": "DuongVT",
+          "email": "duongvt@fpt.edu.vn",
+          "gender": "male",
+          "avatar": "https://lh3.googleusercontent.com/a-/AOh14GghL_erp_D0JdZ4K5KVnrh25JgsaacorcYf_35m",
+          "isActive": true,
+          "__v": 0
+      },
+      "scannedContent": "This course provides a broad introduction to machine learning, datamining, and statistical pattern recognition. Topics include: (i) Supervised learning (parametric/non-parametric algorithms, support vector machines, kernels, neural networks). (ii) Unsupervised learning (clustering, dimensionality reduction, recommender systems, deep learning). (iii) Best practices in machine learning (bias/variance theory; innovation process in machine learning and AI). The course will also draw from numerous case studies and applications, so that you'll also learn how to apply learning algorithms to building smart robots (perception, control), text understanding (web search, anti-spam), computer vision, medical informatics, audio, database mining, and other areas.",
+      "askContent": "alo thầy ? can u hear me ?",
+      "answer": "Answer 2",
+      "__v": 0
+  },
+  {
+      "_id": "5e9d778ca6adc04690687972",
+      "number": 3,
+      "askID": "5e96f23a3ce8b422bcb760e5",
+      "courseCode": "CEA201",
+      "teacherID": {
+          "rating": {
+              "star_1": 0,
+              "star_2": 0,
+              "star_3": 1,
+              "star_4": 0,
+              "star_5": 2
+          },
+          "courses": [
+              "5e74ef80e7179a17e219b9ee",
+              "5e6b1c0fa82351000474ce9a",
+              "5e88545bd5704c0004588eb8"
+          ],
+          "_id": "5e73a1b5ce0f903b47c20b36",
+          "name": "LamPT",
+          "email": "lampt@fpt.edu.vn",
+          "gender": "male",
+          "avatar": "https://lh3.googleusercontent.com/a-/AOh14GghL_erp_D0JdZ4K5KVnrh25JgsaacorcYf_35m",
+          "isActive": true,
+          "__v": 0
+      },
+      "scannedContent": "Facebook",
+      "askContent": "What architecture this website use?",
+      "answer": "Answer 3",
+      "__v": 0
+  }
+];
 /* eslint-disable react/prefer-stateless-function */
 export class FaqPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      question: [],
+      questions: [],
       displayQuestion: "",
     }
   }
 
   componentDidMount() {
+    this.setState({questions : dataFAQ})
+  }
 
+  handleScrollToBottom(e) {
+    const bottom = e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
+    if (bottom) {
+      console.log('Bottom ne ong oi')
+    }
+  }
+  
+  handleShowQuestion(question) {
+    this.setState({
+      displayQuestion : question
+    })
   }
 
   checkUrlInString(s) {
@@ -52,6 +159,7 @@ export class FaqPage extends React.Component {
     }
   }
   render() {
+    const {questions, displayQuestion} = this.state;
     return (
       <div className="faq-page">
         <Helmet>
@@ -75,43 +183,48 @@ export class FaqPage extends React.Component {
 
           <Content>
             <Row>
-              <Col span={14}>
+             <Col span={14}>
+             {
+              displayQuestion ?
+              (
                 <div className="question-detai">
-                  <div className="question-description">
-                    <h2>#12 Why the creator of Android left his own company?</h2>
-                    <p>
-                      What Google did not make public was that an employee had accused Mr. Rubin of
-                      sexual misconduct. The woman, with whom Mr. Rubin had been having an
-                      extramarital relationship, said he coerced her into performing oral sex in a hotel
-                      room in 2013
-                  </p>
-                  </div>
-
-                  <div className="question-answer">
-                    <div className="teacher-info">
-                      <img src="https://i.imgur.com/HBX2JUu.png" alt="teacher avatar" />
-                      <p><span>LamPD</span> lampd@fe.edu.vn</p>
-                      <p className="date">Mar 26 2019</p>
-                    </div>
-                    <p className="teacher-reply" dangerouslySetInnerHTML={{ __html: this.checkUrlInString(`Check out the link down below: https://www.nytimes.com/2018/10/25/technology/google-sexual-harassment-andy-rubin.html`) }}></p>
-                  </div>
-
+                <div className="question-description">
+                  <h2>{displayQuestion.askContent}</h2>
+                  <p dangerouslySetInnerHTML={{__html : displayQuestion.scannedContent }}></p>
                 </div>
-              </Col>
-              <Col span={10}>
-                <div className="question-wrapper">
-                  <div className="question">
-                    <p className="code">DBI231</p>
-                    <p className="content">#12 Why the creator of Android left his own company?</p>
+                
+                <div className="question-answer">
+                  <div className="teacher-info">
+                    <img src={displayQuestion.teacherID.avatar} alt={displayQuestion.teacherID.name} />
+                    <p><span>{displayQuestion.teacherID.name}</span> {displayQuestion.teacherID.email}</p>
                     <p className="date">Mar 26 2019</p>
                   </div>
-                  <div className="question">
-                    <p className="code">DBI231</p>
-                    <p className="content">#904 Will this course mention operational data running in entrepreneurs?</p>
-                    <p className="date">Mar 26 2019</p>
-                  </div>
+                  <p className="teacher-reply" dangerouslySetInnerHTML={{__html : this.checkUrlInString(displayQuestion.answer)}}></p>
                 </div>
-              </Col>
+                
+              </div>
+              ) : 
+              <div className="hello-user">
+                <h1>Here lie the most important questions and answers
+              that might help you with the subject.</h1>
+              </div> 
+             }
+             </Col>
+             <Col span={10}>
+              <div className="question-wrapper" onScroll={this.handleScrollToBottom}>
+                {
+                  questions.length > 0 ? questions.map((item,index) => {
+                    return (
+                      <div className="question" key={index} onClick={() => this.handleShowQuestion(item)}>
+                        <p className="code">{item.courseCode}</p>
+                        <p className="content">#{item.number} {item.askContent}</p>
+                        <p className="date">Mar 26 2019</p>
+                      </div>
+                    )
+                  })  : ""
+                }
+              </div>
+             </Col>
             </Row>
           </Content>
         </Layout>

@@ -128,7 +128,7 @@
 
     .notification {
       position: absolute;
-      right: 0px;
+      right: 10px;
       bottom: 0px;
       opacity: 0;
       transition: bottom 1s, opacity .25s ease-in-out;
@@ -136,7 +136,7 @@
 
     .notification-show {
       position: absolute;
-      right: 0px;
+      right: 10px;
       bottom: 20px;
       opacity: 1;
       transition: bottom 1s, opacity .25s ease-in-out;

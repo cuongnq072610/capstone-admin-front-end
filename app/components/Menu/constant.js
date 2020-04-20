@@ -56,6 +56,12 @@ const StudentMenu = [
         "path": "/ask",
         'exact': false,
     },
+    {
+        "name": "faq",
+        "title": "FAQ",
+        "path": "/faq",
+        'exact': false,
+    },
 ];
 
 const TeacherMenu = [

@@ -26,7 +26,7 @@ import AskAndAnswerField from './Question';
 import { API_ENDPOINT_WS } from '../../constants/apis';
 
 //socket
-import { loadAskDetail, closeAsk } from './actions';
+import { loadAskDetail, closeAsk, reopenAsk } from './actions';
 import ReactQuill, { Quill } from 'react-quill';
 import { ImageDrop } from 'quill-image-drop-module';
 Quill.register('modules/imageDrop', ImageDrop);
@@ -199,6 +199,12 @@ export class StudentComposePage extends React.Component {
     this.props.handleCloseAskDetail(id, rate);
   }
 
+  handleReopenAsk = () => {
+    // action in here
+    const { id } = this.props.match.params;
+    this.props.handleReopenAskDetail(id);
+  }
+
   render() {
     const { message, comments, showMe, isClose, isShow, ask, teacher, rate, isCloseToggle } = this.state;
     const { Content, Header } = Layout;
@@ -312,6 +318,7 @@ export class StudentComposePage extends React.Component {
                 rate={rate}
                 handleCloseAsk={this.handleCloseAsk}
                 isLoadingClose={isLoadingClose}
+                onReopenAsk={this.handleReopenAsk}
               />
             }
             <div className={isShow ? 'notification-show' : 'notification'}>
@@ -330,6 +337,7 @@ export class StudentComposePage extends React.Component {
 StudentComposePage.propTypes = {
   handleFetchAskDetail: PropTypes.func.isRequired,
   handleCloseAskDetail: PropTypes.func.isRequired,
+  handleReopenAskDetail: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -340,6 +348,7 @@ function mapDispatchToProps(dispatch) {
   return {
     handleFetchAskDetail: (askId) => { dispatch(loadAskDetail(askId)) },
     handleCloseAskDetail: (id, rate) => { dispatch(closeAsk(id, rate)) },
+    handleReopenAskDetail: (id) => { dispatch(reopenAsk(id)) },
   };
 }
 

@@ -33,6 +33,8 @@ export class FaqPage extends React.Component {
       questions: [],
       displayQuestion: "",
       page: 1,
+      isSearching: false,
+      key: "",
     }
   }
 
@@ -53,18 +55,23 @@ export class FaqPage extends React.Component {
 
   handleScrollToBottom(e) {
     const bottom = e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
-    const { isLoading } = this.props.faqPage;
+    const { isLoading, totalPage } = this.props.faqPage;
     if (bottom && !isLoading) {
+      if (this.state.page === totalPage) {
+        return;
+      }
       this.setState(prevState => {
-        if (prevState.page < 3) {
-          console.log(`object`)
-          return {
-            ...prevState,
-            page: prevState.page + 1
-          }
+        return {
+          ...prevState,
+          page: prevState.page + 1
         }
       }, () => {
-        this.props.handleFetchFaqData(this.state.page);
+        const { page, key, isSearching } = this.state;
+        if (isSearching) {
+          this.props.handleFetchSearchFaq(page, key);
+        } else {
+          this.props.handleFetchFaqData(page);
+        }
       })
     }
   }
@@ -87,8 +94,38 @@ export class FaqPage extends React.Component {
       return s;
     }
   }
+
+  handleSearch = (key) => {
+    const { page } = this.state;
+    this.setState(prevState => {
+      return {
+        ...prevState,
+        isSearching: true,
+        key,
+        questions: [],
+      }
+    })
+    this.props.handleFetchSearchFaq(page, key);
+  }
+
+  handleClear = () => {
+    const { page } = this.state;
+    this.setState(prevState => {
+      return {
+        ...prevState,
+        isSearching: false,
+        key: "",
+        questions: [],
+      }
+    })
+    this.props.handleFetchFaqData(page);
+  }
+
   render() {
-    const { questions, displayQuestion, page } = this.state;
+    const { questions, displayQuestion } = this.state;
+    const antIcon = <Icon type="loading" style={{ fontSize: 24, color: '#48C6FF', marginRight: '10px' }} spin />;
+    const { isLoading } = this.props.faqPage;
+
     return (
       <div className="faq-page">
         <Helmet>
@@ -105,8 +142,8 @@ export class FaqPage extends React.Component {
               message="Please enter your question key"
               placeholder="I want to find my question"
               type="ask"
-            // handleSearch={this.handleSearch}
-            // handleClear={this.handleClear}
+              handleSearch={this.handleSearch}
+              handleClear={this.handleClear}
             />
           </Header>
 
@@ -152,6 +189,7 @@ export class FaqPage extends React.Component {
                       )
                     }) : ""
                   }
+                  {isLoading && <Spin indicator={antIcon} />}
                 </div>
               </Col>
             </Row>

@@ -1,8 +1,8 @@
 import React from 'react';
-import avatar from '../../../assets/png/man-1.png';
 import styled from 'styled-components';
 import "./index.scss"
 import { Radio } from 'antd';
+import { converToLocalTime } from '../../../utils/convertLocalTime';
 
 const Name = styled.p`
     color: #212121;
@@ -34,7 +34,7 @@ const AskAndAnswerField = (props) => {
                                 <Mail>{user.email}</Mail>
                             </div>
                             <div className="ask-side">
-                                <p className='ask-date'> {date ? date : comment.dateCreated}</p>
+                                <p className='ask-date'> {date ? converToLocalTime(date) : converToLocalTime(comment.dateCreated)}</p>
                             </div>
                         </div>
                     </div>
@@ -47,7 +47,7 @@ const AskAndAnswerField = (props) => {
                         }
                     </div>
                 </div>
-                {(comment && showRadio) && <Radio value={comment.id}></Radio>}
+                {(comment && showRadio) && <Radio value={comment.message}></Radio>}
             </div>
             :
             ''

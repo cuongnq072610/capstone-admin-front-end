@@ -2,6 +2,7 @@ import React from 'react';
 import avatar from '../../../assets/png/man-1.png';
 import styled from 'styled-components';
 import "./index.scss"
+import { converToLocalTime } from '../../../utils/convertLocalTime';
 
 const Name = styled.p`
     color: #212121;
@@ -19,6 +20,7 @@ const Mail = styled.p`
     margin: 0px;
 `;
 
+
 const AskAndAnswerField = (props) => {
     const { user, text, comment, date } = props;
 
@@ -32,7 +34,7 @@ const AskAndAnswerField = (props) => {
                             <Name>{user.email}</Name>
                             <Mail>{user.email}</Mail>
                         </div>
-                        <p>{date ? date : comment.dateCreated}</p>
+                        <p>{date ? converToLocalTime(date) : converToLocalTime(comment.dateCreated)}</p>
                     </div>
                 </div>
                 <div className='content-field'>

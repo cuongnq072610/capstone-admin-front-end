@@ -18,12 +18,44 @@
       }
 
       .ask-action {
+        display: flex;
+
         .icon {
           display: inline-block;
           width: 14px;
           height: 14px;
           background-size: cover;
           margin-left: 10px;
+        }
+
+        .notification {
+          opacity: 0;
+          transition: opacity 1s ease-in-out;
+        }
+
+        .notification-show {
+          opacity: 1;
+          transition: opacity 1s ease-in-out;
+        }
+
+        .accept-icon {
+          background-image: url(assets/accept.svg);
+        }
+
+        .noti-content-success {
+          width: 250px;
+          height: 39px;
+          background-color: honeydew;
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+          padding-left: 20px;
+
+          p {
+            padding: 0px;
+            margin-left: 20px;
+            margin-bottom: 0px;
+          }
         }
 
         .ask-action-pin {
@@ -91,6 +123,10 @@
       .commentWrapper {
         max-height: calc(100vh - 350px);
         overflow: auto;
+
+        .faq-radio-group {
+          width: 100%;
+        }
       }
 
       .compose-question {

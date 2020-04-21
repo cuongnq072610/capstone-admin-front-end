@@ -55,6 +55,8 @@ const GET_ADMIN_STATISTIC = '/getStatisticNumber';
 const DELETE_FOLDER_API = '/deleteFolderByID';
 const GET_REPORT = '/getReport';
 
+const CREATE_FAQ = '/createFAQ';
+
 export {
     API_ENDPOINT,
     API_ENDPOINT_WS,
@@ -112,4 +114,5 @@ export {
     DELETE_FOLDER_API,
     GET_REPORT,
     EXIT_COURSE,
+    CREATE_FAQ,
 }

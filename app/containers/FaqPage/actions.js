@@ -4,7 +4,7 @@
  *
  */
 
-import { DEFAULT_ACTION, LOAD_FAQ } from './constants';
+import { DEFAULT_ACTION, LOAD_FAQ, SEARCH_FAQ } from './constants';
 
 export function defaultAction() {
   return {
@@ -21,7 +21,7 @@ export function loadFaq(page) {
 
 export function loadSearchFaq(page, key) {
   return {
-    type: LOAD_FAQ,
+    type: SEARCH_FAQ,
     page,
     key,
   }

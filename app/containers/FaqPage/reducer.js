@@ -19,6 +19,7 @@ export const initialState = fromJS({
   isLoading: false,
   faq: [],
   error: "",
+  totalPage: "",
 });
 
 function faqPageReducer(state = initialState, action) {
@@ -28,13 +29,13 @@ function faqPageReducer(state = initialState, action) {
     case LOAD_FAQ:
       return state.set("isLoading", true);
     case LOAD_FAQ_SUCCESS:
-      return state.set("isLoading", false).set("faq", fromJS(action.payload));
+      return state.set("isLoading", false).set("faq", fromJS(action.payload)).set("totalPage", action.number);
     case LOAD_FAQ_FAILURE:
       return state.set("isLoading", false).set("error", action.payload);
     case SEARCH_FAQ:
       return state.set("isLoading", true);
     case SEARCH_FAQ_SUCCESS:
-      return state.set("isLoading", false).set("faq", fromJS(action.payload));
+      return state.set("isLoading", false).set("faq", fromJS(action.payload)).set("totalPage", action.number);
     case SEARCH_FAQ_FAILURE:
       return state.set("isLoading", false).set("error", action.payload);
     default:

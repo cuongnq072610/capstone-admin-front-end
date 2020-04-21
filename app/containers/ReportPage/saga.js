@@ -44,7 +44,6 @@ function* LoadTeachers() {
 function* loadReport(action) {
   const { filter } = action;
   const paramString = queryString.stringify(filter);
-  console.log(`${API_ENDPOINT}${GET_REPORT}/${paramString}`)
 
   try {
     let response = yield call(fetchReportData, `${API_ENDPOINT}${GET_REPORT}?${paramString}`);

@@ -56,6 +56,7 @@ const DELETE_FOLDER_API = '/deleteFolderByID';
 const GET_REPORT = '/getReport';
 
 const CREATE_FAQ = '/createFAQ';
+const LOAD_FAQ_API = '/getAllFAQ';
 
 export {
     API_ENDPOINT,
@@ -114,5 +115,7 @@ export {
     DELETE_FOLDER_API,
     GET_REPORT,
     EXIT_COURSE,
+    //FAQ
     CREATE_FAQ,
+    LOAD_FAQ_API,
 }

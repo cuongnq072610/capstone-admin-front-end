@@ -7,6 +7,7 @@ import { initialState } from './reducer';
 
 const selectFaqPageDomain = state => state.get('faqPage', initialState);
 
+
 /**
  * Other specific selectors
  */

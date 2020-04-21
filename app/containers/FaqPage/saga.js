@@ -8,22 +8,21 @@ import {
   SEARCH_FAQ_SUCCESS,
 } from './constants';
 import { fetchFaqData } from './api';
-import { API_ENDPOINT } from '../../constants/apis';
+import { API_ENDPOINT, LOAD_FAQ_API } from '../../constants/apis';
 
 function* loadFaqData(action) {
   const { page } = action;
-  console.log('page - ' + page);
-  // try {
-  //   let response = yield call(fetchFaqData, `${API_ENDPOINT}/`);
-  //   if (response.data) {
-  //     let faqData = response.data.map(faq => faq);
-  //     yield put({ type: LOAD_FAQ_SUCCESS, payload: faqData });
-  //   } else {
-  //     yield put({ type: LOAD_FAQ_FAILURE, payload: 'No data' });
-  //   }
-  // } catch (error) {
-  //   yield put({ type: LOAD_FAQ_FAILURE, payload: error });
-  // }
+  try {
+    let response = yield call(fetchFaqData, `${API_ENDPOINT}${LOAD_FAQ_API}?page=${page}`);
+    if (response.data) {
+      let faqData = response.data.map(faq => faq);
+      yield put({ type: LOAD_FAQ_SUCCESS, payload: faqData });
+    } else {
+      yield put({ type: LOAD_FAQ_FAILURE, payload: 'No data' });
+    }
+  } catch (error) {
+    yield put({ type: LOAD_FAQ_FAILURE, payload: error });
+  }
 }
 
 function* loadSearchFaqData(action) {

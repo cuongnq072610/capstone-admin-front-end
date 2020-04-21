@@ -22,6 +22,7 @@ import WrappedSearchBar from '../../components/SearchBar';
 import { Select, Row, Layout, Icon, Spin, Col, DatePicker, Button, Table } from 'antd';
 import './index.scss';
 import { loadFaq, loadSearchFaq } from './actions';
+import { converToLocalTime } from '../../utils/convertLocalTime';
 
 const { Content, Header } = Layout;
 
@@ -184,7 +185,7 @@ export class FaqPage extends React.Component {
                         <div className="question" key={index} onClick={() => this.handleShowQuestion(item)}>
                           <p className="code">{item.courseCode}</p>
                           <p className="content">#{item.number} {item.askContent}</p>
-                          <p className="date">Mar 26 2019</p>
+                          <p className="date">{item.date}</p>
                         </div>
                       )
                     }) : ""

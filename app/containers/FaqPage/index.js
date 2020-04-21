@@ -154,7 +154,7 @@ export class FaqPage extends React.Component {
                   }
                 </div>
               </Col>
-            </Row>
+            </Row>  
           </Content>
         </Layout>
       </div>

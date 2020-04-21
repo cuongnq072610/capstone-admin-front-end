@@ -94,7 +94,7 @@ export class StudentComposePage extends React.Component {
         comments: this.props.studentComposePage.ask.comments,
         student: this.props.studentComposePage.ask.student,
         isClose: this.props.studentComposePage.ask.isClosed,
-        answerPin: this.props.studentComposePage.ask.comments[0] ? this.props.studentComposePage.ask.comments[0].message : "",
+        answerPin: this.props.studentComposePage.ask.comments ? this.props.studentComposePage.ask.comments.message : "",
       })
     }
     if (prevProps.studentComposePage.isLoadingClose !== this.props.studentComposePage.isLoadingClose && this.props.studentComposePage.isLoadingClose === false) {

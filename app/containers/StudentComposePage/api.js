@@ -4,11 +4,11 @@ const fetchAskDetail = (url) => {
     return axiosService.get(url);
 }
 
-const closeAskDetail = (url) => {
+const updateAskDetail = (url) => {
     return axiosService.putWithoutBody(url);
 }
 
 export {
     fetchAskDetail,
-    closeAskDetail,
+    updateAskDetail,
 }

@@ -3,6 +3,6 @@ import studentDashboardPageReducer from '../reducer';
 
 describe('studentDashboardPageReducer', () => {
   it('returns the initial state', () => {
-    expect(studentDashboardPageReducer(undefined, {})).toEqual(fromJS({}));
+    expect(studentDashboardPageReducer(undefined, {})).toMatchSnapshot();
   });
 });

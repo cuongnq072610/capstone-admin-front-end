@@ -3,6 +3,6 @@ import studentCreateAskPageReducer from '../reducer';
 
 describe('studentCreateAskPageReducer', () => {
   it('returns the initial state', () => {
-    expect(studentCreateAskPageReducer(undefined, {})).toEqual(fromJS({}));
+    expect(studentCreateAskPageReducer(undefined, {})).toMatchSnapshot();
   });
 });

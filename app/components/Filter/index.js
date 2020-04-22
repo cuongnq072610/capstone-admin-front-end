@@ -20,6 +20,7 @@ class Filter extends React.PureComponent {
       activeType: "",
       course: "",
       status: "",
+      faqDisplay: "",
     }
   }
 
@@ -59,6 +60,7 @@ class Filter extends React.PureComponent {
       activeType: "",
       course: "",
       status: "",
+      faqDisplay: "",
     })
   }
 
@@ -91,8 +93,14 @@ class Filter extends React.PureComponent {
     })
   }
 
+  handleChooseFaq = (value) => {
+    this.setState({
+      faqDisplay: value,
+    })
+  }
+
   render() {
-    const { activeType, course, status } = this.state;
+    const { activeType, course, status, faqDisplay } = this.state;
     const { departments, type, courses } = this.props;
     const content = <Layout className="wrap">
       {
@@ -142,6 +150,17 @@ class Filter extends React.PureComponent {
           <Button onClick={() => this.handleChooseStatus("unseen")} className={`filter-status-btn filter-status-btn-${status === 'unseen' && 'chosen'}`}>Unseen</Button>
           <Button onClick={() => this.handleChooseStatus("opened")} className={`filter-status-btn filter-status-btn-${status === 'opened' && 'chosen'}`}>Opened</Button>
           <Button onClick={() => this.handleChooseStatus("closed")} className={`filter-status-btn filter-status-btn-${status === 'closed' && 'chosen'}`}>Closed</Button>
+        </div>
+      }
+      {
+        type === 'faq' &&
+        <div className="filter-status" id='faq'>
+          <div className='faq-tag'>
+            <span className="icon-filter-active"></span>
+            <p>Display:</p>
+          </div>
+          <Button onClick={() => this.handleChooseFaq("yours")} className={`filter-status-btn filter-status-btn-${faqDisplay === 'yours' && 'chosen'}`}>Yours</Button>
+          <Button onClick={() => this.handleChooseFaq("all")} className={`filter-status-btn filter-status-btn-${faqDisplay === 'all' && 'chosen'}`}>All</Button>
         </div>
       }
       <Button className={`clearBtn ${type === "home" ? "clearBtnHomeTheme" : type === 'teacher' ? "clearBtnTeacherTheme" : "clearBtnAskTheme"}`} onClick={this.handleReset}>

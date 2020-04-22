@@ -4,7 +4,7 @@
  *
  */
 
-import { DEFAULT_ACTION, LOAD_ASK_DETAIL, CLOSE_ASK_DETAIL } from './constants';
+import { DEFAULT_ACTION, LOAD_ASK_DETAIL, CLOSE_ASK_DETAIL, REOPEN_ASK_DETAIL } from './constants';
 
 export function defaultAction() {
   return {
@@ -24,5 +24,12 @@ export function closeAsk(askId, rate) {
     type: CLOSE_ASK_DETAIL,
     askId,
     rate,
+  }
+}
+
+export function reopenAsk(askId) {
+  return {
+    type: REOPEN_ASK_DETAIL,
+    askId,
   }
 }

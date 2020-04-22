@@ -22,7 +22,7 @@ import saga from './saga';
 import messages from './messages';
 import columns from './tableCol'
 import './index.scss'
-import { loadStudentInfo, loadStudentStatistic } from './actions';
+import { loadStudentInfo, loadStudentStatistic, loadExitCourse } from './actions';
 
 /* eslint-disable react/prefer-stateless-function */
 export class StudentDashboardPage extends React.Component {
@@ -76,6 +76,12 @@ export class StudentDashboardPage extends React.Component {
 
   handleGoToCourse = (url) => {
     window.open(url, '_blank')
+  }
+
+  handleExitCourse = () => {
+    const { displayCourse } = this.state;
+    this.props.handleExitCourse(displayCourse._id);
+    this.handleCloseCourseInfo();
   }
 
   render() {
@@ -133,14 +139,6 @@ export class StudentDashboardPage extends React.Component {
                 Courses
               </div>
               <div className="search-bar">
-
-                <WrappedSearchBar
-                  message="Please enter your note's name"
-                  placeholder="Search for courses"
-                  type="home"
-                // handleSearch={this.handleSearch}
-                // handleClear={this.handleClear}
-                />
                 <Button className="addBtn" onClick={e => this.props.history.push({
                   pathname: "/student/addcourse",
                   state: {
@@ -187,7 +185,7 @@ export class StudentDashboardPage extends React.Component {
                     <h3>FULL DESCRIPTION</h3>
                     <p>{displayCourse.fullDes}</p>
                   </div>
-                  <Button className="btn btn--exit" type="danger" onClick={this.handleSubmit}>
+                  <Button className="btn btn--exit" type="danger" onClick={this.handleExitCourse}>
                     Exit course
                     <Icon type="logout" />
                   </Button>
@@ -209,6 +207,7 @@ export class StudentDashboardPage extends React.Component {
 StudentDashboardPage.propTypes = {
   handleFetchStudent: PropTypes.func.isRequired,
   handleFetchStatistic: PropTypes.func.isRequired,
+  handleExitCourse: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -218,7 +217,8 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch) {
   return {
     handleFetchStudent: (id) => { dispatch(loadStudentInfo(id)) },
-    handleFetchStatistic: (id) => { dispatch(loadStudentStatistic(id)) }
+    handleFetchStatistic: (id) => { dispatch(loadStudentStatistic(id)) },
+    handleExitCourse: (courseId) => { dispatch(loadExitCourse(courseId)) },
   };
 }
 

@@ -3,6 +3,10 @@ import dashboardPageReducer from '../reducer';
 
 describe('dashboardPageReducer', () => {
   it('returns the initial state', () => {
-    expect(dashboardPageReducer(undefined, {})).toEqual(fromJS({}));
+    expect(dashboardPageReducer(undefined, {})).toEqual(fromJS({
+      isLoadingStatistic: false,
+      errors: "",
+      statistic: {},
+    }));
   });
 });

@@ -14,8 +14,11 @@ const QuestionSide = (props) => {
         isLoadingClose,
         rate,
         isCloseToggle,
+        onReopenAsk,
+        isLoadingOpen,
     } = props;
     const antIcon = <Icon type="loading" style={{ fontSize: 24, color: '#1593e6', marginRight: '10px' }} spin />;
+    const antIcon2 = <Icon type="loading" style={{ fontSize: 24, color: '#fff', marginRight: '10px' }} spin />;
     return (
         <Row>
             <Layout className="questions-information">
@@ -34,7 +37,7 @@ const QuestionSide = (props) => {
                         </div>
                     </div>
                     <div className="session">
-                        <span className="p">SESSION</span>
+                        <p className="p">SESSION</p>
                         {
                             isCloseToggle || isClosed ?
                                 <p className='p-close'><span className='session-close-icon'></span>Question is closed</p> :
@@ -49,17 +52,24 @@ const QuestionSide = (props) => {
                                 <span className="p">RATE TUTOR'S SUPPORT</span>
                                 <Rate allowClear defaultValue={2.5} className='rate-field' onChange={handleRate} value={rate} disabled={isClosed} /><br></br>
                                 {
-                                    !isClosed &&
-                                    <div className='rate-footer'>
-                                        <Button onClick={handleCloseAsk}>
+                                    !isClosed ?
+                                        <div className='rate-footer'>
+                                            <Button onClick={handleCloseAsk}>
+                                                {
+                                                    isLoadingClose ?
+                                                        <Spin indicator={antIcon} /> :
+                                                        <span>Done</span>
+                                                }
+                                            </Button>
+                                            <Button onClick={toggleClose} >Cancel</Button>
+                                        </div> :
+                                        <Button type="primary" onClick={onReopenAsk}>
                                             {
-                                                isLoadingClose ?
-                                                    <Spin indicator={antIcon} /> :
-                                                    <span>Done</span>
+                                                isLoadingOpen ?
+                                                    <Spin indicator={antIcon2} /> :
+                                                    <span>Re-open this question</span>
                                             }
                                         </Button>
-                                        <Button onClick={toggleClose} >Cancel</Button>
-                                    </div>
                                 }
                             </div> : ""
                     }

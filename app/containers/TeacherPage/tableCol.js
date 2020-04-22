@@ -26,8 +26,9 @@ const colunms = [
         title: "RATING",
         dataIndex: "rating",
         render: record => {
-            var rating = (record.star_1 + record.star_2 + record.star_3 + record.star_4 + record.star_5) / 5;
-            return <div><span>{rating}</span><span className="icon star-icon"></span></div>
+            const sum_star = record.star_1 + record.star_2 + record.star_3 + record.star_4 + record.star_5;
+            var rating = sum_star === 0 ? 0 : (record.star_1 + record.star_2 * 2 + record.star_3 * 3 + record.star_4 * 4 + record.star_5 * 5) / sum_star;
+            return <div><span>{rating.toFixed(2)}</span><span className="icon star-icon"></span></div>
         },
         width: 100
 

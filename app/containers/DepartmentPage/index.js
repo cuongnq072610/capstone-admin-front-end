@@ -298,7 +298,7 @@ export class DepartmentPage extends React.Component {
                     value={newDepartment ? newDepartment : ""}
                   />
                   {
-                    error && <div style={{ marginTop: '20px' }}><span style={{ color: 'red' }}>{error}</span></div>
+                    error && <div className='error-field' style={{ marginTop: '20px' }}><span style={{ color: 'red' }}>{error}</span></div>
                   }
                   <div style={{ display: 'flex', justifyContent: 'flex-end', margin: "30px 0" }}>
                     <Button className="department-add-btn" onClick={this.onHandleAddDepartment}>
@@ -330,7 +330,7 @@ const mapStateToProps = createStructuredSelector({
   departmentPage: makeSelectDepartmentPage(),
 });
 
-function mapDispatchToProps(dispatch) {
+export function mapDispatchToProps(dispatch) {
   return {
     handleLoadDepartment: () => { dispatch(loadDepartment()) },
     handleDeleteDepartment: (id) => { dispatch(deleteDepartment(id)) },

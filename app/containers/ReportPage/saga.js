@@ -5,10 +5,14 @@ import {
   LOAD_COURSE_SUCCESS,
   LOAD_TEACHER,
   LOAD_FAILURE_TEACHER,
-  LOAD_SUCCESS_TEACHER
+  LOAD_SUCCESS_TEACHER,
+  LOAD_REPORT,
+  LOAD_REPORT_FAILURE,
+  LOAD_REPORT_SUCCESS,
 } from './constants';
-import { fetchCourse, fetchTeacher } from './api';
-import { API_ENDPOINT, ALL_COURSE, ALL_TEACHER } from '../../constants/apis';
+import { fetchCourse, fetchTeacher, fetchReportData } from './api';
+import { API_ENDPOINT, ALL_COURSE, ALL_TEACHER, GET_REPORT } from '../../constants/apis';
+import queryString from 'query-string';
 
 function* loadCourses() {
   try {
@@ -37,10 +41,29 @@ function* LoadTeachers() {
   }
 }
 
+function* loadReport(action) {
+  const { filter } = action;
+  const paramString = queryString.stringify(filter);
+
+  try {
+    let response = yield call(fetchReportData, `${API_ENDPOINT}${GET_REPORT}?${paramString}`);
+    if (response.data) {
+      const reports = response.data.map(item => item);
+      yield put({ type: LOAD_REPORT_SUCCESS, payload: reports });
+    }
+    else {
+      yield put({ type: LOAD_REPORT_FAILURE, payload: "NO DATA" });
+    }
+  } catch (error) {
+    yield put({ type: LOAD_REPORT_FAILURE, payload: error });
+  }
+}
+
 // Individual exports for testing
 export default function* reportPageSaga() {
   yield all([
     takeLatest(LOAD_COURSE, loadCourses),
-    takeLatest(LOAD_TEACHER, LoadTeachers)
+    takeLatest(LOAD_TEACHER, LoadTeachers),
+    takeLatest(LOAD_REPORT, loadReport),
   ])
 }

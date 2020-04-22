@@ -3,6 +3,6 @@ import highLightFolderPageReducer from '../reducer';
 
 describe('highLightFolderPageReducer', () => {
   it('returns the initial state', () => {
-    expect(highLightFolderPageReducer(undefined, {})).toEqual(fromJS({}));
+    expect(highLightFolderPageReducer(undefined, {})).toMatchSnapshot();
   });
 });

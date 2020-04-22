@@ -29,10 +29,9 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    .ant-menu-item {
-        
-    }
-} 
+
+    .ant-menu-item {}
+}
 
 
 
@@ -139,21 +138,29 @@
 }
 
 .report {
-    background-image: url("assets/department.svg");
+    background-image: url("assets/report.svg");
 }
 
 .report-active {
-    background-image: url("assets/department_active.svg");
+    background-image: url("assets/report_active.svg");
+}
+
+.faq {
+    background-image: url("assets/faq.svg");
+}
+
+.faq-active {
+    background-image: url("assets/faq_active.svg");
 }
 
 .btn-logout {
     border: none;
     width: 100%;
     padding: 0;
+
     img {
         width: 30px;
         height: 30px;
         border-radius: 15px;
     }
 }
-

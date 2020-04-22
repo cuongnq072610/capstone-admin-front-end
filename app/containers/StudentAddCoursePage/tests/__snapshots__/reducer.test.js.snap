@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`studentAddCoursePageReducer returns the initial state 1`] = `
+Immutable.Map {
+  "courses": Immutable.List [],
+  "isLoading": false,
+  "isLoadingUpdate": false,
+  "errors": Immutable.Map {},
+  "msg_success": "",
+  "msg_fail": "",
+}
+`;

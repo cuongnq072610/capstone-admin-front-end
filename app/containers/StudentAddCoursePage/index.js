@@ -62,23 +62,29 @@ export class StudentAddCoursePage extends React.Component {
         return {
           ...course,
           key: `${index}`,
+          isChosen: false,
         }
       })
 
-      this.setState({
-        courses: newCourses
-      })
       // check duplicate courses
-      // if (chosenCourses && chosenCourses.length > 0) {
-      //   var checkFormatCourse = newCourses.filter(course => chosenCourses.map(chosenCourse => chosenCourse._id).indexOf(course._id) === -1)
-      //   this.setState({
-      //     courses: checkFormatCourse,
-      //   })
-      // } else {
-      //   this.setState({
-      //     courses: newCourses,
-      //   })
-      // }
+      if (chosenCourses && chosenCourses.length > 0) {
+        var checkFormatCourse = newCourses.map(course => {
+          if (chosenCourses.map(chosenCourse => chosenCourse._id).indexOf(course._id) === -1) return course;
+          else {
+            return {
+              ...course,
+              isChosen: true,
+            }
+          }
+        })
+        this.setState({
+          courses: checkFormatCourse,
+        })
+      } else {
+        this.setState({
+          courses: newCourses,
+        })
+      }
     }
   }
 
@@ -96,16 +102,16 @@ export class StudentAddCoursePage extends React.Component {
     //   return courseCurrent._id != courseOfRow._id
     // })
 
-    if(!chosenCourses.some((course) => {return course._id == courseOfRow._id})) {
-        //push course into chosen course list
-        chosenCourses.push(courseOfRow);
+    if (!chosenCourses.some((course) => { return course._id == courseOfRow._id })) {
+      //push course into chosen course list
+      chosenCourses.push(courseOfRow);
 
-        this.setState({
-          chosenCourses: chosenCourses,
-          // courses: courseLeft
-        })
+      this.setState({
+        chosenCourses: chosenCourses,
+        // courses: courseLeft
+      })
     }
-    
+
   }
 
   removeCourse = (course) => {
@@ -173,7 +179,7 @@ export class StudentAddCoursePage extends React.Component {
                     <div className='update-field'>
                       <p className={`text-${msg_success ? "success" : msg_fail ? "fail" : ""}`}>{msg_success ? msg_success : msg_fail ? msg_fail : ""}</p>
                       <Button className='btn-update-course' onClick={this.handleUpdateCourse}>{isLoadingUpdate ? <Spin indicator={antIcon} /> : 'Update'}</Button>
-                      </div>
+                    </div>
                     <WrappedSearchBar
                       message="Please enter your course name"
                       placeholder="I want to find my course"
@@ -182,38 +188,14 @@ export class StudentAddCoursePage extends React.Component {
                       handleClear={this.handleClear}
                     />
                   </div>
-                  
+
                 </div>
               </div>
               <Content>
                 <Row className="content-table">
-                 {/*
-                  <div className="chosen">
-                    <div className='chosen-header'>
-                      <h3 className="chosen-course" >{this.state.chosenCourses.length} CHOSEN COURSES</h3>
-                      <div className='update-field'>
-                        <p className={`text-${msg_success ? "success" : msg_fail ? "fail" : ""}`}>{msg_success ? msg_success : msg_fail ? msg_fail : ""}</p>
-                        <Button className='btn-update-course' onClick={this.handleUpdateCourse}>{isLoadingUpdate ? <Spin indicator={antIcon} /> : 'UpdateCourse'}</Button>
-                      </div>
-                    </div>
-                    {chosenCourses && chosenCourses.length > 0 ?
-                      <Table className="table-content"
-                        columns={columns.columnToRemove}
-                        dataSource={chosenCourses}
-                        onRow={(record, rowIndex) => {
-                          return {
-                            onClick: e => this.removeCourse(record, rowIndex)
-                          }
-                        }}
-                      />
-                      :
-                      <p>No data</p>
-                    }
-                  </div>
-                  */}
                   <Col span={18}>
                     <div className="chosen-other">
-                      
+
                       <Table className="table-content"
                         columns={columns.columnToAdd}
                         dataSource={courses}
@@ -227,39 +209,42 @@ export class StudentAddCoursePage extends React.Component {
                         pagination={{
                           onChange: (page) => { console.log(page) }
                         }}
+                        rowClassName={(record, index) => {
+                          return record.isChosen ? "active-row" : ""
+                        }}
                       />
                     </div>
                   </Col>
 
                   <Col span={6}>
                     <div className="chosen">
-                      
+
                       <p className="chosen-title"> 0{this.state.chosenCourses.length} SELECTED COURSES </p>
                       <div className="courses">
-                        
+
                         {
                           chosenCourses.map((course, index) => {
-                            return ( 
+                            return (
                               <div key={index} className="course-item">
                                 <svg id="exit" data-name="exit" onClick={() => this.removeCourse(course)} xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
                                   <g>
-                                    <path id="Path_132" data-name="Path 132" d="M14.222,0H1.778A1.777,1.777,0,0,0,0,1.778V5.333H1.778V1.778H14.222V14.222H1.778V10.667H0v3.556A1.777,1.777,0,0,0,1.778,16H14.222A1.777,1.777,0,0,0,16,14.222V1.778A1.777,1.777,0,0,0,14.222,0Z" fill="#f44336"/>
-                                    <path id="Path_133" data-name="Path 133" d="M6.3,92.964l1.258,1.258L12,89.777,7.556,85.333,6.3,86.591l2.3,2.3H0v1.778H8.6Z" transform="translate(0 -81.777)" fill="#f44336"/>
+                                    <path id="Path_132" data-name="Path 132" d="M14.222,0H1.778A1.777,1.777,0,0,0,0,1.778V5.333H1.778V1.778H14.222V14.222H1.778V10.667H0v3.556A1.777,1.777,0,0,0,1.778,16H14.222A1.777,1.777,0,0,0,16,14.222V1.778A1.777,1.777,0,0,0,14.222,0Z" fill="#f44336" />
+                                    <path id="Path_133" data-name="Path 133" d="M6.3,92.964l1.258,1.258L12,89.777,7.556,85.333,6.3,86.591l2.3,2.3H0v1.778H8.6Z" transform="translate(0 -81.777)" fill="#f44336" />
                                   </g>
                                 </svg>
                                 <span className="course-code">{course.courseCode}</span>
                                 <span className="course-name">{course.courseName}</span>
                               </div>
                             )
-                          
+
                           })
                         }
-                          
+
                       </div>
                     </div>
                   </Col>
-                  
-                  
+
+
                 </Row>
               </Content>
             </Layout>

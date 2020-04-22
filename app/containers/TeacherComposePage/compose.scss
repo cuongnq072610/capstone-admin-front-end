@@ -8,10 +8,106 @@
     .compose-header {
       padding: 0;
       background-color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
 
       i {
         font-size: 20px;
         color: $primary_blue;
+      }
+
+      .ask-action {
+        display: flex;
+
+        .icon {
+          display: inline-block;
+          width: 14px;
+          height: 14px;
+          background-size: cover;
+          margin-left: 10px;
+        }
+
+        .notification {
+          opacity: 0;
+          transition: opacity 1s ease-in-out;
+        }
+
+        .notification-show {
+          opacity: 1;
+          transition: opacity 1s ease-in-out;
+        }
+
+        .accept-icon {
+          background-image: url(assets/accept.svg);
+        }
+
+        .noti-content-success {
+          width: 250px;
+          height: 39px;
+          background-color: honeydew;
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+          padding-left: 20px;
+
+          p {
+            padding: 0px;
+            margin-left: 20px;
+            margin-bottom: 0px;
+          }
+        }
+
+        .ask-action-pin {
+          margin: 0 10px;
+          color: $primary_blue;
+          font-family: Roboto;
+          font-size: 14px;
+          font-weight: 400;
+          letter-spacing: 0.14px;
+          line-height: 17px;
+          background-color: #f2faff;
+          border: none;
+          height: 37px;
+
+          .ask-pin {
+            background-image: url(assets/add-pin.svg);
+          }
+        }
+
+        .ask-action-close {
+          margin: 0 10px;
+          color: red;
+          font-family: Roboto;
+          font-size: 14px;
+          font-weight: 400;
+          letter-spacing: 0.14px;
+          line-height: 17px;
+          background-color: #ffe7e6;
+          border: none;
+          height: 37px;
+
+          .ask-close {
+            background-image: url(assets/lock.svg);
+          }
+        }
+
+        .ask-action-cancel-pin {
+          margin: 0 10px;
+          color: red;
+          font-family: Roboto;
+          font-size: 14px;
+          font-weight: 400;
+          letter-spacing: 0.14px;
+          line-height: 17px;
+          background-color: #ffe7e6;
+          border: none;
+          height: 37px;
+
+          .ask-cancel-pin {
+            background-image: url(assets/cancel-pin.svg);
+          }
+        }
       }
 
     }
@@ -27,6 +123,19 @@
       .commentWrapper {
         max-height: calc(100vh - 350px);
         overflow: auto;
+
+        .faq-radio-group {
+          width: 100%;
+        }
+
+        &-close {
+          max-height: calc(100vh - 200px);
+          overflow: auto;
+
+          .faq-radio-group {
+            width: 100%;
+          }
+        }
       }
 
       .compose-question {
@@ -67,6 +176,7 @@
           border-right: 1px solid $primary_grey;
 
           p>img {
+            display: block;
             width: 300px;
             height: 200px;
           }

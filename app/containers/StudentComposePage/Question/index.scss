@@ -13,6 +13,7 @@
         .user-avatar {
             width: 36px;
             height: 36px;
+            border-radius: 50%;
         }
 
         .user-info {
@@ -27,6 +28,7 @@
 
     .content-field {
         margin-top: 23px;
+
         p {
             color: #212121;
             font-family: Roboto;
@@ -34,9 +36,10 @@
             font-weight: 400;
 
             img {
+                display: block;
                 width: 400px;
             }
         }
-        
+
     }
 }

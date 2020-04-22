@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`reportPageReducer returns the initial state 1`] = `
+Immutable.Map {
+  "isLoadingCourse": false,
+  "isLoadingTeaher": false,
+  "isLoadingReport": false,
+  "message": "",
+  "error": "",
+  "courses": Immutable.List [],
+  "teachers": Immutable.List [],
+  "reports": Immutable.List [],
+}
+`;

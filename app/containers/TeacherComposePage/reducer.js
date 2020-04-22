@@ -5,12 +5,26 @@
  */
 
 import { fromJS } from 'immutable';
-import { DEFAULT_ACTION, LOAD_ASK_DETAIL, LOAD_ASK_DETAIL_SUCCESS, LOAD_ASK_DETAIL_FAILURE } from './constants';
+import {
+  DEFAULT_ACTION,
+  LOAD_ASK_DETAIL,
+  LOAD_ASK_DETAIL_SUCCESS,
+  LOAD_ASK_DETAIL_FAILURE,
+  CLOSE_ASK_DETAIL,
+  CLOSE_ASK_DETAIL_FAILURE,
+  CLOSE_ASK_DETAIL_SUCCESS,
+  PIN_FAQ,
+  PIN_FAQ_FAILURE,
+  PIN_FAQ_SUCCESS,
+} from './constants';
 
 export const initialState = fromJS({
   isLoading: false,
+  isLoadingClose: false,
   ask: {},
   errors: {},
+  messageRes: "",
+  isLoadingPin: false,
 });
 
 function studentComposePageReducer(state = initialState, action) {
@@ -23,6 +37,18 @@ function studentComposePageReducer(state = initialState, action) {
       return state.set("isLoading", false).set("ask", fromJS(action.payload));
     case LOAD_ASK_DETAIL_FAILURE:
       return state.set("isLoading", false).set("errors", fromJS(action.payload));
+    case CLOSE_ASK_DETAIL:
+      return state.set("isLoadingClose", true);
+    case CLOSE_ASK_DETAIL_SUCCESS:
+      return state.set("isLoadingClose", false).set("messageRes", action.payload);
+    case CLOSE_ASK_DETAIL_FAILURE:
+      return state.set("isLoadingClose", false).set("errors", fromJS(action.payload));
+    case PIN_FAQ:
+      return state.set("isLoadingPin", true);
+    case PIN_FAQ_SUCCESS:
+      return state.set("isLoadingPin", false).set("messageRes", action.payload);
+    case PIN_FAQ_FAILURE:
+      return state.set("isLoadingPin", false).set("errors", fromJS(action.payload));
     default:
       return state;
   }

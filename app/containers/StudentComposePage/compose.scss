@@ -24,9 +24,16 @@
     .compose-body {
       height: calc(100vh - 110px);
 
+
+
       .commentWrapper {
         max-height: calc(100vh - 350px);
         overflow: auto;
+
+        &-close {
+          max-height: calc(100vh - 200px);
+          overflow: auto;
+        }
       }
 
       .reply {
@@ -59,6 +66,7 @@
           border-right: 1px solid $primary_grey;
 
           p>img {
+            display: block;
             width: 300px;
             height: 200px;
           }
@@ -128,7 +136,7 @@
 
     .notification {
       position: absolute;
-      right: 0px;
+      right: 10px;
       bottom: 0px;
       opacity: 0;
       transition: bottom 1s, opacity .25s ease-in-out;
@@ -136,7 +144,7 @@
 
     .notification-show {
       position: absolute;
-      right: 0px;
+      right: 10px;
       bottom: 20px;
       opacity: 1;
       transition: bottom 1s, opacity .25s ease-in-out;

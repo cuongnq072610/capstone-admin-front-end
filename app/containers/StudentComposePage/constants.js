@@ -14,3 +14,6 @@ export const CLOSE_ASK_DETAIL = 'app/StudentComposePage/CLOSE_ASK_DETAIL';
 export const CLOSE_ASK_DETAIL_SUCCESS = 'app/StudentComposePage/CLOSE_ASK_DETAIL_SUCCESS';
 export const CLOSE_ASK_DETAIL_FAILURE = 'app/StudentComposePage/CLOSE_ASK_DETAIL_FAILURE';
 
+export const REOPEN_ASK_DETAIL = 'app/StudentComposePage/REOPEN_ASK_DETAIL';
+export const REOPEN_ASK_DETAIL_SUCCESS = 'app/StudentComposePage/REOPEN_ASK_DETAIL_SUCCESS';
+export const REOPEN_ASK_DETAIL_FAILURE = 'app/StudentComposePage/REOPEN_ASK_DETAIL_FAILURE';

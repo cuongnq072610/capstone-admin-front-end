@@ -36,6 +36,7 @@ const GET_ALL_ASK_TEACHER = '/allaskofteacher';
 const CLOSE_ASK_API = '/closeAsk';
 const SEARCH_ASK_API = '/searchAsk';
 const CREATE_ASK_API = '/createask';
+const REOPEN_ASK = '/openAsk';
 
 const GET_ALL_DEPARTMENT = '/allDepartment';
 const CREATE_DEPARTMENT = '/createDepartment';
@@ -46,10 +47,16 @@ const SEARCH_DEPARTMENTS = '/searchDepartment';
 const GET_STUDENT_INFO = '/getstudentbyid';
 const UPDATE_STUDENT_COURSE = '/updatestudentcourse';
 const GET_STUDENT_STATISTIC = '/getStudentStatistic';
+const EXIT_COURSE = '/exitCourse';
 
 const LOGIN_API = '/login';
 const GET_ADMIN_STATISTIC = '/getStatisticNumber';
 const DELETE_FOLDER_API = '/deleteFolderByID';
+const GET_REPORT = '/getReport';
+
+const CREATE_FAQ = '/createFAQ';
+const LOAD_FAQ_API = '/getAllFAQ';
+const SEARCH_FAQ_API = '/searchFAQ';
 
 export {
     API_ENDPOINT,
@@ -90,6 +97,7 @@ export {
     CLOSE_ASK_API,
     SEARCH_ASK_API,
     CREATE_ASK_API,
+    REOPEN_ASK,
     //STUDENT
     GET_STUDENT_INFO,
     UPDATE_STUDENT_COURSE,
@@ -105,4 +113,10 @@ export {
     GET_ADMIN_STATISTIC,
     //
     DELETE_FOLDER_API,
+    GET_REPORT,
+    EXIT_COURSE,
+    //FAQ
+    CREATE_FAQ,
+    LOAD_FAQ_API,
+    SEARCH_FAQ_API,
 }

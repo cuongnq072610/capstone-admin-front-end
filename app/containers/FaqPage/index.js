@@ -22,7 +22,8 @@ import WrappedSearchBar from '../../components/SearchBar';
 import { Select, Row, Layout, Icon, Spin, Col, DatePicker, Button, Table } from 'antd';
 import './index.scss';
 import { loadFaq, loadSearchFaq } from './actions';
-import { converToLocalTime } from '../../utils/convertLocalTime';
+import Filter from '../../components/Filter';
+
 
 const { Content, Header } = Layout;
 
@@ -97,35 +98,40 @@ export class FaqPage extends React.Component {
   }
 
   handleSearch = (key) => {
-    const { page } = this.state;
     this.setState(prevState => {
       return {
         ...prevState,
         isSearching: true,
         key,
         questions: [],
+        page: 1,
       }
+    }, () => {
+      this.props.handleFetchSearchFaq(this.state.page, this.state.key);
     })
-    this.props.handleFetchSearchFaq(page, key);
   }
 
   handleClear = () => {
-    const { page } = this.state;
     this.setState(prevState => {
       return {
         ...prevState,
         isSearching: false,
         key: "",
         questions: [],
+        page: 1,
       }
+    }, () => {
+      this.props.handleFetchFaqData(this.state.page);
     })
-    this.props.handleFetchFaqData(page);
+
   }
 
   render() {
     const { questions, displayQuestion } = this.state;
     const antIcon = <Icon type="loading" style={{ fontSize: 24, color: '#48C6FF', marginRight: '10px' }} spin />;
     const { isLoading } = this.props.faqPage;
+    const user = JSON.parse(localStorage.getItem("user"));
+    console.log(user.role)
 
     return (
       <div className="faq-page">
@@ -139,13 +145,23 @@ export class FaqPage extends React.Component {
             <div className='faq-page-name-wrapper'>
               <p className="faq-page-name">FAQ</p>
             </div>
-            <WrappedSearchBar className="faq-page-search"
-              message="Please enter your question key"
-              placeholder="I want to find my question"
-              type="ask"
-              handleSearch={this.handleSearch}
-              handleClear={this.handleClear}
-            />
+            <div className='faq-page-side'>
+              <WrappedSearchBar className="faq-page-search"
+                message="Please enter your question key"
+                placeholder="I want to find my question"
+                type="ask"
+                handleSearch={this.handleSearch}
+                handleClear={this.handleClear}
+              />
+              {
+                user.role === 'teacher' &&
+                <Filter
+                  type="faq"
+                // onReset={this.onResetFilter}
+                // onFilter={this.onFilterByStatus}
+                />
+              }
+            </div>
           </Header>
 
           <Content>
@@ -193,7 +209,7 @@ export class FaqPage extends React.Component {
                   {isLoading && <Spin indicator={antIcon} />}
                 </div>
               </Col>
-            </Row>  
+            </Row>
           </Content>
         </Layout>
       </div>

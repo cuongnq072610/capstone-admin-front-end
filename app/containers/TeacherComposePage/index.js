@@ -294,7 +294,7 @@ export class StudentComposePage extends React.Component {
                   </div> :
                   <Content className="compose-body">
                     <h1>{this.state.ask.askContent ? this.state.ask.askContent : ""}</h1>
-                    <div className="commentWrapper">
+                    <div className={`commentWrapper${isClose === true ? '-close' : ""}`}>
                       { /* render the student scanned content as a commment */}
                       <AskAndAnswerField user={ask.student} date={ask.dateCreated} text={ask.scannedContent} />
                       {

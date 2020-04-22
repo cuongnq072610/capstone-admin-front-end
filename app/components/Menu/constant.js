@@ -71,6 +71,12 @@ const TeacherMenu = [
         "path": "/tutor",
         'exact': true,
     },
+    {
+        "name": "faq",
+        "title": "FAQ",
+        "path": "/tutor/faq",
+        'exact': false,
+    },
 ];
 
 export {

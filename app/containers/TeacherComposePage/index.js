@@ -35,7 +35,7 @@ Quill.register('modules/imageDrop', ImageDrop);
 /* eslint-disable react/prefer-stateless-function */
 
 export class StudentComposePage extends React.Component {
-  constructor() {
+  constructor(props) {
     super(props);
     this.state = {
       showMe: true,

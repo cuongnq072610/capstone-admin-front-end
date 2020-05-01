@@ -181,7 +181,7 @@ export class StudentComposePage extends React.Component {
 
   scrollToBottom = () => {
     if (this.messagesEnd.current) {
-      this.messagesEnd.current.scrollIntoView({ behavior: "smooth" });
+      this.messagesEnd.current.scrollIntoView();
     }
   }
 

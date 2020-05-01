@@ -96,7 +96,7 @@ export class StudentComposePage extends React.Component {
         comments: this.props.studentComposePage.ask.comments,
         student: this.props.studentComposePage.ask.student,
         isClose: this.props.studentComposePage.ask.isClosed,
-        answerPin: this.props.studentComposePage.ask.comments ? this.props.studentComposePage.ask.comments.message : "",
+        answerPin: this.props.studentComposePage.ask.answer,
       })
     }
     if (prevProps.studentComposePage.isLoadingClose !== this.props.studentComposePage.isLoadingClose && this.props.studentComposePage.isLoadingClose === false) {
@@ -177,7 +177,7 @@ export class StudentComposePage extends React.Component {
 
   scrollToBottom = () => {
     if (this.messagesEnd.current) {
-      this.messagesEnd.current.scrollIntoView({ behavior: "smooth" });
+      this.messagesEnd.current.scrollIntoView();
     }
   }
 
@@ -257,6 +257,7 @@ export class StudentComposePage extends React.Component {
       'list', 'bullet', 'indent',
       'image'
     ]
+    console.log((answerPin && answerPin.length > 0))
     return (
       <div>
         <Helmet>
@@ -292,7 +293,7 @@ export class StudentComposePage extends React.Component {
                       <Button className='ask-action-cancel-pin' onClick={this.onClickCloseRadio}>Cancel pin this question <span className='icon ask-cancel-pin'></span></Button>
                     </div> :
                     <div className="ask-action">
-                      <Button className='ask-action-pin' onClick={this.onClickShowRadio}>Pin this question <span className='icon ask-pin'></span></Button>
+                      <Button className='ask-action-pin' onClick={this.onClickShowRadio} disabled={answerPin && answerPin.length > 0}>Pin this question <span className='icon ask-pin'></span></Button>
                       {!isClose &&
                         <Button className='ask-action-close' onClick={this.handleCloseAsk}>
                           {
@@ -325,6 +326,7 @@ export class StudentComposePage extends React.Component {
                                   comment={comment}
                                   key={index}
                                   showRadio={showRadio}
+                                  answerPin={answerPin}
                                 />
                               })
                             }
@@ -333,7 +335,7 @@ export class StudentComposePage extends React.Component {
                           ''
                       }
                       <div
-                        style={{ float: "left", clear: "both" }}
+                        style={{ float: "left", clear: "both", width: '100%' }}
                         ref={this.messagesEnd}
                       ></div>
                     </div>

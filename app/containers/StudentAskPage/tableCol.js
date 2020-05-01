@@ -37,7 +37,7 @@ const colunms = [
               <span className="ask-icon ask-icon-read" ></span> :
               <span className="ask-icon ask-icon-unread" ></span>
           }
-          <p className={`ask-content-ques ${(record.status === 'new' || record.status === 'replied') && "read"}`}>{text}</p>
+          <p className={`ask-content-ques ${(record.status === 'new') && "read"}`}>{text}</p>
         </div>
       )
     },

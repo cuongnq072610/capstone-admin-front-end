@@ -77,6 +77,12 @@ export class DepartmentPage extends React.Component {
     }
 
     if (prevProps.departmentPage.isLoadingUpdate !== this.props.departmentPage.isLoadingUpdate && this.props.departmentPage.isLoadingUpdate === false) {
+      if (this.props.departmentPage.errors) {
+        this.setState({
+          error: this.props.departmentPage.errors,
+        })
+        return;
+      }
       // show modal success
       this.setState({
         isShow: true,
@@ -173,7 +179,6 @@ export class DepartmentPage extends React.Component {
       name: newDepartment,
       description: newDepartment,
     }
-    console.log(object)
     this.props.handleUpdateDepartment(object, selectedDepartmnent._id);
   }
 
@@ -252,6 +257,9 @@ export class DepartmentPage extends React.Component {
                     onChange={this.onHandleChangeInput}
                     value={newDepartment}
                   />
+                  {
+                    error && <div className='error-field'><span style={{ color: 'red' }}>{error}</span></div>
+                  }
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <Button className='info-finish' onClick={this.onHandleUpdate}>{
                       isLoadingUpdate ?

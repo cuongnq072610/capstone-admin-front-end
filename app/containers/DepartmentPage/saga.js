@@ -79,7 +79,7 @@ function* updateDepartment(action) {
 
 function* fetchSearchDepartment(action) {
   try {
-    const response = yield call(fetchDepartment, `${API_ENDPOINT}${SEARCH_DEPARTMENTS}/${action.key}`);
+    const response = yield call(fetchDepartment, `${API_ENDPOINT}${SEARCH_DEPARTMENTS}/?text=${action.key}`);
     if (response.data) {
       let departmentData = response.data.map((item, index) => {
         return item

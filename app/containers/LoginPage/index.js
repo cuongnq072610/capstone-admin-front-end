@@ -47,6 +47,7 @@ export class LoginPage extends React.Component {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const token = urlParams.get('token');
+    const isLogout = urlParams.get('logout');
     if (token) {
       localStorage.setItem("token", token);
       const parseToken = parseJwt(token);
@@ -57,6 +58,10 @@ export class LoginPage extends React.Component {
     const user = JSON.parse(localStorage.getItem('user'));
     if (user) {
       this.navigateRightPage(user.role);
+    }
+    if (isLogout) {
+      localStorage.removeItem('user');
+      localStorage.removeItem('token');
     }
   }
 

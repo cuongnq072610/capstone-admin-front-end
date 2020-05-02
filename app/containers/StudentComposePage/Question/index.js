@@ -1,5 +1,4 @@
 import React from 'react';
-import avatar from '../../../assets/png/man-1.png';
 import styled from 'styled-components';
 import "./index.scss"
 import { converToLocalTime } from '../../../utils/convertLocalTime';
@@ -23,7 +22,6 @@ const Mail = styled.p`
 
 const AskAndAnswerField = (props) => {
     const { user, text, comment, date } = props;
-
     return (
         user ?
             <div className='ask-wrapper'>

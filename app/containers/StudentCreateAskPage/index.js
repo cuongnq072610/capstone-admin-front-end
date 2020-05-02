@@ -152,7 +152,6 @@ export class StudentCreateAskPage extends React.Component {
         ['bold', 'italic', 'underline', 'blockquote'],
         [{ 'list': 'ordered' }, { 'list': 'bullet' }],
         ['image'],
-        ['clean']
       ],
       clipboard: {
         // toggle to add extra line breaks when pasting HTML:

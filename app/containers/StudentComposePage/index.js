@@ -36,8 +36,8 @@ Quill.register('modules/imageDrop', ImageDrop);
 /* eslint-disable react/prefer-stateless-function */
 
 export class StudentComposePage extends React.Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props);
     this.state = {
       showMe: true,
       isClose: false,
@@ -49,8 +49,8 @@ export class StudentComposePage extends React.Component {
       rate: '',
       isShow: false,
       isCloseToggle: false,
-    }
-
+    };
+    this.messagesEnd = React.createRef();
   }
 
   ws = new WebSocket(API_ENDPOINT_WS)
@@ -86,9 +86,11 @@ export class StudentComposePage extends React.Component {
         ws: new WebSocket(URL),
       })
     }
+    this.scrollToBottom();
   };
 
   componentDidUpdate(prevProps) {
+    this.scrollToBottom();
     if (prevProps.studentComposePage.ask !== this.props.studentComposePage.ask &&
       prevProps.studentComposePage.isLoading !== this.props.studentComposePage.isLoading && this.props.studentComposePage.isLoading === false
     ) {
@@ -163,8 +165,6 @@ export class StudentComposePage extends React.Component {
         "dateCreated": this.getCurrentDate(),
         "__v": 0
       }
-      console.log(ask)
-      console.log(newComment)
       this.setState({
         comments: [...comments, newComment]
       }, () => {
@@ -176,8 +176,13 @@ export class StudentComposePage extends React.Component {
 
       this.ws.send(JSON.stringify({ message, user, askID: ask._id }));
     }
+    this.scrollToBottom();
+  }
 
-
+  scrollToBottom = () => {
+    if (this.messagesEnd.current) {
+      this.messagesEnd.current.scrollIntoView();
+    }
   }
 
   getCurrentDate() {
@@ -185,13 +190,25 @@ export class StudentComposePage extends React.Component {
     var dd = today.getDate();
     var mm = today.getMonth() + 1;
     var yyyy = today.getFullYear();
+    var hh = today.getHours();
+    var MM = today.getMinutes();
+    var ss = today.getSeconds();
     if (dd < 10) {
       dd = '0' + dd;
     }
     if (mm < 10) {
       mm = '0' + mm;
     }
-    return today = dd + '/' + mm + '/' + yyyy;
+    if (hh < 10) {
+      hh = '0' + hh;
+    }
+    if (MM < 10) {
+      MM = '0' + MM;
+    }
+    if (ss < 10) {
+      ss = '0' + ss;
+    }
+    return today = `${yyyy}-${mm}-${dd} ${hh}:${MM}:${ss}`;
   }
 
   compareIDtoGetUser = (id, user1, user2) => {
@@ -268,7 +285,7 @@ export class StudentComposePage extends React.Component {
                   </div> :
                   <Content className="compose-body">
                     <h1>{this.state.ask.askContent ? this.state.ask.askContent : ""}</h1>
-                    <div className={`commentWrapper${isClose === true ? '-close' : ""}`} >
+                    <div className={`commentWrapper${isClose === true ? '-close' : ""}`} id="commentWrapper">
                       { /* render the student scanned content as a commment */}
                       <AskAndAnswerField user={ask.student} date={ask.dateCreated} text={ask.scannedContent} />
                       {
@@ -278,6 +295,11 @@ export class StudentComposePage extends React.Component {
                           }) :
                           ''
                       }
+                      <div
+                        style={{ float: "left", clear: "both" }}
+                        ref={this.messagesEnd}
+                      >
+                      </div>
                     </div>
                     {
                       !isClose &&

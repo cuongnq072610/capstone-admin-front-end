@@ -35,8 +35,8 @@ Quill.register('modules/imageDrop', ImageDrop);
 /* eslint-disable react/prefer-stateless-function */
 
 export class StudentComposePage extends React.Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props);
     this.state = {
       showMe: true,
       ask: {},
@@ -47,7 +47,8 @@ export class StudentComposePage extends React.Component {
       isClosed: false,
       answerPin: "",
       isShow: false,
-    }
+    };
+    this.messagesEnd = React.createRef();
   }
 
   ws = new WebSocket(API_ENDPOINT_WS)
@@ -55,7 +56,7 @@ export class StudentComposePage extends React.Component {
   componentDidMount() {
     const { id } = this.props.match.params;
     this.props.handleFetchAskDetail(id)
-
+    this.scrollToBottom();
     this.ws.onopen = () => {
       // on connecting, do nothing but log it to the console
       console.log('connected')
@@ -87,6 +88,7 @@ export class StudentComposePage extends React.Component {
   };
 
   componentDidUpdate(prevProps) {
+    this.scrollToBottom();
     if (prevProps.studentComposePage.ask !== this.props.studentComposePage.ask) {
       this.setState({
         ask: this.props.studentComposePage.ask,
@@ -94,7 +96,7 @@ export class StudentComposePage extends React.Component {
         comments: this.props.studentComposePage.ask.comments,
         student: this.props.studentComposePage.ask.student,
         isClose: this.props.studentComposePage.ask.isClosed,
-        answerPin: this.props.studentComposePage.ask.comments ? this.props.studentComposePage.ask.comments.message : "",
+        answerPin: this.props.studentComposePage.ask.answer,
       })
     }
     if (prevProps.studentComposePage.isLoadingClose !== this.props.studentComposePage.isLoadingClose && this.props.studentComposePage.isLoadingClose === false) {
@@ -169,11 +171,14 @@ export class StudentComposePage extends React.Component {
       });
 
       this.ws.send(JSON.stringify({ message, user, askID: ask._id }));
-
-
     }
+    this.scrollToBottom();
+  }
 
-
+  scrollToBottom = () => {
+    if (this.messagesEnd.current) {
+      this.messagesEnd.current.scrollIntoView();
+    }
   }
 
   getCurrentDate() {
@@ -181,14 +186,27 @@ export class StudentComposePage extends React.Component {
     var dd = today.getDate();
     var mm = today.getMonth() + 1;
     var yyyy = today.getFullYear();
+    var hh = today.getHours();
+    var MM = today.getMinutes();
+    var ss = today.getSeconds();
     if (dd < 10) {
       dd = '0' + dd;
     }
     if (mm < 10) {
       mm = '0' + mm;
     }
-    return today = dd + '/' + mm + '/' + yyyy;
+    if (hh < 10) {
+      hh = '0' + hh;
+    }
+    if (MM < 10) {
+      MM = '0' + MM;
+    }
+    if (ss < 10) {
+      ss = '0' + ss;
+    }
+    return today = `${yyyy}-${mm}-${dd} ${hh}:${MM}:${ss}`;
   }
+
   compareIDtoGetUser = (id, user1, user2) => {
     if (user1._id === id) {
       return user1
@@ -239,6 +257,7 @@ export class StudentComposePage extends React.Component {
       'list', 'bullet', 'indent',
       'image'
     ]
+    console.log((answerPin && answerPin.length > 0))
     return (
       <div>
         <Helmet>
@@ -274,7 +293,7 @@ export class StudentComposePage extends React.Component {
                       <Button className='ask-action-cancel-pin' onClick={this.onClickCloseRadio}>Cancel pin this question <span className='icon ask-cancel-pin'></span></Button>
                     </div> :
                     <div className="ask-action">
-                      <Button className='ask-action-pin' onClick={this.onClickShowRadio}>Pin this question <span className='icon ask-pin'></span></Button>
+                      <Button className='ask-action-pin' onClick={this.onClickShowRadio} disabled={answerPin && answerPin.length > 0}>Pin this question <span className='icon ask-pin'></span></Button>
                       {!isClose &&
                         <Button className='ask-action-close' onClick={this.handleCloseAsk}>
                           {
@@ -307,6 +326,7 @@ export class StudentComposePage extends React.Component {
                                   comment={comment}
                                   key={index}
                                   showRadio={showRadio}
+                                  answerPin={answerPin}
                                 />
                               })
                             }
@@ -314,6 +334,10 @@ export class StudentComposePage extends React.Component {
                           :
                           ''
                       }
+                      <div
+                        style={{ float: "left", clear: "both", width: '100%' }}
+                        ref={this.messagesEnd}
+                      ></div>
                     </div>
                     {
                       !isClose &&

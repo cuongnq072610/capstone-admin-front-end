@@ -12,8 +12,8 @@ export const initialState = fromJS({
   isLoadingUpdate: false,
   isLoadingDelete: false,
   note: {},
-  error: {},
-  message: {}
+  error: "",
+  message: "",
 });
 
 function noteDetailPageReducer(state = initialState, action) {
@@ -27,13 +27,13 @@ function noteDetailPageReducer(state = initialState, action) {
     case LOAD_NOTE_FAILURE:
       return state.set("isLoading", false).set("error", action.payload);
     case UPDATE_NOTE:
-      return state.set("isLoadingUpdate", true);
+      return state.set("isLoadingUpdate", true).set("error", "").set("message", "");
     case UPDATE_NOTE_SUCCESS:
       return state.set("isLoadingUpdate", false).set("message", action.payload).set("note", fromJS(action.note));
     case UPDATE_NOTE_FAILURE:
-      return state.set("isLoadingUpdate", false).set("message", action.payload);
+      return state.set("isLoadingUpdate", false).set("error", action.payload);
     case DELETE_NOTE:
-      return state.set("isLoadingDelete", true);
+      return state.set("isLoadingDelete", true).set("error", "").set("message", "");
     case DELETE_NOTE_SUCCESS:
       return state.set("isLoadingDelete", false).set("message", action.payload);
     case DELETE_NOTE_FAILURE:

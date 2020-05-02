@@ -5,6 +5,7 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
+
     .note-page-name {
       color: $primary_yellow;
       font-family: Roboto;
@@ -96,16 +97,16 @@
 }
 
 .notification {
-  position: absolute;
-  left: 0px;
+  position: fixed;
+  left: 100px;
   top: 90vh;
   opacity: 0;
   transition: opacity 1s ease-in-out;
 }
 
 .notification-show {
-  position: absolute;
-  left: 0px;
+  position: fixed;
+  left: 100px;
   top: 90vh;
   opacity: 1;
   transition: opacity 1s ease-in-out;

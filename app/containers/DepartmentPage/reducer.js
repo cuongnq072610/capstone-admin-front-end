@@ -51,13 +51,13 @@ function departmentPageReducer(state = initialState, action) {
     case LOAD_DELETE_FAILURE_DEPARTMENT:
       return state.set('errors', action.payload).set('isLoadingDelete', false);
     case LOAD_CREATE_DEPARTMENT:
-      return state.set("isLoadingCreate", true);
+      return state.set("isLoadingCreate", true).set('errors', "");
     case LOAD_CREATE_SUCCESS_DEPARTMENT:
       return state.set("isLoadingCreate", false).set('message', fromJS(action.payload));
     case LOAD_CREATE_FAILURE_DEPARTMENT:
       return state.set("isLoadingCreate", false).set('errors', action.payload);
     case LOAD_UPDATE_DEPARTMENT:
-      return state.set("isLoadingUpdate", true);
+      return state.set("isLoadingUpdate", true).set('errors', "");
     case LOAD_UPDATE_SUCCESS_DEPARTMENT:
       return state.set("isLoadingUpdate", false).set('message', fromJS(action.payload));
     case LOAD_UPDATE_FAILURE_DEPARTMENT:

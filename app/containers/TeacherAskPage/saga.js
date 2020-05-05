@@ -21,7 +21,6 @@ function* loadAllAsks() {
 function* loadSearchAsks(action) {
   const { key } = action;
   const user = JSON.parse(localStorage.getItem("user"));
-  console.log(user + " === " + key)
   try {
     let response = yield call(fetchAsks, `${API_ENDPOINT}${SEARCH_ASK_API}/?userID=${user.profile}&text=${key}`);
     if (response.data) {

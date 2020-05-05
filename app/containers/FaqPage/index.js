@@ -162,12 +162,12 @@ export class FaqPage extends React.Component {
   }
 
   handleBack = () => {
-    // this.setState({
-    //   chosenCourse: "",
-    //   displayQuestion: "",
-    //   questions: [],
-    // })
-    this.props.history.push("/faq")
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (user.role === 'student') {
+      this.props.history.push("/faq")
+    } else if (user.role === 'teacher') {
+      this.props.history.push("/tutor/faq")
+    }
   }
 
   componentWillUnmount() {

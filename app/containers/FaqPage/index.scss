@@ -12,6 +12,21 @@
     padding-left: 0;
     padding-right: 0;
 
+    .faq-name-course {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .back-btn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: none;
+        font-size: 20px;
+        color: $primary_blue
+      }
+    }
+
     .faq-page-name {
       color: $primary_blue;
       font-family: Roboto;
@@ -53,6 +68,65 @@
   .question-detai {
     .question-description {
       margin-bottom: 25px;
+
+      .question-description-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        h3 {
+          color: $primary_blue;
+          font-family: Roboto;
+          font-size: 20px;
+          font-weight: 500;
+        }
+
+        .question-description-header-side {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          .btn-copy {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: $secondary_blue;
+            color: $primary_blue;
+            font-family: Roboto;
+            font-size: 14px;
+            font-weight: 500;
+            border: none;
+            border-radius: 5px;
+          }
+
+          .icon-success-show {
+            display: inline-block;
+            width: 25px;
+            height: 25px;
+            background-size: cover;
+            background-image: url(assets/accept.svg);
+            margin-right: 20px;
+            opacity: 1;
+            transition: opacity .5s ease-in-out;
+          }
+
+          .icon-success-none {
+            display: inline-block;
+            width: 25px;
+            height: 25px;
+            background-size: cover;
+            background-image: url(assets/accept.svg);
+            margin-right: 20px;
+            opacity: 0;
+            transition: opacity .5s ease-in-out;
+          }
+        }
+
+        #input-fake {
+          display: block;
+          opacity: 0;
+        }
+      }
 
       h2 {
         font-size: 24px;

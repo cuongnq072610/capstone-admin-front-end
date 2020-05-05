@@ -29,6 +29,7 @@ import { API_ENDPOINT_WS } from '../../constants/apis';
 import { loadAskDetail, closeAsk, reopenAsk } from './actions';
 import ReactQuill, { Quill } from 'react-quill';
 import { ImageDrop } from 'quill-image-drop-module';
+import checkUrlInString from '../../utils/checkLink';
 Quill.register('modules/imageDrop', ImageDrop);
 
 // const ENDPOINT = 'ws://localhost:5000';
@@ -161,7 +162,7 @@ export class StudentComposePage extends React.Component {
       const newComment = {
         "userID": user.profile,
         "ask": ask._id,
-        "message": message,
+        "message": checkUrlInString(message),
         "dateCreated": this.getCurrentDate(),
         "__v": 0
       }

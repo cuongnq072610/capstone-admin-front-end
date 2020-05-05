@@ -56,6 +56,8 @@ const GET_REPORT = '/getReport';
 const CREATE_FAQ = '/createFAQ';
 const LOAD_FAQ_API = '/getAllFAQ';
 const SEARCH_FAQ_API = '/searchFAQ';
+const LOAD_DETAIL_API = '/getFAQ';
+const LOAD_FAQ_BY_COURSE = '/getFAQByCourse';
 
 export {
     API_ENDPOINT,
@@ -118,4 +120,6 @@ export {
     CREATE_FAQ,
     LOAD_FAQ_API,
     SEARCH_FAQ_API,
+    LOAD_DETAIL_API,
+    LOAD_FAQ_BY_COURSE,
 }

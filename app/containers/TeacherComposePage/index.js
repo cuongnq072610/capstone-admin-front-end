@@ -29,6 +29,7 @@ import { API_ENDPOINT_WS } from '../../constants/apis';
 import { loadAskDetail, closeAsk, pinFaq } from './actions';
 import ReactQuill, { Quill } from 'react-quill';
 import { ImageDrop } from 'quill-image-drop-module';
+import checkUrlInString from '../../utils/checkLink';
 Quill.register('modules/imageDrop', ImageDrop);
 // const ENDPOINT = 'ws://localhost:5000';
 
@@ -156,7 +157,7 @@ export class StudentComposePage extends React.Component {
       const newComment = {
         "userID": user.profile,
         "ask": ask._id,
-        "message": message,
+        "message": checkUrlInString(message),
         "dateCreated": this.getCurrentDate(),
         "__v": 0
       }
@@ -230,7 +231,8 @@ export class StudentComposePage extends React.Component {
   handlePinFaq = () => {
     const { answerPin } = this.state;
     const { id } = this.props.match.params;
-    this.props.handlePinFaq(id, answerPin)
+    this.props.handlePinFaq(id, answerPin);
+    this.onClickCloseRadio();
   }
 
   render() {
@@ -257,14 +259,13 @@ export class StudentComposePage extends React.Component {
       'list', 'bullet', 'indent',
       'image'
     ]
-    console.log((answerPin && answerPin.length > 0))
     return (
       <div>
         <Helmet>
-          <title>StudentComposePage</title>
+          <title>TeacherComposePage</title>
           <meta
             name="description"
-            content="Description of StudentComposePage"
+            content="Description of TeacherComposePage"
           />
         </Helmet>
         <Row className='compose'>

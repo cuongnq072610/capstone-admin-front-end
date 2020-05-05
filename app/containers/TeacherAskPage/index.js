@@ -86,6 +86,14 @@ export class StudentAskPage extends React.Component {
     })
   }
 
+  handleSearch = (key) => {
+    this.props.handleSearchAsks(key);
+  }
+
+  handleClear = () => {
+    this.props.handleFetchAsks();
+  }
+
   render() {
     const { asks } = this.state;
     const { isLoading } = this.props.studentAskPage;
@@ -106,8 +114,8 @@ export class StudentAskPage extends React.Component {
                   message="Please enter your question key"
                   placeholder="I want to find my question"
                   type="ask"
-                // handleSearch={this.handleSearch}
-                // handleClear={this.handleClear}
+                  handleSearch={this.handleSearch}
+                  handleClear={this.handleClear}
                 />
                 <Filter
                   type="ask"
@@ -143,6 +151,7 @@ export class StudentAskPage extends React.Component {
 
 StudentAskPage.propTypes = {
   handleFetchAsks: PropTypes.func.isRequired,
+  handleSearchAsks: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -152,6 +161,7 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch) {
   return {
     handleFetchAsks: () => { dispatch(loadAsk()) },
+    handleSearchAsks: (key) => { dispatch(searchAsk(key)) },
   };
 }
 

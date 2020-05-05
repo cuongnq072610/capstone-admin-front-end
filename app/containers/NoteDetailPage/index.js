@@ -153,7 +153,7 @@ export class NoteDetailPage extends React.Component {
         [{ size: [] }],
         ['bold', 'italic', 'underline', 'blockquote'],
         [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-        ['image', 'video'],
+        ['image'],
         ['clean']
       ],
       clipboard: {
@@ -166,7 +166,7 @@ export class NoteDetailPage extends React.Component {
       'header', 'font', 'size',
       'bold', 'italic', 'underline', 'strike', 'blockquote',
       'list', 'bullet', 'indent',
-      'image', 'video'
+      'image',
     ]
     const antIcon = <Icon type="loading" style={{ fontSize: 24, color: '#ffc143', marginRight: '10px' }} spin />;
     const antIconSave = <Icon type="loading" style={{ fontSize: 16, color: '#616161', marginRight: '10px' }} spin />;

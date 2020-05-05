@@ -19,11 +19,11 @@ import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
 import WrappedSearchBar from '../../components/SearchBar';
-import { Select, Row, Layout, Icon, Spin, Col, DatePicker, Button, Table } from 'antd';
+import { Row, Layout, Icon, Spin, Col, Button } from 'antd';
 import './index.scss';
-import { loadFaq, loadSearchFaq } from './actions';
+import { loadFaq, loadSearchFaq, loadFaqDetail, loadCourse } from './actions';
 import Filter from '../../components/Filter';
-
+import checkUrlInString from '../../utils/checkLink';
 
 const { Content, Header } = Layout;
 
@@ -35,22 +35,39 @@ export class FaqPage extends React.Component {
       questions: [],
       displayQuestion: "",
       page: 1,
-      isSearching: false,
+      loadingType: "all",
       key: "",
+      idChosen: "",
+      isCopySuccess: false,
+      chosenCourse: "",
     }
   }
 
   componentDidMount() {
-    const { page } = this.state;
-    this.props.handleFetchFaqData(page);
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const id = urlParams.get('id');
+    if (id) {
+      this.setState({
+        idChosen: id,
+      })
+      this.props.handleFetchChosenFaq(id);
+    }
+    this.props.handleLoadCourse();
   }
 
   componentDidUpdate(prevProps) {
     const { questions } = this.state;
     if (prevProps.faqPage.faq !== this.props.faqPage.faq && this.props.faqPage.isLoading === false && prevProps.faqPage.isLoading !== this.props.faqPage.isLoading) {
       const newQuesData = questions.concat(this.props.faqPage.faq)
+      console.log(this.props.faqPage.faq)
       this.setState({
         questions: newQuesData,
+      })
+    }
+    if (prevProps.faqPage.chosen !== this.props.faqPage.chosen && this.props.faqPage.isLoadingDetail === false && prevProps.faqPage.isLoadingDetail !== this.props.faqPage.isLoadingDetail) {
+      this.setState({
+        displayQuestion: this.props.faqPage.chosen,
       })
     }
   }
@@ -68,11 +85,16 @@ export class FaqPage extends React.Component {
           page: prevState.page + 1
         }
       }, () => {
-        const { page, key, isSearching } = this.state;
-        if (isSearching) {
-          this.props.handleFetchSearchFaq(page, key);
-        } else {
-          this.props.handleFetchFaqData(page);
+        const { page, key, loadingType, chosenCourse } = this.state;
+        switch (loadingType) {
+          case "all":
+            this.props.handleFetchFaqData(page, chosenCourse);
+            break;
+          case "search":
+            this.props.handleFetchSearchFaq(page, key);
+            break;
+          default:
+            break;
         }
       })
     }
@@ -84,27 +106,15 @@ export class FaqPage extends React.Component {
     })
   }
 
-  checkUrlInString(s) {
-    var urlRE = new RegExp("([a-zA-Z0-9]+://)?([a-zA-Z0-9_]+:[a-zA-Z0-9_]+@)?([a-zA-Z0-9.-]+\\.[A-Za-z]{2,4})(:[0-9]+)?([^ ])+");
-    var matchString = s.match(urlRE);
-
-    if (matchString) {
-      let url = `<a href="${matchString[0]}" target="_blank"> ${matchString[0]} </a>`;
-      let replaceString = s.replace(matchString[0], url);
-      return replaceString; //return the url
-    } else {
-      return s;
-    }
-  }
-
   handleSearch = (key) => {
     this.setState(prevState => {
       return {
         ...prevState,
-        isSearching: true,
+        loadingType: 'search',
         key,
         questions: [],
         page: 1,
+        chosenCourse: "",
       }
     }, () => {
       this.props.handleFetchSearchFaq(this.state.page, this.state.key);
@@ -115,23 +125,60 @@ export class FaqPage extends React.Component {
     this.setState(prevState => {
       return {
         ...prevState,
-        isSearching: false,
+        loadingType: 'all',
         key: "",
         questions: [],
         page: 1,
+        chosenCourse: "",
       }
     }, () => {
-      this.props.handleFetchFaqData(this.state.page);
+      this.props.handleLoadCourse();
     })
 
   }
 
+  handleCopyLink = () => {
+    var copyText = document.getElementById("input-fake");
+    copyText.select();
+    document.execCommand("copy");
+    this.setState({
+      isCopySuccess: true,
+    })
+    this.timer1 = setTimeout(() => {
+      this.setState({
+        isCopySuccess: false,
+      })
+    }, 1000);
+  }
+
+  handleChooseCourse = (course) => {
+    this.setState({
+      chosenCourse: course,
+      displayQuestion: ""
+    }, () => {
+      const { page, chosenCourse } = this.state;
+      this.props.handleFetchFaqData(page, chosenCourse);
+    })
+
+  }
+
+  handleBack = () => {
+    this.setState({
+      chosenCourse: "",
+      displayQuestion: "",
+      questions: [],
+    })
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.timer1);
+  }
+
   render() {
-    const { questions, displayQuestion } = this.state;
+    const { questions, displayQuestion, idChosen, isCopySuccess, chosenCourse, loadingType } = this.state;
     const antIcon = <Icon type="loading" style={{ fontSize: 24, color: '#48C6FF', marginRight: '10px' }} spin />;
-    const { isLoading } = this.props.faqPage;
+    const { isLoading, isLoadingDetail, courses, isLoadingCourse } = this.props.faqPage;
     const user = JSON.parse(localStorage.getItem("user"));
-    console.log(user.role)
 
     return (
       <div className="faq-page">
@@ -143,7 +190,16 @@ export class FaqPage extends React.Component {
         <Layout>
           <Header className="faq-page-header">
             <div className='faq-page-name-wrapper'>
-              <p className="faq-page-name">FAQ</p>
+              {
+                chosenCourse ?
+                  <div className="faq-name-course">
+                    <Button className='back-btn' onClick={this.handleBack}>
+                      <Icon type="arrow-left" />
+                    </Button>
+                    <p className="faq-page-name">{chosenCourse}</p>
+                  </div> :
+                  <p className="faq-page-name">FAQ</p>
+              }
             </div>
             <div className='faq-page-side'>
               <WrappedSearchBar className="faq-page-search"
@@ -172,6 +228,17 @@ export class FaqPage extends React.Component {
                     (
                       <div className="question-detai">
                         <div className="question-description">
+                          <div className="question-description-header">
+                            <h3>#{displayQuestion.number}</h3>
+                            <input id="input-fake" type="text" value={`localhost:3002/faq/?id=${displayQuestion._id}`} readOnly />
+                            {/* <input id="input-fake" type="text" value={`noteitfu.herokuapp.com/faq/${displayQuestion._id}`} readOnly/> */}
+                            <div className='question-description-header-side'>
+                              <span className={isCopySuccess ? `icon-success-show` : `icon-success-none`}></span>
+                              <Button className='btn-copy' onClick={this.handleCopyLink}>
+                                Copy link to this faq <Icon type="copy" style={{ fontSize: '20px' }} />
+                              </Button>
+                            </div>
+                          </div>
                           <h2>{displayQuestion.askContent}</h2>
                           <p dangerouslySetInnerHTML={{ __html: displayQuestion.scannedContent }}></p>
                         </div>
@@ -182,32 +249,54 @@ export class FaqPage extends React.Component {
                             <p><span>{displayQuestion.teacherID.name}</span> {displayQuestion.teacherID.email}</p>
                             <p className="date">Mar 26 2019</p>
                           </div>
-                          <p className="teacher-reply" dangerouslySetInnerHTML={{ __html: this.checkUrlInString(displayQuestion.answer) }}></p>
+                          <p className="teacher-reply" dangerouslySetInnerHTML={{ __html: checkUrlInString(displayQuestion.answer) }}></p>
                         </div>
-
                       </div>
                     ) :
-                    <div className="hello-user">
-                      <h1>Here lie the most important questions and answers
+                    idChosen ?
+                      isLoadingDetail && <Spin indicator={antIcon} />
+                      :
+                      <div className="hello-user">
+                        <h1>Here lie the most important questions and answers
               that might help you with the subject.</h1>
-                    </div>
+                      </div>
                 }
               </Col>
               <Col span={10}>
-                <div className="question-wrapper" onScroll={(e) => this.handleScrollToBottom(e)}>
-                  {
-                    questions.length > 0 ? questions.map((item, index) => {
-                      return (
-                        <div className="question" key={index} onClick={() => this.handleShowQuestion(item)}>
-                          <p className="code">{item.courseCode}</p>
-                          <p className="content">#{item.number} {item.askContent}</p>
-                          <p className="date">{item.date}</p>
-                        </div>
-                      )
-                    }) : ""
-                  }
-                  {isLoading && <Spin indicator={antIcon} />}
-                </div>
+                {
+                  chosenCourse || loadingType === 'search' ?
+                    <div className="question-wrapper" onScroll={(e) => this.handleScrollToBottom(e)}>
+                      {
+                        isLoading ?
+                          "" :
+                          questions.length > 0 ? questions.map((item, index) => {
+                            return (
+                              <div className="question" key={index} onClick={() => this.handleShowQuestion(item)}>
+                                <p className="code">{item.courseCode}</p>
+                                <p className="content">#{item.number} {item.askContent}</p>
+                                <p className="date">{item.date}</p>
+                              </div>
+                            )
+                          }) : <p>There is no faq in this </p>
+                      }
+                      {isLoading && <Spin indicator={antIcon} />}
+                    </div> :
+                    isLoadingCourse ?
+                      <Spin indicator={antIcon} /> :
+                      <div className="question-wrapper">
+                        {
+                          (courses && courses.length > 0) ? courses.map((item, index) => {
+                            return (
+                              <div className="question" key={index} onClick={() => this.handleChooseCourse(item.courseCode)}>
+                                <p className="code">{item.courseCode}</p>
+                                <p className="content">{item.courseName}</p>
+                              </div>
+                            )
+                          }) : ""
+                        }
+                      </div>
+
+                }
               </Col>
             </Row>
           </Content>
@@ -220,6 +309,8 @@ export class FaqPage extends React.Component {
 FaqPage.propTypes = {
   handleFetchFaqData: PropTypes.func.isRequired,
   handleFetchSearchFaq: PropTypes.func.isRequired,
+  handleFetchChosenFaq: PropTypes.func,
+  handleLoadCourse: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -228,8 +319,10 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
-    handleFetchFaqData: (page) => { dispatch(loadFaq(page)) },
+    handleFetchFaqData: (page, course) => { dispatch(loadFaq(page, course)) },
     handleFetchSearchFaq: (page, key) => { dispatch(loadSearchFaq(page, key)) },
+    handleFetchChosenFaq: (id) => { dispatch(loadFaqDetail(id)) },
+    handleLoadCourse: () => { dispatch(loadCourse()) },
   };
 }
 

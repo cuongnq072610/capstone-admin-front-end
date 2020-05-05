@@ -1,4 +1,4 @@
-import { take, call, put, select, takeLatest } from 'redux-saga/effects';
+import { take, call, put, select, takeLatest, all } from 'redux-saga/effects';
 import { LOAD_ASK, LOAD_ASK_FAILURE, LOAD_ASK_SUCCESS, SEARCH_ASK, SEARCH_ASK_SUCCESS, SEARCH_ASK_FAILURE } from './constants';
 import { fetchAsks } from './api';
 import { API_ENDPOINT, GET_ALL_ASK_TEACHER, SEARCH_ASK_API } from '../../constants/apis';
@@ -21,6 +21,7 @@ function* loadAllAsks() {
 function* loadSearchAsks(action) {
   const { key } = action;
   const user = JSON.parse(localStorage.getItem("user"));
+  console.log(user + " === " + key)
   try {
     let response = yield call(fetchAsks, `${API_ENDPOINT}${SEARCH_ASK_API}/?userID=${user.profile}&text=${key}`);
     if (response.data) {

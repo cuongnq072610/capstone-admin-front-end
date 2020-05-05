@@ -19,7 +19,7 @@ import reducer from './reducer';
 import saga from './saga';
 import "./ask.scss";
 import columns from './tableCol';
-import { loadAsk } from './actions';
+import { loadAsk, searchAsk } from './actions';
 import Filter from '../../components/Filter';
 
 const { Content, Header } = Layout;

@@ -154,10 +154,11 @@ export class StudentComposePage extends React.Component {
     //if error show warning, if not do nothing
 
     if (message) {
+      const fomatMessage = checkUrlInString(message);
       const newComment = {
         "userID": user.profile,
         "ask": ask._id,
-        "message": checkUrlInString(message),
+        "message": fomatMessage,
         "dateCreated": this.getCurrentDate(),
         "__v": 0
       }
@@ -171,7 +172,7 @@ export class StudentComposePage extends React.Component {
         })
       });
 
-      this.ws.send(JSON.stringify({ message, user, askID: ask._id }));
+      this.ws.send(JSON.stringify({ message: fomatMessage, user, askID: ask._id }));
     }
     this.scrollToBottom();
   }

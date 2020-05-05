@@ -60,7 +60,6 @@ export class FaqPage extends React.Component {
     const { questions } = this.state;
     if (prevProps.faqPage.faq !== this.props.faqPage.faq && this.props.faqPage.isLoading === false && prevProps.faqPage.isLoading !== this.props.faqPage.isLoading) {
       const newQuesData = questions.concat(this.props.faqPage.faq)
-      console.log(this.props.faqPage.faq)
       this.setState({
         questions: newQuesData,
       })
@@ -163,11 +162,12 @@ export class FaqPage extends React.Component {
   }
 
   handleBack = () => {
-    this.setState({
-      chosenCourse: "",
-      displayQuestion: "",
-      questions: [],
-    })
+    // this.setState({
+    //   chosenCourse: "",
+    //   displayQuestion: "",
+    //   questions: [],
+    // })
+    this.props.history.push("/faq")
   }
 
   componentWillUnmount() {

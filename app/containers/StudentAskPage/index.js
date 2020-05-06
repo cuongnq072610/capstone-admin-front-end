@@ -79,7 +79,7 @@ export class StudentAskPage extends React.Component {
         })
         break;
       case "unseen":
-        filterAsks = baseAsks.filter(ask => ask.status === 'new' || ask.status === 'replied');
+        filterAsks = baseAsks.filter(ask => (ask.status === 'new' || ask.status === 'replied'));
         this.setState({
           asks: filterAsks,
         })

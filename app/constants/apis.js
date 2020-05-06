@@ -60,6 +60,8 @@ const LOAD_DETAIL_API = '/getFAQ';
 const REMOVE_FAQ = '/removeFAQ';
 const LOAD_FILTER_FAQ = '/getFAQbyFilter';
 
+const GET_TEACHER_STATISTIC_API = '/getTeacherDashboard';
+
 export {
     API_ENDPOINT,
     API_ENDPOINT_WS,
@@ -124,4 +126,6 @@ export {
     LOAD_DETAIL_API,
     REMOVE_FAQ,
     LOAD_FILTER_FAQ,
+    //
+    GET_TEACHER_STATISTIC_API,
 }

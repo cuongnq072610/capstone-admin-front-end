@@ -30,6 +30,7 @@ import FAQPage from 'containers/FaqPage/Loadable';
 //teacher's page
 import TeacherAskPage from 'containers/TeacherAskPage/Loadable';
 import TeacherComposePage from 'containers/TeacherComposePage/Loadable';
+import TeacherDashboardPage from 'containers/TeacherDashboardPage/Loadable'
 
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import NoteFolderPage from 'containers/NoteFolderPage/Loadable';
@@ -48,10 +49,10 @@ export default function App() {
   return (
     <Layout>
       <Helmet
-        titleTemplate="%s - Smart Course Management Admin"
-        defaultTitle="Smart Course Management Admin"
+        titleTemplate="%s - NoteIt Management Side"
+        defaultTitle="NoteIt Management Side"
       >
-        <meta name="description" content="Smart Course Management Admin" />
+        <meta name="description" content="NoteIt Management Side" />
       </Helmet>
       <Switch>
         <Route exact path='/' render={() => <LoginPage />} />
@@ -69,7 +70,8 @@ export default function App() {
         <PrivateRoute path="/faq" component={() => user ? <WrapperLayout component={FAQPage} role="student" page="ask" /> : <WrapperLayout component={NotFoundPage} />} />
         <PrivateRoute path="/faq/?id=:faqId" component={() => user ? <WrapperLayout component={FAQPage} role="student" page="ask" /> : <WrapperLayout component={NotFoundPage} />} />
         {/* TEACHER */}
-        <PrivateRoute exact path='/tutor' component={() => user && user.role === 'teacher' ? <WrapperLayout component={TeacherAskPage} role="teacher" page="tutor" /> : <WrapperLayout component={NotFoundPage} />} />
+        <PrivateRoute exact path='/tutor' component={() => user && user.role === 'teacher' ? <WrapperLayout component={TeacherDashboardPage} role="teacher" page="tutor" /> : <WrapperLayout component={NotFoundPage} />} />
+        <PrivateRoute exact path='/tutor/ask' component={() => user && user.role === 'teacher' ? <WrapperLayout component={TeacherAskPage} role="teacher" page="tutor" /> : <WrapperLayout component={NotFoundPage} />} />
         <PrivateRoute path='/tutor/compose/:id' component={() => user && user.role === 'teacher' ? <WrapperLayout component={TeacherComposePage} role="teacher" page="tutor" /> : <WrapperLayout component={NotFoundPage} />} />
         <PrivateRoute path="/tutor/faq" component={() => user && user.role === 'teacher' ? <WrapperLayout component={FAQPage} role="teacher" page="ask" /> : <WrapperLayout component={NotFoundPage} />} />
         {/* ADMIN */}

@@ -10,7 +10,7 @@ import { DEFAULT_ACTION, LOGIN, LOGIN_SUCCESS, LOGIN_FAILURE } from './constants
 export const initialState = fromJS({
   isLoading: false,
   token: {},
-  error: {}
+  error: ""
 });
 
 function loginPageReducer(state = initialState, action) {
@@ -18,9 +18,9 @@ function loginPageReducer(state = initialState, action) {
     case DEFAULT_ACTION:
       return state;
     case LOGIN:
-      return state.set("isLoading", true).set("error", {}).set("token", {});
+      return state.set("isLoading", true).set("error", "").set("token", {});
     case LOGIN_SUCCESS:
-      return state.set("isLoading", false).set("token", fromJS(action.payload));
+      return state.set("isLoading", false).set("token", fromJS(action.payload)).set("error", "");
     case LOGIN_FAILURE:
       return state.set("isLoading", false).set("error", fromJS(action.payload));
     default:

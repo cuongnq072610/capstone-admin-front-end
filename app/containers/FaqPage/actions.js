@@ -20,11 +20,12 @@ export function loadFaq(page, course) {
   }
 }
 
-export function loadSearchFaq(page, key) {
+export function loadSearchFaq(page, key, chosenCourse) {
   return {
     type: SEARCH_FAQ,
     page,
     key,
+    chosenCourse,
   }
 }
 

@@ -16,6 +16,9 @@ import {
   PIN_FAQ,
   PIN_FAQ_FAILURE,
   PIN_FAQ_SUCCESS,
+  DELETE_FAQ,
+  DELETE_FAQ_FAILURE,
+  DELETE_FAQ_SUCCESS,
 } from './constants';
 
 export const initialState = fromJS({
@@ -25,6 +28,7 @@ export const initialState = fromJS({
   errors: {},
   messageRes: "",
   isLoadingPin: false,
+  isLoadingDelete: false,
 });
 
 function studentComposePageReducer(state = initialState, action) {
@@ -49,6 +53,12 @@ function studentComposePageReducer(state = initialState, action) {
       return state.set("isLoadingPin", false).set("messageRes", action.payload);
     case PIN_FAQ_FAILURE:
       return state.set("isLoadingPin", false).set("errors", fromJS(action.payload));
+    case DELETE_FAQ:
+      return state.set("isLoadingDelete", true).set("messageRes", "");
+    case DELETE_FAQ_SUCCESS:
+      return state.set("isLoadingDelete", false).set("messageRes", fromJS(action.payload))
+    case DELETE_FAQ_FAILURE:
+      return state.set("isLoadingDelete", false).set("error", action.payload);
     default:
       return state;
   }

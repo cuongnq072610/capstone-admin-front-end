@@ -31,6 +31,7 @@ class SearchBar extends React.PureComponent {
   };
 
   handleOnclickBtn = () => {
+    this.props.form.resetFields();
     this.setState({
       showBtn: false
     })

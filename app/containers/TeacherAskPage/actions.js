@@ -4,7 +4,7 @@
  *
  */
 
-import { DEFAULT_ACTION, LOAD_ASK } from './constants';
+import { DEFAULT_ACTION, LOAD_ASK, SEARCH_ASK } from './constants';
 
 export function defaultAction() {
   return {
@@ -15,5 +15,12 @@ export function defaultAction() {
 export function loadAsk() {
   return {
     type: LOAD_ASK,
+  }
+}
+
+export function searchAsk(key) {
+  return {
+    type: SEARCH_ASK,
+    key,
   }
 }

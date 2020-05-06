@@ -20,12 +20,12 @@ import {
   LOAD_FAQ_BY_TEACHER_SUCCESS,
 } from './constants';
 import { fetchFaqData, deleteFaq } from './api';
-import { API_ENDPOINT, LOAD_FAQ_BY_COURSE, SEARCH_FAQ_API, LOAD_DETAIL_API, ALL_COURSE, REMOVE_FAQ, LOAD_FAQ_BY_TEACHER_API } from '../../constants/apis';
+import { API_ENDPOINT, SEARCH_FAQ_API, LOAD_DETAIL_API, ALL_COURSE, REMOVE_FAQ, LOAD_FILTER_FAQ } from '../../constants/apis';
 
 function* loadFaqData(action) {
   const { page, course } = action;
   try {
-    let response = yield call(fetchFaqData, `${API_ENDPOINT}${LOAD_FAQ_BY_COURSE}?course=${course}&page=${page}`);
+    let response = yield call(fetchFaqData, `${API_ENDPOINT}${LOAD_FILTER_FAQ}/?teacherID=&courseCode=${course}&page=${page}`);
     if (response.data) {
       let faqData = response.data.result.map(faq => faq);
       yield put({ type: LOAD_FAQ_SUCCESS, payload: faqData, number: response.data.totalPage });
@@ -99,18 +99,18 @@ function* removeFaq(action) {
 
 function* loadFaqDataByTeacher(action) {
   const { page, course, teacherId } = action;
-  console.log(`${API_ENDPOINT}${LOAD_FAQ_BY_COURSE}?course=${course}&teacherId=${teacherId}&page=${page}`)
-  // try {
-  //   let response = yield call(fetchFaqData, `${API_ENDPOINT}${LOAD_FAQ_BY_COURSE}?course=${courseId}&teacherId=${teacherId}&page=${page}`);
-  //   if (response.data) {
-  //     let faqData = response.data.result.map(faq => faq);
-  //     yield put({ type: LOAD_FAQ_BY_TEACHER_SUCCESS, payload: faqData, number: response.data.totalPage });
-  //   } else {
-  //     yield put({ type: LOAD_FAQ_BY_TEACHER_FAILURE, payload: 'No data' });
-  //   }
-  // } catch (error) {
-  //   yield put({ type: LOAD_FAQ_BY_TEACHER_FAILURE, payload: error });
-  // }
+  console.log(`${API_ENDPOINT}${LOAD_FILTER_FAQ}/?teacherID=${teacherId}&course=${course}&page=${page}`)
+  try {
+    let response = yield call(fetchFaqData, `${API_ENDPOINT}${LOAD_FILTER_FAQ}/?teacherID=${teacherId}&courseCode=${course}&page=${page}`);
+    if (response.data) {
+      let faqData = response.data.result.map(faq => faq);
+      yield put({ type: LOAD_FAQ_BY_TEACHER_SUCCESS, payload: faqData, number: response.data.totalPage });
+    } else {
+      yield put({ type: LOAD_FAQ_BY_TEACHER_FAILURE, payload: 'No data' });
+    }
+  } catch (error) {
+    yield put({ type: LOAD_FAQ_BY_TEACHER_FAILURE, payload: error });
+  }
 }
 
 // Individual exports for testing

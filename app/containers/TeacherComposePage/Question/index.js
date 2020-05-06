@@ -24,7 +24,6 @@ const AskAndAnswerField = (props) => {
     const { user, text, comment, date, showRadio, answerPin } = props;
     if (comment) {
         var isPinAnswer = (comment.message === answerPin);
-        console.log(isPinAnswer)
     }
     return (
         user ?

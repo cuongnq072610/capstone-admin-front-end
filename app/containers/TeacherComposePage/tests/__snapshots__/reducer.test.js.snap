@@ -6,6 +6,7 @@ Immutable.Map {
   "isLoadingClose": false,
   "ask": Immutable.Map {},
   "errors": Immutable.Map {},
-  "message": "",
+  "messageRes": "",
+  "isLoadingPin": false,
 }
 `;

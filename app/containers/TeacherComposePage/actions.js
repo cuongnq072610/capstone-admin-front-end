@@ -4,7 +4,7 @@
  *
  */
 
-import { DEFAULT_ACTION, LOAD_ASK_DETAIL, CLOSE_ASK_DETAIL, PIN_FAQ } from './constants';
+import { DEFAULT_ACTION, LOAD_ASK_DETAIL, CLOSE_ASK_DETAIL, PIN_FAQ, DELETE_FAQ } from './constants';
 
 export function defaultAction() {
   return {
@@ -31,5 +31,12 @@ export function pinFaq(askID, answer) {
     type: PIN_FAQ,
     askID,
     answer,
+  }
+}
+
+export function removeFaq(id) {
+  return {
+    type: DELETE_FAQ,
+    id,
   }
 }

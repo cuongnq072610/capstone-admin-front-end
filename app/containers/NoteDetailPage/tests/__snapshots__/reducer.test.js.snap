@@ -6,7 +6,7 @@ Immutable.Map {
   "isLoadingUpdate": false,
   "isLoadingDelete": false,
   "note": Immutable.Map {},
-  "error": Immutable.Map {},
-  "message": Immutable.Map {},
+  "error": "",
+  "message": "",
 }
 `;

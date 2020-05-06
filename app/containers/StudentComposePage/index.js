@@ -29,6 +29,7 @@ import { API_ENDPOINT_WS } from '../../constants/apis';
 import { loadAskDetail, closeAsk, reopenAsk } from './actions';
 import ReactQuill, { Quill } from 'react-quill';
 import { ImageDrop } from 'quill-image-drop-module';
+import checkUrlInString from '../../utils/checkLink';
 Quill.register('modules/imageDrop', ImageDrop);
 
 // const ENDPOINT = 'ws://localhost:5000';
@@ -158,10 +159,11 @@ export class StudentComposePage extends React.Component {
     //emit to server with userInfo and message to save to DB
     //if error show warning, if not do nothing
     if (message) {
+      const fomatMessage = checkUrlInString(message);
       const newComment = {
         "userID": user.profile,
         "ask": ask._id,
-        "message": message,
+        "message": fomatMessage,
         "dateCreated": this.getCurrentDate(),
         "__v": 0
       }
@@ -173,8 +175,7 @@ export class StudentComposePage extends React.Component {
           message: ""
         })
       });
-
-      this.ws.send(JSON.stringify({ message, user, askID: ask._id }));
+      this.ws.send(JSON.stringify({ message: fomatMessage, user, askID: ask._id }));
     }
     this.scrollToBottom();
   }

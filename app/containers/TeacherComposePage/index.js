@@ -26,9 +26,10 @@ import AskAndAnswerField from './Question';
 import { API_ENDPOINT_WS } from '../../constants/apis';
 
 //socket
-import { loadAskDetail, closeAsk, pinFaq } from './actions';
+import { loadAskDetail, closeAsk, pinFaq, removeFaq } from './actions';
 import ReactQuill, { Quill } from 'react-quill';
 import { ImageDrop } from 'quill-image-drop-module';
+import checkUrlInString from '../../utils/checkLink';
 Quill.register('modules/imageDrop', ImageDrop);
 // const ENDPOINT = 'ws://localhost:5000';
 
@@ -88,7 +89,7 @@ export class StudentComposePage extends React.Component {
   };
 
   componentDidUpdate(prevProps) {
-    this.scrollToBottom();
+
     if (prevProps.studentComposePage.ask !== this.props.studentComposePage.ask) {
       this.setState({
         ask: this.props.studentComposePage.ask,
@@ -98,6 +99,7 @@ export class StudentComposePage extends React.Component {
         isClose: this.props.studentComposePage.ask.isClosed,
         answerPin: this.props.studentComposePage.ask.answer,
       })
+      this.scrollToBottom();
     }
     if (prevProps.studentComposePage.isLoadingClose !== this.props.studentComposePage.isLoadingClose && this.props.studentComposePage.isLoadingClose === false) {
       // show side success
@@ -117,7 +119,30 @@ export class StudentComposePage extends React.Component {
           })
         }, 3000)
       })
+      this.onClickCloseRadio();
+      const { id } = this.props.match.params;
+      this.props.handleFetchAskDetail(id)
     }
+    if (this.props.studentComposePage.isLoadingDelete === false &&
+      prevProps.studentComposePage.isLoadingDelete !== this.props.studentComposePage.isLoadingDelete &&
+      this.props.studentComposePage.messageRes !== "") {
+      this.setState({
+        isShow: true,
+      }, () => {
+        this.timer1 = setTimeout(() => {
+          this.setState({
+            isShow: false
+          })
+        }, 3000)
+      })
+      const { id } = this.props.match.params;
+      this.props.handleFetchAskDetail(id)
+    }
+  }
+
+  handleRemoveFaq = () => {
+    const { ask } = this.state;
+    this.props.handleRemoveFaq(ask.faqID)
   }
 
   componentWillUnmount() {
@@ -139,6 +164,7 @@ export class StudentComposePage extends React.Component {
   onClickCloseRadio = () => {
     this.setState({
       showRadio: false,
+      answerPin: "",
     })
   }
 
@@ -153,10 +179,11 @@ export class StudentComposePage extends React.Component {
     //if error show warning, if not do nothing
 
     if (message) {
+      const fomatMessage = checkUrlInString(message);
       const newComment = {
         "userID": user.profile,
         "ask": ask._id,
-        "message": message,
+        "message": fomatMessage,
         "dateCreated": this.getCurrentDate(),
         "__v": 0
       }
@@ -170,7 +197,7 @@ export class StudentComposePage extends React.Component {
         })
       });
 
-      this.ws.send(JSON.stringify({ message, user, askID: ask._id }));
+      this.ws.send(JSON.stringify({ message: fomatMessage, user, askID: ask._id }));
     }
     this.scrollToBottom();
   }
@@ -228,16 +255,20 @@ export class StudentComposePage extends React.Component {
   }
 
   handlePinFaq = () => {
-    const { answerPin } = this.state;
+    const { answerPin, comments } = this.state;
     const { id } = this.props.match.params;
-    this.props.handlePinFaq(id, answerPin)
+    if (answerPin) {
+      this.props.handlePinFaq(id, answerPin);
+    } else {
+      this.props.handlePinFaq(id, comments[0].message);
+    }
   }
 
   render() {
     const { message, comments, showMe, ask, teacher, student, showRadio, isClose, answerPin, isShow } = this.state;
     const { Content, Header } = Layout;
     const antIcon = <Icon type="loading" style={{ fontSize: 24, color: '#1593e6', marginRight: '10px' }} spin />;
-    const { isLoading, isLoadingClose, isLoadingPin, messageRes } = this.props.studentComposePage;
+    const { isLoading, isLoadingClose, isLoadingPin, messageRes, isLoadingDelete } = this.props.studentComposePage;
 
     const editorModule = {
       toolbar: [
@@ -257,14 +288,13 @@ export class StudentComposePage extends React.Component {
       'list', 'bullet', 'indent',
       'image'
     ]
-    console.log((answerPin && answerPin.length > 0))
     return (
       <div>
         <Helmet>
-          <title>StudentComposePage</title>
+          <title>TeacherComposePage</title>
           <meta
             name="description"
-            content="Description of StudentComposePage"
+            content="Description of TeacherComposePage"
           />
         </Helmet>
         <Row className='compose'>
@@ -277,12 +307,6 @@ export class StudentComposePage extends React.Component {
                 {
                   showRadio ?
                     <div className="ask-action">
-                      <div className={isShow ? 'notification-show' : 'notification'}>
-                        <div className='noti-content-success'>
-                          <span className='icon accept-icon '></span>
-                          <p style={{ fontSize: '14px' }}>{messageRes}</p>
-                        </div>
-                      </div>
                       <Button className='ask-action-pin' onClick={this.handlePinFaq}>
                         {
                           isLoadingPin ?
@@ -293,7 +317,25 @@ export class StudentComposePage extends React.Component {
                       <Button className='ask-action-cancel-pin' onClick={this.onClickCloseRadio}>Cancel pin this question <span className='icon ask-cancel-pin'></span></Button>
                     </div> :
                     <div className="ask-action">
-                      <Button className='ask-action-pin' onClick={this.onClickShowRadio} disabled={answerPin && answerPin.length > 0}>Pin this question <span className='icon ask-pin'></span></Button>
+                      <div className={isShow ? 'notification-show' : 'notification'}>
+                        <div className='noti-content-success'>
+                          <span className='icon accept-icon '></span>
+                          <p style={{ fontSize: '14px' }}>{messageRes}</p>
+                        </div>
+                      </div>
+                      {
+                        (!ask.faqID || ask.faqID === "") ?
+                          <Button className='ask-action-pin' onClick={this.onClickShowRadio}>
+                            Pin this question <span className='icon ask-pin'></span>
+                          </Button> :
+                          <Button className='ask-action-pin' onClick={this.handleRemoveFaq}>
+                            {
+                              isLoadingDelete ?
+                                <Spin indicator={antIcon} /> :
+                                <span>Delete this pin <span className='icon ask-pin'></span></span>
+                            }
+                          </Button>
+                      }
                       {!isClose &&
                         <Button className='ask-action-close' onClick={this.handleCloseAsk}>
                           {
@@ -318,7 +360,7 @@ export class StudentComposePage extends React.Component {
                       <AskAndAnswerField user={ask.student} date={ask.dateCreated} text={ask.scannedContent} />
                       {
                         comments && comments.length > 0 ?
-                          <Radio.Group onChange={this.handleChangePinFaq} defaultValue={answerPin} className='faq-radio-group'>
+                          <Radio.Group onChange={this.handleChangePinFaq} defaultValue={answerPin || comments[0].message} className='faq-radio-group'>
                             {
                               comments.map((comment, index) => {
                                 return <AskAndAnswerField
@@ -403,6 +445,7 @@ StudentComposePage.propTypes = {
   handleFetchAskDetail: PropTypes.func.isRequired,
   handleCloseAskDetail: PropTypes.func.isRequired,
   handlePinFaq: PropTypes.func.isRequired,
+  handleRemoveFaq: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -413,7 +456,8 @@ function mapDispatchToProps(dispatch) {
   return {
     handleFetchAskDetail: (askId) => { dispatch(loadAskDetail(askId)) },
     handleCloseAskDetail: (id) => { dispatch(closeAsk(id)) },
-    handlePinFaq: (id, answer) => { dispatch(pinFaq(id, answer)) }
+    handlePinFaq: (id, answer) => { dispatch(pinFaq(id, answer)) },
+    handleRemoveFaq: (id) => { dispatch(removeFaq(id)) }
   };
 }
 

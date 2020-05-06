@@ -86,6 +86,14 @@
           justify-content: center;
           align-items: center;
 
+          .btn-delete {
+            span {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            }
+          }
+
           .btn-copy {
             display: flex;
             align-items: center;
@@ -97,6 +105,7 @@
             font-weight: 500;
             border: none;
             border-radius: 5px;
+            margin-left: 20px;
           }
 
           .icon-success-show {

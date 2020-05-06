@@ -58,6 +58,8 @@ const LOAD_FAQ_API = '/getAllFAQ';
 const SEARCH_FAQ_API = '/searchFAQ';
 const LOAD_DETAIL_API = '/getFAQ';
 const LOAD_FAQ_BY_COURSE = '/getFAQByCourse';
+const REMOVE_FAQ = '/removeFAQ';
+const LOAD_FAQ_BY_TEACHER_API = '/getFAQbyTeacherID';
 
 export {
     API_ENDPOINT,
@@ -122,4 +124,6 @@ export {
     SEARCH_FAQ_API,
     LOAD_DETAIL_API,
     LOAD_FAQ_BY_COURSE,
+    REMOVE_FAQ,
+    LOAD_FAQ_BY_TEACHER_API,
 }

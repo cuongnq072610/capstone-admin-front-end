@@ -12,9 +12,15 @@ import {
   LOAD_COURSE,
   LOAD_COURSE_FAILURE,
   LOAD_COURSE_SUCCESS,
+  DELETE_FAQ,
+  DELETE_FAQ_FAILURE,
+  DELETE_FAQ_SUCCESS,
+  LOAD_FAQ_BY_TEACHER,
+  LOAD_FAQ_BY_TEACHER_FAILURE,
+  LOAD_FAQ_BY_TEACHER_SUCCESS,
 } from './constants';
-import { fetchFaqData } from './api';
-import { API_ENDPOINT, LOAD_FAQ_BY_COURSE, SEARCH_FAQ_API, LOAD_DETAIL_API, ALL_COURSE } from '../../constants/apis';
+import { fetchFaqData, deleteFaq } from './api';
+import { API_ENDPOINT, LOAD_FAQ_BY_COURSE, SEARCH_FAQ_API, LOAD_DETAIL_API, ALL_COURSE, REMOVE_FAQ, LOAD_FAQ_BY_TEACHER_API } from '../../constants/apis';
 
 function* loadFaqData(action) {
   const { page, course } = action;
@@ -77,6 +83,36 @@ function* loadCourse() {
   }
 }
 
+function* removeFaq(action) {
+  const { id } = action;
+  try {
+    let response = yield call(deleteFaq, `${API_ENDPOINT}${REMOVE_FAQ}/${id}`);
+    if (response.data.success) {
+      yield put({ type: DELETE_FAQ_SUCCESS, payload: response.data.success });
+    } else if (response.data.error) {
+      yield put({ type: DELETE_FAQ_FAILURE, payload: response.data.error });
+    }
+  } catch (error) {
+    yield put({ type: DELETE_FAQ_FAILURE, payload: error });
+  }
+}
+
+function* loadFaqDataByTeacher(action) {
+  const { page, course, teacherId } = action;
+  console.log(`${API_ENDPOINT}${LOAD_FAQ_BY_COURSE}?course=${course}&teacherId=${teacherId}&page=${page}`)
+  // try {
+  //   let response = yield call(fetchFaqData, `${API_ENDPOINT}${LOAD_FAQ_BY_COURSE}?course=${courseId}&teacherId=${teacherId}&page=${page}`);
+  //   if (response.data) {
+  //     let faqData = response.data.result.map(faq => faq);
+  //     yield put({ type: LOAD_FAQ_BY_TEACHER_SUCCESS, payload: faqData, number: response.data.totalPage });
+  //   } else {
+  //     yield put({ type: LOAD_FAQ_BY_TEACHER_FAILURE, payload: 'No data' });
+  //   }
+  // } catch (error) {
+  //   yield put({ type: LOAD_FAQ_BY_TEACHER_FAILURE, payload: error });
+  // }
+}
+
 // Individual exports for testing
 export default function* faqPageSaga() {
   yield all([
@@ -84,5 +120,7 @@ export default function* faqPageSaga() {
     takeLatest(SEARCH_FAQ, loadSearchFaqData),
     takeLatest(LOAD_DETAIL, loadFaqChosenData),
     takeLatest(LOAD_COURSE, loadCourse),
+    takeLatest(DELETE_FAQ, removeFaq),
+    takeLatest(LOAD_FAQ_BY_TEACHER, loadFaqDataByTeacher),
   ])
 }

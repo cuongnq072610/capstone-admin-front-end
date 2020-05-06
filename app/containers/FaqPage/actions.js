@@ -4,7 +4,7 @@
  *
  */
 
-import { DEFAULT_ACTION, LOAD_FAQ, SEARCH_FAQ, LOAD_DETAIL, LOAD_COURSE } from './constants';
+import { DEFAULT_ACTION, LOAD_FAQ, SEARCH_FAQ, LOAD_DETAIL, LOAD_COURSE, DELETE_FAQ, LOAD_FAQ_BY_TEACHER } from './constants';
 
 export function defaultAction() {
   return {
@@ -38,5 +38,21 @@ export function loadFaqDetail(id) {
 export function loadCourse() {
   return {
     type: LOAD_COURSE,
+  }
+}
+
+export function removeFaq(id) {
+  return {
+    type: DELETE_FAQ,
+    id,
+  }
+}
+
+export function loadFaqByTeacher(teacherId, course, page) {
+  return {
+    type: LOAD_FAQ_BY_TEACHER,
+    teacherId,
+    course,
+    page,
   }
 }

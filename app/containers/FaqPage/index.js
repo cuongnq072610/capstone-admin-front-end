@@ -21,7 +21,7 @@ import messages from './messages';
 import WrappedSearchBar from '../../components/SearchBar';
 import { Row, Layout, Icon, Spin, Col, Button } from 'antd';
 import './index.scss';
-import { loadFaq, loadSearchFaq, loadFaqDetail, loadCourse } from './actions';
+import { loadFaq, loadSearchFaq, loadFaqDetail, loadCourse, removeFaq, loadFaqByTeacher } from './actions';
 import Filter from '../../components/Filter';
 import checkUrlInString from '../../utils/checkLink';
 
@@ -38,7 +38,7 @@ export class FaqPage extends React.Component {
       loadingType: "all",
       key: "",
       idChosen: "",
-      isCopySuccess: false,
+      isSuccess: false,
       chosenCourse: "",
     }
   }
@@ -69,10 +69,19 @@ export class FaqPage extends React.Component {
         displayQuestion: this.props.faqPage.chosen,
       })
     }
+    if (this.props.faqPage.isLoadingDelete === false && prevProps.faqPage.isLoadingDelete !== this.props.faqPage.isLoadingDelete && this.props.faqPage.message !== "") {
+      this.setState({
+        displayQuestion: "",
+        questions: [],
+      });
+      const { page, chosenCourse } = this.state;
+      this.props.handleFetchFaqData(page, chosenCourse);
+    }
   }
 
   handleScrollToBottom(e) {
     const bottom = e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
+    const user = JSON.parse(localStorage.getItem("user"));
     const { isLoading, totalPage } = this.props.faqPage;
     if (bottom && !isLoading) {
       if (this.state.page === totalPage) {
@@ -91,6 +100,9 @@ export class FaqPage extends React.Component {
             break;
           case "search":
             this.props.handleFetchSearchFaq(page, key);
+            break;
+          case "filter":
+            this.props.handleLoadFaqByTeacher(user.profile, chosenCourse, page);
             break;
           default:
             break;
@@ -141,11 +153,11 @@ export class FaqPage extends React.Component {
     copyText.select();
     document.execCommand("copy");
     this.setState({
-      isCopySuccess: true,
+      isSuccess: true,
     })
     this.timer1 = setTimeout(() => {
       this.setState({
-        isCopySuccess: false,
+        isSuccess: false,
       })
     }, 1000);
   }
@@ -170,14 +182,52 @@ export class FaqPage extends React.Component {
     }
   }
 
+  handleRemoveFaq = () => {
+    const { displayQuestion } = this.state;
+    this.props.handleRemoveFaq(displayQuestion._id)
+  }
+
+  onResetFilter = () => {
+    this.setState({
+      questions: [],
+      page: 1,
+    }, () => {
+      const { page, chosenCourse } = this.state;
+      this.props.handleFetchFaqData(page, chosenCourse);
+    })
+  }
+
+  onFilterByStatus = (value) => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    switch (value) {
+      case 'yours':
+        this.setState(prevState => {
+          return {
+            ...prevState,
+            loadingType: 'filter',
+            questions: [],
+            page: 1,
+          }
+        }, () => {
+          this.props.handleLoadFaqByTeacher(user.profile, this.state.chosenCourse, this.state.page);
+        })
+        break;
+      case 'all':
+        this.onResetFilter();
+        break;
+      default:
+        break;
+    }
+  }
+
   componentWillUnmount() {
     clearTimeout(this.timer1);
   }
 
   render() {
-    const { questions, displayQuestion, idChosen, isCopySuccess, chosenCourse, loadingType } = this.state;
+    const { questions, displayQuestion, idChosen, isSuccess, chosenCourse, loadingType } = this.state;
     const antIcon = <Icon type="loading" style={{ fontSize: 24, color: '#48C6FF', marginRight: '10px' }} spin />;
-    const { isLoading, isLoadingDetail, courses, isLoadingCourse } = this.props.faqPage;
+    const { isLoading, isLoadingDetail, courses, isLoadingCourse, isLoadingDelete } = this.props.faqPage;
     const user = JSON.parse(localStorage.getItem("user"));
 
     return (
@@ -210,11 +260,11 @@ export class FaqPage extends React.Component {
                 handleClear={this.handleClear}
               />
               {
-                user.role === 'teacher' &&
+                (user.role === 'teacher' && chosenCourse) &&
                 <Filter
                   type="faq"
-                // onReset={this.onResetFilter}
-                // onFilter={this.onFilterByStatus}
+                  onReset={this.onResetFilter}
+                  onFilter={this.onFilterByStatus}
                 />
               }
             </div>
@@ -233,7 +283,17 @@ export class FaqPage extends React.Component {
                             <input id="input-fake" type="text" value={`localhost:3002/faq/?id=${displayQuestion._id}`} readOnly />
                             {/* <input id="input-fake" type="text" value={`noteitfu.herokuapp.com/faq/${displayQuestion._id}`} readOnly/> */}
                             <div className='question-description-header-side'>
-                              <span className={isCopySuccess ? `icon-success-show` : `icon-success-none`}></span>
+                              <span className={isSuccess ? `icon-success-show` : `icon-success-none`}></span>
+                              {
+                                user.role === 'teacher' &&
+                                <Button className='btn-delete' type='danger' onClick={this.handleRemoveFaq}>
+                                  {
+                                    isLoadingDelete ?
+                                      <Spin indicator={antIcon} /> :
+                                      <span>Delete this faq <Icon type="delete" style={{ fontSize: '20px' }} /></span>
+                                  }
+                                </Button>
+                              }
                               <Button className='btn-copy' onClick={this.handleCopyLink}>
                                 Copy link to this faq <Icon type="copy" style={{ fontSize: '20px' }} />
                               </Button>
@@ -277,7 +337,7 @@ export class FaqPage extends React.Component {
                                 <p className="date">{item.date}</p>
                               </div>
                             )
-                          }) : <p>There is no faq in this </p>
+                          }) : <p>There is no faq in this course</p>
                       }
                       {isLoading && <Spin indicator={antIcon} />}
                     </div> :
@@ -295,7 +355,6 @@ export class FaqPage extends React.Component {
                           }) : ""
                         }
                       </div>
-
                 }
               </Col>
             </Row>
@@ -311,6 +370,8 @@ FaqPage.propTypes = {
   handleFetchSearchFaq: PropTypes.func.isRequired,
   handleFetchChosenFaq: PropTypes.func,
   handleLoadCourse: PropTypes.func.isRequired,
+  handleRemoveFaq: PropTypes.func.isRequired,
+  handleLoadFaqByTeacher: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -323,6 +384,8 @@ function mapDispatchToProps(dispatch) {
     handleFetchSearchFaq: (page, key) => { dispatch(loadSearchFaq(page, key)) },
     handleFetchChosenFaq: (id) => { dispatch(loadFaqDetail(id)) },
     handleLoadCourse: () => { dispatch(loadCourse()) },
+    handleRemoveFaq: (id) => { dispatch(removeFaq(id)) },
+    handleLoadFaqByTeacher: (teacherId, course, page) => { dispatch(loadFaqByTeacher(teacherId, course, page)) }
   };
 }
 

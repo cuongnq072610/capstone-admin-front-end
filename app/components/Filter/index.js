@@ -94,8 +94,11 @@ class Filter extends React.PureComponent {
   }
 
   handleChooseFaq = (value) => {
+    const { onFilter } = this.props;
     this.setState({
       faqDisplay: value,
+    }, () => {
+      onFilter(this.state.faqDisplay)
     })
   }
 

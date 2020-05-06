@@ -67,6 +67,7 @@ export default function App() {
         <PrivateRoute path='/ask/compose/:id' component={() => user && user.role === 'student' ? <WrapperLayout component={StudentComposePage} role="student" page="ask" /> : <WrapperLayout component={NotFoundPage} />} />
         <PrivateRoute path='/ask/create' component={() => user && user.role === 'student' ? <WrapperLayout component={StudentCreateAskPage} role="student" page="ask" /> : <WrapperLayout component={NotFoundPage} />} />
         <PrivateRoute path="/faq" component={() => user ? <WrapperLayout component={FAQPage} role="student" page="ask" /> : <WrapperLayout component={NotFoundPage} />} />
+        <PrivateRoute path="/faq/?id=:faqId" component={() => user ? <WrapperLayout component={FAQPage} role="student" page="ask" /> : <WrapperLayout component={NotFoundPage} />} />
         {/* TEACHER */}
         <PrivateRoute exact path='/tutor' component={() => user && user.role === 'teacher' ? <WrapperLayout component={TeacherAskPage} role="teacher" page="tutor" /> : <WrapperLayout component={NotFoundPage} />} />
         <PrivateRoute path='/tutor/compose/:id' component={() => user && user.role === 'teacher' ? <WrapperLayout component={TeacherComposePage} role="teacher" page="tutor" /> : <WrapperLayout component={NotFoundPage} />} />

@@ -17,3 +17,7 @@ export const CLOSE_ASK_DETAIL_FAILURE = 'app/TeacherComposePage/CLOSE_ASK_DETAIL
 export const PIN_FAQ = 'app/TeacherComposePage/PIN_FAQ';
 export const PIN_FAQ_SUCCESS = 'app/TeacherComposePage/PIN_FAQ_SUCCESS';
 export const PIN_FAQ_FAILURE = 'app/TeacherComposePage/PIN_FAQ_FAILURE';
+
+export const DELETE_FAQ = 'app/TeacherComposePage/DELETE_FAQ';
+export const DELETE_FAQ_SUCCESS = 'app/TeacherComposePage/DELETE_FAQ_SUCCESS';
+export const DELETE_FAQ_FAILURE = 'app/TeacherComposePage/DELETE_FAQ_FAILURE';

@@ -1,3 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`faqPageReducer returns the initial state 1`] = `Immutable.Map {}`;
+exports[`faqPageReducer returns the initial state 1`] = `Immutable.Map {
+"isLoadingDetail": false,
+"message": "",
+"error": "",
+"isLoadingCourse": false,
+"isLoading": false,
+"chosen": Immutable.Map {},
+"totalPage": "",
+"faq": Immutable.List [],
+"courses": Immutable.List [],
+"isLoadingDelete": false,
+}`;

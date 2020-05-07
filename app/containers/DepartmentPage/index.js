@@ -159,7 +159,8 @@ export class DepartmentPage extends React.Component {
       }
       this.props.handleCreateDepartment(object);
       this.setState({
-        newDepartment: ''
+        newDepartment: '',
+        error: "",
       })
     } else {
       this.setState({
@@ -175,11 +176,22 @@ export class DepartmentPage extends React.Component {
 
   onHandleUpdate = () => {
     const { selectedDepartmnent, newDepartment } = this.state;
-    const object = {
-      name: newDepartment,
-      description: newDepartment,
+    if (newDepartment !== "") {
+      const object = {
+        name: newDepartment,
+        description: newDepartment,
+      }
+      this.props.handleUpdateDepartment(object, selectedDepartmnent._id);
+      this.setState({
+        newDepartment: '',
+        error: "",
+      })
+    } else {
+      this.setState({
+        error: "Please fill the name of department",
+      })
     }
-    this.props.handleUpdateDepartment(object, selectedDepartmnent._id);
+
   }
 
   onHandleNavigateCourseDetail = (course) => {

@@ -1,0 +1,173 @@
+@import "../../utils/variables.scss";
+
+.teacher-dashboard-page {
+    padding: 28px 20px;
+
+    .card-wrapper {
+        padding: 0 60px;
+
+        .card {
+            width: 100%;
+            height: 60px;
+            border: none;
+            box-shadow: none;
+            padding: 5px 20px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-radius: 5px;
+
+            &__info {
+                font-size: 3vmin;
+                font-weight: 600;
+
+                &--note-icon {
+                    background: url('./assets/note.svg') no-repeat;
+                    background-position: left;
+                    padding-left: 45px;
+                }
+
+                &--highlight-icon {
+                    background: url('./assets/highlight.svg') no-repeat;
+                    background-position: left;
+                    padding-left: 45px;
+                }
+
+
+                &--ask-icon {
+                    background: url('./assets/ask.svg') no-repeat;
+                    background-position: left;
+                    padding-left: 45px;
+                }
+            }
+
+            .number {
+                font-size: 32px;
+            }
+        }
+    }
+
+
+    .bg-yellow {
+        background-color: $primary_yellow;
+    }
+
+    .bg-blue {
+        background-color: $primary_blue;
+    }
+
+    .bg-green {
+        background-color: $highlight_green;
+    }
+
+    .courses-info-wrapper {
+        margin-top: 40px;
+
+
+        .course-header {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 5px;
+
+            .btn-close {
+                height: fit-content;
+                border-radius: 15px;
+                text-align: center;
+                color: red;
+                border: 2px solid red;
+                padding-top: 1px;
+            }
+        }
+
+        .courses-info {
+            padding-right: 30px;
+
+            .course-info-header {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 20px;
+
+                .table-title {
+                    color: $primary_purple;
+                    font-size: 22px;
+                    font-weight: 600;
+                    margin-left: 20px;
+
+                    svg {
+                        width: 28px;
+                        margin-right: 5px;
+
+                        path {
+                            fill: $primary_purple
+                        }
+                    }
+                }
+
+            }
+        }
+
+
+        .course-code {
+            color: $primary_purple;
+        }
+
+        th {
+            background-color: #fff;
+            color: $secondary_grey;
+        }
+
+        td {
+            color: $primary_black;
+            padding: 12px;
+        }
+
+        .course-detail-wrapper {
+            height: 80vh;
+            overflow: auto;
+
+            .course-code {
+                color: $primary_purple;
+            }
+
+            .btn {
+                color: #fff;
+                height: 35px;
+
+                i {
+                    position: relative;
+                    top: -2px;
+                    font-size: 17px;
+                }
+
+                &--go {
+                    background-color: $primary_purple;
+                    margin-top: 10px;
+                    margin-bottom: 20px;
+                    border: none;
+
+                }
+            }
+
+
+        }
+
+        .hello-user {
+            margin-top: 80px;
+            height: 300px;
+            background: url('./assets/ScenePlants.png') no-repeat;
+            opacity: .9;
+            background-size: 50%;
+            background-position: center;
+            background-position-y: 35px;
+
+            h1 {
+                font-size: 24px;
+                text-align: center;
+                color: $primary_blue;
+                margin-bottom: 20px;
+            }
+        }
+
+    }
+}

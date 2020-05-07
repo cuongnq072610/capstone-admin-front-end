@@ -5,7 +5,7 @@
  */
 import { Link } from 'react-router-dom';
 import './addCourse.scss';
-import { Select, Layout, Row, Col, Input, Icon, Form, Button, Spin } from 'antd';
+import { Select, Layout, Row, Col, Input, Icon, Form, Button, Spin, Popover } from 'antd';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -31,7 +31,7 @@ import { Fragment } from 'react';
 
 const { TextArea } = Input;
 const { Option } = Select;
-const { Header, Content } = Layout;
+const { Header, Content, Footer } = Layout;
 
 export class AddCoursePage extends React.Component {
   constructor(props) {
@@ -52,6 +52,7 @@ export class AddCoursePage extends React.Component {
       errMess: [],
       departmentOption: [],
       from: "",
+      clicked: false,
     };
   }
 
@@ -152,7 +153,6 @@ export class AddCoursePage extends React.Component {
         ...course,
         teachers: course.teachers.map(teacher => teacher._id)
       }
-      console.log(formatCourse)
       if (type === 'add') {
         this.props.handleAddCourse(formatCourse)
       } else if (type === 'update') {
@@ -167,6 +167,9 @@ export class AddCoursePage extends React.Component {
   }
 
   onHandleDelete = () => {
+    this.setState({
+      clicked: false,
+    })
     const { course } = this.state;
     this.props.handleDeleteCourse(course._id);
   }
@@ -180,12 +183,35 @@ export class AddCoursePage extends React.Component {
     })
   }
 
+  handleClickChangePopover = visible => {
+    this.setState({
+      clicked: visible,
+    });
+  };
+
+  hide = () => {
+    this.setState({
+      clicked: false,
+    });
+  };
+
   render() {
-    const { course, type, isShow, errMess, departmentOption, from } = this.state;
+    const { course, type, isShow, errMess, departmentOption, from, clicked } = this.state;
     const { courseName, courseCode, departments, shortDes, fullDes, courseURL } = course;
     const { isLoading, errors, isLoadingDepartment, isLoadingDelete } = this.props.addCoursePage;
 
     const antIcon = <Icon type="loading" style={{ fontSize: 24, color: '#fff', marginRight: '10px' }} spin />;
+
+    const contentPopover = (
+      <Layout className='popover-wrapper'>
+        <Content className='popover-content'><p>Do you want to delete this course?</p></Content>
+        <Footer className='popover-footer'>
+          <Button type="primary" onClick={this.onHandleDelete}>Yes</Button>
+          <Button onClick={this.hide}>No</Button>
+        </Footer>
+      </Layout>
+    );
+
     return (
       <Row className="addCourse">
         <Helmet>
@@ -276,15 +302,22 @@ export class AddCoursePage extends React.Component {
                 <Row className='form-footer'>
                   {
                     type === 'update' &&
-                    <Button className='deleteBtn' type="primary" onClick={this.onHandleDelete}>
-                      {
-                        isLoadingDelete ?
-                          <Spin indicator={antIcon} /> :
-                          <span>Delete Course</span>
-
-                      }
-                      <span className="icon-delete"></span>
-                    </Button>
+                    <Popover
+                      content={contentPopover}
+                      placement="left"
+                      trigger="click"
+                      visible={clicked}
+                      onVisibleChange={this.handleClickChangePopover}
+                    >
+                      <Button className='deleteBtn' type="primary">
+                        {
+                          isLoadingDelete ?
+                            <Spin indicator={antIcon} /> :
+                            <span>Delete Course</span>
+                        }
+                        <span className="icon-delete"></span>
+                      </Button>
+                    </Popover>
                   }
                   <Button className="addBtn" type="primary" onClick={this.handleSubmit}>
                     {

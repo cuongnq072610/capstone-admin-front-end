@@ -222,16 +222,18 @@ export class ReportPage extends React.Component {
 
   handleSubmit = () => {
     const { report } = this.state;
-    console.log(report)
     this.props.fetchReportData(report);
   }
 
   // export to CSV
   handleExportCsv = () => {
+    const { report, reportDatas, teachers, courses } = this.state;
+    let teacher = teachers.filter(teacher => report.teacher ? teacher._id === report.teacher : "")[0];
+    let course = courses.filter(course => report.course ? course._id === report.course : "")[0];
     let csvRow = [];
     let A = [['TeacherName', "TeacherMail", 'CourseCode', 'NumberOfAsks', 'Opened', 'Closed', 'Rating']];
-    let report = this.state.reportDatas;
-    let re = report.map(item => {
+    let reportRs = reportDatas;
+    let re = reportRs.map(item => {
       return {
         ...item,
         asks: item.open + item.closed,
@@ -252,7 +254,7 @@ export class ReportPage extends React.Component {
     var a = document.createElement("a");
     a.href = "data:attachment/csv," + csvString;
     a.target = '_Blank';
-    a.download = "reportTeacher.csv";
+    a.download = `Report_Teacher${course ? `_${course.courseCode}` : ""}${teacher ? `_${teacher.name}` : ""}${report.from ? `_${report.from}` : ""}${report.to ? `_${report.to}` : ""}`;
     document.body.appendChild(a);
     a.click();
   }

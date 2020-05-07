@@ -301,7 +301,7 @@ export class StudentComposePage extends React.Component {
           <Col span={isClose && 19} className="compose-information" style={!isClose && { marginRight: '40px' }}>
             <Layout>
               <Header className="compose-header">
-                <Link to="/tutor">
+                <Link to="/tutor/ask">
                   <Icon type="arrow-left" />
                 </Link>
                 {
@@ -325,7 +325,7 @@ export class StudentComposePage extends React.Component {
                       </div>
                       {
                         (!ask.faqID || ask.faqID === "") ?
-                          <Button className='ask-action-pin' onClick={this.onClickShowRadio}>
+                          <Button className='ask-action-pin' onClick={this.onClickShowRadio} disabled={comments.length === 0}>
                             Pin this question <span className='icon ask-pin'></span>
                           </Button> :
                           <Button className='ask-action-pin' onClick={this.handleRemoveFaq}>

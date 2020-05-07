@@ -58,6 +58,7 @@ const SEARCH_FAQ_API = '/searchFAQ';
 const LOAD_DETAIL_API = '/getFAQ';
 const REMOVE_FAQ = '/removeFAQ';
 const LOAD_FILTER_FAQ = '/getFAQbyFilter';
+const GET_ALL_COURSE_FAQ = '/getCourseForFAQ';
 
 const GET_TEACHER_STATISTIC_API = '/getTeacherDashboard';
 
@@ -125,6 +126,7 @@ export {
     LOAD_DETAIL_API,
     REMOVE_FAQ,
     LOAD_FILTER_FAQ,
+    GET_ALL_COURSE_FAQ,
     //
     GET_TEACHER_STATISTIC_API,
 }

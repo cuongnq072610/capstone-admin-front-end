@@ -289,7 +289,7 @@ export class FaqPage extends React.Component {
                             <div className='question-description-header-side'>
                               <span className={isSuccess ? `icon-success-show` : `icon-success-none`}></span>
                               {
-                                user.role === 'teacher' && user.profile === displayQuestion.teacherID &&
+                                (user.role === 'teacher' && user.profile === displayQuestion.teacherID._id) &&
                                 <Button className='btn-delete' type='danger' onClick={this.handleRemoveFaq}>
                                   {
                                     isLoadingDelete ?
@@ -331,17 +331,15 @@ export class FaqPage extends React.Component {
                   chosenCourse || loadingType === 'search' ?
                     <div className="question-wrapper" onScroll={(e) => this.handleScrollToBottom(e)}>
                       {
-                        isLoading ?
-                          "" :
-                          questions.length > 0 ? questions.map((item, index) => {
-                            return (
-                              <div className="question" key={index} onClick={() => this.handleShowQuestion(item)}>
-                                <p className="code">{item.courseCode}</p>
-                                <p className="content">#{item.number} {item.askContent}</p>
-                                <p className="date">{item.date}</p>
-                              </div>
-                            )
-                          }) : <p>There is no faq in this course</p>
+                        (questions.length > 0) ? questions.map((item, index) => {
+                          return (
+                            <div className="question" key={index} onClick={() => this.handleShowQuestion(item)}>
+                              <p className="code">{item.courseCode}</p>
+                              <p className="content">#{item.number} {item.askContent}</p>
+                              <p className="date">{item.date}</p>
+                            </div>
+                          )
+                        }) : isLoading === false && <p>There is no faq in this course</p>
                       }
                       {isLoading && <Spin indicator={antIcon} />}
                     </div> :

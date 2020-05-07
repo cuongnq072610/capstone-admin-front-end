@@ -20,7 +20,7 @@ import saga from './saga';
 import messages from './messages';
 import WrappedSearchBar from '../../components/SearchBar';
 import HighLightElement from './HighlightElement';
-import { Row, Layout, Col, Icon, Button, Input, Spin } from 'antd';
+import { Row, Layout, Col, Icon, Button, Spin } from 'antd';
 import "./index.scss";
 import Masonry from 'masonry-layout'
 import { loadHighlight, loadStudentCourses, loadDeleteHighlight, searchHighlight } from './actions';
@@ -215,7 +215,9 @@ export class HighLightPage extends React.Component {
               {
                 isSearching ?
                   isLoading ?
-                    <Spin indicator={antIcon} /> :
+                    <div className='loading-field'>
+                      <Spin indicator={antIcon} />
+                    </div> :
                     <div className="highLights grid" >
                       {
                         searchHighlight.length > 0 ?
@@ -239,7 +241,9 @@ export class HighLightPage extends React.Component {
                         <div className='grid folder-container'>
                           {
                             isLoadingCourse ?
-                              <Spin indicator={antIcon} /> :
+                              <div className='loading-field'>
+                                <Spin indicator={antIcon} />
+                              </div> :
                               folders.length > 0 ?
                                 folders.map((folder, index) => {
                                   return (
@@ -256,7 +260,9 @@ export class HighLightPage extends React.Component {
                     <p className="highlight-type">Recent Highlights</p>
                     {
                       isLoading ?
-                        <Spin indicator={antIcon} /> :
+                        <div className='loading-field'>
+                          <Spin indicator={antIcon} />
+                        </div> :
                         <div className="highLights grid" >
                           {
                             highlights.length > 0 ?

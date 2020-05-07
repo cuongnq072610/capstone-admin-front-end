@@ -37,6 +37,7 @@ export class StudentAddCoursePage extends React.Component {
       selectedRow: "",
       courses: [],
       chosenCourses: [],
+      isShow: false,
     }
   }
 
@@ -86,6 +87,21 @@ export class StudentAddCoursePage extends React.Component {
         })
       }
     }
+    if (this.props.studentAddCoursePage.msg_success !== prevProps.studentAddCoursePage.msg_success && this.props.studentAddCoursePage.msg_success !== "") {
+      this.setState({
+        isShow: true,
+      }, () => {
+        this.timer = setTimeout(() => {
+          this.setState({
+            isShow: false
+          })
+        }, 2000);
+      })
+    }
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.timer);
   }
 
   navigateDashboard = () => {
@@ -150,7 +166,7 @@ export class StudentAddCoursePage extends React.Component {
   }
 
   render() {
-    const { courses, chosenCourses } = this.state;
+    const { courses, chosenCourses, isShow } = this.state;
     const { isLoading, isLoadingUpdate, msg_success, msg_fail } = this.props.studentAddCoursePage;
     const antIcon = <Icon type="loading" style={{ fontSize: 24, color: '#fff', marginRight: '10px' }} spin />;
 
@@ -177,7 +193,7 @@ export class StudentAddCoursePage extends React.Component {
 
                   <div className='header-right'>
                     <div className='update-field'>
-                      <p className={`text-${msg_success ? "success" : msg_fail ? "fail" : ""}`}>{msg_success ? msg_success : msg_fail ? msg_fail : ""}</p>
+                      {isShow && <p className={`text-${msg_success ? "success" : msg_fail ? "fail" : ""}`}>{msg_success ? msg_success : msg_fail ? msg_fail : ""}</p>}
                       <Button className='btn-update-course' onClick={this.handleUpdateCourse}>{isLoadingUpdate ? <Spin indicator={antIcon} /> : 'Update'}</Button>
                     </div>
                     <WrappedSearchBar

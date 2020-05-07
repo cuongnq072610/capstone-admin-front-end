@@ -24,6 +24,8 @@ import { Select, Row, Layout, Icon, Input, Spin, Col } from 'antd';
 import { Link } from 'react-router-dom';
 import './index.scss';
 import { loadStudentInfo, loadTeacher, createAsk } from './actions';
+import { isRequired } from '../../utils/validation';
+import { isEmpty as _isEmpty, uniq as _isUniq } from 'lodash';
 
 const { Header, Content, Footer } = Layout;
 const { TextArea } = Input;
@@ -45,6 +47,7 @@ export class StudentCreateAskPage extends React.Component {
       courses: [],
       teachers: [],
       showTeachers: [],
+      errMess: "",
     }
   }
 
@@ -80,18 +83,48 @@ export class StudentCreateAskPage extends React.Component {
     })
   }
 
-  onHandleSend = () => {
-    const user = JSON.parse(localStorage.getItem("user"));
+  getValidation = () => {
     const { to, header, content, course } = this.state.question;
-    const askQuestion = {
-      "scannedContent": content,
-      "askContent": header,
-      "student": user.profile,
-      "teacher": to,
-      "courseID": course,
-      "url": ""
+    const errors = {
+      ...isRequired([
+        { name: 'to', value: to },
+        { name: 'header', value: header },
+        { name: 'content', value: content },
+        { name: 'course', value: course },
+      ])
     }
-    this.props.handleCreateAsk(askQuestion);
+    return errors
+  }
+
+  onHandleSend = () => {
+    const errors = this.getValidation();
+    if (!_isEmpty(errors)) {
+      this.setState({
+        errMess: _isUniq(Object.values(errors)),
+        isShow: true,
+      }, () => {
+        this.timer2 = setTimeout(() => {
+          this.setState({
+            isShow: false
+          })
+        }, 2000)
+      })
+    } else {
+      this.setState({
+        errMess: "",
+      });
+      const user = JSON.parse(localStorage.getItem("user"));
+      const { to, header, content, course } = this.state.question;
+      const askQuestion = {
+        "scannedContent": content,
+        "askContent": header,
+        "student": user.profile,
+        "teacher": to,
+        "courseID": course,
+        "url": ""
+      }
+      this.props.handleCreateAsk(askQuestion);
+    }
   }
 
   getTeachersByCourse = (course) => {
@@ -99,7 +132,7 @@ export class StudentCreateAskPage extends React.Component {
     let filterTeacher = [];
     teachers.map(teacher => {
       const courseIds = teacher.courses.map(course => course._id);
-      if (courseIds.includes(course)) {
+      if (courseIds.includes(course) && teacher.isActive) {
         filterTeacher = [...filterTeacher, teacher];
       } else {
         filterTeacher = filterTeacher;
@@ -141,7 +174,7 @@ export class StudentCreateAskPage extends React.Component {
   }
 
   render() {
-    const { isShow, courses, showTeachers } = this.state;
+    const { isShow, courses, showTeachers, errMess } = this.state;
     const { isLoadingCreate } = this.props.studentCreateAskPage;
     const antIcon = <Icon type="loading" style={{ fontSize: 24, color: '#fff' }} spin />;
 
@@ -239,6 +272,12 @@ export class StudentCreateAskPage extends React.Component {
 
             </Content>
             <Footer className="create-ask-footer">
+              <div className={isShow ? 'notification-show' : 'notification'}>
+                <div className='noti-content-error'>
+                  <span className='icon-noti deny-icon'></span>
+                  <p>{errMess || ""}</p>
+                </div>
+              </div>
               <button className="btn-send" onClick={this.onHandleSend}>
                 {
                   isLoadingCreate ?

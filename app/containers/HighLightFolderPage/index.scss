@@ -35,6 +35,13 @@
         }
     }
 
+    .loading-field {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
     .highlight-header-side {
         display: flex;
         align-items: center;
@@ -128,7 +135,7 @@
     .notification {
         position: fixed;
         left: 100px;
-        top: 60vh;
+        bottom: 10px;
         opacity: 0;
         transition: opacity 1s ease-in-out;
     }
@@ -136,7 +143,7 @@
     .notification-show {
         position: fixed;
         left: 100px;
-        top: 60vh;
+        bottom: 10px;
         opacity: 1;
         transition: opacity 1s ease-in-out;
     }

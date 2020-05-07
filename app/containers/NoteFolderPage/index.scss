@@ -31,6 +31,13 @@
 
     }
 
+    .loading-field {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
     .note-header-side {
         display: flex;
         align-items: center;

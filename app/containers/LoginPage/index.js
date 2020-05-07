@@ -99,8 +99,10 @@ export class LoginPage extends React.Component {
           break;
       }
     }
-    if (!_isEmpty(this.props.loginPage.error)) {
-      console.log(this.props.loginPage.error);
+    if (!_isEmpty(this.props.loginPage.error) && prevProps.loginPage.error !== this.props.loginPage.error) {
+      this.setState({
+        errMess: this.props.loginPage.error
+      })
     }
   }
 
@@ -144,7 +146,7 @@ export class LoginPage extends React.Component {
   }
 
   render() {
-    const { isLoading } = this.props.loginPage;
+    const { isLoading, error } = this.props.loginPage;
     const { errMess } = this.state;
     const antIcon = <Icon type="loading" style={{ fontSize: 24, color: '#ffc143', marginRight: '10px' }} spin />;
 
@@ -174,7 +176,7 @@ export class LoginPage extends React.Component {
                   </Button>
                   <Button className='btn-forgot'><u>Forgot password?</u></Button>
                 </div>
-                <p style={{ color: 'red' }}>{errMess ? errMess : ""}</p>
+                <p style={{ color: 'red' }}>{(errMess ? errMess : "")}</p>
               </div>
             </form>
             <div className='login-policy'>

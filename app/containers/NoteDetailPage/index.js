@@ -36,7 +36,7 @@ export class NoteDetailPage extends React.Component {
       editorHtml: '',
       isPinned: false,
       description: "",
-      isShow: false,
+      isShow: true,
     }
   }
 

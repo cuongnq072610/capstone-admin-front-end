@@ -38,9 +38,9 @@ function* loadFaqData(action) {
 }
 
 function* loadSearchFaqData(action) {
-  const { page, key } = action;
+  const { page, key, chosenCourse } = action;
   try {
-    let response = yield call(fetchFaqData, `${API_ENDPOINT}${SEARCH_FAQ_API}?detail=${key}&page=${page}`);
+    let response = yield call(fetchFaqData, `${API_ENDPOINT}${SEARCH_FAQ_API}/?courseCode=${chosenCourse}&detail=${key}&page=${page}`);
     if (response.data) {
       let faqData = response.data.result.map(faq => faq);
       yield put({ type: SEARCH_FAQ_SUCCESS, payload: faqData, number: response.data.totalPage });

@@ -104,7 +104,9 @@ class TeacherInfo extends React.Component {
     }
 
     calcRating = (rating) => {
-        return (rating.star_1 + rating.star_2 + rating.star_3 + rating.star_4 + rating.star_5) / 5;
+        const sum_star = rating.star_1 + rating.star_2 + rating.star_3 + rating.star_4 + rating.star_5;
+        var ratingAvg = sum_star === 0 ? 0 : (rating.star_1 + rating.star_2 * 2 + rating.star_3 * 3 + rating.star_4 * 4 + rating.star_5 * 5) / sum_star;
+        return parseFloat(ratingAvg.toFixed(2));
     }
 
     calcRatingStar = (rating, star) => {

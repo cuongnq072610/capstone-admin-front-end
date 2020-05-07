@@ -258,7 +258,9 @@ export class HighLightFolderPage extends React.Component {
           <Content>
             {
               isLoading ?
-                <Spin indicator={antIcon} /> :
+                <div className='loading-field'>
+                  <Spin indicator={antIcon} />
+                </div> :
                 <div className="highLights grid" >
                   {
                     highlights.length > 0 ?

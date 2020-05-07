@@ -125,10 +125,10 @@ export class FaqPage extends React.Component {
         key,
         questions: [],
         page: 1,
-        chosenCourse: "",
       }
     }, () => {
-      this.props.handleFetchSearchFaq(this.state.page, this.state.key);
+      const { page, key, chosenCourse } = this.state;
+      this.props.handleFetchSearchFaq(page, key, chosenCourse);
     })
   }
 
@@ -140,10 +140,14 @@ export class FaqPage extends React.Component {
         key: "",
         questions: [],
         page: 1,
-        chosenCourse: "",
       }
     }, () => {
-      this.props.handleLoadCourse();
+      const { chosenCourse, page } = this.state;
+      if (chosenCourse === "") {
+        this.props.handleLoadCourse();
+      } else {
+        this.props.handleFetchFaqData(page, chosenCourse);
+      }
     })
 
   }
@@ -280,17 +284,17 @@ export class FaqPage extends React.Component {
                         <div className="question-description">
                           <div className="question-description-header">
                             <h3>#{displayQuestion.number}</h3>
-                            <input id="input-fake" type="text" value={`localhost:3002/faq/?id=${displayQuestion._id}`} readOnly />
-                            {/* <input id="input-fake" type="text" value={`noteitfu.herokuapp.com/faq/${displayQuestion._id}`} readOnly/> */}
+                            {/* <input id="input-fake" type="text" value={`localhost:3002/faq/?id=${displayQuestion._id}`} readOnly /> */}
+                            <input id="input-fake" type="text" value={`noteitfu.herokuapp.com/faq/?id=${displayQuestion._id}`} readOnly />
                             <div className='question-description-header-side'>
                               <span className={isSuccess ? `icon-success-show` : `icon-success-none`}></span>
                               {
-                                user.role === 'teacher' &&
+                                user.role === 'teacher' && user.profile === displayQuestion.teacherID &&
                                 <Button className='btn-delete' type='danger' onClick={this.handleRemoveFaq}>
                                   {
                                     isLoadingDelete ?
                                       <Spin indicator={antIcon} /> :
-                                      <span>Delete this faq <Icon type="delete" style={{ fontSize: '20px' }} /></span>
+                                      <span>Delete this faq <Icon type="delete" style={{ fontSize: '20px', marginLeft: '5px' }} /></span>
                                   }
                                 </Button>
                               }
@@ -381,7 +385,7 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch) {
   return {
     handleFetchFaqData: (page, course) => { dispatch(loadFaq(page, course)) },
-    handleFetchSearchFaq: (page, key) => { dispatch(loadSearchFaq(page, key)) },
+    handleFetchSearchFaq: (page, key, chosenCourse) => { dispatch(loadSearchFaq(page, key, chosenCourse)) },
     handleFetchChosenFaq: (id) => { dispatch(loadFaqDetail(id)) },
     handleLoadCourse: () => { dispatch(loadCourse()) },
     handleRemoveFaq: (id) => { dispatch(removeFaq(id)) },

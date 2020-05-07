@@ -20,7 +20,7 @@ import {
   LOAD_FAQ_BY_TEACHER_SUCCESS,
 } from './constants';
 import { fetchFaqData, deleteFaq } from './api';
-import { API_ENDPOINT, SEARCH_FAQ_API, LOAD_DETAIL_API, ALL_COURSE, REMOVE_FAQ, LOAD_FILTER_FAQ } from '../../constants/apis';
+import { API_ENDPOINT, SEARCH_FAQ_API, LOAD_DETAIL_API, GET_ALL_COURSE_FAQ, REMOVE_FAQ, LOAD_FILTER_FAQ } from '../../constants/apis';
 
 function* loadFaqData(action) {
   const { page, course } = action;
@@ -69,7 +69,7 @@ function* loadFaqChosenData(action) {
 
 function* loadCourse() {
   try {
-    let response = yield call(fetchFaqData, `${API_ENDPOINT}${ALL_COURSE}`)
+    let response = yield call(fetchFaqData, `${API_ENDPOINT}${GET_ALL_COURSE_FAQ}`)
     if (response.data) {
       let courseData = response.data.map((item, index) => {
         return item

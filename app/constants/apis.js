@@ -1,5 +1,5 @@
 const API_ENDPOINT = "https://capstonebackendapi.herokuapp.com";
-const API_ENDPOINT_WS = "ws://capstonebackendapi.herokuapp.com";
+const API_ENDPOINT_WS = "wss://capstonebackendapi.herokuapp.com";
 
 const ALL_COURSE = "/allcourses";
 const GET_COURSE = '/getcourse';

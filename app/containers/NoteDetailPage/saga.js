@@ -27,7 +27,6 @@ function* loadSaveNote(action) {
       yield put({ type: UPDATE_NOTE_FAILURE, payload: response.data.error })
     }
   } catch (error) {
-    console.log(error)
     yield put({ type: UPDATE_NOTE_FAILURE, payload: "Server Error" })
   }
 }

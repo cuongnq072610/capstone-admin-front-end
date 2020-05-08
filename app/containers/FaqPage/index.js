@@ -288,7 +288,7 @@ export class FaqPage extends React.Component {
                           <div className="question-description-header">
                             <h3>#{displayQuestion.number}</h3>
                             {/* <input id="input-faked" type="text" value={`localhost:3002/faq/?id=${displayQuestion._id}`} readOnly /> */}
-                            <input id="input-fake" type="text" value={`noteitfu.herokuapp.com/faq/?id=${displayQuestion._id}`} readOnly />
+                            <input id="input-fake" type="text" value={`https://noteitfu.herokuapp.com/faq/?id=${displayQuestion._id}`} readOnly />
                             <div className='question-description-header-side'>
                               <span className={isSuccess ? `icon-success-show` : `icon-success-none`}></span>
                               {

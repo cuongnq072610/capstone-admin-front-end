@@ -243,7 +243,7 @@ export class StudentComposePage extends React.Component {
   }
 
   handleCloseAsk = () => {
-    // action in here
+    // action in here check
     const { id } = this.props.match.params;
     this.props.handleCloseAskDetail(id);
   }

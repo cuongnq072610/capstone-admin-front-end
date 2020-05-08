@@ -325,7 +325,7 @@ export class StudentComposePage extends React.Component {
                       </div>
                       {
                         (!ask.faqID || ask.faqID === "") ?
-                          <Button className='ask-action-pin' onClick={this.onClickShowRadio} disabled={comments.length === 0}>
+                          <Button className='ask-action-pin' onClick={this.onClickShowRadio}>
                             Pin this question <span className='icon ask-pin'></span>
                           </Button> :
                           <Button className='ask-action-pin' onClick={this.handleRemoveFaq}>

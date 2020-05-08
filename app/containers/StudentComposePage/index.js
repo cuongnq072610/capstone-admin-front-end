@@ -48,7 +48,7 @@ export class StudentComposePage extends React.Component {
       comments: [],
       user: JSON.parse(localStorage.getItem("user")),
       rate: '',
-      isShow: false,
+      isShow: true,
       isCloseToggle: false,
     };
     this.messagesEnd = React.createRef();

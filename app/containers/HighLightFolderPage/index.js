@@ -100,7 +100,11 @@ export class HighLightFolderPage extends React.Component {
   }
 
   renderFolderNoteName = (name, code) => {
-    return code + ' - ' + name;
+    if (code === "other" || code === "Other") {
+      return name
+    } else {
+      return code + ' - ' + name;
+    }
   }
 
   handleDeleteHighlight = (id) => {

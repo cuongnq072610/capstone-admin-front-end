@@ -125,8 +125,103 @@
         }
     }
 
-    .login-side {
-        background-color: $primary_green;
-        height: 100vh;
+
+    .login-carousel {
+        .div-shadow {
+            width: 100%;
+            height: 100%;
+            padding-left: 20px;
+            padding-top: 50vh;
+            background-color: rgba($color: #000000, $alpha: 0.3);
+
+            .icon-note-it {
+                display: inline-block;
+                width: 100px;
+                height: 28px;
+                background-size: cover;
+                background-image: url(assets/noteIt-text-allWhite.png);
+                margin-right: 10px;
+            }
+
+            .title-for-user {
+                color: #ffffff;
+                font-family: Roboto;
+                font-size: 28px;
+                font-weight: 700;
+            }
+
+            .icons-wrapper {
+                margin: 40px 0px;
+            }
+
+            .icon-for-user {
+                display: inline-block;
+                width: 44px;
+                height: 44px;
+                background-size: cover;
+                margin: 0px 20px 0px 0px;
+
+                &__ask {
+                    background-image: url("assets/ask.svg");
+                }
+
+                &__course {
+                    background-image: url("assets/course.svg");
+                }
+
+                &__department {
+                    background-image: url("assets/department.svg");
+                }
+
+                &__faq {
+                    background-image: url("assets/faq.svg");
+                }
+
+                &__highlight {
+                    background-image: url("assets/highlight.svg");
+                }
+
+                &__note {
+                    background-image: url("assets/note.svg");
+                }
+
+                &__report {
+                    background-image: url("assets/report.svg");
+                }
+
+                &__teacher {
+                    background-image: url("assets/teacher.svg");
+                }
+            }
+
+            .p-for-user {
+                color: #ffffff;
+                font-family: Roboto;
+                font-size: 28px;
+                font-weight: 700;
+            }
+        }
+
+        .login-side1 {
+            background: url(assets/Banner-01-Student.jpg);
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            height: 100vh;
+        }
+
+        .login-side2 {
+            background: url(assets/Banner-02-Teacher.jpg);
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            height: 100vh;
+        }
+
+        .login-side3 {
+            background: url(assets/Banner-03-Manager.jpg);
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            height: 100vh;
+        }
+
     }
 }

@@ -184,7 +184,9 @@ export class NoteDetailPage extends React.Component {
             </Button>
             {
               isLoading ?
-                <Spin indicator={antIcon} /> :
+                <div className='loading-field'>
+                  <Spin indicator={antIcon} />
+                </div> :
                 <div className="note-detail-info">
                   <Input className="note-detail-title" value={description} onChange={this.handleChangeDescription} />
                   <div className="note-detail-content">

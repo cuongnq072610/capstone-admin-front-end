@@ -35,7 +35,6 @@ export class TeacherDashboardPage extends React.Component {
 
   componentDidMount() {
     const user = JSON.parse(localStorage.getItem("user"));
-    console.log(`go here ${user.profile}`)
     this.props.handleLoadStatistic(user.profile);
   }
 

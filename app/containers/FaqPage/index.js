@@ -58,7 +58,10 @@ export class FaqPage extends React.Component {
 
   componentDidUpdate(prevProps) {
     const { questions } = this.state;
-    if (prevProps.faqPage.faq !== this.props.faqPage.faq && this.props.faqPage.isLoading === false && prevProps.faqPage.isLoading !== this.props.faqPage.isLoading) {
+    if (prevProps.faqPage.faq !== this.props.faqPage.faq &&
+      this.props.faqPage.isLoading === false &&
+      prevProps.faqPage.isLoading !== this.props.faqPage.isLoading
+    ) {
       const newQuesData = questions.concat(this.props.faqPage.faq)
       this.setState({
         questions: newQuesData,
@@ -318,7 +321,9 @@ export class FaqPage extends React.Component {
                       </div>
                     ) :
                     idChosen ?
-                      isLoadingDetail && <Spin indicator={antIcon} />
+                      isLoadingDetail && <div className='loading-field'>
+                        <Spin indicator={antIcon} />
+                      </div>
                       :
                       <div className="hello-user">
                         <h1>Here lie the most important questions and answers
@@ -341,10 +346,14 @@ export class FaqPage extends React.Component {
                           )
                         }) : isLoading === false && <p>There is no faq in this course</p>
                       }
-                      {isLoading && <Spin indicator={antIcon} />}
+                      {isLoading && <div className='loading-field'>
+                        <Spin indicator={antIcon} />
+                      </div>}
                     </div> :
                     isLoadingCourse ?
-                      <Spin indicator={antIcon} /> :
+                      <div className='loading-field'>
+                        <Spin indicator={antIcon} />
+                      </div> :
                       <div className="question-wrapper">
                         {
                           (courses && courses.length > 0) ? courses.map((item, index) => {

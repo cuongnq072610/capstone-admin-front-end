@@ -254,7 +254,7 @@ export class ReportPage extends React.Component {
     var a = document.createElement("a");
     a.href = "data:attachment/csv," + csvString;
     a.target = '_Blank';
-    a.download = `Report_Teacher${course ? `_${course.courseCode}` : ""}${teacher ? `_${teacher.name}` : ""}${report.from ? `_${report.from}` : ""}${report.to ? `_${report.to}` : ""}`;
+    a.download = `Report_Teacher${course ? `_${course.courseCode}` : ""}${teacher ? `_${teacher.name}` : ""}${report.from ? `_${report.from}` : ""}${report.to ? `_${report.to}` : ""}.csv`;
     document.body.appendChild(a);
     a.click();
   }

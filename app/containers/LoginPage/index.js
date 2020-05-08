@@ -18,7 +18,7 @@ import makeSelectLoginPage from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
-import { Col, Button, Row, Input, Icon, Spin } from 'antd';
+import { Col, Button, Row, Input, Icon, Spin, Carousel } from 'antd';
 import { API_ENDPOINT } from '../../constants/apis';
 
 import { isEmpty as _isEmpty, uniq as _isUniq } from 'lodash';
@@ -186,9 +186,47 @@ export class LoginPage extends React.Component {
           </div>
         </Col>
         <Col span={13}>
-          <div className='login-side'>
+          <Carousel className='login-carousel' autoplay>
+            <div className='login-side1'>
+              <div className='div-shadow'>
+                <span className='icon-note-it'></span>
+                <span className='title-for-user'>For Student</span>
+                <div className='icons-wrapper'>
+                  <span className='icon-for-user icon-for-user__ask'></span>
+                  <span className='icon-for-user icon-for-user__highlight'></span>
+                  <span className='icon-for-user icon-for-user__faq'></span>
+                  <span className='icon-for-user icon-for-user__note'></span>
+                </div>
+                <p className='p-for-user'>Highlight and take note anything from your material. Didn't get it? Asking your tutor is a click away.</p>
+              </div>
+            </div>
 
-          </div>
+            <div className='login-side2'>
+              <div className='div-shadow'>
+                <span className='icon-note-it'></span>
+                <span className='title-for-user'>For Teacher</span>
+                <div className='icons-wrapper'>
+                  <span className='icon-for-user icon-for-user__ask'></span>
+                  <span className='icon-for-user icon-for-user__faq'></span>
+                </div>
+                <p className='p-for-user'>The simple and powerful hub to answer all of your students' questions.</p>
+              </div>
+            </div>
+
+            <div className='login-side3'>
+              <div className="div-shadow">
+                <span className='icon-note-it'></span>
+                <span className='title-for-user'>For Admin</span>
+                <div className='icons-wrapper'>
+                  <span className='icon-for-user icon-for-user__course'></span>
+                  <span className='icon-for-user icon-for-user__department'></span>
+                  <span className='icon-for-user icon-for-user__teacher'></span>
+                  <span className='icon-for-user icon-for-user__report'></span>
+                </div>
+                <p className='p-for-user'>Manage departments, courses and teachers has never been so simple.</p>
+              </div>
+            </div>
+          </Carousel>
         </Col>
       </Row>
     );

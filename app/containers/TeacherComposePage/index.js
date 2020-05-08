@@ -243,7 +243,7 @@ export class StudentComposePage extends React.Component {
   }
 
   handleCloseAsk = () => {
-    // action in here
+    // action in here check
     const { id } = this.props.match.params;
     this.props.handleCloseAskDetail(id);
   }
@@ -278,7 +278,6 @@ export class StudentComposePage extends React.Component {
         ['clean']
       ],
       clipboard: {
-        // toggle to add extra line breaks when pasting HTML:
         matchVisual: false,
       },
       imageDrop: true,
@@ -325,7 +324,7 @@ export class StudentComposePage extends React.Component {
                       </div>
                       {
                         (!ask.faqID || ask.faqID === "") ?
-                          <Button className='ask-action-pin' onClick={this.onClickShowRadio}>
+                          <Button className='ask-action-pin' onClick={this.onClickShowRadio} disabled={(comments && comments.length > 0) ? false : true}>
                             Pin this question <span className='icon ask-pin'></span>
                           </Button> :
                           <Button className='ask-action-pin' onClick={this.handleRemoveFaq}>

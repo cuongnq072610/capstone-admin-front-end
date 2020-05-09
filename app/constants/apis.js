@@ -1,13 +1,7 @@
-<<<<<<< HEAD
-// const API_ENDPOINT = "https://capstonebackendapi.herokuapp.com";
-const API_ENDPOINT = "http://localhost:5000";
-const API_ENDPOINT_WS = "ws://localhost:5000";
-// const API_ENDPOINT_WS = "ws://capstonebackendapi.herokuapp.com";
-
-=======
 const API_ENDPOINT = "https://capstonebackendapi.herokuapp.com";
 const API_ENDPOINT_WS = "wss://capstonebackendapi.herokuapp.com";
->>>>>>> 1342bb91476bdacd9fb98df66e7292091f477090
+// const API_ENDPOINT = "http://localhost:5000";
+// const API_ENDPOINT_WS = "ws://localhost:5000";
 
 const ALL_COURSE = "/allcourses";
 const GET_COURSE = '/getcourse';

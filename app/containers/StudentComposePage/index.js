@@ -57,7 +57,7 @@ export class StudentComposePage extends React.Component {
   ws = new WebSocket(API_ENDPOINT_WS)
 
   componentDidMount() {
-    console.log(API_ENDPOINT_WS)
+    console.log(API_ENDPOINT_WS);
     const { id } = this.props.match.params;
     this.props.handleFetchAskDetail(id);
 
@@ -67,21 +67,22 @@ export class StudentComposePage extends React.Component {
     }
 
     this.ws.onmessage = evt => {
-      const { comments } = this.state;
+      const { comments, user } = this.state;
       // on receiving a message, add it to the list of messages
       const comment = JSON.parse(evt.data)
       // this.addMessage(message)
-
-      // if(comment) {
-      //   console.log(comment.comment)
-      //   this.setState({
-      //     comments: [...comments, comment.comment]
-      //   });
-      // }
+      if(comment) {
+        // console.log(comment.comment);
+        if(comment.comment.userID != user.profile) {
+          this.setState({
+            comments: [...comments, comment.comment]
+          });
+        }
+      }
     }
 
     this.ws.onclose = () => {
-      console.log('disconnected')
+      console.log('disconnected');
       // automatically try to reconnect on connection loss
       this.setState({
         ws: new WebSocket(URL),

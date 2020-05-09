@@ -64,18 +64,18 @@ export class StudentComposePage extends React.Component {
     }
 
     this.ws.onmessage = evt => {
-      const { comments } = this.state;
+      const { comments, user } = this.state;
       // on receiving a message, add it to the list of messages
       const comment = JSON.parse(evt.data)
       // this.addMessage(message)
-
-      // if(comment) {
-      //   console.log(comment.comment)
-      //   this.setState({
-      //     comments: [...comments, comment.comment]
-      //   });
-      // }
-
+      if(comment) {
+        // console.log(comment.comment);
+        if(comment.comment.userID != user.profile) {
+          this.setState({
+            comments: [...comments, comment.comment]
+          });
+        }
+      }
     }
 
     this.ws.onclose = () => {

@@ -25,7 +25,7 @@ import TextArea from 'antd/lib/input/TextArea';
 import AskAndAnswerField from './Question';
 import { API_ENDPOINT_WS } from '../../constants/apis';
 
-//socket
+//socket import
 import { loadAskDetail, closeAsk, pinFaq, removeFaq } from './actions';
 import ReactQuill, { Quill } from 'react-quill';
 import { ImageDrop } from 'quill-image-drop-module';

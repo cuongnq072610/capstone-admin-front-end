@@ -7,14 +7,14 @@ function* handleLogin(action) {
   const { email, password } = action;
   try {
     let response = yield call(loginService, `${API_ENDPOINT}${LOGIN_API}`, { email, password });
-    if (response.data.err) {
-      yield put({ type: LOGIN_FAILURE, payload: response.data.err })
+    if (response.data.error) {
+      yield put({ type: LOGIN_FAILURE, payload: response.data.error })
     } else {
       yield put({ type: LOGIN_SUCCESS, payload: response.data.token })
       localStorage.setItem("token", response.data.token);
     }
   } catch (error) {
-    yield put({ type: LOGIN_FAILURE, payload: error })
+    yield put({ type: LOGIN_FAILURE, payload: "Username or Password is incorrect" });
   }
 }
 

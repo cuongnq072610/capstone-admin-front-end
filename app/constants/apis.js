@@ -1,8 +1,13 @@
+<<<<<<< HEAD
 // const API_ENDPOINT = "https://capstonebackendapi.herokuapp.com";
 const API_ENDPOINT = "http://localhost:5000";
 const API_ENDPOINT_WS = "ws://localhost:5000";
 // const API_ENDPOINT_WS = "ws://capstonebackendapi.herokuapp.com";
 
+=======
+const API_ENDPOINT = "https://capstonebackendapi.herokuapp.com";
+const API_ENDPOINT_WS = "wss://capstonebackendapi.herokuapp.com";
+>>>>>>> 1342bb91476bdacd9fb98df66e7292091f477090
 
 const ALL_COURSE = "/allcourses";
 const GET_COURSE = '/getcourse';
@@ -58,6 +63,12 @@ const GET_REPORT = '/getReport';
 const CREATE_FAQ = '/createFAQ';
 const LOAD_FAQ_API = '/getAllFAQ';
 const SEARCH_FAQ_API = '/searchFAQ';
+const LOAD_DETAIL_API = '/getFAQ';
+const REMOVE_FAQ = '/removeFAQ';
+const LOAD_FILTER_FAQ = '/getFAQbyFilter';
+const GET_ALL_COURSE_FAQ = '/getCourseForFAQ';
+
+const GET_TEACHER_STATISTIC_API = '/getTeacherDashboard';
 
 export {
     API_ENDPOINT,
@@ -120,4 +131,10 @@ export {
     CREATE_FAQ,
     LOAD_FAQ_API,
     SEARCH_FAQ_API,
+    LOAD_DETAIL_API,
+    REMOVE_FAQ,
+    LOAD_FILTER_FAQ,
+    GET_ALL_COURSE_FAQ,
+    //
+    GET_TEACHER_STATISTIC_API,
 }

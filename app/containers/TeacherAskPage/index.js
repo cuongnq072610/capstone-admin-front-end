@@ -19,7 +19,7 @@ import reducer from './reducer';
 import saga from './saga';
 import "./ask.scss";
 import columns from './tableCol';
-import { loadAsk } from './actions';
+import { loadAsk, searchAsk } from './actions';
 import Filter from '../../components/Filter';
 
 const { Content, Header } = Layout;
@@ -64,13 +64,13 @@ export class StudentAskPage extends React.Component {
         })
         break;
       case "seen":
-        filterAsks = baseAsks.filter(ask => ask.status === 'seen');
+        filterAsks = baseAsks.filter(ask => ask.teacherStatus === 'seen' || ask.teacherStatus === 'replied');
         this.setState({
           asks: filterAsks,
         })
         break;
       case "unseen":
-        filterAsks = baseAsks.filter(ask => ask.status === 'new' || ask.status === 'replied');
+        filterAsks = baseAsks.filter(ask => ask.teacherStatus === 'new');
         this.setState({
           asks: filterAsks,
         })
@@ -84,6 +84,14 @@ export class StudentAskPage extends React.Component {
     this.setState({
       asks: this.state.baseAsks,
     })
+  }
+
+  handleSearch = (key) => {
+    this.props.handleSearchAsks(key);
+  }
+
+  handleClear = () => {
+    this.props.handleFetchAsks();
   }
 
   render() {
@@ -106,8 +114,8 @@ export class StudentAskPage extends React.Component {
                   message="Please enter your question key"
                   placeholder="I want to find my question"
                   type="ask"
-                // handleSearch={this.handleSearch}
-                // handleClear={this.handleClear}
+                  handleSearch={this.handleSearch}
+                  handleClear={this.handleClear}
                 />
                 <Filter
                   type="ask"
@@ -143,6 +151,7 @@ export class StudentAskPage extends React.Component {
 
 StudentAskPage.propTypes = {
   handleFetchAsks: PropTypes.func.isRequired,
+  handleSearchAsks: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -152,6 +161,7 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch) {
   return {
     handleFetchAsks: () => { dispatch(loadAsk()) },
+    handleSearchAsks: (key) => { dispatch(searchAsk(key)) },
   };
 }
 

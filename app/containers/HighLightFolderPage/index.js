@@ -100,7 +100,11 @@ export class HighLightFolderPage extends React.Component {
   }
 
   renderFolderNoteName = (name, code) => {
-    return code + ' - ' + name;
+    if (code === "other" || code === "Other") {
+      return name
+    } else {
+      return code + ' - ' + name;
+    }
   }
 
   handleDeleteHighlight = (id) => {
@@ -258,7 +262,9 @@ export class HighLightFolderPage extends React.Component {
           <Content>
             {
               isLoading ?
-                <Spin indicator={antIcon} /> :
+                <div className='loading-field'>
+                  <Spin indicator={antIcon} />
+                </div> :
                 <div className="highLights grid" >
                   {
                     highlights.length > 0 ?

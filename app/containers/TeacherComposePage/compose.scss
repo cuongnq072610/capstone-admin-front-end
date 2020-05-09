@@ -127,6 +127,15 @@
         .faq-radio-group {
           width: 100%;
         }
+
+        &-close {
+          max-height: calc(100vh - 200px);
+          overflow: auto;
+
+          .faq-radio-group {
+            width: 100%;
+          }
+        }
       }
 
       .compose-question {
@@ -167,6 +176,7 @@
           border-right: 1px solid $primary_grey;
 
           p>img {
+            display: block;
             width: 300px;
             height: 200px;
           }

@@ -31,6 +31,12 @@
         }
     }
 
+    .loading-field {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
     .note-wrap-less-three {
         display: flex;
@@ -112,16 +118,16 @@
     }
 
     .notification {
-        position: absolute;
-        left: 0px;
+        position: fixed;
+        left: 100px;
         top: 90vh;
         opacity: 0;
         transition: opacity 1s ease-in-out;
     }
 
     .notification-show {
-        position: absolute;
-        left: 0px;
+        position: fixed;
+        left: 100px;
         top: 90vh;
         opacity: 1;
         transition: opacity 1s ease-in-out;

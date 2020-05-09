@@ -139,7 +139,11 @@ export class NotePage extends React.Component {
   }
 
   renderFolderNoteName = (name, code) => {
-    return code + ' - ' + name;
+    if (code === "other" || code === "Other") {
+      return name;
+    } else {
+      return code + ' - ' + name;
+    }
   }
 
   handleShowFolder = () => {
@@ -210,7 +214,9 @@ export class NotePage extends React.Component {
               {
                 isSearching ?
                   isLoadingNote ?
-                    <Spin indicator={antIcon} /> :
+                    <div className='loading-field'>
+                      <Spin indicator={antIcon} />
+                    </div> :
                     <div className="grid note-container" >
                       {
                         searchingNotes.length > 0 ?
@@ -238,7 +244,9 @@ export class NotePage extends React.Component {
                         <div className='grid folder-container'>
                           {
                             isLoadingCourse ?
-                              <Spin indicator={antIcon} /> :
+                              <div className='loading-field'>
+                                <Spin indicator={antIcon} />
+                              </div> :
                               folders.length > 0 ?
                                 folders.map((course, index) => {
                                   return (
@@ -256,7 +264,9 @@ export class NotePage extends React.Component {
                       <p className="note-type">Recent Notes</p>
                       {
                         isLoadingNote ?
-                          <Spin indicator={antIcon} /> :
+                          <div className='loading-field'>
+                            <Spin indicator={antIcon} />
+                          </div> :
                           <div className="grid note-container" >
                             {
                               notes.length > 0 ?

@@ -12,8 +12,13 @@ const createFaq = (url, body) => {
     return axiosService.post(url, body);
 }
 
+const deleteFaq = url => {
+    return axiosService.delete(url);
+}
+
 export {
     fetchAskDetail,
     closeAskDetail,
     createFaq,
+    deleteFaq,
 }

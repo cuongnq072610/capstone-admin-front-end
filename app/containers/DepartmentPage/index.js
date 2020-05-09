@@ -77,6 +77,12 @@ export class DepartmentPage extends React.Component {
     }
 
     if (prevProps.departmentPage.isLoadingUpdate !== this.props.departmentPage.isLoadingUpdate && this.props.departmentPage.isLoadingUpdate === false) {
+      if (this.props.departmentPage.errors) {
+        this.setState({
+          error: this.props.departmentPage.errors,
+        })
+        return;
+      }
       // show modal success
       this.setState({
         isShow: true,
@@ -153,7 +159,8 @@ export class DepartmentPage extends React.Component {
       }
       this.props.handleCreateDepartment(object);
       this.setState({
-        newDepartment: ''
+        newDepartment: '',
+        error: "",
       })
     } else {
       this.setState({
@@ -169,12 +176,22 @@ export class DepartmentPage extends React.Component {
 
   onHandleUpdate = () => {
     const { selectedDepartmnent, newDepartment } = this.state;
-    const object = {
-      name: newDepartment,
-      description: newDepartment,
+    if (newDepartment !== "") {
+      const object = {
+        name: newDepartment,
+        description: newDepartment,
+      }
+      this.props.handleUpdateDepartment(object, selectedDepartmnent._id);
+      this.setState({
+        newDepartment: '',
+        error: "",
+      })
+    } else {
+      this.setState({
+        error: "Please fill the name of department",
+      })
     }
-    console.log(object)
-    this.props.handleUpdateDepartment(object, selectedDepartmnent._id);
+
   }
 
   onHandleNavigateCourseDetail = (course) => {
@@ -252,6 +269,9 @@ export class DepartmentPage extends React.Component {
                     onChange={this.onHandleChangeInput}
                     value={newDepartment}
                   />
+                  {
+                    error && <div className='error-field'><span style={{ color: 'red' }}>{error}</span></div>
+                  }
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <Button className='info-finish' onClick={this.onHandleUpdate}>{
                       isLoadingUpdate ?

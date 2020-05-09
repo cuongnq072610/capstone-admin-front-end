@@ -43,7 +43,6 @@ function* closeAsk(action) {
 
 function* reopenAsk(action) {
   const { askId } = action;
-  console.log(`${API_ENDPOINT}${REOPEN_ASK}/${askId}`)
   try {
     let response = yield call(updateAskDetail, `${API_ENDPOINT}${REOPEN_ASK}/${askId}`);
     if (response.data.success) {

@@ -21,10 +21,13 @@ const Mail = styled.p`
 `;
 
 const AskAndAnswerField = (props) => {
-    const { user, text, comment, date, showRadio } = props;
+    const { user, text, comment, date, showRadio, answerPin } = props;
+    if (comment) {
+        var isPinAnswer = (comment.message === answerPin);
+    }
     return (
         user ?
-            <div className='ask-wrapper'>
+            <div className='ask-wrapper' style={isPinAnswer ? { backgroundColor: "#f2faff" } : {}}>
                 <div style={{ width: '97%' }}>
                     <div className='user-field'>
                         <img src={user.avatar} className='user-avatar' />

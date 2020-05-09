@@ -23,7 +23,7 @@ import "./index.scss";
 import ReactQuill, { Quill } from 'react-quill';
 import { ImageDrop } from 'quill-image-drop-module';
 import { loadNoteDetail, loadSaveNote, loadDeleteNote } from './actions';
-const { Header, Content } = Layout;
+const { Header, Content, Footer } = Layout;
 Quill.register('modules/imageDrop', ImageDrop);
 
 
@@ -36,6 +36,7 @@ export class NoteDetailPage extends React.Component {
       editorHtml: '',
       isPinned: false,
       description: "",
+      isShow: false,
     }
   }
 
@@ -56,11 +57,26 @@ export class NoteDetailPage extends React.Component {
         })
       }
     }
+    if (prevProps.noteDetailPage.isLoadingUpdate !== this.props.noteDetailPage.isLoadingUpdate && this.props.noteDetailPage.isLoadingUpdate === false) {
+      this.setState({
+        isShow: true,
+      }, () => {
+        this.timer1 = setTimeout(() => {
+          this.setState({
+            isShow: false
+          })
+        }, 3000)
+      })
+    }
     if (prevProps.noteDetailPage.isLoadingDelete !== this.props.noteDetailPage.isLoadingDelete && this.props.noteDetailPage.isLoadingDelete === false) {
       const { message } = this.props.noteDetailPage
       this.handleNavigateBack();
       localStorage.setItem("message", message)
     }
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.timer1);
   }
 
   renderFolder = (folder, index) => {
@@ -129,15 +145,15 @@ export class NoteDetailPage extends React.Component {
   }
 
   render() {
-    const { isPinned, editorHtml, description } = this.state;
-    const { isLoading, isLoadingUpdate } = this.props.noteDetailPage;
+    const { isPinned, editorHtml, description, isShow } = this.state;
+    const { isLoading, isLoadingUpdate, message, error } = this.props.noteDetailPage;
     const editorModule = {
       toolbar: [
         [{ 'font': [] }],
         [{ size: [] }],
         ['bold', 'italic', 'underline', 'blockquote'],
         [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-        ['image', 'video'],
+        ['image'],
         ['clean']
       ],
       clipboard: {
@@ -150,7 +166,7 @@ export class NoteDetailPage extends React.Component {
       'header', 'font', 'size',
       'bold', 'italic', 'underline', 'strike', 'blockquote',
       'list', 'bullet', 'indent',
-      'image', 'video'
+      'image',
     ]
     const antIcon = <Icon type="loading" style={{ fontSize: 24, color: '#ffc143', marginRight: '10px' }} spin />;
     const antIconSave = <Icon type="loading" style={{ fontSize: 16, color: '#616161', marginRight: '10px' }} spin />;
@@ -168,7 +184,9 @@ export class NoteDetailPage extends React.Component {
             </Button>
             {
               isLoading ?
-                <Spin indicator={antIcon} /> :
+                <div className='loading-field'>
+                  <Spin indicator={antIcon} />
+                </div> :
                 <div className="note-detail-info">
                   <Input className="note-detail-title" value={description} onChange={this.handleChangeDescription} />
                   <div className="note-detail-content">
@@ -221,6 +239,24 @@ export class NoteDetailPage extends React.Component {
                 </Button>
               </div>
             </Content>
+            <Footer className="note-detail-side-footer">
+              <div className={isShow ? 'notification-show' : 'notification'}>
+                {
+                  message &&
+                  <div className='noti-content-success'>
+                    <span className='icon-noti accept-icon '></span>
+                    <p style={{ fontSize: '14px' }}>{message}</p>
+                  </div>
+                }
+                {
+                  error &&
+                  <div className='noti-content-error'>
+                    <span className='icon-noti deny-icon '></span>
+                    <p style={{ fontSize: '14px' }}>{error}</p>
+                  </div>
+                }
+              </div>
+            </Footer>
           </Layout>
         </Col>
       </Row>

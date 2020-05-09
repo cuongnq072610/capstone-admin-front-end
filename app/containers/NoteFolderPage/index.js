@@ -131,7 +131,11 @@ export class NoteFolderPage extends React.Component {
   }
 
   renderFolderNoteName = (name, code) => {
-    return code + ' - ' + name;
+    if (code === "other" || code === "Other") {
+      return name
+    } else {
+      return code + ' - ' + name;
+    }
   }
 
   handleDeleteNote = (id) => {
@@ -262,7 +266,9 @@ export class NoteFolderPage extends React.Component {
             {
               isSearching ?
                 isLoading ?
-                  <Spin indicator={antIcon} /> :
+                  <div className='loading-field'>
+                    <Spin indicator={antIcon} />
+                  </div> :
                   searchNotes.length > 0 ?
                     notes.map((note, index) => {
                       return <Note
@@ -276,7 +282,9 @@ export class NoteFolderPage extends React.Component {
                     : <span style={{ color: "#8c8a82" }}>You don't have any notes</span>
                 :
                 isLoading ?
-                  <Spin indicator={antIcon} /> :
+                  <div className='loading-field'>
+                    <Spin indicator={antIcon} />
+                  </div> :
                   notes.length > 0 ?
                     <Fragment>
                       <div className="note-wrap">

@@ -1,136 +1,250 @@
 @import "../../utils/variables.scss";
 
 .faq-page {
-    padding: 0 20px;
+  padding: 0 20px;
 
-    .faq-page-header {
-      background-color: #fff;
+  .faq-page-header {
+    background-color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100px;
+    padding-left: 0;
+    padding-right: 0;
+
+    .faq-name-course {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .back-btn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: none;
+        font-size: 20px;
+        color: $primary_blue
+      }
+    }
+
+    .faq-page-name {
+      color: $primary_blue;
+      font-family: Roboto;
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: 0.28px;
+      margin: 0;
+      padding-right: 20px;
+    }
+
+    .faq-page-side {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      height: 100px;
-      padding-left: 0;
-  
-      .faq-page-name {
-        color: $primary_blue;
-        font-family: Roboto;
-        font-size: 28px;
-        font-weight: 700;
-        letter-spacing: 0.28px;
-        margin: 0;
-        padding-right: 20px;
-      }
     }
+  }
 
-    .hello-user {
-      display: flex;
-      justify-content: center;
-      margin-top: 60px;
-      height: 600px;
-      background: url('../StudentDashboardPage/assets/ScenePlants.png') no-repeat;
-      opacity: .8;
-      background-size: 50%;
-      background-position: center;
-      background-position-y: 55px;
+  .loading-field {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
-      h1 {
-          font-size: 24px;
+  .hello-user {
+    display: flex;
+    justify-content: center;
+    margin-top: 60px;
+    height: 600px;
+    background: url('../StudentDashboardPage/assets/ScenePlants.png') no-repeat;
+    opacity: .8;
+    background-size: 50%;
+    background-position: center;
+    background-position-y: 55px;
+
+    h1 {
+      font-size: 24px;
+      font-weight: 500;
+      max-width: 600px;
+      text-align: center;
+      color: $primary_blue;
+      margin-bottom: 20px;
+    }
+  }
+
+  .question-detai {
+    .question-description {
+      margin-bottom: 25px;
+
+      .question-description-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        h3 {
+          color: $primary_blue;
+          font-family: Roboto;
+          font-size: 20px;
           font-weight: 500;
-          max-width: 600px;
-          text-align: center;
-          color: $primary_blue;
-          margin-bottom: 20px;
-      }
-    }
-
-    .question-detai {
-      .question-description{
-        margin-bottom: 25px;
-        h2 {
-          font-size: 24px;
-          font-weight: 600;
         }
 
-        p {
-          color: $primary_green;
-          text-decoration: underline;
-        }
-      }
-
-      .question-answer {
-        padding: 28px 24px;
-        background-color: $secondary_blue;
-        border-top: 1px solid $primary_grey;
-        border-bottom: 1px solid $primary_grey;
-
-        .teacher-info {
+        .question-description-header-side {
           display: flex;
-          margin-bottom: 12px;
-          img {
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            margin-right: 16px;
+          justify-content: center;
+          align-items: center;
+
+          .btn-delete {
+            span {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            }
           }
 
-          .date {
-            margin-left: auto;
+          .btn-copy {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: $secondary_blue;
+            color: $primary_blue;
+            font-family: Roboto;
+            font-size: 14px;
+            font-weight: 500;
+            border: none;
+            border-radius: 5px;
+            margin-left: 20px;
           }
 
-          span {
-            color: $primary_black;
-            font-weight: 600;
+          .icon-success-show {
+            display: inline-block;
+            width: 25px;
+            height: 25px;
+            background-size: cover;
+            background-image: url(assets/accept.svg);
+            margin-right: 20px;
+            opacity: 1;
+            transition: opacity .5s ease-in-out;
+          }
+
+          .icon-success-none {
+            display: inline-block;
+            width: 25px;
+            height: 25px;
+            background-size: cover;
+            background-image: url(assets/accept.svg);
+            margin-right: 20px;
+            opacity: 0;
+            transition: opacity .5s ease-in-out;
           }
         }
-        
-        .teacher-reply {
-          margin: 0;
+
+        #input-fake {
+          display: block;
+          opacity: 0;
         }
       }
 
-      
+      h2 {
+        font-size: 24px;
+        font-weight: 600;
+      }
+
+      p {
+        color: $primary_green;
+        text-decoration: underline;
+      }
+
+      img {
+        display: block;
+        width: 300px;
+        height: 200px;
+      }
     }
 
-    .question-wrapper {
-      padding-left: 24px;
-      overflow: auto;
-      height: calc( 100vh - 100px);
-      .question {
-        padding: 10px 16px;
-        background-color: $secondary_blue;
-        border-radius: 5px;
-        border: 1px solid $primary_blue;
-        margin-bottom: 20px;
-        transition: .3s all;
-        cursor: pointer;
-        .code {
-          color: $primary_blue;
-          margin-bottom: 2px;
-          transition: .3s all;
-        }
+    .question-answer {
+      padding: 28px 24px;
+      background-color: $secondary_blue;
+      border-top: 1px solid $primary_grey;
+      border-bottom: 1px solid $primary_grey;
 
-        .content {
-          font-weight: 600;
-          padding: 0;
-          margin: 0;
+      .teacher-info {
+        display: flex;
+        margin-bottom: 12px;
+
+        img {
+          width: 28px;
+          height: 28px;
+          border-radius: 50%;
+          margin-right: 16px;
         }
 
         .date {
-          font-size: 12px;
-          text-align: right;
-          margin: 0;
-          margin-top: 5px;
+          margin-left: auto;
         }
 
-        &:hover {
-          background-color: $primary_blue;
-          color: #fff;
-            .code {
-              color: #fff;
-            }
+        span {
+          color: $primary_black;
+          font-weight: 600;
         }
       }
 
+      .teacher-reply {
+        margin: 0;
 
+        img {
+          display: block;
+          width: 400px;
+          height: 300px;
+        }
+      }
     }
+
+
+  }
+
+  .question-wrapper {
+    padding-left: 24px;
+    overflow: auto;
+    height: calc(100vh - 100px);
+
+    .question {
+      padding: 10px 16px;
+      background-color: $secondary_blue;
+      border-radius: 5px;
+      border: 1px solid $primary_blue;
+      margin-bottom: 20px;
+      transition: .3s all;
+      cursor: pointer;
+
+      .code {
+        color: $primary_blue;
+        margin-bottom: 2px;
+        transition: .3s all;
+      }
+
+      .content {
+        font-weight: 600;
+        padding: 0;
+        margin: 0;
+      }
+
+      .date {
+        font-size: 12px;
+        text-align: right;
+        margin: 0;
+        margin-top: 5px;
+      }
+
+      &:hover {
+        background-color: $primary_blue;
+        color: #fff;
+
+        .code {
+          color: #fff;
+        }
+      }
+    }
+
+
+  }
 }

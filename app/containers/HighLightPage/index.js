@@ -98,7 +98,7 @@ export class HighLightPage extends React.Component {
       && this.props.highLightPage.isLoadingDelete === false
     ) {
       this.props.handleFetchHighlights();
-      // show modal success
+      // show modal success check
       this.setState({
         isShow: true,
         deleteMessage: "Succesfully Delete",

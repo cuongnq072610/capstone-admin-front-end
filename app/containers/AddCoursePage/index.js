@@ -264,8 +264,8 @@ export class AddCoursePage extends React.Component {
                     >
                       {
                         isLoadingDepartment ?
-                          <Option key="1" value=""><Spin indicator={antIcon} /></Option> :
-                          departmentOption.map(item => <Option key={item._id} value={item.description}>{item.name}</Option>)
+                          <Option key="1" value="" disabled>Loading...</Option> :
+                          departmentOption.map(item => <Option key={item._id} value={item.name}>{item.name}</Option>)
                       }
                     </Select>
                   </Col>

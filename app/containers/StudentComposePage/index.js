@@ -71,9 +71,9 @@ export class StudentComposePage extends React.Component {
       // on receiving a message, add it to the list of messages
       const comment = JSON.parse(evt.data)
       // this.addMessage(message)
-      if(comment) {
+      if (comment) {
         // console.log(comment.comment);
-        if(comment.comment.userID != user.profile) {
+        if (comment.comment.userID != user.profile) {
           this.setState({
             comments: [...comments, comment.comment]
           });
@@ -91,8 +91,7 @@ export class StudentComposePage extends React.Component {
     this.scrollToBottom();
   };
 
-  componentDidUpdate(prevProps) {
-    this.scrollToBottom();
+  componentDidUpdate(prevProps, prevState) {
     if (prevProps.studentComposePage.ask !== this.props.studentComposePage.ask &&
       prevProps.studentComposePage.isLoading !== this.props.studentComposePage.isLoading && this.props.studentComposePage.isLoading === false
     ) {
@@ -103,6 +102,10 @@ export class StudentComposePage extends React.Component {
         isClose: this.props.studentComposePage.ask.isClosed,
         rate: this.props.studentComposePage.ask.rating,
       })
+    }
+
+    if (prevState.comments !== this.state.comments) {
+      this.scrollToBottom();
     }
 
     if (prevProps.studentComposePage.isLoadingClose !== this.props.studentComposePage.isLoadingClose && this.props.studentComposePage.isLoadingClose === false) {

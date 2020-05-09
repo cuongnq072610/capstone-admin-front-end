@@ -33,11 +33,11 @@ const colunms = [
       return (
         <div className="ask-content">
           {
-            (record.status === 'seen' || record.status === 'replied') ?
+            (record.studentStatus === 'seen' || record.studentStatus === 'replied') ?
               <span className="ask-icon ask-icon-read" ></span> :
               <span className="ask-icon ask-icon-unread" ></span>
           }
-          <p className={`ask-content-ques ${(record.status === 'new') && "read"}`}>{text}</p>
+          <p className={`ask-content-ques ${(record.studentStatus === 'new') && "read"}`}>{text}</p>
         </div>
       )
     },

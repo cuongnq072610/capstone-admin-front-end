@@ -156,7 +156,7 @@ export class StudentComposePage extends React.Component {
   handleChangeMessage = (html) => {
     this.setState({ message: html });
   }
-
+  // check blank cmt
   checkBlankInString = (str) => {
     let removeHeadTag = str.replace(/<p>/gi, "");
     let removeTailTag = removeHeadTag.replace(/<[/]p>/gi, "");

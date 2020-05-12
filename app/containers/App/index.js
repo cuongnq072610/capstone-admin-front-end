@@ -39,6 +39,7 @@ import LoginPage from 'containers/LoginPage/Loadable';
 import DepartmentPage from 'containers/DepartmentPage/Loadable'
 import ReportPage from 'containers/ReportPage/Loadable';
 import ChooseRolePage from 'containers/ChooseRolePage/Loadable';
+import ProfilePage from 'containers/ProfilePage/Loadable';
 
 
 import GlobalStyle from '../../global-styles';
@@ -59,6 +60,7 @@ export default function App() {
       <Switch>
         <Route exact path='/' render={() => <LoginPage />} />
         <PrivateRoute exact path='/role' component={() => <ChooseRolePage />} />
+        <PrivateRoute exact path='/profile' component={() => user ? <WrapperLayout component={ProfilePage} role={user.role} page="ask" /> : <NotFoundPage />} />
         {/* STUDENT */}
         <PrivateRoute exact path='/student' component={() => user && user.role === 'student' ? <WrapperLayout component={StudentDashboardPage} role={user.role} page="dashboard" /> : <NotFoundPage />} />
         <PrivateRoute exact path='/student/addcourse' component={() => user && user.role === 'student' ? <WrapperLayout component={StudentAddCoursePage} role={user.role} page="dashboard" /> : <NotFoundPage />} />

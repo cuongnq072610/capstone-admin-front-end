@@ -12,9 +12,10 @@ export function defaultAction() {
   };
 }
 
-export function chooseRole(role) {
+export function chooseRole(role, email) {
   return {
     type: CHOOSE_ROLE,
     role,
+    email,
   };
 }

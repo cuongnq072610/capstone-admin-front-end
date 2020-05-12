@@ -18,6 +18,7 @@ import makeSelectChooseRolePage from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
+
 import H1 from '../../components/H1';
 import H3 from '../../components/H3';
 
@@ -27,16 +28,48 @@ import Logo from './assets/noteIt-cyan.png';
 
 
 import "./index.scss";
-import { Button, Layout, Row, Col } from 'antd';
+import { Button, Layout, Row, Col, Icon, Spin } from 'antd';
 import { chooseRole } from './actions';
 
 /* eslint-disable react/prefer-stateless-function */
 export class ChooseRolePage extends React.PureComponent {
-  handleChooseRole = (role) => {
+  constructor(props) {
+    super(props);
+    this.state = {
+      role: "",
+      errMess: "",
+    }
+  }
+
+  handleChoose = (role) => {
+    this.setState({
+      role
+    })
     console.log(`your role is ${role}`)
   }
 
+  handleSubmit = () => {
+    const { role } = this.state;
+
+    if (!role || role === "") {
+      this.setState({
+        errMess: "Please choose your role",
+      })
+    } else {
+      this.setState({
+        errMess: "",
+      })
+      const user = JSON.parse(localStorage.getItem("user"));
+      console.log(`check = ${role} + ${user.email}`);
+      this.props.handleChooseRole(role, user.email)
+    }
+  }
+
   render() {
+    const { role, errMess } = this.state;
+    const { isLoading, error } = this.props.chooseRolePage;
+    const antIcon = <Icon type="loading" style={{ fontSize: 24, color: '#ffc143', marginRight: '10px' }} spin />;
+
     return (
       <div className='choose-role-page'>
         <Helmet>
@@ -54,17 +87,29 @@ export class ChooseRolePage extends React.PureComponent {
           <Row>
             <div className='choose-role-field-content'>
               <Col span={12}>
-                <Button className="role-field" onClick={() => this.handleChooseRole('teacher')}>
+                <div className={`role-field ${role === 'teacher' ? "role-field__active" : ""}`} onClick={() => this.handleChoose('teacher')}>
                   <img src={Teacher} className='role-ava' />
                   <p>Teacher</p>
-                </Button>
+                </div>
               </Col>
               <Col span={12}>
-                <Button className="role-field" onClick={() => this.handleChooseRole('student')}>
+                <div className={`role-field ${role === 'student' ? "role-field__active" : ""}`} onClick={() => this.handleChoose('student')}>
                   <img src={Student} className='role-ava' />
                   <p>Student</p>
-                </Button>
+                </div>
               </Col>
+            </div>
+          </Row>
+          <Row>
+            <div className='choose-role-field-footer'>
+              <Button type='primary' onClick={this.handleSubmit}>
+                {
+                  isLoading ?
+                    <Spin indicator={antIcon} /> :
+                    <span>That's good for now</span>
+                }
+              </Button>
+              <p className='err-msg'>{errMess || error}</p>
             </div>
           </Row>
         </div>
@@ -74,7 +119,7 @@ export class ChooseRolePage extends React.PureComponent {
 }
 
 ChooseRolePage.propTypes = {
-  dispatch: PropTypes.func.isRequired,
+  handleChooseRole: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -83,7 +128,7 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
-    handleChooseRole: (role) => { dispatch(chooseRole(role)) },
+    handleChooseRole: (role, email) => { dispatch(chooseRole(role, email)) },
   };
 }
 

@@ -19,7 +19,7 @@ function chooseRolePageReducer(state = initialState, action) {
     case CHOOSE_ROLE:
       return state.set("isLoading", true);
     case CHOOSE_ROLE_FAILURE:
-      return state.set("isLoading", false);
+      return state.set("isLoading", false).set("error", action.payload);
     case CHOOSE_ROLE_SUCCESS:
       return state.set("isLoading", false);
     default:

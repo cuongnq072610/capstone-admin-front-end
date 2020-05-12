@@ -55,6 +55,23 @@
                     font-weight: 700;
                     font-family: Roboto;
                 }
+
+                &__active {
+                    background-color: $primary_blue;
+                    border-radius: 40px;
+                }
+            }
+        }
+
+        .choose-role-field-footer {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+
+            .err-msg {
+                color: red
             }
         }
     }

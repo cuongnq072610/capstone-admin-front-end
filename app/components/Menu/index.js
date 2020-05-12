@@ -79,9 +79,14 @@ class SideMenu extends React.PureComponent {
   render() {
     const { page } = this.props;
     const content = (
-      <Button style={{ border: 'none' }} onClick={this.onHandleLogout}>
-        Log out
+      <div>
+        <Button style={{ border: 'none' }} onClick={() => history.push("/profile")}>
+          Profile
       </Button>
+        <Button style={{ border: 'none' }} onClick={this.onHandleLogout}>
+          Log out
+      </Button>
+      </div>
     )
     const avatar = JSON.parse(localStorage.getItem('user')) ? JSON.parse(localStorage.getItem('user')).avatar : UserIcon;
     return (

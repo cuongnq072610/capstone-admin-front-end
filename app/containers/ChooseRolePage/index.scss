@@ -1,0 +1,61 @@
+@import "../../utils/variables.scss";
+
+.choose-role-page {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .choose-role-field {
+        width: 40vw;
+        height: 60vh;
+
+        .choose-role-field-head {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            .text {
+                font-family: Roboto;
+            }
+
+            .logo {
+                width: 120px;
+                height: 120px;
+                margin-bottom: 10px;
+            }
+
+        }
+
+        .choose-role-field-content {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+
+
+            .role-field {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                border: none;
+                height: 35vh;
+
+
+                .role-ava {
+                    width: 60%;
+                    height: 60%;
+                    margin-bottom: 20px;
+                }
+
+                p {
+                    font-size: 24px;
+                    font-weight: 700;
+                    font-family: Roboto;
+                }
+            }
+        }
+    }
+}

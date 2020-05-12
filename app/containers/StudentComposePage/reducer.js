@@ -23,7 +23,7 @@ export const initialState = fromJS({
   isLoadingClose: false,
   isLoadingOpen: false,
   ask: {},
-  errors: {},
+  errors: "",
   messageRes: ""
 });
 
@@ -32,7 +32,7 @@ function studentComposePageReducer(state = initialState, action) {
     case DEFAULT_ACTION:
       return state;
     case LOAD_ASK_DETAIL:
-      return state.set("isLoading", true);
+      return state.set("isLoading", true).set("errors", "");
     case LOAD_ASK_DETAIL_SUCCESS:
       return state.set("isLoading", false).set("ask", fromJS(action.payload));
     case LOAD_ASK_DETAIL_FAILURE:

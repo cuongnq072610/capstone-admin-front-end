@@ -31,6 +31,11 @@ export class ProfilePage extends React.PureComponent {
     window.location.href = "/";
   }
 
+  formatTime = (time) => {
+    let newTime = time.split("T")
+    return newTime[0];
+  }
+
   render() {
     const user = JSON.parse(localStorage.getItem("user"));
     return (
@@ -48,7 +53,7 @@ export class ProfilePage extends React.PureComponent {
         <Row>
           <div className="profile-page-ava">
             <img src={user.avatar} className="user-avatar" />
-            <H1>{user._id}</H1>
+            <H1>{user.name}</H1>
           </div>
         </Row>
         <Row>
@@ -63,7 +68,7 @@ export class ProfilePage extends React.PureComponent {
             </Col>
             <Col span={8}>
               <p className="profile-title">Date Create</p>
-              <p className="profile-value">{user.createdAt}</p>
+              <p className="profile-value">{this.formatTime(user.createdAt)}</p>
             </Col>
           </div>
         </Row>

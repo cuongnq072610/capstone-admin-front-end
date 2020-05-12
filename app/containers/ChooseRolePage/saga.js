@@ -10,8 +10,8 @@ function* loadChooseRole(action) {
     console.log(response)
     if (response.data.error) {
       yield put({ type: CHOOSE_ROLE_FAILURE, payload: response.data.error })
-    } else if (response.status === 200) {
-      yield put({ type: CHOOSE_ROLE_SUCCESS })
+    } else if (response.data.success) {
+      yield put({ type: CHOOSE_ROLE_SUCCESS, payload: response.data.success })
     }
   } catch (error) {
     yield put({ type: CHOOSE_ROLE_FAILURE, payload: "Server error" })

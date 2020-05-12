@@ -23,8 +23,9 @@
         }
 
         .note-content {
-            height: 200px;
+            height: fit-content;
             overflow: hidden;
+            max-height: 100px;
 
             p {
                 color: #616161;

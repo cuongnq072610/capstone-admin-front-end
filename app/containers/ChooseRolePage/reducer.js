@@ -10,6 +10,7 @@ import { DEFAULT_ACTION, CHOOSE_ROLE, CHOOSE_ROLE_FAILURE, CHOOSE_ROLE_SUCCESS }
 export const initialState = fromJS({
   isLoading: false,
   error: "",
+  url: "",
 });
 
 function chooseRolePageReducer(state = initialState, action) {
@@ -21,7 +22,7 @@ function chooseRolePageReducer(state = initialState, action) {
     case CHOOSE_ROLE_FAILURE:
       return state.set("isLoading", false).set("error", action.payload);
     case CHOOSE_ROLE_SUCCESS:
-      return state.set("isLoading", false);
+      return state.set("isLoading", false).set("url", action.payload);
     default:
       return state;
   }

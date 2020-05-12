@@ -4,9 +4,11 @@
     width: 300px;
     height: max-content;
     background-color: $secondary_yellow;
+    border: 1px solid $primary_yellow;
     padding: 19px 18px;
     position: relative;
     margin-bottom: 20px;
+    border-radius: 5px;
 
     .note-btn {
         text-align: left;
@@ -23,8 +25,9 @@
         }
 
         .note-content {
-            height: 200px;
+            height: fit-content;
             overflow: hidden;
+            max-height: 100px;
 
             p {
                 color: #616161;

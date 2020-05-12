@@ -184,7 +184,6 @@ export class LoginPage extends React.Component {
                         <input type="submit" value="Log in" />
                     }
                   </Button>
-                  <Button className='btn-forgot'><u>Forgot password?</u></Button>
                 </div>
                 <p style={{ color: 'red' }}>{(errMess ? errMess : "")}</p>
               </div>

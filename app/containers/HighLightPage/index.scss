@@ -80,6 +80,10 @@
         .folder-container {
             margin: 24px 0;
 
+            .grid-item {
+                margin-bottom: 10px;
+            }
+            
             .folder-highlight {
                 display: flex;
                 justify-content: flex-start;

@@ -49,16 +49,15 @@ export class HighLightFolderPage extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    var elems = document.querySelectorAll('.grid');
+    var elems = document.querySelectorAll('.highLights');
     var msnryInstance = [];
     elems.forEach((elem, index) => {
       msnryInstance.push(
         new Masonry(elem, {
           // options
           itemSelector: '.grid-item',
-          columnWidth: 98,
-          gutter: 10,
-          horizontalOrder: true
+          columnWidth: 90,
+          gutter: 10
         })
       )
     })
@@ -153,7 +152,6 @@ export class HighLightFolderPage extends React.Component {
     const { folder } = this.state;
     this.props.handleDeleteFolder(folder._id);
   }
-
   handleGoToCourse = (url) => {
     window.open(url, '_blank')
   }

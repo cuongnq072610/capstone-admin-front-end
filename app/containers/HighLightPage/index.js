@@ -188,6 +188,8 @@ export class HighLightPage extends React.Component {
 
   handleSyncHighlight = () => {
     this.props.handleFetchHighlights();
+    const user = JSON.parse(localStorage.getItem("user"));
+    this.props.handleLoadCourse(user.profile);
   }
 
   handleGoToCourse = (url) => {
@@ -290,6 +292,8 @@ export class HighLightPage extends React.Component {
                                   highlight={highlight}
                                   deleteHighlight={this.handleDeleteHighlight}
                                   isLoading={isLoadingDelete}
+                              onGoTo={this.handleGoToCourse}
+
                                 />
                               }) : <span style={{ color: "#8c8a82" }}>You don't have any highlights</span>
                           }

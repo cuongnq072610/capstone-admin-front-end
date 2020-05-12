@@ -72,13 +72,22 @@ export class HighLightPage extends React.Component {
 
   componentDidUpdate(prevProps) {
     var elem = document.querySelector('.grid');
-    var msnry = new Masonry(elem, {
+    var highlight = document.querySelector('.grid-highlight');
+    new Masonry(elem, {
       // options
       itemSelector: '.grid-item',
-      columnWidth: 10,
+      columnWidth: 98,
       gutter: 10,
       horizontalOrder: true
-    });
+    })
+
+    new Masonry(highlight, {
+      // options
+      itemSelector: '.grid-highlight-item',
+      columnWidth: 98,
+      gutter: 0
+    })
+
     if (prevProps.highLightPage.highlights !== this.props.highLightPage.highlights) {
       this.setState({
         highlights: this.props.highLightPage.highlights,
@@ -179,6 +188,8 @@ export class HighLightPage extends React.Component {
 
   handleSyncHighlight = () => {
     this.props.handleFetchHighlights();
+    const user = JSON.parse(localStorage.getItem("user"));
+    this.props.handleLoadCourse(user.profile);
   }
 
   handleGoToCourse = (url) => {
@@ -272,7 +283,7 @@ export class HighLightPage extends React.Component {
                         <div className='loading-field'>
                           <Spin indicator={antIcon} />
                         </div> :
-                        <div className="highLights grid" >
+                        <div className="highLights grid-highlight" >
                           {
                             highlights.length > 0 ?
                               highlights.map(highlight => {
@@ -281,6 +292,8 @@ export class HighLightPage extends React.Component {
                                   highlight={highlight}
                                   deleteHighlight={this.handleDeleteHighlight}
                                   isLoading={isLoadingDelete}
+                              onGoTo={this.handleGoToCourse}
+
                                 />
                               }) : <span style={{ color: "#8c8a82" }}>You don't have any highlights</span>
                           }

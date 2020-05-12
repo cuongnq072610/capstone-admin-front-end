@@ -41,11 +41,16 @@ export class ChooseRolePage extends React.PureComponent {
     }
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.chooseRolePage.url !== prevProps.chooseRolePage.url) {
+      window.location.href = this.props.chooseRolePage.url;
+    }
+  }
+
   handleChoose = (role) => {
     this.setState({
       role
     })
-    console.log(`your role is ${role}`)
   }
 
   handleSubmit = () => {
@@ -60,7 +65,6 @@ export class ChooseRolePage extends React.PureComponent {
         errMess: "",
       })
       const user = JSON.parse(localStorage.getItem("user"));
-      console.log(`check = ${role} + ${user.email}`);
       this.props.handleChooseRole(role, user.email)
     }
   }

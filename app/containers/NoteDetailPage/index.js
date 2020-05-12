@@ -144,8 +144,12 @@ export class NoteDetailPage extends React.Component {
     }
   }
 
+  handleGoToCourse = (url) => {
+    window.open(url, '_blank');
+  }
+
   render() {
-    const { isPinned, editorHtml, description, isShow } = this.state;
+    const { isPinned, editorHtml, description, isShow, note } = this.state;
     const { isLoading, isLoadingUpdate, message, error } = this.props.noteDetailPage;
     const editorModule = {
       toolbar: [
@@ -236,6 +240,10 @@ export class NoteDetailPage extends React.Component {
                       <Spin indicator={antIconSave} /> : "Save change note"
                     }
                   </span>
+                </Button>
+                <Button className="btn-goto" onClick={() => this.handleGoToCourse(note.url)}>
+                  <Icon type="right-circle" />
+                  <span>Go to this note's course</span>
                 </Button>
               </div>
             </Content>

@@ -17,10 +17,12 @@ function* loadAskDetail(action) {
   const user = JSON.parse(localStorage.getItem("user"));
   try {
     let response = yield call(fetchAskDetail, `${API_ENDPOINT}${GET_ASK_BY_ID}/${user.profile}/${action.askId}`);
-    if (response.data) {
+    console.log(response)
+
+    if (response.data && !response.data.error) {
       yield put({ type: LOAD_ASK_DETAIL_SUCCESS, payload: response.data });
-    } else {
-      yield put({ type: LOAD_ASK_DETAIL_FAILURE, payload: { error: "NO DATA" } });
+    } else if (response.data.error) {
+      yield put({ type: LOAD_ASK_DETAIL_FAILURE, payload: response.data.error });
     }
   } catch (error) {
     yield put({ type: LOAD_ASK_DETAIL_FAILURE, payload: error });

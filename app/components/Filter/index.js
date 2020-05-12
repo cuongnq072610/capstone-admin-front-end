@@ -150,7 +150,7 @@ class Filter extends React.PureComponent {
           <span className="icon-filter-active"></span>
           <p>Status:</p>
           <Button onClick={() => this.handleChooseStatus("seen")} className={`filter-status-btn filter-status-btn-${status === 'seen' && 'chosen'}`}>Seen</Button>
-          <Button onClick={() => this.handleChooseStatus("unseen")} className={`filter-status-btn filter-status-btn-${status === 'unseen' && 'chosen'}`}>Unseen</Button>
+          <Button onClick={() => this.handleChooseStatus("new")} className={`filter-status-btn filter-status-btn-${status === 'new' && 'chosen'}`}>New</Button>
           <Button onClick={() => this.handleChooseStatus("opened")} className={`filter-status-btn filter-status-btn-${status === 'opened' && 'chosen'}`}>Opened</Button>
           <Button onClick={() => this.handleChooseStatus("closed")} className={`filter-status-btn filter-status-btn-${status === 'closed' && 'chosen'}`}>Closed</Button>
         </div>

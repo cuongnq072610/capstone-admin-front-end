@@ -245,7 +245,7 @@ export class StudentComposePage extends React.Component {
     const { message, comments, showMe, isClose, isShow, ask, teacher, rate, isCloseToggle } = this.state;
     const { Content, Header } = Layout;
     const antIcon = <Icon type="loading" style={{ fontSize: 24, color: '#1593e6', marginRight: '10px' }} spin />;
-    const { isLoading, isLoadingClose, messageRes, isLoadingOpen } = this.props.studentComposePage;
+    const { isLoading, isLoadingClose, messageRes, isLoadingOpen, errors } = this.props.studentComposePage;
 
     const editorModule = {
       toolbar: [
@@ -288,62 +288,63 @@ export class StudentComposePage extends React.Component {
                   <div className="spin-wrapper">
                     <Spin indicator={antIcon} />
                   </div> :
-                  <Content className="compose-body">
-                    <h1>{this.state.ask.askContent ? this.state.ask.askContent : ""}</h1>
-                    <div className={`commentWrapper${isClose === true ? '-close' : ""}`} id="commentWrapper">
-                      { /* render the student scanned content as a commment */}
-                      <AskAndAnswerField user={ask.student} date={ask.dateCreated} text={ask.scannedContent} />
-                      {
-                        comments ?
-                          comments.map((comment, index) => {
-                            return <AskAndAnswerField user={this.compareIDtoGetUser(comment.userID, ask.student, ask.teacher)} comment={comment} key={index} />
-                          }) :
-                          ''
-                      }
-                      <div
-                        style={{ float: "left", clear: "both" }}
-                        ref={this.messagesEnd}
-                      >
-                      </div>
-                    </div>
-                    {
-                      !isClose &&
-                      <div className={`reply ${showMe ? 'reply-show' : 'reply-hide'}`}>
+                  errors ? <p style={{ color: 'red' }}>{errors}</p> :
+                    <Content className="compose-body">
+                      <h1>{this.state.ask.askContent ? this.state.ask.askContent : ""}</h1>
+                      <div className={`commentWrapper${isClose === true ? '-close' : ""}`} id="commentWrapper">
+                        { /* render the student scanned content as a commment */}
+                        <AskAndAnswerField user={ask.student} date={ask.dateCreated} text={ask.scannedContent} />
                         {
-                          showMe ?
-                            <div className="reply-field">
-                              <ReactQuill
-                                theme="bubble"
-                                bounds=".reply-show"
-                                placeholder="You can answer here"
-                                modules={editorModule}
-                                formats={editorFomat}
-                                className="reply-text"
-                                value={message}
-                                onChange={this.handleChangeMessage}
-                              />
-                              <div className='reply-btn-field'>
+                          comments ?
+                            comments.map((comment, index) => {
+                              return <AskAndAnswerField user={this.compareIDtoGetUser(comment.userID, ask.student, ask.teacher)} comment={comment} key={index} />
+                            }) :
+                            ''
+                        }
+                        <div
+                          style={{ float: "left", clear: "both" }}
+                          ref={this.messagesEnd}
+                        >
+                        </div>
+                      </div>
+                      {
+                        !isClose &&
+                        <div className={`reply ${showMe ? 'reply-show' : 'reply-hide'}`}>
+                          {
+                            showMe ?
+                              <div className="reply-field">
+                                <ReactQuill
+                                  theme="bubble"
+                                  bounds=".reply-show"
+                                  placeholder="You can answer here"
+                                  modules={editorModule}
+                                  formats={editorFomat}
+                                  className="reply-text"
+                                  value={message}
+                                  onChange={this.handleChangeMessage}
+                                />
+                                <div className='reply-btn-field'>
+                                  <button onClick={this.onToggleShow} className='reply-btn'>
+                                    <span>Hide</span>
+                                    <span className='reply-icon arrow-down'></span>
+                                  </button>
+                                  <button className='reply-send' onClick={this.handleSendMessage}>
+                                    <span>Send</span>
+                                    <span className='reply-icon send'></span>
+                                  </button>
+                                </div>
+                              </div> :
+                              <div className="reply-field">
+                                <div style={{ width: '85%' }}></div>
                                 <button onClick={this.onToggleShow} className='reply-btn'>
-                                  <span>Hide</span>
-                                  <span className='reply-icon arrow-down'></span>
-                                </button>
-                                <button className='reply-send' onClick={this.handleSendMessage}>
-                                  <span>Send</span>
-                                  <span className='reply-icon send'></span>
+                                  <span>Show</span>
+                                  <span className='reply-icon arrow-up'></span>
                                 </button>
                               </div>
-                            </div> :
-                            <div className="reply-field">
-                              <div style={{ width: '85%' }}></div>
-                              <button onClick={this.onToggleShow} className='reply-btn'>
-                                <span>Show</span>
-                                <span className='reply-icon arrow-up'></span>
-                              </button>
-                            </div>
-                        }
-                      </div>
-                    }
-                  </Content>
+                          }
+                        </div>
+                      }
+                    </Content>
               }
             </Layout>
           </Col>

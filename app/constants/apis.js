@@ -63,6 +63,7 @@ const LOAD_FILTER_FAQ = '/getFAQbyFilter';
 const GET_ALL_COURSE_FAQ = '/getCourseForFAQ';
 
 const GET_TEACHER_STATISTIC_API = '/getTeacherDashboard';
+const CHOOSE_ROLE_API = '/chooseRole';
 
 export {
     API_ENDPOINT,
@@ -131,4 +132,6 @@ export {
     GET_ALL_COURSE_FAQ,
     //
     GET_TEACHER_STATISTIC_API,
+    //
+    CHOOSE_ROLE_API,
 }

@@ -154,6 +154,10 @@ export class HighLightFolderPage extends React.Component {
     this.props.handleDeleteFolder(folder._id);
   }
 
+  handleGoToCourse = (url) => {
+    window.open(url, '_blank')
+  }
+
   render() {
     const { folder, windowHeight, highlights, isShow, deleteMessage, clicked } = this.state;
     const { isLoading, isLoadingDelete, isLoadingDeleteFolder } = this.props.highLightFolderPage;
@@ -274,6 +278,7 @@ export class HighLightFolderPage extends React.Component {
                           highlight={highlight}
                           deleteHighlight={this.handleDeleteHighlight}
                           isLoading={isLoadingDelete}
+                          onGoTo={this.handleGoToCourse}
                         />
                       }) : <span style={{ color: "#8c8a82" }}>You don't have any highlights</span>
                   }

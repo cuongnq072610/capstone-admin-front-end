@@ -181,6 +181,10 @@ export class HighLightPage extends React.Component {
     this.props.handleFetchHighlights();
   }
 
+  handleGoToCourse = (url) => {
+    window.open(url, '_blank')
+  }
+
   render() {
     const { highlights, folders, isShowFolder, isShow, deleteMessage, isSearching, searchHighlight } = this.state;
     const { isLoading, isLoadingCourse, isLoadingDelete } = this.props.highLightPage;
@@ -231,6 +235,7 @@ export class HighLightPage extends React.Component {
                               highlight={highlight}
                               deleteHighlight={this.handleDeleteHighlight}
                               isLoading={isLoadingDelete}
+                              onGoTo={this.handleGoToCourse}
                             />
                           }) : <span style={{ color: "#8c8a82" }}>You don't have any highlights</span>
                       }

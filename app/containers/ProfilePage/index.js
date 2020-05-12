@@ -25,6 +25,7 @@ import H1 from '../../components/H1';
 
 /* eslint-disable react/prefer-stateless-function */
 export class ProfilePage extends React.PureComponent {
+  // logout
   handleLogout = () => {
     localStorage.removeItem('user');
     localStorage.removeItem('token');

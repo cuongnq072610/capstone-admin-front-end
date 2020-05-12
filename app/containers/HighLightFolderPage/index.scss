@@ -110,10 +110,18 @@
                     .sortButton {
                         opacity: .4;
                         border: none;
+                        width: 28px;
+                        height: 28px;
+                        border-radius: 50%;
+                        cursor: pointer;
 
                         &:hover {
                             opacity: 1;
                         }
+                    }
+
+                    .active {
+                        opacity: 1;
                     }
                 }
 
@@ -121,6 +129,7 @@
                     background-color: $primary_green;
                     color: $primary_white;
                     margin-top: 20px;
+                    width: 100%;
 
                     &:hover {
                         border: 1px solid $primary_green;

@@ -7,13 +7,13 @@ const HighLight = (props) => {
     const antIconSave = <Icon type="loading" style={{ fontSize: 15, color: '#fff', marginRight: '10px' }} spin />;
 
     return (
-        <div className={'grid-item highlight-wrapper background-' + highlight.color} onClick={() => onGoTo(highlight.url)}>
+        <div className={'grid-item highlight-wrapper background-' + highlight.color} >
             <button className="highlight-delete" onClick={() => deleteHighlight(highlight._id)}>
                 {
                     isLoading ? <Spin indicator={antIconSave} /> : <span className="highlight-delete-icon"></span>
                 }
             </button>
-            <div className="highlight">
+            <div className="highlight" onClick={() => onGoTo(highlight.url)}>
                 <p>{highlight.scannedContent}</p>
             </div>
         </div>

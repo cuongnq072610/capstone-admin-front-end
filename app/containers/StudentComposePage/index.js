@@ -157,12 +157,23 @@ export class StudentComposePage extends React.Component {
     this.setState({ message: html });
   }
 
+  checkBlankInString = (str) => {
+    let removeHeadTag = str.replace(/<p>/gi, "");
+    let removeTailTag = removeHeadTag.replace(/<[/]p>/gi, "");
+    let removeBrTag = removeTailTag.replace(/<br>/gi, "")
+    if (removeBrTag && removeBrTag.trim().length > 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   handleSendMessage = () => {
     const { message, ask, comments, user } = this.state;
     //add to messages state first to render to UI
     //emit to server with userInfo and message to save to DB
     //if error show warning, if not do nothing
-    if (message) {
+    if (message && this.checkBlankInString(message)) {
       const fomatMessage = checkUrlInString(message);
       const newComment = {
         "userID": user.profile,
@@ -288,7 +299,8 @@ export class StudentComposePage extends React.Component {
                   <div className="spin-wrapper">
                     <Spin indicator={antIcon} />
                   </div> :
-                  errors ? <p style={{ color: 'red' }}>{errors}</p> :
+                  errors ?
+                    <p style={{ color: 'red' }}>{errors}</p> :
                     <Content className="compose-body">
                       <h1>{this.state.ask.askContent ? this.state.ask.askContent : ""}</h1>
                       <div className={`commentWrapper${isClose === true ? '-close' : ""}`} id="commentWrapper">

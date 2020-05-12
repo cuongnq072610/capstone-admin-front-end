@@ -2,7 +2,7 @@
 
 .student-dashboard-page {
     padding: 28px 20px;
-
+    height: 100vh;
 
     .card-wrapper {
         padding: 0 60px;
@@ -208,5 +208,31 @@
             }
         }
 
+    }
+
+    #extension_notify {
+        border: 1px solid $primary_red;
+        max-width: 470px;
+        border-radius: 5px;
+        padding: 15px;
+        display: flex;
+        position: absolute;
+        right: 5%;
+        bottom: 80px;
+
+        h3 {
+            font-size: 18px;
+            color: $primary_red;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        p {
+            margin: 0;
+        }
+        svg {
+            width: 40px;
+            margin-right: 24px; 
+        }
     }
 }

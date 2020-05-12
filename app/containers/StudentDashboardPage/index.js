@@ -32,14 +32,24 @@ export class StudentDashboardPage extends React.Component {
       courses: [],
       displayCourse: {},
       user: {},
-      statistic: {}
+      statistic: {},
+      hasExtension: true
     }
   }
 
   componentDidMount() {
     const user = JSON.parse(localStorage.getItem("user"));
     this.props.handleFetchStudent(user.profile);
-    this.props.handleFetchStatistic(user.profile)
+    this.props.handleFetchStatistic(user.profile);
+
+    //check extension exist
+    let noteitDom = document.getElementById('noteitContainer');
+    console.log(noteitDom);
+    if(noteitDom) {
+      this.setState({hasExtension: true});
+    }else {
+      this.setState({hasExtension: false});
+    }
   }
 
   componentDidUpdate(prevProps) {
@@ -85,7 +95,7 @@ export class StudentDashboardPage extends React.Component {
   }
 
   render() {
-    const { courses, displayCourse, user, statistic } = this.state;
+    const { courses, displayCourse, user, statistic, hasExtension } = this.state;
     const { isLoading, isLoadingStatistic } = this.props.studentDashboardPage;
     const fomatDepartment = (departments) => {
       return departments.map((item, index) => {
@@ -199,6 +209,20 @@ export class StudentDashboardPage extends React.Component {
             }
           </Col>
         </Row>
+        {
+          !hasExtension ?
+          <div id="extension_notify">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 511.999 511.999"><path d="M501.45 368.914L320.566 66.207C306.75 43.384 282.728 29.57 256 29.57s-50.752 13.815-64.567 36.638L10.55 368.914c-13.812 23.725-14.113 51.954-.6 75.678s37.836 37.838 65.165 37.838h361.766c27.33 0 51.653-14.115 65.165-37.838s13.215-51.953-.598-75.678z" fill="#e50027"/><path d="M502.05 444.592c-13.513 23.723-37.836 37.838-65.165 37.838H256V29.57c26.727 0 50.752 13.815 64.567 36.638L501.45 368.915c13.812 23.724 14.113 51.953.6 75.677z" fill="#c1001f"/><path d="M75.11 452.4c-16.628 0-30.85-8.27-39.063-22.67-8.21-14.414-8.065-31.087.47-45.72L217.23 81.55c8.27-13.666 22.816-21.95 38.77-21.95s30.5 8.284 38.887 22.157l180.745 302.5c8.388 14.4 8.534 31.072.322 45.485-8.21 14.4-22.435 22.67-39.063 22.67H75.11z" fill="#fd003a"/><path d="M436.89 452.4c16.628 0 30.85-8.27 39.063-22.67 8.21-14.414 8.065-31.087-.322-45.485L294.886 81.754c-8.388-13.87-22.933-22.157-38.887-22.157V452.4H436.89z" fill="#e50027"/><path d="M286.03 152.095v120.122c0 16.517-13.514 30.03-30.03 30.03s-30.03-13.514-30.03-30.03V152.095c0-16.517 13.514-30.03 30.03-30.03s30.03 13.514 30.03 30.03z" fill="#e1e4fb"/><path d="M286.03 152.095v120.122c0 16.517-13.514 30.03-30.03 30.03V122.064c16.516 0 30.03 13.514 30.03 30.03z" fill="#c5c9f7"/><path d="M256 332.278c-24.926 0-45.046 20.12-45.046 45.046A44.99 44.99 0 0 0 256 422.37c24.927 0 45.046-20.12 45.046-45.046A44.99 44.99 0 0 0 256 332.278z" fill="#e1e4fb"/><path d="M301.046 377.323A44.99 44.99 0 0 1 256 422.369v-90.09a44.99 44.99 0 0 1 45.046 45.045z" fill="#c5c9f7"/></svg>
+            <div className="notify_content">
+                <h3>Please activate noteit extension</h3>
+                <p>It looks like you have turned off the extension.
+                Activate it to get the best from your lessons.</p>
+            </div>
+          </div>
+          :
+          ''
+        }
+        
       </div>
     );
   }

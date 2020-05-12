@@ -56,6 +56,10 @@
   .note-folder {
     margin-top: 50px;
 
+    .grid-item {
+      margin-bottom: 10px;
+    }
+
     .note-folder-title {
       display: flex;
       justify-content: start;

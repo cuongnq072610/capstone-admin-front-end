@@ -20,19 +20,23 @@ import history from '../../utils/history';
 export default function NotFound() {
   const user = JSON.parse(localStorage.getItem('user'));
 
-  const goToDashboard = (role) => {
-    switch (role) {
-      case 'admin':
-        history.push("/admin")
-        break;
-      case 'student':
-        history.push("/student")
-        break;
-      case 'teacher':
-        history.push("/tutor")
-        break;
-      default:
-        break;
+  const goToDashboard = (user) => {
+    if (user) {
+      switch (user.role) {
+        case 'admin':
+          history.push("/admin")
+          break;
+        case 'student':
+          history.push("/student")
+          break;
+        case 'teacher':
+          history.push("/tutor")
+          break;
+        default:
+          break;
+      }
+    } else {
+      history.push('/');
     }
   }
 
@@ -42,7 +46,7 @@ export default function NotFound() {
         <img src={notFoundLogo} className='not-found-logo' />
         <H1 className='warning' style={{ fontWeight: '900' }}><FormattedMessage {...messages.head} /></H1>
         <H2 className='warning'><FormattedMessage {...messages.body} /></H2>
-        <Button className='box-warning' onClick={() => goToDashboard(user.role)}>
+        <Button className='box-warning' onClick={() => goToDashboard(user)}>
           <img src={noteItCyan} className='note-logo' />
           <p className='box-p'><FormattedMessage {...messages.footer} /></p>
         </Button>

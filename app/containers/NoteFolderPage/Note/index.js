@@ -1,6 +1,12 @@
 import React from 'react';
 import './index.scss';
 import { Spin, Icon } from 'antd';
+const getTitleNote = (str) => {
+    let replacePtag = str.replace(/<p>/g, "");
+    let strTitle = replacePtag.split(/<[/]p>/);
+    let strTitleRes = strTitle[0].split(/\n/);
+    return strTitleRes[0];
+}
 
 const Note = (props) => {
     const { navigateDetail, note, deleteNote, isLoading } = props;
@@ -14,8 +20,9 @@ const Note = (props) => {
                 }
             </button>
             <button className="note-btn" onClick={navigateDetail}>
-                <p className="note-title">{note.description}</p>
-                <div dangerouslySetInnerHTML={{ __html: note.scannedContent }} className="note-content"></div>
+                <p className="note-title">{getTitleNote(note.description)}</p>
+                <div dangerouslySetInnerHTML={{ __html: note.scannedContent }} className="note-scanContent"></div>
+                <div dangerouslySetInnerHTML={{ __html: note.description }} className="note-content"></div>
             </button>
         </div>
     )

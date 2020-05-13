@@ -46,6 +46,10 @@ export class NoteDetailPage extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
+    const setBrTagNote = (str) => {
+      let strTitle = str.replace(/(?:\r\n|\r|\n)/g, "<br>");
+      return strTitle;
+    }
     if (prevProps.noteDetailPage.note !== this.props.noteDetailPage.note) {
       const { note, isLoading, isLoadingUpdate } = this.props.noteDetailPage
       if (!isLoading && !isLoadingUpdate) {
@@ -53,7 +57,9 @@ export class NoteDetailPage extends React.Component {
           note,
           isPinned: note.isPinned,
           editorHtml: note.scannedContent,
-          description: note.description,
+          description: setBrTagNote(note.description),
+          // description: note.description,
+
         })
       }
     }
@@ -94,7 +100,7 @@ export class NoteDetailPage extends React.Component {
 
   handleChange = (html) => {
     this.setState({
-      editorHtml: html
+      description: html
     })
   }
 
@@ -109,11 +115,10 @@ export class NoteDetailPage extends React.Component {
     const newNote = {
       description: description,
       isPinned: isPinned,
-      course: note.course,
       url: note.url,
-      index: note.index,
       scannedContent: editorHtml,
     }
+    console.log(newNote)
     this.props.handleUpdateNote(newNote, note._id);
   }
 
@@ -174,7 +179,6 @@ export class NoteDetailPage extends React.Component {
     ]
     const antIcon = <Icon type="loading" style={{ fontSize: 24, color: '#ffc143', marginRight: '10px' }} spin />;
     const antIconSave = <Icon type="loading" style={{ fontSize: 16, color: '#616161', marginRight: '10px' }} spin />;
-
     return (
       <Row>
         <Helmet>
@@ -192,7 +196,8 @@ export class NoteDetailPage extends React.Component {
                   <Spin indicator={antIcon} />
                 </div> :
                 <div className="note-detail-info">
-                  <Input className="note-detail-title" value={description} onChange={this.handleChangeDescription} />
+                  {/* <Input className="note-detail-title" value={getTitleNote(description)} onChange={this.handleChangeDescription} /> */}
+                  <div dangerouslySetInnerHTML={{ __html: editorHtml }} className="note-scan" onClick={() => this.handleGoToCourse(note.url)}></div>
                   <div className="note-detail-content">
                     <ReactQuill
                       theme="bubble"
@@ -201,7 +206,7 @@ export class NoteDetailPage extends React.Component {
                       modules={editorModule}
                       formats={editorFomat}
                       onChange={this.handleChange}
-                      value={editorHtml}
+                      value={description}
                       className="note-detail-area"
                     />
                   </div>
@@ -240,10 +245,6 @@ export class NoteDetailPage extends React.Component {
                       <Spin indicator={antIconSave} /> : "Save change note"
                     }
                   </span>
-                </Button>
-                <Button className="btn-goto" onClick={() => this.handleGoToCourse(note.url)}>
-                  <Icon type="right-circle" />
-                  <span>Go to this note's course</span>
                 </Button>
               </div>
             </Content>

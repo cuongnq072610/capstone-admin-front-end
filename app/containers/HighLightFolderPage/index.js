@@ -37,6 +37,7 @@ export class HighLightFolderPage extends React.Component {
       highlights: [],
       isShow: false,
       clicked: false,
+      colorFilterCurrent: ''
     }
   }
 
@@ -112,6 +113,7 @@ export class HighLightFolderPage extends React.Component {
 
   handleFilterHighlight = (color) => {
     const { folder } = this.state;
+    this.setState({colorFilterCurrent: color});
     this.props.handleFetchHighlightByColor(color, folder._id);
   }
 
@@ -126,7 +128,8 @@ export class HighLightFolderPage extends React.Component {
   handleClear = () => {
     const { folder } = this.state;
     this.setState({
-      isSearching: false
+      isSearching: false,
+      colorFilterCurrent : ''
     })
     this.props.handleFetchHighlightByCourse(folder._id);
   }
@@ -157,7 +160,7 @@ export class HighLightFolderPage extends React.Component {
   }
 
   render() {
-    const { folder, windowHeight, highlights, isShow, deleteMessage, clicked } = this.state;
+    const { folder, windowHeight, highlights, isShow, deleteMessage, clicked, colorFilterCurrent } = this.state;
     const { isLoading, isLoadingDelete, isLoadingDeleteFolder } = this.props.highLightFolderPage;
     const buttonSort = [
       {
@@ -298,7 +301,7 @@ export class HighLightFolderPage extends React.Component {
                 <div className="sortByColor">
                   {
                     buttonSort.map((item, index) => {
-                      return <Button key={index} id={item.id} className={'sortButton background-' + item.color} shape="circle" onClick={() => this.handleFilterHighlight(item.color)} />
+                      return <button key={index} id={item.id} className={`sortButton background-${item.color} ${colorFilterCurrent===item.color ? ' active' : ''}`} shape="circle" onClick={() => this.handleFilterHighlight(item.color)} />
                     })
                   }
                 </div>

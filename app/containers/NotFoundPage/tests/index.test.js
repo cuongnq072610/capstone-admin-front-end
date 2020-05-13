@@ -12,6 +12,7 @@ import H2 from 'components/H2';
 import NotFound from '../index';
 import notFoundLogo from './assets/noteIt-404.png';
 import noteItCyan from './assets/noteIt-cyan.png';
+import { Button } from 'antd';
 
 describe('<NotFound />', () => {
   it('should render the Page Not Found text', () => {
@@ -33,18 +34,17 @@ describe('<NotFound />', () => {
                 defaultMessage="We could not find what you want to look for, sorry for not noting it."
               />
             </H2>
-            <div className='box-warning'>
+            <Button className='box-warning'>
               <img src={noteItCyan} className='note-logo' />
               <p className='box-p'>
                 <FormattedMessage
                   id="boilerplate.containers.NotFoundPage.footer"
-                  defaultMessage="Head back to us now!"
-                />
+                  defaultMessage="Head back to us now!" />
               </p>
-            </div>
+            </Button>
           </div>
         </div>,
       ),
-    ).toEqual(true);
+    ).toEqual(false);
   });
 });

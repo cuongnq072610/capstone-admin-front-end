@@ -3,6 +3,10 @@ import teacherDashboardPageReducer from '../reducer';
 
 describe('teacherDashboardPageReducer', () => {
   it('returns the initial state', () => {
-    expect(teacherDashboardPageReducer(undefined, {})).toEqual(fromJS({}));
+    expect(teacherDashboardPageReducer(undefined, {})).toEqual(fromJS({
+      isLoading: false,
+      statistic: {},
+      error: "",
+    }));
   });
 });

@@ -3,6 +3,10 @@ import chooseRolePageReducer from '../reducer';
 
 describe('chooseRolePageReducer', () => {
   it('returns the initial state', () => {
-    expect(chooseRolePageReducer(undefined, {})).toEqual(fromJS({}));
+    expect(chooseRolePageReducer(undefined, {})).toEqual(fromJS({
+      isLoading: false,
+      error: "",
+      url: "",
+    }));
   });
 });

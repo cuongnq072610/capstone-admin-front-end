@@ -9,6 +9,7 @@
     padding: 16px;
     margin-bottom: 20px;
     position: relative;
+
     .highlight-delete {
         width: 28px;
         height: 28px;
@@ -20,6 +21,7 @@
         position: absolute;
         top: -10px;
         right: -15px;
+        outline: none;
 
         .highlight-delete-icon {
             display: inline-block;
@@ -38,6 +40,7 @@
 
     .highlight {
         background-image: none; //duplicate hightclass in menu bar but i'm just too lazy to think of another name
+
         p {
             margin: 0;
         }
@@ -49,18 +52,22 @@
         background-color: $highlight_red;
         border: 1px solid $highlight_red;
     }
+
     &-green {
         background-color: $highlight_green;
         border: 1px solid $highlight_green;
     }
+
     &-blue {
         background-color: $highlight_blue;
         border: 1px solid $highlight_blue;
     }
+
     &-yellow {
         background-color: $highlight_yellow;
         border: 1px solid $highlight_yellow;
     }
+
     &-orange {
         background-color: $highlight_orange;
         border: 1px solid $highlight_orange;

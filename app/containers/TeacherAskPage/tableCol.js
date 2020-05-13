@@ -52,8 +52,8 @@ const colunms = [
         <p>{formatDate(text)}</p>
       )
     },
-    dataIndex: "dateModified",
-    key: 'dateModified',
+    dataIndex: "dateCreated",
+    key: 'dateCreated',
     width: 200,
   },
 ];

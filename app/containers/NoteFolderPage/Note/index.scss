@@ -12,6 +12,7 @@
     .note-btn {
         text-align: left;
         cursor: pointer;
+        outline: none;
         width: 100%;
 
         .note-title {
@@ -21,23 +22,37 @@
             font-weight: 700;
             letter-spacing: 0.22px;
             line-height: 24px;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+
+        .note-scanContent {
+            text-decoration: underline;
+            color: $primary_green;
+
+            p {
+                color: $primary_green
+            }
         }
 
         .note-content {
-            height: 200px;
+            height: fit-content;
+            max-height: 200px;
             overflow: hidden;
 
             p {
-                color: #616161;
                 font-family: Roboto;
                 font-size: 14px;
                 font-weight: 400;
-                -webkit-line-clamp: 13;
+                -webkit-line-clamp: 8;
                 -webkit-box-orient: vertical;
                 overflow: hidden;
                 text-overflow: ellipsis;
                 display: block;
                 display: -webkit-box;
+                margin-bottom: 0px;
             }
 
             img {
@@ -58,6 +73,7 @@
         position: absolute;
         top: -10px;
         right: -15px;
+        outline: none;
 
         .note-delete-icon {
             display: inline-block;

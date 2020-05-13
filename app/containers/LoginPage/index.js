@@ -49,12 +49,16 @@ export class LoginPage extends React.Component {
     const token = urlParams.get('token');
     const isLogout = urlParams.get('logout');
     if (token) {
+      // clear if already have token and user
+      localStorage.removeItem('user');
+      localStorage.removeItem('token');
       localStorage.setItem("token", token);
       const parseToken = parseJwt(token);
       const user = JSON.stringify(parseToken.user);
       localStorage.setItem('user', user);
       this.navigateRightPage(JSON.parse(user).role);
     }
+    // navigate when have user
     const user = JSON.parse(localStorage.getItem('user'));
     if (user) {
       this.navigateRightPage(user.role);
@@ -72,6 +76,9 @@ export class LoginPage extends React.Component {
         break;
       case 'teacher':
         history.push('/tutor');
+        break;
+      case 'tempuser':
+        history.push('/role');
         break;
       default:
         break;
@@ -94,6 +101,9 @@ export class LoginPage extends React.Component {
           break;
         case 'teacher':
           history.push('/tutor');
+          break;
+        case 'tempuser':
+          history.push('/role');
           break;
         default:
           break;
@@ -174,7 +184,6 @@ export class LoginPage extends React.Component {
                         <input type="submit" value="Log in" />
                     }
                   </Button>
-                  <Button className='btn-forgot'><u>Forgot password?</u></Button>
                 </div>
                 <p style={{ color: 'red' }}>{(errMess ? errMess : "")}</p>
               </div>

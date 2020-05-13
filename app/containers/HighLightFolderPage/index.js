@@ -50,16 +50,15 @@ export class HighLightFolderPage extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    var elems = document.querySelectorAll('.grid');
+    var elems = document.querySelectorAll('.highLights');
     var msnryInstance = [];
     elems.forEach((elem, index) => {
       msnryInstance.push(
         new Masonry(elem, {
           // options
           itemSelector: '.grid-item',
-          columnWidth: 98,
-          gutter: 10,
-          horizontalOrder: true
+          columnWidth: 90,
+          gutter: 10
         })
       )
     })
@@ -155,6 +154,9 @@ export class HighLightFolderPage extends React.Component {
   handleDeleteFolder = () => {
     const { folder } = this.state;
     this.props.handleDeleteFolder(folder._id);
+  }
+  handleGoToCourse = (url) => {
+    window.open(url, '_blank')
   }
 
   render() {
@@ -277,6 +279,7 @@ export class HighLightFolderPage extends React.Component {
                           highlight={highlight}
                           deleteHighlight={this.handleDeleteHighlight}
                           isLoading={isLoadingDelete}
+                          onGoTo={this.handleGoToCourse}
                         />
                       }) : <span style={{ color: "#8c8a82" }}>You don't have any highlights</span>
                   }

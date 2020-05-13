@@ -6,7 +6,8 @@
 
     .card-wrapper {
         padding: 0 60px;
-        .card { 
+
+        .card {
             width: 100%;
             height: 60px;
             border: none;
@@ -17,9 +18,11 @@
             align-items: center;
             justify-content: space-between;
             border-radius: 5px;
+
             &__info {
                 font-size: 3vmin;
                 font-weight: 600;
+
                 &--note-icon {
                     background: url('./assets/note.svg') no-repeat;
                     background-position: left;
@@ -46,7 +49,7 @@
         }
     }
 
-    
+
     .bg-yellow {
         background-color: $primary_yellow;
     }
@@ -62,7 +65,7 @@
     .courses-info-wrapper {
         margin-top: 40px;
 
-        
+
         .course-header {
             display: flex;
             justify-content: space-between;
@@ -77,27 +80,35 @@
                 padding-top: 1px;
             }
         }
+
         .courses-info {
             padding-right: 30px;
+
             .course-info-header {
                 display: flex;
                 justify-content: space-between;
                 margin-bottom: 20px;
+
                 .table-title {
                     color: $primary_purple;
                     font-size: 22px;
                     font-weight: 600;
                     margin-left: 20px;
+
                     svg {
                         width: 28px;
                         margin-right: 5px;
-                        path {fill : $primary_purple}
+
+                        path {
+                            fill: $primary_purple
+                        }
                     }
                 }
-    
+
                 .search-bar {
                     display: flex;
                     align-items: center;
+
                     .search {
                         width: 100% !important;
                         margin-right: 10px;
@@ -109,13 +120,14 @@
                         width: 35px;
                         border: none;
                         border-radius: 50%;
+
                         i {
                             position: relative;
                             top: -2px;
                             left: -7px;
                             font-size: 20px;
                         }
-                        
+
                         &:hover {
                             background-color: $primary_purple;
                             color: #fff;
@@ -124,27 +136,30 @@
                 }
             }
         }
-        
+
 
         .course-code {
-            color: $primary_purple ;
+            color: $primary_purple;
         }
+
         th {
             background-color: #fff;
             color: $secondary_grey;
         }
+
         td {
             color: $primary_black;
             padding: 12px;
         }
-        
+
         .course-detail-wrapper {
             height: 80vh;
             overflow: auto;
+
             .course-code {
                 color: $primary_purple;
             }
-            
+
             .btn {
                 color: #fff;
                 height: 35px;
@@ -160,7 +175,7 @@
                     margin-top: 10px;
                     margin-bottom: 20px;
                     border: none;
-                    
+
                 }
 
                 &--exit {
@@ -173,12 +188,12 @@
                 }
             }
 
-            
+
         }
 
         .hello-user {
             margin-top: 80px;
-            height: 300px;
+            height: 70vh;
             background: url('./assets/ScenePlants.png') no-repeat;
             opacity: .9;
             background-size: 50%;
@@ -192,7 +207,7 @@
                 margin-bottom: 20px;
             }
         }
-        
+
     }
 
     #extension_notify {

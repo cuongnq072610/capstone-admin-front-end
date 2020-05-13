@@ -156,7 +156,9 @@ export class NotePage extends React.Component {
   }
 
   handleSyncNote = () => {
+    const user = JSON.parse(localStorage.getItem("user"));
     this.props.handleLoadNote();
+    this.props.handleLoadCourse(user.profile);
   }
 
   handleSearch = (key) => {

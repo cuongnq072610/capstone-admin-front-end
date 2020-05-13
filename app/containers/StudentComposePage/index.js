@@ -71,9 +71,9 @@ export class StudentComposePage extends React.Component {
       // on receiving a message, add it to the list of messages
       const comment = JSON.parse(evt.data)
       // this.addMessage(message)
-      if(comment) {
+      if (comment) {
         // console.log(comment.comment);
-        if(comment.comment.userID != user.profile) {
+        if (comment.comment.userID != user.profile) {
           this.setState({
             comments: [...comments, comment.comment]
           });
@@ -91,8 +91,7 @@ export class StudentComposePage extends React.Component {
     this.scrollToBottom();
   };
 
-  componentDidUpdate(prevProps) {
-    this.scrollToBottom();
+  componentDidUpdate(prevProps, prevState) {
     if (prevProps.studentComposePage.ask !== this.props.studentComposePage.ask &&
       prevProps.studentComposePage.isLoading !== this.props.studentComposePage.isLoading && this.props.studentComposePage.isLoading === false
     ) {
@@ -103,6 +102,10 @@ export class StudentComposePage extends React.Component {
         isClose: this.props.studentComposePage.ask.isClosed,
         rate: this.props.studentComposePage.ask.rating,
       })
+    }
+
+    if (prevState.comments !== this.state.comments) {
+      this.scrollToBottom();
     }
 
     if (prevProps.studentComposePage.isLoadingClose !== this.props.studentComposePage.isLoadingClose && this.props.studentComposePage.isLoadingClose === false) {
@@ -154,12 +157,23 @@ export class StudentComposePage extends React.Component {
     this.setState({ message: html });
   }
 
+  checkBlankInString = (str) => {
+    let removeHeadTag = str.replace(/<p>/gi, "");
+    let removeTailTag = removeHeadTag.replace(/<[/]p>/gi, "");
+    let removeBrTag = removeTailTag.replace(/<br>/gi, "")
+    if (removeBrTag && removeBrTag.trim().length > 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   handleSendMessage = () => {
     const { message, ask, comments, user } = this.state;
     //add to messages state first to render to UI
     //emit to server with userInfo and message to save to DB
     //if error show warning, if not do nothing
-    if (message) {
+    if (message && this.checkBlankInString(message)) {
       const fomatMessage = checkUrlInString(message);
       const newComment = {
         "userID": user.profile,
@@ -242,7 +256,7 @@ export class StudentComposePage extends React.Component {
     const { message, comments, showMe, isClose, isShow, ask, teacher, rate, isCloseToggle } = this.state;
     const { Content, Header } = Layout;
     const antIcon = <Icon type="loading" style={{ fontSize: 24, color: '#1593e6', marginRight: '10px' }} spin />;
-    const { isLoading, isLoadingClose, messageRes, isLoadingOpen } = this.props.studentComposePage;
+    const { isLoading, isLoadingClose, messageRes, isLoadingOpen, errors } = this.props.studentComposePage;
 
     const editorModule = {
       toolbar: [
@@ -285,62 +299,64 @@ export class StudentComposePage extends React.Component {
                   <div className="spin-wrapper">
                     <Spin indicator={antIcon} />
                   </div> :
-                  <Content className="compose-body">
-                    <h1>{this.state.ask.askContent ? this.state.ask.askContent : ""}</h1>
-                    <div className={`commentWrapper${isClose === true ? '-close' : ""}`} id="commentWrapper">
-                      { /* render the student scanned content as a commment */}
-                      <AskAndAnswerField user={ask.student} date={ask.dateCreated} text={ask.scannedContent} />
-                      {
-                        comments ?
-                          comments.map((comment, index) => {
-                            return <AskAndAnswerField user={this.compareIDtoGetUser(comment.userID, ask.student, ask.teacher)} comment={comment} key={index} />
-                          }) :
-                          ''
-                      }
-                      <div
-                        style={{ float: "left", clear: "both" }}
-                        ref={this.messagesEnd}
-                      >
-                      </div>
-                    </div>
-                    {
-                      !isClose &&
-                      <div className={`reply ${showMe ? 'reply-show' : 'reply-hide'}`}>
+                  errors ?
+                    <p style={{ color: 'red' }}>{errors}</p> :
+                    <Content className="compose-body">
+                      <h1>{this.state.ask.askContent ? this.state.ask.askContent : ""}</h1>
+                      <div className={`commentWrapper${isClose === true ? '-close' : ""}`} id="commentWrapper">
+                        { /* render the student scanned content as a commment */}
+                        <AskAndAnswerField user={ask.student} date={ask.dateCreated} text={ask.scannedContent} />
                         {
-                          showMe ?
-                            <div className="reply-field">
-                              <ReactQuill
-                                theme="bubble"
-                                bounds=".reply-show"
-                                placeholder="You can answer here"
-                                modules={editorModule}
-                                formats={editorFomat}
-                                className="reply-text"
-                                value={message}
-                                onChange={this.handleChangeMessage}
-                              />
-                              <div className='reply-btn-field'>
+                          comments ?
+                            comments.map((comment, index) => {
+                              return <AskAndAnswerField user={this.compareIDtoGetUser(comment.userID, ask.student, ask.teacher)} comment={comment} key={index} />
+                            }) :
+                            ''
+                        }
+                        <div
+                          style={{ float: "left", clear: "both" }}
+                          ref={this.messagesEnd}
+                        >
+                        </div>
+                      </div>
+                      {
+                        !isClose &&
+                        <div className={`reply ${showMe ? 'reply-show' : 'reply-hide'}`}>
+                          {
+                            showMe ?
+                              <div className="reply-field">
+                                <ReactQuill
+                                  theme="bubble"
+                                  bounds=".reply-show"
+                                  placeholder="You can answer here"
+                                  modules={editorModule}
+                                  formats={editorFomat}
+                                  className="reply-text"
+                                  value={message}
+                                  onChange={this.handleChangeMessage}
+                                />
+                                <div className='reply-btn-field'>
+                                  <button onClick={this.onToggleShow} className='reply-btn'>
+                                    <span>Hide</span>
+                                    <span className='reply-icon arrow-down'></span>
+                                  </button>
+                                  <button className='reply-send' onClick={this.handleSendMessage}>
+                                    <span>Send</span>
+                                    <span className='reply-icon send'></span>
+                                  </button>
+                                </div>
+                              </div> :
+                              <div className="reply-field">
+                                <div style={{ width: '85%' }}></div>
                                 <button onClick={this.onToggleShow} className='reply-btn'>
-                                  <span>Hide</span>
-                                  <span className='reply-icon arrow-down'></span>
-                                </button>
-                                <button className='reply-send' onClick={this.handleSendMessage}>
-                                  <span>Send</span>
-                                  <span className='reply-icon send'></span>
+                                  <span>Show</span>
+                                  <span className='reply-icon arrow-up'></span>
                                 </button>
                               </div>
-                            </div> :
-                            <div className="reply-field">
-                              <div style={{ width: '85%' }}></div>
-                              <button onClick={this.onToggleShow} className='reply-btn'>
-                                <span>Show</span>
-                                <span className='reply-icon arrow-up'></span>
-                              </button>
-                            </div>
-                        }
-                      </div>
-                    }
-                  </Content>
+                          }
+                        </div>
+                      }
+                    </Content>
               }
             </Layout>
           </Col>

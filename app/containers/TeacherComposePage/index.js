@@ -68,9 +68,9 @@ export class StudentComposePage extends React.Component {
       // on receiving a message, add it to the list of messages
       const comment = JSON.parse(evt.data)
       // this.addMessage(message)
-      if(comment) {
+      if (comment) {
         // console.log(comment.comment);
-        if(comment.comment.userID != user.profile) {
+        if (comment.comment.userID != user.profile) {
           this.setState({
             comments: [...comments, comment.comment]
           });
@@ -88,7 +88,7 @@ export class StudentComposePage extends React.Component {
 
   };
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, prevState) {
 
     if (prevProps.studentComposePage.ask !== this.props.studentComposePage.ask) {
       this.setState({
@@ -99,6 +99,8 @@ export class StudentComposePage extends React.Component {
         isClose: this.props.studentComposePage.ask.isClosed,
         answerPin: this.props.studentComposePage.ask.answer,
       })
+    }
+    if (prevState.comments !== this.state.comments) {
       this.scrollToBottom();
     }
     if (prevProps.studentComposePage.isLoadingClose !== this.props.studentComposePage.isLoadingClose && this.props.studentComposePage.isLoadingClose === false) {
@@ -172,13 +174,24 @@ export class StudentComposePage extends React.Component {
     this.setState({ message: html });
   }
 
+  checkBlankInString = (str) => {
+    let removeHeadTag = str.replace(/<p>/gi, "");
+    let removeTailTag = removeHeadTag.replace(/<[/]p>/gi, "");
+    let removeBrTag = removeTailTag.replace(/<br>/gi, "")
+    if (removeBrTag && removeBrTag.trim().length > 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   handleSendMessage = () => {
     const { message, ask, comments, user } = this.state;
     //add to messages state first to render to UI
     //emit to server with userInfo and message to save to DB
     //if error show warning, if not do nothing
 
-    if (message) {
+    if (message && this.checkBlankInString(message)) {
       const fomatMessage = checkUrlInString(message);
       const newComment = {
         "userID": user.profile,
@@ -297,7 +310,7 @@ export class StudentComposePage extends React.Component {
           />
         </Helmet>
         <Row className='compose'>
-          <Col span={isClose && 19} className="compose-information" style={!isClose && { marginRight: '40px' }}>
+          <Col span={isClose ? 19 : 24} className="compose-information" style={!isClose && { marginRight: '40px' }}>
             <Layout>
               <Header className="compose-header">
                 <Link to="/tutor/ask">

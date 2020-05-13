@@ -43,7 +43,7 @@ class Filter extends React.PureComponent {
   isCheckDepartment = (department) => {
     return this.state.chosenDepartments.includes(department);
   }
-
+  // fix
   renderDepartments = (department, index) => {
     return (
       <Button className={`category categoryHomeTheme `} key={index} onClick={() => this.handleFilterDepartment(department)}>
